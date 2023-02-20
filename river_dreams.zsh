@@ -57,6 +57,15 @@ river_dreams::right_prompt() {
     right_prompt_components+=("%F{red} %F{normal}${hidden_files_quantity}")
   fi
 
+  local -r untracked_files_quantity=$(
+    git status -s --ignored 2>/dev/null |
+    grep "! " |
+    wc -l
+  )
+  if [[ ${untracked_files_quantity} -gt 0 ]]; then
+    right_prompt_components+=("%F{magenta}󰮀 %F{normal}${untracked_files_quantity}")
+  fi
+
   local -r active_docker_containers_quantity=$(docker ps 2>/dev/null | tail -n +2 | wc -l)
   if [[ ${active_docker_containers_quantity} -gt 0 ]]; then
     right_prompt_components+=("%F{blue}󱣘 %F{normal}${active_docker_containers_quantity}")
