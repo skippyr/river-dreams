@@ -8,6 +8,13 @@ river_dreams::triangles() {
   done
 }
 
+river_dreams::root() {
+  local -r user=$(whoami)
+  if [[ ${user} == root ]]; then
+    echo "%F{yellow}(✪%F{normal}%F{yellow}✪)"
+  fi
+}
+
 river_dreams::git() {
   local -r branch=$(git branch 2>/dev/null | grep "*" | tr -d "* ")
   local -r unstaged_changes_symbol=$(
@@ -33,4 +40,8 @@ river_dreams::git() {
   fi
 }
 
-PROMPT='$(river_dreams::triangles)%(?..%F{yellow}[%F{red}%B%?%b%F{yellow}])%F{yellow}⤐ %F{red}%B%1~%b$(river_dreams::git)%F{normal} '
+river_dreams::right_prompt() {
+  local -r right_prompt_components=()
+}
+
+PROMPT='$(river_dreams::triangles)%(?..%F{yellow}[%F{red}%B%?%b%F{yellow}])$(river_dreams::root)%F{yellow}⤐ %F{red}%B%1~%b$(river_dreams::git)%F{normal} '
