@@ -40,8 +40,16 @@ river_dreams::git() {
   fi
 }
 
+river_dreams::directory_permission() {
+  local -r user=$(whoami)
+  local -r directory_owner=$(ls -ld | awk '{print $3}')
+  if [[ ${user} != root && ${user} != ${directory_owner} ]]; then
+    echo "%F{normal} "
+  fi
+}
+
 river_dreams::right_prompt() {
   local -r right_prompt_components=()
 }
 
-PROMPT='$(river_dreams::triangles)%(?..%F{yellow}[%F{red}%B%?%b%F{yellow}])$(river_dreams::root)%F{yellow}⤐ %F{red}%B%1~%b$(river_dreams::git)%F{normal} '
+PROMPT='$(river_dreams::triangles)%(?..%F{yellow}[%F{red}%B%?%b%F{yellow}])$(river_dreams::root)%F{yellow}⤐ %F{red}%B%1~%b$(river_dreams::git)$(river_dreams::directory_permission)%F{normal} '
