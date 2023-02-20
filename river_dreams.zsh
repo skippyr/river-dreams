@@ -49,7 +49,15 @@ river_dreams::directory_permission() {
 }
 
 river_dreams::right_prompt() {
-  local -r right_prompt_components=()
+  local right_prompt_components=()
+
+  local -r active_docker_containers_quantity=$(docker ps | tail -n +2 | wc -l)
+  if [[ ${active_docker_containers_quantity} -gt 0 ]]; then
+    right_prompt_components+=("%F{blue}󱣘 %F{normal}${active_docker_containers_quantity}")
+  fi
+
+  echo ${right_prompt_components[@]}
 }
 
 PROMPT='$(river_dreams::triangles)%(?..%F{yellow}[%F{red}%B%?%b%F{yellow}])$(river_dreams::root)%F{yellow}⤐ %F{red}%B%1~%b$(river_dreams::git)$(river_dreams::directory_permission)%F{normal} '
+RPROMPT='$(river_dreams::right_prompt)'
