@@ -17,7 +17,7 @@ river_dreams::git() {
     echo ""
   )
   local -r commit_changes_symbol=$(
-    git status 2>/dev/null |
+    git status -s 2>/dev/null |
     grep "A " &>/dev/null &&
     echo "%F{red}+" ||
     echo ""
