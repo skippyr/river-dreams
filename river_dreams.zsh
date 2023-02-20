@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
 setopt promptsubst
+setopt +o nomatch
 
 river_dreams::triangles() {
   for column in $(seq 1 ${COLUMNS}); do
@@ -51,7 +52,12 @@ river_dreams::directory_permission() {
 river_dreams::right_prompt() {
   local right_prompt_components=()
 
-  local -r active_docker_containers_quantity=$(docker ps | tail -n +2 | wc -l)
+  local -r hidden_files_quantity=$(ls -d .* 2>/dev/null | wc -l)
+  if [[ ${hidden_files_quantity} -gt 0 ]]; then
+    right_prompt_components+=("%F{red} %F{normal}${hidden_files_quantity}")
+  fi
+
+  local -r active_docker_containers_quantity=$(docker ps 2>/dev/null | tail -n +2 | wc -l)
   if [[ ${active_docker_containers_quantity} -gt 0 ]]; then
     right_prompt_components+=("%F{blue}󱣘 %F{normal}${active_docker_containers_quantity}")
   fi
