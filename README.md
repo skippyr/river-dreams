@@ -6,6 +6,7 @@
 "River Dreams" is prompt for ZSH that shows useful information about your
 current environment:
 
+  + local ip address.
   + exit code on errors.
   + current directory.
   + directory permissions.

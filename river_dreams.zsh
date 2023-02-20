@@ -49,6 +49,23 @@ river_dreams::directory_permission() {
   fi
 }
 
+river_dreams::top_prompt() {
+  local top_prompt_components=()
+
+  local -r local_ip_address=$(
+    ip a |
+    grep "inet " |
+    grep -v 127.0.0 |
+    head -n 1 |
+    awk '{print $2}'
+  )
+  if [[ -n ${local_ip_address} ]]; then
+    top_prompt_components+=("%F{blue} %F{normal}${local_ip_address}")
+  fi
+
+  echo ${top_prompt_components[@]}
+}
+
 river_dreams::right_prompt() {
   local right_prompt_components=()
 
@@ -74,5 +91,6 @@ river_dreams::right_prompt() {
   echo ${right_prompt_components[@]}
 }
 
-PROMPT='$(river_dreams::triangles)%(?..%F{yellow}[%F{red}%B%?%b%F{yellow}])$(river_dreams::root)%F{yellow}⤐ %F{red}%B%1~%b$(river_dreams::git)$(river_dreams::directory_permission)%F{normal} '
+PROMPT='$(river_dreams::triangles)$(river_dreams::top_prompt)
+%(?..%F{yellow}[%F{red}%B%?%b%F{yellow}])$(river_dreams::root)%F{yellow}⤐ %F{red}%B%1~%b$(river_dreams::git)$(river_dreams::directory_permission)%F{normal} '
 RPROMPT='$(river_dreams::right_prompt)'
