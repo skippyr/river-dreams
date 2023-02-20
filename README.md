@@ -17,7 +17,24 @@ current environment:
   + quantity of hidden files.
 
 
+## Screenshots
+
+
+![](screenshots/preview_1.png)
+![](screenshots/preview_2.png)
+![](screenshots/preview_3.png)
+![](screenshots/preview_4.png)
+
+
 ## Installation
+
+  + To properly see the symbols in the prompt, you need to install a nerd font
+    and the Noto Sans font family, specially the emojis one. If you are using
+    Linux, you probably can find those using your package manager. Otherwise,
+    you can visit their home pages and download from there:
+
+      + [Nerd Fonts on GitHub](https://github.com/ryanoasis/nerd-fonts).
+      + [Noto Sans on GitHub](https://fonts.google.com/noto/specimen/Noto+Emoji).
 
   + Clone this repository to a separate directory, for example
     `~/.config/zsh/plugins/river_dreams`:
