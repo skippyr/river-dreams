@@ -52,6 +52,9 @@ river_dreams::directory_permission() {
 river_dreams::top_prompt() {
   local top_prompt_components=()
 
+  local -r clock=$(date +%Hh%Mm)
+  top_prompt_components+=("%F{yellow} %F{normal}${clock}")
+
   local -r local_ip_address=$(
     ip a |
     grep "inet " |
