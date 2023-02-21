@@ -8,6 +8,7 @@ current environment:
 
   + current hours and minutes.
   + local ip address.
+  + sourced Python environment.
   + exit code on errors.
   + current directory.
   + directory permissions.

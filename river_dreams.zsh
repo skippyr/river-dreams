@@ -3,6 +3,8 @@
 setopt promptsubst
 setopt +o nomatch
 
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 river_dreams::triangles() {
   for column in $(seq 1 ${COLUMNS}); do
     echo -n "▽"
@@ -62,6 +64,18 @@ river_dreams::ip_address() {
   )
   if [[ -n ${local_ip_address} ]]; then
     echo "%F{blue} %F{normal}${local_ip_address}"
+  fi
+}
+
+river_dreams::python_environment() {
+  if [[ -n ${VIRTUAL_ENV} ]]; then
+    local -r python_environment=$(
+      echo ${VIRTUAL_ENV} |
+      rev |
+      cut -f 1 -d / |
+      rev
+    )
+    echo "%F{red}%F{normal} ${python_environment}"
   fi
 }
 
@@ -131,6 +145,7 @@ river_dreams::top_prompt() {
 
   top_prompt_components+=($(river_dreams::clock))
   top_prompt_components+=($(river_dreams::ip_address))
+  top_prompt_components+=($(river_dreams::python_environment))
 
   echo ${top_prompt_components[@]}
 }
