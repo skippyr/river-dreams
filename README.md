@@ -6,13 +6,17 @@
 "River Dreams" is prompt for ZSH that shows useful information about your
 current environment:
 
+### In the top prompt:
   + current hours and minutes.
+  + percentage of disk usage of the disk mounted at /.
   + local ip address.
   + sourced Python environment.
+### In the left prompt:
   + exit code on errors.
   + current directory.
-  + directory permissions.
-  + git branch and status.
+  + directory ownership status.
+  + git branch and its status.
+### In the right prompt:
   + quantity of active docker containers.
   + quantity of files being untracked by git.
   + quantity of hidden files.
@@ -22,12 +26,10 @@ current environment:
 
 ## Screenshots
 
-
+![](screenshots/preview_0.png)
 ![](screenshots/preview_1.png)
 ![](screenshots/preview_2.png)
 ![](screenshots/preview_3.png)
-![](screenshots/preview_4.png)
-![](screenshots/preview_5.png)
 
 
 ## Installation
@@ -68,7 +70,15 @@ current environment:
   ```
 
   The first command will change your shell and the second one will change the
-  root user one.
+  root user one. Be aware that for the prompt to work for root too, you need
+  to source that same file in its zshrc located at `/root/.zshrc`. Alternatively,
+  you can use a symbolic link to link your user's zshrc with the root one like this:
+
+  ```bash
+  sudo ln -sf ${HOME}/.zshrc /root
+  ```
+
+  `sudo` is required because it is a system's directory.
 
   Some terminal emulators, like Konsole and old versions of GNOME terminal, have
   a specific configuration in their menus to change the shell command they

@@ -140,10 +140,21 @@ river_dreams::time_elapsed() {
   fi
 }
 
+river_dreams::disk_usage() {
+  local -r disk_usage=$(
+    df |
+    grep "/$" |
+    awk '{print $5}' |
+    tr -d "%"
+  )
+  echo "%F{green} %F{normal}${disk_usage}%%"
+}
+
 river_dreams::top_prompt() {
   local top_prompt_components=()
 
   top_prompt_components+=($(river_dreams::clock))
+  top_prompt_components+=($(river_dreams::disk_usage))
   top_prompt_components+=($(river_dreams::ip_address))
   top_prompt_components+=($(river_dreams::python_environment))
 
