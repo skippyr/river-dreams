@@ -113,35 +113,27 @@ river_dreams::jobs() {
 }
 
 river_dreams::directory() {
-  local -r current_directory=$(
-    pwd |
-    tr [:upper:] [:lower:] |
-    rev |
-    cut -f 1 -d / |
-    rev
-  )
+  local -r current_directory=$(pwd)
   local directory_icon=""
-  [[ ${current_directory} == $(whoami) ]] &&
+  [[ ${current_directory} == ${HOME} ]] &&
     directory_icon=" "
-  [[ ${current_directory} == "downloads" ]] &&
+  [[ ${current_directory} == ${HOME}/Downloads ]] &&
     directory_icon=" "
-  [[ ${current_directory} == "documents" ]] &&
+  [[ ${current_directory} == ${HOME}/Documents ]] &&
     directory_icon=" "
-  [[ ${current_directory} == "pictures" ]] &&
+  [[ ${current_directory} == ${HOME}/Pictures ]] &&
     directory_icon="🖼 "
-  [[ ${current_directory} == "music" ]] &&
+  [[ ${current_directory} == ${HOME}/Music ]] &&
     directory_icon="🎜 "
-  [[ ${current_directory} == "public" ]] &&
+  [[ ${current_directory} == ${HOME}/Public ]] &&
     directory_icon=" "
-  [[ ${current_directory} == "videos" ]] &&
+  [[ ${current_directory} == ${HOME}/Videos ]] &&
     directory_icon=" "
-  [[ ${current_directory} == "templates" ]] &&
+  [[ ${current_directory} == ${HOME}/Templates ]] &&
     directory_icon=" "
-  [[ ${current_directory} == "fonts" ]] &&
-    directory_icon=" "
-  [[ ${current_directory} == ".config" ]] &&
+  [[ ${current_directory} == ${HOME}/.config ]] &&
     directory_icon=" "
-  [[ ${current_directory} == ".cache" ]] &&
+  [[ ${current_directory} == ${HOME}/.cache ]] &&
     directory_icon=" "
   echo "%F{yellow}⤐ ${directory_icon}%F{red}%B%1~%b"
 }
