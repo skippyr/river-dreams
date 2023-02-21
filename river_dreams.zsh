@@ -49,12 +49,12 @@ river_dreams::directory_permission() {
   fi
 }
 
-river_dreams::top_prompt() {
-  local top_prompt_components=()
-
+river_dreams::clock() {
   local -r clock=$(date +%Hh%Mm)
-  top_prompt_components+=("%F{yellow} %F{normal}${clock}")
+  echo "%F{yellow} %F{normal}${clock}"
+}
 
+river_dreams::ip_address() {
   local -r local_ip_address=$(
     ip a |
     grep "inet " |
@@ -63,39 +63,43 @@ river_dreams::top_prompt() {
     awk '{print $2}'
   )
   if [[ -n ${local_ip_address} ]]; then
-    top_prompt_components+=("%F{blue} %F{normal}${local_ip_address}")
+    echo "%F{blue} %F{normal}${local_ip_address}"
   fi
-
-  echo ${top_prompt_components[@]}
 }
 
-river_dreams::right_prompt() {
-  local right_prompt_components=()
-
+river_dreams::hidden_files() {
   local -r hidden_files_quantity=$(ls -d .* 2>/dev/null | wc -l)
   if [[ ${hidden_files_quantity} -gt 0 ]]; then
-    right_prompt_components+=("%F{red} %F{normal}${hidden_files_quantity}")
+    echo "%F{red} %F{normal}${hidden_files_quantity}"
   fi
+}
 
+river_dreams::untracked_files() {
   local -r untracked_files_quantity=$(
     git status -s --ignored 2>/dev/null |
     grep "! " |
     wc -l
   )
   if [[ ${untracked_files_quantity} -gt 0 ]]; then
-    right_prompt_components+=("%F{magenta}󰮀 %F{normal}${untracked_files_quantity}")
+    echo "%F{magenta}󰮀 %F{normal}${untracked_files_quantity}"
   fi
+}
 
+river_dreams::docker_containers() {
   local -r active_docker_containers_quantity=$(docker ps 2>/dev/null | tail -n +2 | wc -l)
   if [[ ${active_docker_containers_quantity} -gt 0 ]]; then
-    right_prompt_components+=("%F{blue}󱣘 %F{normal}${active_docker_containers_quantity}")
+    echo "%F{blue}󱣘 %F{normal}${active_docker_containers_quantity}"
   fi
+}
 
+river_dreams::jobs() {
   local -r jobs_quantity=$(jobs | wc -l)
   if [[ ${jobs_quantity} -gt 0 ]]; then
-    right_prompt_components+=("%F{green} %F{normal}${jobs_quantity}")
+    echo "%F{green} %F{normal}${jobs_quantity}"
   fi
+}
 
+river_dreams::time_elapsed() {
   local time_elapsed=$(history -D | tail -n 1 | awk '{print $2}')
   local time_elapsed_in_seconds=$(
     echo ${time_elapsed} |
@@ -115,8 +119,27 @@ river_dreams::right_prompt() {
     [[ ${time_elapsed_in_minutes} -eq 0 ]] &&
       time_elapsed_in_minutes="" ||
       time_elapsed_in_minutes="${time_elapsed_in_minutes}m"
-    right_prompt_components+=("%F{yellow}%F{normal} ${time_elapsed_in_minutes}${time_elapsed_in_seconds}")
+    echo "%F{yellow}%F{normal} ${time_elapsed_in_minutes}${time_elapsed_in_seconds}"
   fi
+}
+
+river_dreams::top_prompt() {
+  local top_prompt_components=()
+
+  top_prompt_components+=($(river_dreams::clock))
+  top_prompt_components+=($(river_dreams::ip_address))
+
+  echo ${top_prompt_components[@]}
+}
+
+river_dreams::right_prompt() {
+  local right_prompt_components=()
+
+  right_prompt_components+=($(river_dreams::hidden_files))
+  right_prompt_components+=($(river_dreams::untracked_files))
+  right_prompt_components+=($(river_dreams::docker_containers))
+  right_prompt_components+=($(river_dreams::jobs))
+  right_prompt_components+=($(river_dreams::time_elapsed))
 
   echo ${right_prompt_components[@]}
 }
