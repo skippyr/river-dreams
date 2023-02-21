@@ -113,7 +113,37 @@ river_dreams::jobs() {
 }
 
 river_dreams::directory() {
-  echo "%F{yellow}⤐ %F{red}%B%1~%b"
+  local -r current_directory=$(
+    pwd |
+    tr [:upper:] [:lower:] |
+    rev |
+    cut -f 1 -d / |
+    rev
+  )
+  local directory_icon=""
+  [[ ${current_directory} == $(whoami) ]] &&
+    directory_icon=" "
+  [[ ${current_directory} == "downloads" ]] &&
+    directory_icon=" "
+  [[ ${current_directory} == "documents" ]] &&
+    directory_icon=" "
+  [[ ${current_directory} == "pictures" ]] &&
+    directory_icon="🖼 "
+  [[ ${current_directory} == "music" ]] &&
+    directory_icon="🎜 "
+  [[ ${current_directory} == "public" ]] &&
+    directory_icon=" "
+  [[ ${current_directory} == "videos" ]] &&
+    directory_icon=" "
+  [[ ${current_directory} == "templates" ]] &&
+    directory_icon=" "
+  [[ ${current_directory} == "fonts" ]] &&
+    directory_icon=" "
+  [[ ${current_directory} == ".config" ]] &&
+    directory_icon=" "
+  [[ ${current_directory} == ".cache" ]] &&
+    directory_icon=" "
+  echo "%F{yellow}⤐ ${directory_icon}%F{red}%B%1~%b"
 }
 
 river_dreams::time_elapsed() {

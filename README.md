@@ -1,6 +1,15 @@
 # River Dreams
 
 
+## Preview
+
+![](preview/preview_0.png)
+![](preview/preview_1.png)
+![](preview/preview_2.png)
+![](preview/preview_3.png)
+![](preview/preview_4.png)
+
+
 ## Brief
 
 "River Dreams" is prompt for ZSH that shows useful information about your
@@ -13,7 +22,8 @@ current environment:
   + sourced Python environment.
 ### In the left prompt:
   + exit code on errors.
-  + current directory.
+  + root status.
+  + current directory with possible icon.
   + directory ownership status.
   + git branch and its status.
 ### In the right prompt:
@@ -21,15 +31,7 @@ current environment:
   + quantity of files being untracked by git.
   + quantity of hidden files.
   + quantity of jobs running in the background.
-  + time elapsed in the last command.
-
-
-## Screenshots
-
-![](screenshots/preview_0.png)
-![](screenshots/preview_1.png)
-![](screenshots/preview_2.png)
-![](screenshots/preview_3.png)
+  + time elapsed by the last command.
 
 
 ## Installation
