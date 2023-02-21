@@ -92,11 +92,16 @@ river_dreams::docker_containers() {
   fi
 }
 
+river_dreams::exit_code() {
+  echo "%(?..%F{yellow}[%F{red}%B%?%b%F{yellow}])"
+}
+
 river_dreams::jobs() {
-  local -r jobs_quantity=$(jobs | wc -l)
-  if [[ ${jobs_quantity} -gt 0 ]]; then
-    echo "%F{green} %F{normal}${jobs_quantity}"
-  fi
+  echo "%(1j.%F{green} %F{normal}%j.)"
+}
+
+river_dreams::directory() {
+  echo "%F{yellow}⤐ %F{red}%B%1~%b"
 }
 
 river_dreams::time_elapsed() {
@@ -145,5 +150,5 @@ river_dreams::right_prompt() {
 }
 
 PROMPT='$(river_dreams::triangles)$(river_dreams::top_prompt)
-%(?..%F{yellow}[%F{red}%B%?%b%F{yellow}])$(river_dreams::root)%F{yellow}⤐ %F{red}%B%1~%b$(river_dreams::git)$(river_dreams::directory_permission)%F{normal} '
+$(river_dreams::exit_code)$(river_dreams::root)$(river_dreams::directory)$(river_dreams::git)$(river_dreams::directory_permission)%F{normal} '
 RPROMPT='$(river_dreams::right_prompt)'
