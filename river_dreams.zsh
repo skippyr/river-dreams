@@ -56,11 +56,9 @@ river_dreams::clock() {
 
 river_dreams::ip_address() {
   local -r local_ip_address=$(
-    ip a |
-    grep "inet " |
-    grep -v 127.0.0 |
-    head -n 1 |
-    awk '{print $2}'
+    test -x $(which ip 2>/dev/null) &>/dev/null &&
+    ip -d a | grep 'inet ' | grep -v 127.0.0 | grep -v docker | awk '{print $2}' ||
+    ifconfig | grep -A 1 RUNNING | grep 'inet ' | grep -v 127.0.0 | awk '{print $2}'
   )
   if [[ -n ${local_ip_address} ]]; then
     echo "%F{blue} %F{normal}${local_ip_address}"
