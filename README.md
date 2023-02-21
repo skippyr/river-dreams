@@ -25,6 +25,7 @@ current environment:
 ![](screenshots/preview_2.png)
 ![](screenshots/preview_3.png)
 ![](screenshots/preview_4.png)
+![](screenshots/preview_5.png)
 
 
 ## Installation
