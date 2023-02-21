@@ -15,6 +15,7 @@ current environment:
   + quantity of active docker containers.
   + quantity of files being untracked by git.
   + quantity of hidden files.
+  + time taken by the last command.
 
 
 ## Screenshots
