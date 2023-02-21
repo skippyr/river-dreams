@@ -91,6 +91,11 @@ river_dreams::right_prompt() {
     right_prompt_components+=("%F{blue}󱣘 %F{normal}${active_docker_containers_quantity}")
   fi
 
+  local -r jobs_quantity=$(jobs | wc -l)
+  if [[ ${jobs_quantity} -gt 0 ]]; then
+    right_prompt_components+=("%F{green} %F{normal}${jobs_quantity}")
+  fi
+
   local time_elapsed=$(history -D | tail -n 1 | awk '{print $2}')
   local time_elapsed_in_seconds=$(
     echo ${time_elapsed} |
