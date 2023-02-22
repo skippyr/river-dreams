@@ -20,4 +20,4 @@ to its [Wiki](https://github.com/skippyr/river_dreams/wiki).
 
 ## License
 
-This project is under the MIT license.
+Copyright (c) 2023 Sherman Rofeman. MIT License.
