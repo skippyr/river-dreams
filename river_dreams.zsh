@@ -22,7 +22,7 @@ river_dreams::git() {
   local -r branch=$(git branch 2>/dev/null | grep "*" | tr -d "* ")
   local -r unstaged_changes_symbol=$(
     git status -s 2>/dev/null |
-    grep "[?NM] " &>/dev/null &&
+    grep "[?NMD] " &>/dev/null &&
     echo "%F{magenta}✗" ||
     echo ""
   )
