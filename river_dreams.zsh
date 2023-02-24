@@ -39,7 +39,7 @@ river_dreams::git() {
     echo ""
   )
   if [[ -n ${branch} ]]; then
-    echo "%F{blue}:git(%F{yellow}${unstaged_changes_symbol}${commit_changes_symbol}${pull_changes_symbol}%F{normal}${branch}%F{blue})"
+    echo "%F{red}:git(%F{yellow}${unstaged_changes_symbol}${commit_changes_symbol}${pull_changes_symbol}%F{normal}${branch}%F{red})"
   fi
 }
 
@@ -63,7 +63,7 @@ river_dreams::ip_address() {
     ifconfig 2>/dev/null | grep -A 1 RUNNING | grep 'inet ' | grep -v 127.0.0 | awk '{print $2}'
   )
   if [[ -n ${local_ip_address} ]]; then
-    echo "%F{blue} %F{normal}${local_ip_address}"
+    echo "%F{red} %F{normal}${local_ip_address}"
   fi
 }
 
@@ -135,7 +135,7 @@ river_dreams::directory() {
     directory_icon=" "
   [[ ${current_directory} == ${HOME}/.cache ]] &&
     directory_icon=" "
-  echo "%F{yellow}⤐ ${directory_icon}%F{red}%B%1~%b"
+  echo "%F{yellow}⤐ ${directory_icon}%F{green}%B%1~%b"
 }
 
 river_dreams::time_elapsed() {
