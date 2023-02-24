@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-river_dreams::untracked_files() {
+river_dreams::ignored_files() {
   local -r untracked_files_quantity=$(
     git status -s --ignored 2>/dev/null |
     grep "! " |
