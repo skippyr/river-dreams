@@ -19,6 +19,7 @@ river_dreams::local_ip_address() {
   local -r local_ip_address_symbol_color=${RIVER_DREAMS_LOCAL_IP_ADDRESS_SYMBOL_COLOR:-red}
 
   local -r local_ip_address=$(river_dreams::ip_address::get_local_ip_address)
+  
   if [[ -n ${local_ip_address} ]]; then
     echo "%F{${local_ip_address_symbol_color}}${local_ip_address_symbol}%F{normal}${local_ip_address}"
   fi
