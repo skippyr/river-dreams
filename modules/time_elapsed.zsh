@@ -1,7 +1,14 @@
 #!/usr/bin/env zsh
 
+river_dreams::time_elapsed::get_time_elapsed() {
+  history -D | tail -n 1 | awk '{print $2}'
+}
+
 river_dreams::time_elapsed() {
-  local time_elapsed=$(history -D | tail -n 1 | awk '{print $2}')
+  local -r time_elapsed_symbol=${RIVER_DREAMS_TIME_ELAPSED_SYMBOL:-}
+  local -r time_elapsed_symbol_color=${RIVER_DREAMS_TIME_ELAPSED_SYMBOL_COLOR:-yellow}
+
+  local -r time_elapsed=$(river_dreams::time_elapsed::get_time_elapsed)
   local time_elapsed_in_seconds=$(
     echo ${time_elapsed} |
     cut -f 2 -d :
@@ -20,6 +27,6 @@ river_dreams::time_elapsed() {
     [[ ${time_elapsed_in_minutes} -eq 0 ]] &&
       time_elapsed_in_minutes="" ||
       time_elapsed_in_minutes="${time_elapsed_in_minutes}m"
-    echo "%F{yellow}%F{normal} ${time_elapsed_in_minutes}${time_elapsed_in_seconds}"
+    echo "%F{${time_elapsed_symbol_color}}${time_elapsed_symbol}%F{normal} ${time_elapsed_in_minutes}${time_elapsed_in_seconds}"
   fi
 }
