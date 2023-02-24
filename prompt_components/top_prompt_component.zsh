@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-river_dreams::top_prompt() {
+river_dreams::top_prompt_component() {
   local top_prompt_components=()
 
   top_prompt_components+=($(river_dreams::clock))

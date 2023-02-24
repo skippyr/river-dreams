@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-river_dreams::right_prompt() {
+river_dreams::right_prompt_component() {
   local right_prompt_components=()
 
   right_prompt_components+=($(river_dreams::hidden_files))
