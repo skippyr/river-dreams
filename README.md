@@ -5,17 +5,14 @@
 
 ![](preview/preview_0.png)
 ![](preview/preview_1.png)
-![](preview/preview_2.png)
-![](preview/preview_3.png)
-![](preview/preview_4.png)
 
 
 ## Introduction
 
-"River Dreams" is a prompt plugin for ZSH that shows useful information about
+"River Dreams" is a prompt for ZSH that shows useful information about
 your current environment.
 
-To learn how to install and understand how to use this plugin, please refer
+To learn how to install and understand how to use this prompt, please refer
 to its [Wiki](https://github.com/skippyr/river_dreams/wiki).
 
 ## License
