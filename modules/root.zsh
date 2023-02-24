@@ -1,8 +1,12 @@
 #!/usr/bin/env zsh
 
 river_dreams::root() {
+  local -r root_symbol=${RIVER_DREAMS_ROOT_SYMBOL:-()}
+  local -r root_symbol_color=${RIVER_DREAMS_ROOT_SYMBOL_COLOR:-red}
+
   local -r user=$(whoami)
+
   if [[ ${user} == root ]]; then
-    echo "%F{yellow}(✪%F{normal}%F{yellow}✪)"
+    echo "%F{${root_symbol_color}}${root_symbol}"
   fi
 }
