@@ -5,8 +5,8 @@ river_dreams::directory_ownership::get_directory_owner() {
 }
 
 river_dreams::directory_ownership() {
-  local -r directory_ownership_symbol=${RIVER_DREAMS_DIRECTORY_OWNERSHIP_SYMBOL:- }
-  local -r directory_ownership_symbol_color=${RIVER_DREAMS_DIRECTORY_OWNERSHIP_SYMBOL_COLOR:-normal}
+  local -r directory_ownership_symbol=${RIVER_DREAMS_DIRECTORY_OWNERSHIP_SYMBOL:- }
+  local -r directory_ownership_symbol_color=${RIVER_DREAMS_DIRECTORY_OWNERSHIP_SYMBOL_COLOR:-red}
 
   local -r user=$(whoami)
   local -r directory_owner=$(river_dreams::directory_ownership::get_directory_owner)

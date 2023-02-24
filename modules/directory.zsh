@@ -38,7 +38,7 @@ river_dreams::directory::get_directory_symbol() {
 
 river_dreams::directory() {
   local -r directory_color=${RIVER_DREAMS_DIRECTORY_DIRECTORY_COLOR:-green}
-  local -r directory_symbol_color=${RIVER_DREAMS_DIRECTORY_SYMBOL_COLOR:-yellow}
+  local -r directory_symbol_color=${RIVER_DREAMS_DIRECTORY_SYMBOL_COLOR:-red}
   
   local -r directory_symbol=$(river_dreams::directory::get_directory_symbol)
 
