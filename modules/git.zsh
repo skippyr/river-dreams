@@ -18,7 +18,7 @@ river_dreams::git() {
   local -r changes_symbol_color=${RIVER_DREAMS_GIT_CHANGES_SYMBOL_COLOR:-green}
   local commit_symbol=${RIVER_DREAMS_GIT_COMMIT_SYMBOL:-❦}
   local -r commit_symbol_color=${RIVER_DREAMS_GIT_COMMIT_SYMBOL_COLOR:-yellow}
-  local push_symbol=${RIVER_DREAMS_GIT_PUSH_SYMBOL:-}
+  local push_symbol=${RIVER_DREAMS_GIT_PUSH_SYMBOL:-⭫}
   local -r push_symbol_color=${RIVER_DREAMS_GIT_PUSH_SYMBOL_COLOR:-red}
 
   local -r branch=$(river_dreams::git::get_branch)
