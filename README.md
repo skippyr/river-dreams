@@ -11,6 +11,7 @@ The ZSH theme that you have been dreaming for a long time. It will do the work i
 ![](preview/preview_3.png)
 ![](preview/preview_4.png)
 ![](preview/preview_5.png)
+![](preview/preview_6.png)
 
 In these images:
   + the color scheme used is [`Tropical Paradise`](https://github.com/skippyr/tropical_paradise).
@@ -29,8 +30,9 @@ In these images:
   + directory ownership.
   + git branch and its status.
   + hidden files quantity.
-  + untracked files quantity.
+  + git ignored files quantity.
   + active Docker containers quantity.
+  + quantity of jobs running in the background.
   + time elapsed in the last command in minutes and seconds.
 
 ## Installation
