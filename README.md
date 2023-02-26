@@ -1,13 +1,35 @@
 # River Dreams
 
-The ZSH theme that you have been dreaming for a long time. It will do the work in showing how you are cool and nerd while providing you with useful information about your environment.
+The ZSH theme that you have been dreaming for a long time. It will do the work in showing how you are cool and nerd while providing you useful information about your environment.
 
 
 ## Preview
 
 ![](preview/preview_0.png)
 ![](preview/preview_1.png)
+![](preview/preview_2.png)
+![](preview/preview_3.png)
+![](preview/preview_4.png)
 
+In these images:
+  + the color scheme used is [`Tropical Paradise`](https://github.com/skippyr/tropical_paradise).
+  + the font is [`Fira Code`](https://github.com/tonsky/FiraCode) with `Symbols Nerd Font Mono` as fallback.
+  + the terminal emulator is `Kitty`.
+
+
+## What information does it shows?
+  + current user.
+  + local IP address and host name.
+  + current hours and minutes.
+  + disk usage of the partition mounted at `/`.
+  + exit status on errors.
+  + current directory with an icon if it is a home directory.
+  + directory ownership.
+  + git branch and its status.
+  + hidden files quantity.
+  + untracked files quantity.
+  + active Docker containers quantity.
+  + time elapsed in the last command in minutes and seconds.
 
 ## Installation
 
