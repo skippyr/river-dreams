@@ -146,6 +146,16 @@ The solution for this issue is to use a font patched by Nerd Font instead of usi
 
 > This image shows the prompt in the same session of Konsole, but, now, using Hack Nerd Font, a font patched by Nerd Fonts.
 
+
+## Bright Bold In St
+
+![](images/troubleshooting/bright_bold_0.png)
+
+This issue happens because `st`, by default, uses bright colors when rendering
+bold text.
+
+The solution for this issue is to use the patch [`bold is not bright`](https://st.suckless.org/patches/bold-is-not-bright).
+
 ## License
 
 Copyright (c) 2023 Sherman Rofeman. MIT License.
