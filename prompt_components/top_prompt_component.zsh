@@ -8,5 +8,5 @@ river_dreams::top_prompt_component() {
   top_prompt_components+=($(river_dreams::local_ip_address))
   top_prompt_components+=($(river_dreams::python_environment))
 
-  echo ${top_prompt_components[@]}
+  echo "${top_prompt_components[@]}"
 }
