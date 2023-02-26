@@ -1,8 +1,5 @@
 #!/usr/bin/env zsh
 
-river_dreams::directory::get_directory_symbol() {
-}
-
 river_dreams::directory() {
   local -r current_directory=$(pwd)
   local directory_symbol=""
