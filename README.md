@@ -10,6 +10,7 @@ The ZSH theme that you have been dreaming for a long time. It will do the work i
 ![](preview/preview_2.png)
 ![](preview/preview_3.png)
 ![](preview/preview_4.png)
+![](preview/preview_5.png)
 
 In these images:
   + the color scheme used is [`Tropical Paradise`](https://github.com/skippyr/tropical_paradise).
@@ -22,6 +23,7 @@ In these images:
   + local IP address and host name.
   + current hours and minutes.
   + disk usage of the partition mounted at `/`.
+  + sourced Python environment.
   + exit status on errors.
   + current directory with an icon if it is a home directory.
   + directory ownership.
@@ -79,6 +81,11 @@ If you are using MacOS, you can use [HomeBrew](https://brew.sh).
     source ~/.config/zsh/plugins/river_dreams/river_dreams.zsh
     ```
   + Refresh your ZSH by reopening your terminal emulator.
+
+## See Also
+
+River Dreams is now part of the [`awesome-zsh-plugins`](https://github.com/unixorn/awesome-zsh-plugins) repository. What about
+going there to find out more cool themes, frameworks and plugins for ZSH?
 
 
 ## License
