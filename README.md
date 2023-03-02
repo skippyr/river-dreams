@@ -48,7 +48,7 @@ your distribution's package manager.
 
 If you are using MacOS, you can use [HomeBrew](https://brew.sh).
 
-### Installing To OhMyZSH
+### Installing/Uninstalling With OhMyZSH
   + clone this repository to `${ZSH_CUSTOM}/themes` that is, by default, at
     `~/.oh-my-zsh/custom/themes`.
 
@@ -58,7 +58,13 @@ If you are using MacOS, you can use [HomeBrew](https://brew.sh).
   + Set the variable `ZSH_THEME=river_dreams/river_dreams` in your `~/.zshrc`.
   + Refresh your ZSH by reopening your terminal emulator.
 
-### Installing Manually
+  If you want to uninstall it, use the following command:
+  
+  ```bash
+  rm -rf ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/river_dreams
+  ```
+
+### Installing/Uninstalling Manually
   + clone this repository to a separated directory, for example
     `~/.config/zsh/plugins/river_dreams`.
 
@@ -73,6 +79,11 @@ If you are using MacOS, you can use [HomeBrew](https://brew.sh).
     ```
   + Refresh your ZSH by reopening your terminal emulator.
 
+  If you want to uninstall it, remove the directory you have cloned:
+
+  ```bash
+  rm -rf ~/.config/zsh/plugins/river_dreams
+  ```
 
 ## See Also
 
