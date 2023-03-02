@@ -21,21 +21,21 @@ river_dreams::git() {
 
   changes_symbol=$(
     river_dreams::git::has_changes &&
-    echo "±" ||
+    echo "?" ||
     echo ""
   )
   commit_symbol=$(
     river_dreams::git::needs_to_commit &&
-    echo "❦" ||
+    echo "+" ||
     echo ""
   )
   push_symbol=$(
     river_dreams::git::needs_push &&
-    echo "⭫" ||
+    echo "󰄿" ||
     echo ""
   )
 
   if [[ -n ${branch} ]]; then
-    echo "%F{red}::⩿%F{green}${changes_symbol}%F{yellow}${commit_symbol}%F{red}${push_symbol}%F{normal}${branch}%F{red}⪘"
+    echo "%F{red}::%F{green}${changes_symbol}%F{yellow}${commit_symbol}%F{red}${push_symbol}%F{normal}${branch}%F{red}"
   fi
 }

@@ -2,11 +2,12 @@
 
 river_dreams::clock() {
   local symbol=""
+  local clock_symbol=""
   local symbol_color=""
   local current_hours=$(date +%_H)
 
   if [[ ${current_hours} -lt 6 ]]; then
-    symbol="✪"
+    symbol=""
     symbol_color="magenta"
   elif [[ ${current_hours} -lt 12 ]]; then
     symbol=""
@@ -19,5 +20,5 @@ river_dreams::clock() {
     symbol_color="blue"
   fi
 
-  echo "%F{yellow} %F{${symbol_color}}${symbol} %F{normal}$(date +%Hh%Mm)"
+  echo "%F{${symbol_color}}${symbol} %F{normal}$(date +%Hh%Mm)"
 }
