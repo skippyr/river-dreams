@@ -36,6 +36,6 @@ river_dreams::git() {
   )
 
   if [[ -n ${branch} ]]; then
-    echo "%F{red}::%F{green}${changes_symbol}%F{yellow}${commit_symbol}%F{red}${push_symbol}%F{normal}${branch}%F{red}"
+    echo "%F{red}::%F{yellow}${changes_symbol}%F{cyan}${commit_symbol}%F{blue}${push_symbol}%F{normal}${branch}%F{red}"
   fi
 }
