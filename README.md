@@ -1,6 +1,8 @@
 # River Dreams
 
-The ZSH theme that you have been dreaming for a long time. It will do the work in showing how you are cool and nerd while providing you useful information about your environment.
+The ZSH theme that you have been dreaming for a long time. It will do the work
+in showing how you are the best terminal wizard out there while providing you
+useful information about your development environment.
 
 
 ## Preview
