@@ -1,8 +1,9 @@
 # River Dreams
 
-The ZSH theme that you have been dreaming for a long time. It will do the work
-in showing how you are the best terminal wizard out there while providing you
-useful information about your development environment.
+The ZSH theme that developers have been dreaming for a long time. It will
+finally show how you are the best terminal wizard out there while providing you
+useful information about your development environment. Made with love, because
+you deserve it.
 
 
 ## Preview
@@ -26,7 +27,7 @@ useful information about your development environment.
   + quantity of jobs running in the background.
   + time elapsed in the last command in minutes and seconds.
 
-## Installation
+## Installation/Uninstallation
 
 Before installing the theme, you need to ensure that you have its required
 dependencies installed:
@@ -92,8 +93,8 @@ If you are using MacOS, you can use [HomeBrew](https://brew.sh).
 River Dreams is now part of the [`awesome-zsh-plugins`](https://github.com/unixorn/awesome-zsh-plugins) repository. What about
 going there to find out more cool themes, frameworks and plugins for ZSH?
 
-Are you looking for a color scheme, what about checking out my color scheme
-[`Tropical Paradise`](https://github.com/skippyr/tropical_paradise)?
+Are you looking for a color scheme? I am proud to announce that [`Tropical Paradise`](https://github.com/skippyr/tropical_paradise) has been released with light and
+dark variants. What about checking it out?
 
 ## License
 
