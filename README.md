@@ -92,6 +92,8 @@ If you are using MacOS, you can use [HomeBrew](https://brew.sh).
 River Dreams is now part of the [`awesome-zsh-plugins`](https://github.com/unixorn/awesome-zsh-plugins) repository. What about
 going there to find out more cool themes, frameworks and plugins for ZSH?
 
+Are you looking for a color scheme, what about checking out my color scheme
+[`Tropical Paradise`](https://github.com/skippyr/tropical_paradise)?
 
 ## License
 
