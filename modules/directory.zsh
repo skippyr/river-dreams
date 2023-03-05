@@ -25,5 +25,5 @@ river_dreams::directory() {
   elif [[ ${current_directory} == ${HOME}/.cache ]]; then
     directory_symbol=" "
   fi
-  echo "%F{red}${directory_symbol}%F{cyan}%B%1~%b"
+  echo "%F{red}${directory_symbol}%F{cyan}%B%1~%b%F{normal}"
 }

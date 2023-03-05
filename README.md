@@ -19,7 +19,7 @@ useful information about your development environment.
   + root status.
   + current directory with an icon if it is a home directory.
   + directory ownership.
-  + git branch and its status.
+  + git branch and its status with numeric indicators.
   + hidden files quantity.
   + git ignored files quantity.
   + active Docker containers quantity.
