@@ -16,8 +16,13 @@ river_dreams::ip_address::get_local_ip_address() {
 
 river_dreams::local_ip_address() {
   local -r local_ip_address=$(river_dreams::ip_address::get_local_ip_address)
+  local -r local_ip_address_symbol=$(
+    test $(tput colors) -eq 8 &&
+    echo "IP" ||
+    echo " "
+  )
   
   if [[ -n ${local_ip_address} ]]; then
-    echo "%F{red} %f${local_ip_address}"
+    echo "%F{red}${local_ip_address_symbol} %f${local_ip_address}"
   fi
 }

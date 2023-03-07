@@ -7,8 +7,13 @@ river_dreams::python_environment() {
     cut -f 1 -d / |
     rev
   )
+  local -r python_environment_symbol=$(
+    test $(tput colors) -eq 8 &&
+    echo "ENV" ||
+    echo "󰚐"
+  )
   
   if [[ -n ${python_environment} ]]; then
-    echo "%F{red}󰚐 %f${python_environment}"
+    echo "%F{red}${python_environment_symbol} %f${python_environment}"
   fi
 }

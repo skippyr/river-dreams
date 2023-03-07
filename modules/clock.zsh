@@ -6,19 +6,24 @@ river_dreams::clock() {
   local symbol_color=""
   local -r current_hours=$(date +%_H)
 
-  if [[ ${current_hours} -lt 6 ]]; then
-    symbol=" "
-    symbol_color="magenta"
-  elif [[ ${current_hours} -lt 12 ]]; then
-    symbol=" "
+  if [[ $(tput colors) -eq 8 ]]; then
+    symbol="CLOCK "
     symbol_color="yellow"
-  elif [[ ${current_hours} -lt 18 ]]; then
-    symbol="󰖚 "
-    symbol_color="red"
   else
-    symbol="󰽥"
-    symbol_color="yellow"
+    if [[ ${current_hours} -lt 6 ]]; then
+      symbol=" "
+      symbol_color="magenta"
+    elif [[ ${current_hours} -lt 12 ]]; then
+      symbol=" "
+      symbol_color="yellow"
+    elif [[ ${current_hours} -lt 18 ]]; then
+      symbol="󰖚 "
+      symbol_color="red"
+    else
+      symbol="󰽥 "
+      symbol_color="yellow"
+    fi
   fi
 
-  echo "%F{${symbol_color}}${symbol}%f $(date +%Hh%Mm)"
+  echo "%F{${symbol_color}}${symbol}%f$(date +%Hh%Mm)"
 }

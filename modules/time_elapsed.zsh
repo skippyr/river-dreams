@@ -2,6 +2,11 @@
 
 river_dreams::time_elapsed() {
   local -r time_elapsed=$(history -D | tail -n 1 | awk '{print $2}')
+  local -r time_elapsed_symbol=$(
+    test $(tput colors) -eq 8 &&
+    echo "TIME" ||
+    echo "󰔛"
+  )
   local time_elapsed_in_seconds=$(
     echo ${time_elapsed} |
     cut -f 2 -d :
@@ -20,6 +25,6 @@ river_dreams::time_elapsed() {
     [[ ${time_elapsed_in_minutes} -eq 0 ]] &&
       time_elapsed_in_minutes="" ||
       time_elapsed_in_minutes="${time_elapsed_in_minutes}m"
-    echo "%F{yellow}󰔛 %f${time_elapsed_in_minutes}${time_elapsed_in_seconds}"
+    echo "%F{yellow}${time_elapsed_symbol} %f${time_elapsed_in_minutes}${time_elapsed_in_seconds}"
   fi
 }
