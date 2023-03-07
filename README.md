@@ -97,6 +97,14 @@ If you are using MacOS, you can use [HomeBrew](https://brew.sh).
   rm -rf ~/.config/zsh/plugins/river_dreams
   ```
 
+### More Installation Information
+
+It has been detected that some Linux distributions that have their own default
+configurations for `zsh` can result in River Dreams causing errors, but those
+can be fixed if those default configurations are removed.
+
+One example of distribution that caused this issue was `Kali Linux`.
+
 ## See Also
 
 River Dreams is now part of the [`awesome-zsh-plugins`](https://github.com/unixorn/awesome-zsh-plugins)
@@ -106,6 +114,14 @@ plugins for ZSH?
 Are you looking for a color scheme? I am proud to announce that
 [`Tropical Paradise`](https://github.com/skippyr/tropical_paradise) has been
 released with dark and light variants. What about checking it out?
+
+### Issues, Enhancements and questions
+
+If you have found an issue while using this software or have an idea to
+improve it, feel free to use the issues tab on its page on GitHub.
+
+Questions can be made in the same way, but it would be better if you use
+the Discussions tab instead.
 
 ## License
 
