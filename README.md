@@ -2,8 +2,7 @@
 
 The ZSH theme that developers have been dreaming for a long time. It will
 finally show how you are the best terminal wizard out there while providing you
-useful information about your development environment. Made with love, because
-you deserve it.
+useful information about your development environment.
 
 
 ## Preview
@@ -11,7 +10,8 @@ you deserve it.
 ![](images/preview/preview_0.png)
 
 
-## What features it has?
+## What features does it have?
+
 In the prompt you will find:
   + your local IP address.
   + current hours and minutes.
@@ -23,8 +23,8 @@ In the prompt you will find:
   + the current directory with an icon if it is a directory of the
     home of your user.
   + a decorator to show directory ownership.
-  + git branch and its status with numeric indicators and decorators and the last
-    commit hash.
+  + git branch and its status with numeric indicators and decorators and the
+    last commit hash.
   + the quantity of hidden files.
   + the quantity of files being ignored by git.
   + the quantity of active Docker containers in the background.
@@ -99,11 +99,13 @@ If you are using MacOS, you can use [HomeBrew](https://brew.sh).
 
 ## See Also
 
-River Dreams is now part of the [`awesome-zsh-plugins`](https://github.com/unixorn/awesome-zsh-plugins) repository. What about
-going there to find out more cool themes, frameworks and plugins for ZSH?
+River Dreams is now part of the [`awesome-zsh-plugins`](https://github.com/unixorn/awesome-zsh-plugins)
+repository. What about going there to find out more cool themes, frameworks and
+plugins for ZSH?
 
-Are you looking for a color scheme? I am proud to announce that [`Tropical Paradise`](https://github.com/skippyr/tropical_paradise) has been released with light and
-dark variants. What about checking it out?
+Are you looking for a color scheme? I am proud to announce that
+[`Tropical Paradise`](https://github.com/skippyr/tropical_paradise) has been
+released with dark and light variants. What about checking it out?
 
 ## License
 
