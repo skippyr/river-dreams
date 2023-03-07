@@ -5,11 +5,11 @@ river_dreams::git::get_branch() {
 }
 
 river_dreams::git::has_changes() {
-  git status -s 2>/dev/null | grep "[?NMD].* " &>/dev/null
+  git status -s 2>/dev/null | grep " [?NMD].* " &>/dev/null
 }
 
 river_dreams::git::get_changes_quantity() {
-  git status -s 2>/dev/null | grep "[?NMD].* " | wc -l
+  git status -s 2>/dev/null | grep " [?NMD].* " | wc -l
 }
 
 river_dreams::git::needs_to_commit() {
@@ -31,20 +31,20 @@ river_dreams::git::get_pushes_quantity() {
 river_dreams::git() {
   local -r branch=$(river_dreams::git::get_branch)
 
-  changes_quantity=$(river_dreams::git::get_changes_quantity)
-  changes_section=$(
+  local -r changes_quantity=$(river_dreams::git::get_changes_quantity)
+  local -r changes_section=$(
     river_dreams::git::has_changes &&
     echo "${changes_quantity}* " ||
     echo ""
   )
-  commits_quantity=$(river_dreams::git::get_commits_quantity)
-  commit_section=$(
+  local -r commits_quantity=$(river_dreams::git::get_commits_quantity)
+  local -r commit_section=$(
     river_dreams::git::needs_to_commit &&
     echo "${commits_quantity}+ " ||
     echo ""
   )
-  pushes_quantity=$(river_dreams::git::get_pushes_quantity)
-  push_section=$(
+  local -r pushes_quantity=$(river_dreams::git::get_pushes_quantity)
+  local -r push_section=$(
     river_dreams::git::needs_push &&
     echo "${pushes_quantity}↑ " ||
     echo ""
