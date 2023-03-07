@@ -18,9 +18,10 @@ you deserve it.
   + sourced Python environment.
   + exit status on errors.
   + root decorator.
+  + writting mode.
   + current directory with an icon if it is a home directory.
   + directory ownership decorator.
-  + git branch and its status with numeric indicators and decorators.
+  + git branch and its status with numeric indicators and decorators and last commit hash.
   + hidden files quantity.
   + git ignored files quantity.
   + active Docker containers quantity.
