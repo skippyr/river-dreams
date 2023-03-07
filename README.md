@@ -11,28 +11,30 @@ you deserve it.
 ![](images/preview/preview_0.png)
 
 
-## What information does it shows?
-  + local IP address.
+## What features it has?
+In the prompt you will find:
+  + your local IP address.
   + current hours and minutes.
-  + disk usage of the partition mounted at `/`.
+  + the disk usage percentage of the partition mounted at `/`.
   + sourced Python environment.
-  + exit status on errors.
-  + root decorator.
-  + writting mode.
-  + current directory with an icon if it is a home directory.
-  + directory ownership decorator.
-  + git branch and its status with numeric indicators and decorators and last
+  + exit status of last command if it throwed an error.
+  + a decorator if you are root.
+  + the writting mode of zsh.
+  + the current directory with an icon if it is a directory of the
+    home of your user.
+  + a decorator to show directory ownership.
+  + git branch and its status with numeric indicators and decorators and the last
     commit hash.
-  + hidden files quantity.
-  + git ignored files quantity.
-  + active Docker containers quantity.
-  + quantity of jobs running in the background.
-  + time elapsed in the last command in minutes and seconds.
+  + the quantity of hidden files.
+  + the quantity of files being ignored by git.
+  + the quantity of active Docker containers in the background.
+  + the quantity of jobs running in the background.
+  + the time elapsed in the last command in minutes and seconds.
 
 River Dreams will also use fallback text if it detects that your terminal
 emulator only supports the 4-bits color palette. This is a measure that
 allows you to use all its capabilities even in old terminals, that probably
-does not support its fancy symbols.
+does not support UTF-8.
 
 ## Installation/Uninstallation
 
@@ -106,3 +108,4 @@ dark variants. What about checking it out?
 ## License
 
 Copyright (c) 2023 Sherman Rofeman. MIT License.
+
