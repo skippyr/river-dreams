@@ -21,12 +21,18 @@ you deserve it.
   + writting mode.
   + current directory with an icon if it is a home directory.
   + directory ownership decorator.
-  + git branch and its status with numeric indicators and decorators and last commit hash.
+  + git branch and its status with numeric indicators and decorators and last
+    commit hash.
   + hidden files quantity.
   + git ignored files quantity.
   + active Docker containers quantity.
   + quantity of jobs running in the background.
   + time elapsed in the last command in minutes and seconds.
+
+River Dreams will also use fallback text if it detects that your terminal
+emulator only supports the 4-bits color palette. This is a measure that
+allows you to use all its capabilities even in old terminals, that probably
+does not support its fancy symbols.
 
 ## Installation/Uninstallation
 
