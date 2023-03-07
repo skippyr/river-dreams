@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
 
 river_dreams::decorator() {
-  echo "%F{yellow}⤐ %f"
+  echo "%(?.%F{green}.%F{red})⤐ %f"
 }
