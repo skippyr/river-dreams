@@ -21,3 +21,4 @@ source ${RIVER_DREAMS_CONFIGURATIONS_FILE} 2>/dev/null
 PROMPT='$(river_dreams::commands_separator)$(river_dreams::top_prompt_component)
 $(river_dreams::left_prompt_component)%F{normal} '
 RPROMPT='$(river_dreams::right_prompt_component)'
+
