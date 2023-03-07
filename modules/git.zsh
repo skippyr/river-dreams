@@ -13,11 +13,11 @@ river_dreams::git::get_changes_quantity() {
 }
 
 river_dreams::git::needs_to_commit() {
-  git status -s 2>/dev/null | grep "A.* " &>/dev/null
+  git status -s 2>/dev/null | grep "^[?ANMD].* " &>/dev/null
 }
 
 river_dreams::git::get_commits_quantity() {
-  git status -s 2>/dev/null | grep "A.* " | wc -l
+  git status -s 2>/dev/null | grep "^[?ANMD].* " | wc -l
 }
 
 river_dreams::git::needs_push() {
