@@ -17,10 +17,10 @@ you deserve it.
   + disk usage of the partition mounted at `/`.
   + sourced Python environment.
   + exit status on errors.
-  + root status.
+  + root decorator.
   + current directory with an icon if it is a home directory.
-  + directory ownership.
-  + git branch and its status with numeric indicators.
+  + directory ownership decorator.
+  + git branch and its status with numeric indicators and decorators.
   + hidden files quantity.
   + git ignored files quantity.
   + active Docker containers quantity.
