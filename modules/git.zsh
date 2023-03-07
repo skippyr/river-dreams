@@ -5,19 +5,19 @@ river_dreams::git::get_branch() {
 }
 
 river_dreams::git::has_changes() {
-  git status -s 2>/dev/null | grep " [?NMD].* " &>/dev/null
+  git status -s 2>/dev/null | grep "[?NMDT] \S" &>/dev/null
 }
 
 river_dreams::git::get_changes_quantity() {
-  git status -s 2>/dev/null | grep " [?NMD].* " | wc -l
+  git status -s 2>/dev/null | grep "[?NMDT] \S" | wc -l
 }
 
 river_dreams::git::needs_to_commit() {
-  git status -s 2>/dev/null | grep "^[?ANMD].* " &>/dev/null
+  git status -s 2>/dev/null | grep "^[ANMDRUT].* " &>/dev/null
 }
 
 river_dreams::git::get_commits_quantity() {
-  git status -s 2>/dev/null | grep "^[?ANMD].* " | wc -l
+  git status -s 2>/dev/null | grep "^[ANMDRUT].* " | wc -l
 }
 
 river_dreams::git::needs_push() {
