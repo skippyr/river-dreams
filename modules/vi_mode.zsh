@@ -1,7 +1,15 @@
 #!/usr/bin/env zsh
 
 function zle-line-init zle-keymap-select {
-    export RIVER_DREAMS_VI_MODE=${${KEYMAP/vicmd/N}/main/I}
+    export RIVER_DREAMS_MODE_SYMBOL="%F{red}?"
+    case ${KEYMAP} in
+      main)
+        export RIVER_DREAMS_MODE_SYMBOL="%F{green}I"
+        ;;
+      vicmd)
+        export RIVER_DREAMS_MODE_SYMBOL="%F{red}N"
+        ;;
+    esac
     zle reset-prompt
 }
 
@@ -9,17 +17,6 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 river_dreams::vi_mode() {
-  if [[ -n ${RIVER_DREAMS_VI_MODE} ]]; then
-    local symbol=""
-    case ${RIVER_DREAMS_VI_MODE} in
-      I)
-        symbol="%F{green}I"
-        ;;
-      N)
-        symbol="%F{red}N"
-        ;;
-    esac
-    echo "%F{yellow}[%B${symbol}%b%F{yellow}]"
-  fi
+  echo "%F{yellow}[%B${RIVER_DREAMS_MODE_SYMBOL}%b%F{yellow}]"
 }
 
