@@ -19,7 +19,6 @@ In the prompt you will find:
   + sourced Python environment.
   + exit status of last command if it throwed an error.
   + a decorator if you are root.
-  + the writting mode of zsh.
   + the current directory with an icon if it is a directory of the
     home of your user.
   + a decorator to show directory ownership.
