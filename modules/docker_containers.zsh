@@ -6,6 +6,6 @@ river_dreams::docker_containers() {
   )
   
   if [[ ${active_docker_containers_quantity} -gt 0 ]]; then
-    echo "%F{blue}󱣘 %F{normal}${active_docker_containers_quantity}"
+    echo "%F{blue}󱣘 %f${active_docker_containers_quantity}"
   fi
 }

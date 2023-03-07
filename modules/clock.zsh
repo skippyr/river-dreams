@@ -20,5 +20,5 @@ river_dreams::clock() {
     symbol_color="yellow"
   fi
 
-  echo "%F{${symbol_color}}${symbol} %F{normal}$(date +%Hh%Mm)"
+  echo "%F{${symbol_color}}${symbol}%f $(date +%Hh%Mm)"
 }

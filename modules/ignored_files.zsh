@@ -8,6 +8,6 @@ river_dreams::ignored_files() {
   )
 
   if [[ ${ignored_files_quantity} -gt 0 ]]; then
-    echo "%F{magenta}󰮀 %F{normal}${ignored_files_quantity}"
+    echo "%F{magenta}󰮀 %f${ignored_files_quantity}"
   fi
 }

@@ -9,6 +9,6 @@ river_dreams::python_environment() {
   )
   
   if [[ -n ${python_environment} ]]; then
-    echo "%F{red}󰚐 %F{normal}${python_environment}"
+    echo "%F{red}󰚐 %f${python_environment}"
   fi
 }

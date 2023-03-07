@@ -8,5 +8,5 @@ river_dreams::disk_usage() {
     tr -d "%"
   )
 
-  echo "%F{green} %F{normal}${disk_usage}%%"
+  echo "%F{green} %f${disk_usage}%%"
 }

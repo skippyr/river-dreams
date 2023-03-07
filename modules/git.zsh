@@ -51,6 +51,6 @@ river_dreams::git() {
   )
 
   if [[ -n ${branch} ]]; then
-    echo "%F{red}::%F{yellow}${changes_section}%F{green}${commit_section}%F{red}${push_section}%F{normal}${branch}%F{red}%F{normal}"
+    echo "%F{red}::%F{yellow}${changes_section}%F{green}${commit_section}%F{red}${push_section}%f${branch}%F{red}%f"
   fi
 }

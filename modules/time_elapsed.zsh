@@ -20,6 +20,6 @@ river_dreams::time_elapsed() {
     [[ ${time_elapsed_in_minutes} -eq 0 ]] &&
       time_elapsed_in_minutes="" ||
       time_elapsed_in_minutes="${time_elapsed_in_minutes}m"
-    echo "%F{yellow}󰔛 %F{normal}${time_elapsed_in_minutes}${time_elapsed_in_seconds}"
+    echo "%F{yellow}󰔛 %f${time_elapsed_in_minutes}${time_elapsed_in_seconds}"
   fi
 }

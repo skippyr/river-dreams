@@ -18,6 +18,6 @@ river_dreams::local_ip_address() {
   local -r local_ip_address=$(river_dreams::ip_address::get_local_ip_address)
   
   if [[ -n ${local_ip_address} ]]; then
-    echo "%F{red} %F{normal}${local_ip_address}"
+    echo "%F{red} %f${local_ip_address}"
   fi
 }
