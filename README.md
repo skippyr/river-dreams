@@ -40,7 +40,7 @@ allows you to use all its capabilities even in old terminals, that probably
 does not support UTF-8.
 
 But, I know that sometimes this behavior will not work as intended. For those
-cases, you can define the environment variable `RIVER_DREAMS_FALLBACK_TEXT`:
+cases, you can define the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT`:
 if its value is `true`, it will use fallback text, otherwise, it will not.
 
 ## Installation/Uninstallation

@@ -5,7 +5,7 @@ river_dreams::docker_containers() {
     docker ps 2>/dev/null | tail -n +2 | wc -l
   )
   local -r docker_containers_symbol=$(
-    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
+    test ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true &&
     echo "CONTAINERS"
     echo "󱣘"
   )

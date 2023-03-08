@@ -6,7 +6,7 @@ river_dreams::clock() {
   local symbol_color=""
   local -r current_hours=$(date +%_H)
 
-  if [[ ${RIVER_DREAMS_FALLBACK_TEXT} == true ]]; then
+  if [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]]; then
     symbol="CLOCK"
     symbol_color="yellow"
   else

@@ -3,7 +3,7 @@
 river_dreams::time_elapsed() {
   local -r time_elapsed=$(history -D | tail -n 1 | awk '{print $2}')
   local -r time_elapsed_symbol=$(
-    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
+    test ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true &&
     echo "TIME" ||
     echo "󰔛"
   )

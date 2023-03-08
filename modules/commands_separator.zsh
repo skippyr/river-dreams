@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 river_dreams::commands_separator() {
-  if [[ ${RIVER_DREAMS_FALLBACK_TEXT} == true ]]; then
+  if [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]]; then
     for column in $(seq 1 $((${COLUMNS}))); do
       echo -n "v"
     done

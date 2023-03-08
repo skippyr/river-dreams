@@ -3,7 +3,7 @@
 river_dreams::tag() {
   local -r tag=$(git tag 2>/dev/null | tail -n 1)
   local -r tag_symbol=$(
-    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
+    test ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true &&
     echo "TAG" ||
     echo ""
   )
