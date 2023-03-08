@@ -2,7 +2,7 @@
 
 river_dreams::decorator() {
   local -r decorator_symbol=$(
-    test $(tput colors) -eq 8 &&
+    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
     echo ">=>>" ||
     echo "⤐"
   )

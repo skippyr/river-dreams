@@ -7,7 +7,7 @@ river_dreams::ignored_files() {
     wc -l
   )
   local -r ignored_files_symbol=$(
-    test $(tput colors) -eq 8 &&
+    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
     echo "IGNORED" ||
     echo "󰮀"
   )

@@ -17,7 +17,7 @@ river_dreams::ip_address::get_local_ip_address() {
 river_dreams::local_ip_address() {
   local -r local_ip_address=$(river_dreams::ip_address::get_local_ip_address)
   local -r local_ip_address_symbol=$(
-    test $(tput colors) -eq 8 &&
+    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
     echo "IP" ||
     echo " "
   )

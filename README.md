@@ -34,10 +34,14 @@ In the prompt you will find:
   + the quantity of jobs running in the background.
   + the time elapsed in the last command in minutes and seconds.
 
-River Dreams will also use fallback text if it detects that your terminal
-emulator only supports the 4-bits color palette. This is a measure that
+By default, River Dreams will also use fallback text if it detects that your
+terminal emulator only supports the 4-bits color palette. This is a measure that
 allows you to use all its capabilities even in old terminals, that probably
 does not support UTF-8.
+
+But, I know that sometimes this behavior will not work as intended. For those
+cases, you can define the environment variable `RIVER_DREAMS_FALLBACK_TEXT`:
+if its value is `true`, it will use fallback text, otherwise, it will not.
 
 ## Installation/Uninstallation
 

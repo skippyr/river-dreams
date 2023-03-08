@@ -8,7 +8,7 @@ river_dreams::python_environment() {
     rev
   )
   local -r python_environment_symbol=$(
-    test $(tput colors) -eq 8 &&
+    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
     echo "ENV" ||
     echo "󰚐"
   )

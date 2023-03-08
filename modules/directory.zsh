@@ -4,7 +4,7 @@ river_dreams::directory() {
   local -r current_directory=$(pwd)
   local directory_symbol=""
 
-  if [[ ! $(tput colors) -eq 8 ]]; then
+  if [[ ! ${RIVER_DREAMS_FALLBACK_TEXT} == true ]]; then
     if [[ ${current_directory} == ${HOME} ]]; then
       directory_symbol=" "
     elif [[ ${current_directory} == ${HOME}/Downloads ]]; then

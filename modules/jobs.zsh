@@ -2,7 +2,7 @@
 
 river_dreams::jobs() {
   local -r jobs_symbol=$(
-    test $(tput colors) -eq 8 &&
+    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
     echo "JOBS" ||
     echo ""
   )

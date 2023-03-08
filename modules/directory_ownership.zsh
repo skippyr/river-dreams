@@ -4,7 +4,7 @@ river_dreams::directory_ownership() {
   local -r user=$(whoami)
   local -r directory_owner=$(ls -ld | awk '{print $3}')
   local -r directory_ownership_symbol=$(
-    test $(tput colors) -eq 8 &&
+    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
     echo "*" ||
     echo ""
   )

@@ -8,7 +8,7 @@ river_dreams::disk_usage() {
     tr -d "%"
   )
   local -r disk_symbol=$(
-    test $(tput colors) -eq 8 &&
+    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
     echo "DISK" ||
     echo ""
   )

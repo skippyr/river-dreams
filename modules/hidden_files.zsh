@@ -3,7 +3,7 @@
 river_dreams::hidden_files() {
   local -r hidden_files_quantity=$(ls -d .* 2>/dev/null | wc -l)
   local -r hidden_symbol=$(
-    test $(tput colors) -eq 8 &&
+    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
     echo "HIDDEN" ||
     echo ""
   )

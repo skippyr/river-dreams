@@ -2,7 +2,7 @@
 
 river_dreams::exit_code() {
   local -r exit_code_symbol=$(
-    test $(tput colors) -eq 8 &&
+    test ${RIVER_DREAMS_FALLBACK_TEXT} == true &&
     echo "X" ||
     echo ""
   )
