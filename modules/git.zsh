@@ -4,24 +4,12 @@ river_dreams::git::get_branch() {
   git branch 2>/dev/null | grep "*" | tr -d "* "
 }
 
-river_dreams::git::has_changes() {
-  git status -s 2>/dev/null | grep "[?NMDT] \S" &>/dev/null
-}
-
 river_dreams::git::get_changes_quantity() {
   git status -s 2>/dev/null | grep "[?NMDT] \S" | wc -l
 }
 
-river_dreams::git::needs_to_commit() {
-  git status -s 2>/dev/null | grep "^[ANMDRUT].* " &>/dev/null
-}
-
 river_dreams::git::get_commits_quantity() {
   git status -s 2>/dev/null | grep "^[ANMDRUT].* " | wc -l
-}
-
-river_dreams::git::needs_push() {
-  git status 2>/dev/null | grep -i "your branch is ahead" &>/dev/null
 }
 
 river_dreams::git::get_pushes_quantity() {
@@ -33,19 +21,19 @@ river_dreams::git() {
 
   local -r changes_quantity=$(river_dreams::git::get_changes_quantity)
   local -r changes_section=$(
-    river_dreams::git::has_changes &&
+    test ${changes_quantity} -gt 0 &&
     echo "${changes_quantity}* " ||
     echo ""
   )
   local -r commits_quantity=$(river_dreams::git::get_commits_quantity)
   local -r commit_section=$(
-    river_dreams::git::needs_to_commit &&
+    test ${commits_quantity} -gt 0 &&
     echo "${commits_quantity}+ " ||
     echo ""
   )
   local -r pushes_quantity=$(river_dreams::git::get_pushes_quantity)
   local -r push_section=$(
-    river_dreams::git::needs_push &&
+    [[ ${pushes_quantity} =~ [0-9] && ${pushes_quantity} -gt 0 ]] &&
     echo "${pushes_quantity}↑ " ||
     echo ""
   )
