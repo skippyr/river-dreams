@@ -14,12 +14,15 @@ useful information about your development environment.
 
 In the prompt you will find:
   + your local IP address.
-  + current hours and minutes.
+  + current hours and minutes with an icon that changes depending on the
+    current hours of the day.
   + the disk usage percentage of the partition mounted at `/`.
   + sourced Python environment.
   + latest git tag.
   + exit status of last command if it throwed an error.
   + a decorator if you are root.
+  + the vi mode, if you are using the [`zsh-vi-mode`](https://github.com/jeffreytse/zsh-vi-mode)
+    plugin.
   + the current directory with an icon if it is a directory of the
     home of your user.
   + a decorator to show directory ownership.
