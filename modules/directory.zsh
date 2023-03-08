@@ -10,15 +10,15 @@ river_dreams::directory() {
     elif [[ ${current_directory} == ${HOME}/Downloads ]]; then
       directory_symbol=" "
     elif [[ ${current_directory} == ${HOME}/Documents ]]; then
-      directory_symbol=" "
+      directory_symbol=" "
     elif [[ ${current_directory} == ${HOME}/Pictures ]]; then
-      directory_symbol="🖼 "
+      directory_symbol=" "
     elif [[ ${current_directory} == ${HOME}/Music ]]; then
       directory_symbol="🎜 "
     elif [[ ${current_directory} == ${HOME}/Public ]]; then
       directory_symbol=" "
     elif [[ ${current_directory} == ${HOME}/Videos ]]; then
-      directory_symbol=" "
+      directory_symbol="󰨜 "
     elif [[ ${current_directory} == ${HOME}/Templates ]]; then
       directory_symbol=" "
     elif [[ ${current_directory} == ${HOME}/.config ]]; then
