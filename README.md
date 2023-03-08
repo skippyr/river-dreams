@@ -17,6 +17,7 @@ In the prompt you will find:
   + current hours and minutes.
   + the disk usage percentage of the partition mounted at `/`.
   + sourced Python environment.
+  + latest git tag.
   + exit status of last command if it throwed an error.
   + a decorator if you are root.
   + the current directory with an icon if it is a directory of the
