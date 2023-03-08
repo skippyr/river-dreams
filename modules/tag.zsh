@@ -8,7 +8,7 @@ river_dreams::tag() {
     echo ""
   )
   if [[ -n ${tag} ]]; then
-    echo "%F{red}${tag_symbol}%f ${tag}"
+    echo "%F{red}${tag_symbol} %f${tag}"
   fi
 }
 
