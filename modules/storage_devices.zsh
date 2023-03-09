@@ -28,10 +28,10 @@ river_dreams::storage_devices() {
 
   local mount_section=""
   [[ ${mounted_external_storage_devices_quantity} -gt 0 ]] &&
-    mount_section=" [%F{blue}${mounted_external_storage_devices_quantity}%f]"
+    mount_section=" [%F{yellow}${mounted_external_storage_devices_quantity}%f]"
 
   if [[ ${#external_storage_devices[@]} -gt 0 ]]; then
-    echo "%F{blue}${storage_devices_symbol} %f${#external_storage_devices[@]}${mount_section}%f"
+    echo "%F{yellow}${storage_devices_symbol} %f${#external_storage_devices[@]}${mount_section}%f"
   fi
 }
 
