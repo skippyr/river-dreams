@@ -1,4 +1,8 @@
-# River Dreams
+<h1 align="center">⛵ River Dreams 🌊</h1>
+
+<div align="center">
+  <img src="https://img.shields.io/github/license/skippyr/river_dreams?style=social"/>
+</div>
 
 The ZSH theme that developers have been _river dreaming_ for a long time. It
 will finally show how you are the best terminal wizard out there while providing
@@ -13,29 +17,31 @@ you useful information about your development environment.
 
 ## What features does it have?
 
-In the prompt you will find:
-  + your local IP address.
-  + current hours and minutes with an icon that changes depending on the
-    current hours of the day.
-  + the disk usage percentage of the partition mounted at `/`.
-  + sourced Python environment.
-  + latest git tag.
-  + the quantity of external storage devices connected to the machine including
-    a numeric indicator to show how many are actually mounted.
-  + exit status of last command if it throwed an error.
-  + a decorator if you are root.
-  + the vi mode, if you are using the [`zsh-vi-mode`](https://github.com/jeffreytse/zsh-vi-mode)
-    plugin.
-  + the current directory with an icon if it is a directory of the
-    home of your user.
-  + a decorator to show directory ownership.
-  + git branch and its status with numeric indicators and decorators and the
-    last commit hash.
-  + the quantity of hidden files.
-  + the quantity of files being ignored by git.
-  + the quantity of active Docker containers in the background.
-  + the quantity of jobs running in the background.
-  + the time elapsed in the last command in minutes and seconds.
+River Dreams was designed to help people that do not have many knowledge
+in the terminal and people that take it to another level, needing to use it
+in the most unusual cases. Everything that you will probably need will be at
+your glance.
+
+Everything in it is a module:
+
+| Module | Function |
+| ------ | -------- |
+| local_ip_address    | Shows your local ip address.
+| clock              | Shows the current hours and minutes with an icon that changes depending of the hour of the day. |
+| disk_usage          | Shows the disk usage percentage of the partition mounted at `/`. |
+| python_environment  | Shows the sourced Python environment. |
+| tag                 | Shows the latest Git tag. |
+| storage_devices     | Shows the quantity of external storage devices connected to the machine including a numeric indicator to show how many are actually mounted. |
+| exit_code           | Shows the exit code of commands that throwed an error. |
+| root                | Shows a decorator if you are root. |
+| vi_mode             | Shows the vi mode if you are using the [`zsh-vi-mode`](https://github.com/jeffreytse/zsh-vi-mode) plugin. |
+| directory           | Shows the current directory. It will use an icon if it is a home directory. |
+| directory_ownership | Shows a decorator if you are not the owner of the current directory. |
+| git                 | Shows branch, status with numeric indicators and last commit hash |
+| jobs                | Shows the quantity of jobs running in the background. |
+| hidden_files        | Shows the quantity of hidden files. |
+| docker_containers   | Shows the quantity of active Docker containers. |
+| time_elapsed        | Shows the time elapsed by the last command in minutes and seconds. |
 
 By default, River Dreams will also use fallback text if it detects that your
 terminal emulator only supports the 4-bits color palette. This is a measure that
