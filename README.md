@@ -26,8 +26,9 @@ Everything in it is a module:
 
 | Module | Function |
 | ------ | -------- |
+| commands_separator  | Shows a separator between commands. |
 | local_ip_address    | Shows your local ip address.
-| clock              | Shows the current hours and minutes with an icon that changes depending of the hour of the day. |
+| clock               | Shows the current hours and minutes with an icon that changes depending of the hour of the day. |
 | disk_usage          | Shows the disk usage percentage of the partition mounted at `/`. |
 | python_environment  | Shows the sourced Python environment. |
 | tag                 | Shows the latest Git tag. |
