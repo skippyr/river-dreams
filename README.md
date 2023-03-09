@@ -1,13 +1,14 @@
 # River Dreams
 
-The ZSH theme that developers have been dreaming for a long time. It will
-finally show how you are the best terminal wizard out there while providing you
-useful information about your development environment.
+The ZSH theme that developers have been _river dreaming_ for a long time. It
+will finally show how you are the best terminal wizard out there while providing
+you useful information about your development environment.
 
 
 ## Preview
 
 ![](images/preview/preview_0.png)
+![](images/preview/preview_1.png)
 
 
 ## What features does it have?
