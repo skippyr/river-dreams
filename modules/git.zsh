@@ -40,6 +40,6 @@ river_dreams::git() {
   local -r last_commit_hash=$(git log -1 --pretty=oneline 2>/dev/null | cut -c -8)
 
   if [[ -n ${branch} ]]; then
-    echo "%F{red}::«%F{yellow}${changes_section}%F{green}${commit_section}%F{red}${push_section}%f${branch} %F{yellow}${last_commit_hash}%F{red}»%f"
+    echo "%F{red}«%F{yellow}${changes_section}%F{green}${commit_section}%F{red}${push_section}%f${branch} %F{yellow}${last_commit_hash}%F{red}»%f"
   fi
 }
