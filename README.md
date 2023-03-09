@@ -17,10 +17,9 @@ you useful information about your development environment.
 
 ## What features does it have?
 
-River Dreams was designed to help people that do not have many knowledge
-in the terminal and people that take it to another level, needing to use it
-in the most unusual cases. Everything that you will probably need will be at
-your glance.
+River Dreams was designed to help people that take the terminal to another
+level, needing to use it in the most unusual cases. Everything that you will
+probably need will be at your glance.
 
 Everything in it is a module:
 
