@@ -19,6 +19,8 @@ In the prompt you will find:
   + the disk usage percentage of the partition mounted at `/`.
   + sourced Python environment.
   + latest git tag.
+  + the quantity of external storage devices connected to the machine including
+    indicator to how many are actually mounted.
   + exit status of last command if it throwed an error.
   + a decorator if you are root.
   + the vi mode, if you are using the [`zsh-vi-mode`](https://github.com/jeffreytse/zsh-vi-mode)
