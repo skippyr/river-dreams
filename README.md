@@ -141,5 +141,5 @@ the Discussions tab instead.
 
 ## License
 
-Copyright (c) 2023 Sherman Rofeman. MIT License.
+Copyright (c) 2023, Sherman Rofeman. MIT License.
 
