@@ -21,7 +21,7 @@ river_dreams::time_elapsed() {
       time_elapsed_in_minutes="" ||
       time_elapsed_in_minutes="${time_elapsed_in_minutes}m"
   local -r time_elapsed_symbol=$(
-  [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] &&
+    [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] &&
     echo "TIME" ||
     echo "󰔛"
   )
