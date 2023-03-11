@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 
 river_dreams::tag() {
+  [[ ! $(ls .git 2>/dev/null) ]] && exit
+
   local -r tag=$(git tag 2>/dev/null | tail -n 1)
+
+  [[ -z ${tag} ]] && exit
+
   local -r tag_symbol=$(
-    test ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true &&
+    [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] &&
     echo "TAG" ||
     echo ""
   )
-  if [[ -n ${tag} ]]; then
-    echo "%F{blue}${tag_symbol} %f${tag}"
-  fi
+  echo "%F{blue}${tag_symbol} %f${tag}"
 }
 
