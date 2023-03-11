@@ -4,20 +4,17 @@ setopt promptsubst
 setopt +o nomatch
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-export RIVER_DREAMS_MODULES_DIRECTORY=$(dirname $0)/modules
-export RIVER_DREAMS_PROMPT_COMPONENTS_DIRECTORY=$(dirname $0)/prompt_components
+export RIVER_DREAMS_REPOSITORY_DIRECTORY=$(dirname $0)
+export RIVER_DREAMS_MODULES_DIRECTORY=${RIVER_DREAMS_REPOSITORY_DIRECTORY}/modules
+export RIVER_DREAMS_PROMPT_COMPONENTS_DIRECTORY=${RIVER_DREAMS_REPOSITORY_DIRECTORY}/prompt_components
 export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT:-$(
   test $(tput colors) -eq 8 &&
   echo "true" ||
   echo "false"
 )}
 
-for module_file in $(ls ${RIVER_DREAMS_MODULES_DIRECTORY}); do
-  source ${RIVER_DREAMS_MODULES_DIRECTORY}/${module_file}
-done
-
-for prompt_component_file in $(ls ${RIVER_DREAMS_PROMPT_COMPONENTS_DIRECTORY}); do
-  source ${RIVER_DREAMS_PROMPT_COMPONENTS_DIRECTORY}/${prompt_component_file}
+for file in $(find ${RIVER_DREAMS_MODULES_DIRECTORY} ${RIVER_DREAMS_PROMPT_COMPONENTS_DIRECTORY} -maxdepth 1 -type f); do
+  source ${file}
 done
 
 PROMPT='$(river_dreams::commands_separator)$(river_dreams::top_prompt_component)
