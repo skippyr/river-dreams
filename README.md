@@ -11,15 +11,17 @@ you useful information about your development environment.
 
 ## Preview
 
-![](images/preview/preview_0.png)
-![](images/preview/preview_1.png)
+![](images/preview/preview_kitty.png)
+![](images/preview/preview_xterm.png)
 
+> Default behavior of River Dreams in `kitty` and `xterm` in same environment
+> conditions.
 
 ## What features does it have?
 
-River Dreams was designed to help people that take the terminal to another
-level, needing to use it in the most unusual cases. Everything that you will
-probably need will be at your glance.
+River Dreams was designed to help people that want to take their terminals to
+another level and need to use it for programming and doing maintenance.
+Everything that you will probably need will be at your glance.
 
 Everything in it is a module:
 
@@ -51,6 +53,20 @@ does not support UTF-8.
 But, I know that sometimes this behavior will not work as intended. For those
 cases, you can define the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT`:
 if its value is `true`, it will use fallback text, otherwise, it will not.
+
+
+## What about speed?
+
+River Dreams will be fast enough for you not to bother much about it, even
+though, I have to admit that, right now, it is a bit slower than ideal. It has
+a command lag with range of `190ms-250ms` and ideals values are in range of
+`0ms-150ms`.
+
+It is not bad, but, if, in the future, I found a solution to reduce it.
+I will implement it.
+
+You can always test its speed by using a benchmark like [`zsh-bench`](https://github.com/romkatv/zsh-bench).
+
 
 ## Installation/Uninstallation
 
