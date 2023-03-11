@@ -23,11 +23,11 @@ river_dreams::git::get_pushes_quantity() {
 }
 
 river_dreams::git() {
-  [[ ! $(ls .git 2>/dev/null) ]] && exit
-
   local -r git_short_status=$(git status -sb 2>/dev/null)
   local -r branch_line=$(echo "${git_short_status}" | head -n 1)
   local -r branch=$(river_dreams::git::get_branch "${branch_line}")
+
+  [[ -z ${branch} ]] && exit
 
   local -r changes_quantity=$(river_dreams::git::get_changes_quantity "${git_short_status}")
   local -r changes_section=$(

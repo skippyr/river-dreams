@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 river_dreams::tag() {
-  [[ ! $(ls .git 2>/dev/null) ]] && exit
-
   local -r tag=$(git tag 2>/dev/null | tail -n 1)
 
   [[ -z ${tag} ]] && exit
