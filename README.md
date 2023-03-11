@@ -66,7 +66,8 @@ a command lag with range of `190ms-250ms` and ideals values are in range of
 It is not bad, but if, in the future, I found a solution to reduce it.
 I will implement it.
 
-You can always test its speed by using a benchmark like [`zsh-bench`](https://github.com/romkatv/zsh-bench).
+You can always test its speed by using a benchmark like [`zsh-bench`](https://github.com/romkatv/zsh-bench)
+and can obtain a trace of its functions by using `set -x`.
 
 
 ## Installation/Uninstallation
