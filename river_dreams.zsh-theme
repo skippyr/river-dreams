@@ -13,7 +13,10 @@ export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT:-$(
   echo "false"
 )}
 
-for file in $(find ${RIVER_DREAMS_MODULES_DIRECTORY} ${RIVER_DREAMS_PROMPT_COMPONENTS_DIRECTORY} -maxdepth 1 -type f); do
+for file in $(
+  find ${RIVER_DREAMS_MODULES_DIRECTORY}\
+  ${RIVER_DREAMS_PROMPT_COMPONENTS_DIRECTORY} -maxdepth 1 -type f
+); do
   source ${file}
 done
 
