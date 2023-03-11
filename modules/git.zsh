@@ -5,11 +5,13 @@ river_dreams::git::get_branch() {
 }
 
 river_dreams::git::get_changes_quantity() {
-  git status -s 2>/dev/null | grep "[?NMDT] \S" | wc -l
+  local git_short_status="$1"
+  echo "${git_short_status}" | grep "[?NMDT] \S" | wc -l
 }
 
 river_dreams::git::get_commits_quantity() {
-  git status -s 2>/dev/null | grep "^[ANMDRUT].* " | wc -l
+  local git_short_status="$1"
+  echo "${git_short_status}" | grep "^[ANMDRUT].* " | wc -l
 }
 
 river_dreams::git::get_pushes_quantity() {
@@ -19,13 +21,16 @@ river_dreams::git::get_pushes_quantity() {
 river_dreams::git() {
   local -r branch=$(river_dreams::git::get_branch)
 
-  local -r changes_quantity=$(river_dreams::git::get_changes_quantity)
+  [[ -z ${branch} ]] && exit
+
+  local git_short_status=$(git status -s 2>/dev/null)
+  local -r changes_quantity=$(river_dreams::git::get_changes_quantity "${git_short_status}")
   local -r changes_section=$(
     test ${changes_quantity} -gt 0 &&
     echo "${changes_quantity}* " ||
     echo ""
   )
-  local -r commits_quantity=$(river_dreams::git::get_commits_quantity)
+  local -r commits_quantity=$(river_dreams::git::get_commits_quantity "${git_short_status}")
   local -r commit_section=$(
     test ${commits_quantity} -gt 0 &&
     echo "${commits_quantity}+ " ||
@@ -39,7 +44,5 @@ river_dreams::git() {
   )
   local -r last_commit_hash=$(git log -1 --pretty=oneline 2>/dev/null | cut -c -8)
 
-  if [[ -n ${branch} ]]; then
-    echo "%F{red}«%F{yellow}${changes_section}%F{green}${commit_section}%F{red}${push_section}%f${branch} %F{yellow}${last_commit_hash}%F{red}»%f"
-  fi
+  echo "%F{red}«%F{yellow}${changes_section}%F{green}${commit_section}%F{red}${push_section}%f${branch} %F{yellow}${last_commit_hash}%F{red}»%f"
 }
