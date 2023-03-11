@@ -5,7 +5,7 @@ river_dreams::git::get_branch() {
   local branch_line=$(echo "${git_short_status}" | head -n 1)
   [[ $(echo "${branch_line}" | grep "\.") ]] &&
     echo "${branch_line}" | cut -f 2 -d " " | cut -f 1 -d "." ||
-    echo "${git_short_status}" | rev | cut -f 1 -d " " | rev
+    echo "${branch_line}" | rev | cut -f 1 -d " " | rev
 }
 
 river_dreams::git::get_changes_quantity() {
