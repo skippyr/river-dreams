@@ -56,15 +56,6 @@ cases, you can define the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT`:
 if its value is `true`, it will use fallback text, otherwise, it will not.
 
 
-## What about speed?
-
-River Dreams is fast enough to be usable, but its performance is not ideal.
-I will keep trying to find a solution to its speed.
-
-You can always test its speed by using a benchmark like [`zsh-bench`](https://github.com/romkatv/zsh-bench)
-and can obtain a trace of its functions by using `set -x`.
-
-
 ## Installation/Uninstallation
 
 Before installing the theme, you need to ensure that you have its required
