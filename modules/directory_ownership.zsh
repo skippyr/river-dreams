@@ -7,7 +7,7 @@ river_dreams::directory_ownership() {
   [[ ${user} == root || ${user} == ${directory_owner} ]] && exit
 
   local -r directory_ownership_symbol=$(
-    test ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true &&
+    [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] &&
     echo "*" ||
     echo ""
   )

@@ -2,7 +2,7 @@
 
 river_dreams::decorator() {
   local -r decorator_symbol=$(
-    test ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true &&
+    [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] &&
     echo ">" ||
     echo "⤐"
   )

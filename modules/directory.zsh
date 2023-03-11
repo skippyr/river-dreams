@@ -2,7 +2,7 @@
 
 river_dreams::directory() {
   local directory_symbol=""
-  if [[ ! ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]]; then
+  [[ ! ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] &&
     case $(pwd) in
       ${HOME})
         directory_symbol=" "
@@ -35,6 +35,5 @@ river_dreams::directory() {
         directory_symbol=" "
         ;;
     esac
-  fi
   echo "%F{red}${directory_symbol}%F{cyan}%B%1~%b%f"
 }
