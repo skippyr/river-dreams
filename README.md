@@ -21,7 +21,8 @@ you useful information about your development environment.
 
 River Dreams was designed to help people that want to take their terminals to
 another level and need to use it for programming and doing maintenance.
-Everything that you will probably need will be at your glance.
+Everything that you will probably need will be at your glance even when you
+do not have a proper modern terminal.
 
 Everything in it is a module:
 
@@ -57,12 +58,12 @@ if its value is `true`, it will use fallback text, otherwise, it will not.
 
 ## What about speed?
 
-River Dreams will be fast enough for you not to bother much about it, even
+River Dreams will be fast enough for you not to bother about it, even
 though, I have to admit that, right now, it is a bit slower than ideal. It has
 a command lag with range of `190ms-250ms` and ideals values are in range of
 `0ms-150ms`.
 
-It is not bad, but, if, in the future, I found a solution to reduce it.
+It is not bad, but if, in the future, I found a solution to reduce it.
 I will implement it.
 
 You can always test its speed by using a benchmark like [`zsh-bench`](https://github.com/romkatv/zsh-bench).
