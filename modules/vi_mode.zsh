@@ -12,9 +12,6 @@ river_dreams::vi_mode() {
     R)
       vi_mode_color="%F{magenta}"
       ;;
-    *)
-      vi_mode_color="%F{red}"
-      ;;
   esac
   echo "%F{yellow}[%B${vi_mode_color}${vi_mode}%b%F{yellow}]%f"
 }
