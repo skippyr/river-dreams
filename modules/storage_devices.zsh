@@ -20,7 +20,7 @@ river_dreams::storage_devices() {
       grep ${external_storage_device} |
       wc -l
     )
-    [[ ${#mountpoints_quantity} -gt 0 ]] && ((mounted_external_storage_devices_quantity++))
+    [[ ${mountpoints_quantity} -gt 0 ]] && ((mounted_external_storage_devices_quantity++))
   done
   local mount_section=""
   [[ ${mounted_external_storage_devices_quantity} -gt 0 ]] &&
