@@ -1,11 +1,10 @@
 #!/usr/bin/env zsh
 
 river_dreams::local_ip_address::get_local_ip_address_using_ip() {
-  ip a 2>/dev/null |
-  grep 'inet ' |
-  grep -Ev "127.0.0|docker" |
-  awk '{print $2}' |
-  cut -f 1 -d /
+  echo "${$(
+    ip -br a 2>/dev/null |
+    awk '{if ($1 != "lo" && $1 !~ "docker[0-9]") {NR==1; print $3}}'
+  )%/*}"
 }
 
 river_dreams::local_ip_address::get_local_ip_address_using_ifconfig() {
