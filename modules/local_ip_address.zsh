@@ -16,9 +16,9 @@ river_dreams::local_ip_address::get_local_ip_address_using_ifconfig() {
 }
 
 river_dreams::ip_address::get_local_ip_address() {
-  [[ -x $(which ip 2>/dev/null) ]] &&
-    river_dreams::local_ip_address::get_local_ip_address_using_ip ||
-    river_dreams::local_ip_address::get_local_ip_address_using_ifconfig
+  [[ -x $(which ifconfig 2>/dev/null) ]] &&
+    river_dreams::local_ip_address::get_local_ip_address_using_ifconfig ||
+    river_dreams::local_ip_address::get_local_ip_address_using_ip
 }
 
 river_dreams::local_ip_address() {
