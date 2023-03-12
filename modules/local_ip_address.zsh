@@ -9,9 +9,8 @@ river_dreams::local_ip_address::get_local_ip_address_using_ip() {
 
 river_dreams::local_ip_address::get_local_ip_address_using_ifconfig() {
   ifconfig 2>/dev/null |
-  grep -A 1 RUNNING |
-  grep 'inet ' |
-  grep -v 127.0.0 |
+  grep "inet " |
+  grep -Ev "127.0.0|172.17.0" |
   awk '{print $2}'
 }
 
