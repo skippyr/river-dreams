@@ -22,9 +22,7 @@ river_dreams::ip_address::get_local_ip_address() {
 
 river_dreams::local_ip_address() {
   local -r local_ip_address=$(river_dreams::ip_address::get_local_ip_address)
-
   [[ -z ${local_ip_address} ]] && exit
-
   local -r local_ip_address_symbol=$(
     [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] &&
     echo "IP" ||

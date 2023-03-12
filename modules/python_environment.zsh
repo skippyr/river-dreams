@@ -2,7 +2,6 @@
 
 river_dreams::python_environment() {
   [[ -z ${VIRTUAL_ENV} ]] && exit
-
   local -r python_environment=$(
     echo ${VIRTUAL_ENV} |
     rev |
@@ -14,6 +13,5 @@ river_dreams::python_environment() {
     echo "ENV" ||
     echo "󰚐"
   )
-  
   echo "%F{red}${python_environment_symbol} %f${python_environment}"
 }
