@@ -9,7 +9,7 @@ river_dreams::git::get_commit_hash() {
 }
 
 river_dreams::git::get_changes_quantity() {
-  git ls-files -mo | wc -l
+  git ls-files -m | wc -l
 }
 
 river_dreams::git::get_staged_quantity() {
