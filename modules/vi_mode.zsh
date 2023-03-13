@@ -1,16 +1,22 @@
 river_dreams::vi_mode() {
   [[ -z ${ZVM_MODE} ]] && exit
-  local -r vi_mode=$(echo ${ZVM_MODE} | tr [:lower:] [:upper:])
+  local vi_mode="?"
   local vi_mode_color="%F{red}"
-  case ${vi_mode} in
-    I)
+  case ${ZVM_MODE} in
+    i)
+      vi_mode="I"
       vi_mode_color="%F{green}"
       ;;
-    V | VL)
+    v | vl)
+      vi_mode="V"
       vi_mode_color="%F{cyan}"
       ;;
-    R)
+    r)
+      vi_mode="R"
       vi_mode_color="%F{magenta}"
+      ;;
+    n)
+      vi_mode="N"
       ;;
   esac
   echo "%F{yellow}[%B${vi_mode_color}${vi_mode}%b%F{yellow}]%f"
