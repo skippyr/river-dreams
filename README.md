@@ -4,9 +4,7 @@
   <img src="https://img.shields.io/github/license/skippyr/river_dreams?style=social"/>
 </div>
 
-The ZSH theme that developers have been _river dreaming_ for a long time. It
-will finally show how you are the best terminal wizard out there while providing
-you useful information about your development environment.
+<p align="center">A maximalism ZSH prompt that developers have been <i>river dreaming</i> for a long time.</p>
 
 
 ## Preview
@@ -24,6 +22,9 @@ another level and need to use it for programming and doing maintenance.
 Everything that you will probably need will be at your glance even when you
 do not have a proper modern terminal.
 
+It contains ideas that I have created myself and others that I have got
+from other popular ZSH themes.
+
 Everything in it is a module:
 
 | Module | Function |
@@ -40,7 +41,7 @@ Everything in it is a module:
 | vi_mode             | Shows the vi mode if you are using the [`zsh-vi-mode`](https://github.com/jeffreytse/zsh-vi-mode) plugin. |
 | directory           | Shows the current directory. It will use an icon if it is a home directory. |
 | directory_ownership | Shows a decorator if you are not the owner of the current directory. |
-| git                 | Shows branch, status with numeric indicators and last commit hash |
+| git                 | Shows branch, status with numeric indicators for changes, commits, pulls and pushes and last commit hash |
 | jobs                | Shows the quantity of jobs running in the background. |
 | executable_files    | Shows the quantity of executable files in the current directory. |
 | hidden_files        | Shows the quantity of hidden files in the current directory. |
@@ -55,6 +56,14 @@ does not support UTF-8.
 But, I know that sometimes this behavior will not work as intended. For those
 cases, you can define the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT`:
 if its value is `true`, it will use fallback text, otherwise, it will not.
+
+
+## What about speed?
+
+River Dreams is fast enough to be usable, but I have to admit that its speed
+still not perfect and it annoys me sometimes. Stay tuned for future commits as
+I want to use [`zsh-async`](https://github.com/mafredri/zsh-async)
+to make some of its modules async. I just have to learn it first.
 
 
 ## Installation/Uninstallation
