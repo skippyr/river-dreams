@@ -60,7 +60,7 @@ river_dreams::git() {
     diff_color="blue"
   fi
   local diff_section=""
-  [[ ${diff_quantity} -gt 0 ]] && diff_section="${diff_symbol}${diff_quantity} "
+  [[ ${diff_quantity} -gt 0 ]] && diff_section="${diff_quantity}${diff_symbol} "
 
   echo "%F{red}«%F{red}${changes_section}%F{green}${staged_section}%F{${diff_color}}${diff_section}%f${branch}%F{yellow}${commit_hash}%F{red}»"
 }
