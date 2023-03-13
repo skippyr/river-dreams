@@ -42,7 +42,8 @@ Everything in it is a module:
 | directory_ownership | Shows a decorator if you are not the owner of the current directory. |
 | git                 | Shows branch, status with numeric indicators and last commit hash |
 | jobs                | Shows the quantity of jobs running in the background. |
-| hidden_files        | Shows the quantity of hidden files. |
+| executable_files    | Shows the quantity of executable files in the current directory. |
+| hidden_files        | Shows the quantity of hidden files in the current directory. |
 | docker_containers   | Shows the quantity of active Docker containers. |
 | time_elapsed        | Shows the time elapsed by the last command in minutes and seconds. |
 
