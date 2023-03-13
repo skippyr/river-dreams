@@ -66,6 +66,13 @@ I want to use [`zsh-async`](https://github.com/mafredri/zsh-async)
 to make some of its modules async. I just have to learn it first.
 
 
+## What about testing?
+
+As I do not own a MacOS, I could only test it in Linux. If you own a MacOS,
+it would be great if you post the issues you have found in that system. Maybe,
+in the future, I found out a way of testing it in that system and solve them.
+
+
 ## Installation/Uninstallation
 
 Before installing the theme, you need to ensure that you have its required
