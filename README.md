@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/github/license/skippyr/river_dreams?style=social"/>
 </div>
 
-<p align="center">A maximalism ZSH prompt that developers have been <i>river dreaming</i> for a long time.</p>
+<p align="center">A maximalism ZSH theme that developers have been <i>river dreaming</i> for a long time.</p>
 
 
 ## Preview
