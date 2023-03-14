@@ -31,10 +31,6 @@ river_dreams::git::get_diff_quantity() {
   echo "${diff}" | cut -f 2 -d " "
 }
 
-river_dreams::git::get_pushes_quantity() {
-  git cherry 2>/dev/null | wc -l
-}
-
 river_dreams::git() {
   local -r branch=$(river_dreams::git::get_branch)
   [[ -z ${branch} ]] && exit
