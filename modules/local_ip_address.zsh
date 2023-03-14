@@ -3,7 +3,7 @@
 river_dreams::local_ip_address::get_local_ip_address_using_ip() {
   echo "${$(
     ip -br a 2>/dev/null |
-    awk '{if ($1 != "lo" && $1 !~ "docker[0-9]") {NR==1; print $3}}'
+    awk '{if ($1 != "lo" && $1 !~ "docker[0-9]") {print $3; exit}}'
   )%/*}"
 }
 

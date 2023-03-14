@@ -1,6 +1,9 @@
 #!/usr/bin/env zsh
 
 river_dreams::top_prompt_component() {
+  local ligature_symbol="╔"
+  [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] && ligature_symbol="┌"
+  echo -n "%F{red}${ligature_symbol}%F{yellow}[%f"
   local top_prompt_components=()
   top_prompt_components+=($(river_dreams::local_ip_address))
   top_prompt_components+=($(river_dreams::clock))
@@ -8,5 +11,5 @@ river_dreams::top_prompt_component() {
   top_prompt_components+=($(river_dreams::python_environment))
   top_prompt_components+=($(river_dreams::docker_containers))
   top_prompt_components+=($(river_dreams::storage_devices))
-  echo ${top_prompt_components[@]}
+  echo ${top_prompt_components[@]}%F{yellow}]%f
 }
