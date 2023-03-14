@@ -11,12 +11,12 @@ river_dreams::clock() {
   else
     if [[ ${current_hours} -lt 6 ]]; then
       clock_symbol=""
-      clock_symbol_color="magenta"
+      clock_symbol_color="blue"
     elif [[ ${current_hours} -lt 12 ]]; then
-      clock_symbol=""
+      clock_symbol="🌣"
       clock_symbol_color="yellow"
     elif [[ ${current_hours} -lt 18 ]]; then
-      clock_symbol="󰖚"
+      clock_symbol="󰖛"
       clock_symbol_color="red"
     else
       clock_symbol="󰽥"
