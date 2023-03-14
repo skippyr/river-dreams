@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/github/license/skippyr/river_dreams?style=social"/>
 </div>
 
-<p align="center">A maximalism ZSH theme that developers have been <i>river dreaming</i> for a long time.</p>
+<p align="center">A feature rich ZSH theme that developers have been <i>river dreaming</i> for a long time.</p>
 
 
 ## Preview
@@ -39,7 +39,7 @@ Everything in it is a module:
 | exit_code           | Shows the exit code of commands that throwed an error. |
 | root                | Shows a decorator if you are root. |
 | vi_mode             | Shows the vi mode if you are using the [`zsh-vi-mode`](https://github.com/jeffreytse/zsh-vi-mode) plugin. |
-| directory           | Shows the current directory. It will use an icon if it is a home directory. |
+| directory           | Shows the current directory abbreviated, just like the `fish` shell. It will use an icon if it is a home directory. |
 | directory_ownership | Shows a decorator if you are not the owner of the current directory. |
 | git                 | Shows branch, status with numeric indicators for changes, commits, pulls and pushes and last commit hash |
 | jobs                | Shows the quantity of jobs running in the background. |
