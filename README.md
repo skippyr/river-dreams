@@ -43,6 +43,7 @@ Everything in it is a module:
 | git                 | Shows branch, status with numeric indicators for changes, commits, pulls and pushes and last commit hash |
 | jobs                | Shows the quantity of jobs running in the background. |
 | executable_files    | Shows the quantity of executable files in the current directory. |
+| symbolic_links      | Shows the quantity of symbolic links in the current directory. |
 | hidden_files        | Shows the quantity of hidden files in the current directory. |
 | docker_containers   | Shows the quantity of active Docker containers. |
 | time_elapsed        | Shows the time elapsed by the last command in minutes and seconds. |
