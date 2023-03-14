@@ -33,7 +33,6 @@ Everything in it is a module:
 | clock               | Shows the current hours and minutes with an icon that changes depending of the hour of the day. |
 | disk_usage          | Shows the disk usage percentage of the partition mounted at `/`. |
 | python_environment  | Shows the sourced Python environment. |
-| tag                 | Shows the latest Git tag. |
 | storage_devices     | Shows the quantity of external storage devices connected to the machine including a numeric indicator to show how many are actually mounted. |
 | exit_code           | Shows the exit code of commands that throwed an error. |
 | root                | Shows a decorator if you are root. |
