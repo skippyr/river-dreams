@@ -4,8 +4,7 @@
   <img src="https://img.shields.io/github/license/skippyr/river_dreams?style=social"/>
 </div>
 
-<p align="center">A feature rich ZSH theme that developers have been <i>river dreaming</i> for a long time.</p>
-
+<p align="center">A feature rich ZSH theme that developers have been <i>river dreaming</i> for a long time. Inspired by the paraense culture.</p>
 
 ## Preview
 
@@ -71,6 +70,13 @@ to make some of its modules async. I just have to learn it first.
 As I do not own a MacOS, I could only test it in Linux. If you own a MacOS,
 it would be great if you post the issues you have found in that system. Maybe,
 in the future, I found out a way of testing it in that system and solve them.
+
+
+## What about the name?
+
+Pará is a state that is well know about its rivers with a culture that is
+heavily influenciated by it. And I am a person with dreams, so I though why
+not to call it "River Dreams"?
 
 
 ## Installation/Uninstallation
