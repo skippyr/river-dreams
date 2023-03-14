@@ -1,11 +1,12 @@
 #!/usr/bin/env zsh
 
 river_dreams::directory::get_directory_abbreviated() {
-  local directory_path_splitted=(${(s./.)PWD})
+  local directory=${PWD}
   local user=$(whoami)
   [[ ${user} == root ]] &&
-    directory_path_splitted=($(echo ${directory_path_splitted} | sed "s/root/~/")) ||
-    directory_path_splitted=($(echo ${directory_path_splitted} | sed "s/home ${user}/~/"))
+    directory=($(echo "${directory}" | sed "s/\/root/~/")) ||
+    directory=($(echo "${directory}" | sed "s/\/home\/${user}/~/"))
+  local directory_path_splitted=(${(s./.)directory})
   local directory_path_abbreviated=""
   [[ ! ${directory_path_splitted[1]} == "~" ]] && directory_path_abbreviated+="/"
   local last_directory_path_split_index=$((${#directory_path_splitted[@]} - 1))
