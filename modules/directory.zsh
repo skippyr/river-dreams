@@ -1,5 +1,28 @@
 #!/usr/bin/env zsh
 
+river_dreams::directory::get_directory_abbreviated() {
+  local directory_path_splitted=(${(s./.)PWD})
+  local user=$(whoami)
+  [[ ${user} == root ]] &&
+    directory_path_splitted=($(echo ${directory_path_splitted} | sed "s/root/~/")) ||
+    directory_path_splitted=($(echo ${directory_path_splitted} | sed "s/home ${user}/~/"))
+  local directory_path_abbreviated=""
+  [[ ! ${directory_path_splitted[1]} == "~" ]] && directory_path_abbreviated+="/"
+  local last_directory_path_split_index=$((${#directory_path_splitted[@]} - 1))
+  local index=0
+  for directory_path_split in ${directory_path_splitted[@]}; do
+    if [[ ${index} -eq ${last_directory_path_split_index} ]]; then
+      directory_path_abbreviated+=${directory_path_split}
+    else
+      [[ ${directory_path_split:0:1} == "." ]] &&
+        directory_path_abbreviated+=${directory_path_split:0:2}/ ||
+        directory_path_abbreviated+=${directory_path_split:0:1}/
+    fi
+    ((index++))
+  done
+  echo ${directory_path_abbreviated}
+}
+
 river_dreams::directory() {
   local directory_symbol=""
   [[ ! ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] &&
@@ -35,5 +58,6 @@ river_dreams::directory() {
         directory_symbol=" "
         ;;
     esac
-  echo "%F{red}${directory_symbol}%F{cyan}%B%1~%b%f"
+  local -r directory_abbreviated=$(river_dreams::directory::get_directory_abbreviated)
+  echo "%F{red}${directory_symbol}%F{cyan}${directory_abbreviated}%f"
 }
