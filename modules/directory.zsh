@@ -59,5 +59,5 @@ river_dreams::directory() {
         ;;
     esac
   local -r directory_abbreviated=$(river_dreams::directory::get_directory_abbreviated)
-  echo "%F{red}${directory_symbol}%F{cyan}%B${directory_abbreviated}%b%f"
+  echo "%F{red}${directory_symbol}%F{blue}%B${directory_abbreviated}%b%f"
 }

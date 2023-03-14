@@ -6,5 +6,5 @@ river_dreams::decorator() {
     echo ">" ||
     echo "⤐"
   )
-  echo "%(?.%F{green}.%F{red})${decorator_symbol} %f"
+  echo "%(?.%F{yellow}.%F{red})${decorator_symbol} %f"
 }

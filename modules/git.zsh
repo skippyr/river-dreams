@@ -61,5 +61,5 @@ river_dreams::git() {
   local tag=$(git describe --tags --abbrev=0 2>/dev/null)
   [[ -n ${tag} ]] && tag=" ${tag}"
 
-  echo "%F{red}«%F{red}${changes_section}%F{green}${staged_section}%F{${diff_color}}${diff_section}%f${branch}%F{blue}${tag}%F{yellow}${commit_hash}%F{red}»"
+  echo "%F{red}«%F{red}${changes_section}%F{green}${staged_section}%F{${diff_color}}${diff_section}%f%B${branch}%b%F{magenta}${tag}%F{yellow}${commit_hash}%F{red}»"
 }
