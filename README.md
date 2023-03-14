@@ -30,8 +30,9 @@ Everything in it is a module:
 | Module | Function |
 | ------ | -------- |
 | commands_separator  | Shows a separator between commands. |
-| local_ip_address    | Shows your local ip address.
+| calendar            | Shows the current day of the week abbreviated and the date in YEAR/MONTH/DAY format. |
 | clock               | Shows the current hours and minutes with an icon that changes depending of the hour of the day. |
+| local_ip_address    | Shows your local ip address.
 | disk_usage          | Shows the disk usage percentage of the partition mounted at `/`. |
 | python_environment  | Shows the sourced Python environment. |
 | storage_devices     | Shows the quantity of external storage devices connected to the machine including a numeric indicator to show how many are actually mounted. |
@@ -62,9 +63,12 @@ if its value is `true`, it will use fallback text, otherwise, it will not.
 ## What about speed?
 
 River Dreams is fast enough to be usable, but I have to admit that its speed
-still not perfect and it annoys me sometimes. Stay tuned for future commits as
+still not perfect and it annoys me sometimes, specially when there are others
+CPU intensive processes running at the same time. Stay tuned for future commits as
 I want to use [`zsh-async`](https://github.com/mafredri/zsh-async)
 to make some of its modules async. I just have to learn it first.
+
+Track this performance improvement by the issue (#17).
 
 
 ## What about testing?
