@@ -52,9 +52,6 @@ river_dreams::async::callback() {
     river_dreams::ignored_files)
       RIVER_DREAMS_IGNORED_FILES=${output}
       ;;
-    river_dreams::local_ip_address)
-      RIVER_DREAMS_LOCAL_IP_ADDRESS=${output}
-      ;;
   esac
   RIVER_DREAMS_RIGHT_PROMPT=(
     ${RIVER_DREAMS_HIDDEN_FILES}
@@ -69,6 +66,7 @@ river_dreams::async::restart_worker() {
   async_start_worker RIVER_DREAMS_ASYNC_WORKER -n
   async_flush_jobs RIVER_DREAMS_ASYNC_WORKER
   async_worker_eval RIVER_DREAMS_ASYNC_WORKER cd ${PWD}
+  async_worker_eval RIVER_DREAMS_ASYNC_WORKER export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT}
   async_register_callback RIVER_DREAMS_ASYNC_WORKER river_dreams::async::callback
 
   # Left Prompt Components
@@ -88,5 +86,7 @@ precmd() {
   river_dreams::async::restart_worker
 }
 
-PROMPT='${RIVER_DREAMS_DECORATOR}${RIVER_DREAMS_DIRECTORY}${RIVER_DREAMS_GIT}${RIVER_DREAMS_DIRECTORY_OWNERSHIP}%f '
+
+PROMPT='${RIVER_DREAMS_COMMANDS_SEPARATOR}${RIVER_DREAMS_DECORATOR}${RIVER_DREAMS_DIRECTORY}${RIVER_DREAMS_GIT}${RIVER_DREAMS_DIRECTORY_OWNERSHIP}%f '
 RPROMPT='${RIVER_DREAMS_RIGHT_PROMPT}'
+
