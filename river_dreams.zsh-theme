@@ -24,7 +24,33 @@ for file in $(
   source ${file}
 done
 
-PROMPT='$(river_dreams::commands_separator)$(river_dreams::top_prompt_component)
-$(river_dreams::left_prompt_component)%f '
-RPROMPT='$(river_dreams::right_prompt_component)'
+river_dreams::async::callback() {
+  local -r function_name="$1"
+  local -r output="$3"
+  case ${function_name} in
+    river_dreams::directory)
+      RIVER_DREAMS_DIRECTORY=${output}
+      ;;
+    river_dreams::decorator)
+      RIVER_DREAMS_DECORATOR=${output}
+      ;;
+  esac
+  zle reset-prompt
+}
+
+river_dreams::async::restart_worker() {
+  async_start_worker RIVER_DREAMS_ASYNC_WORKER -n
+  async_flush_jobs RIVER_DREAMS_ASYNC_WORKER
+  async_worker_eval RIVER_DREAMS_ASYNC_WORKER cd ${PWD}
+
+  async_register_callback RIVER_DREAMS_ASYNC_WORKER river_dreams::async::callback
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::directory
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::decorator
+}
+
+precmd() {
+  river_dreams::async::restart_worker
+}
+
+PROMPT='${RIVER_DREAMS_DECORATOR}${RIVER_DREAMS_DIRECTORY}%f '
 
