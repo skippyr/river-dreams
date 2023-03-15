@@ -28,12 +28,6 @@ river_dreams::async::callback() {
   local -r function_name="$1"
   local -r output="$3"
   case ${function_name} in
-    river_dreams::directory)
-      RIVER_DREAMS_DIRECTORY=${output}
-      ;;
-    river_dreams::decorator)
-      RIVER_DREAMS_DECORATOR=${output}
-      ;;
     river_dreams::git)
       RIVER_DREAMS_GIT=${output}
       ;;
@@ -70,10 +64,7 @@ river_dreams::async::restart_worker() {
   async_register_callback RIVER_DREAMS_ASYNC_WORKER river_dreams::async::callback
 
   # Left Prompt Components
-  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::directory
-  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::decorator
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::git
-  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::directory_ownership
 
   # Right Prompt Components
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::hidden_files
@@ -87,6 +78,6 @@ precmd() {
 }
 
 
-PROMPT='${RIVER_DREAMS_COMMANDS_SEPARATOR}${RIVER_DREAMS_DECORATOR}${RIVER_DREAMS_DIRECTORY}${RIVER_DREAMS_GIT}${RIVER_DREAMS_DIRECTORY_OWNERSHIP}%f '
+PROMPT='$(river_dreams::root)$(river_dreams::vi_mode)$(river_dreams::decorator)$(river_dreams::directory)${RIVER_DREAMS_GIT}$(river_dreams::directory_ownership)%f '
 RPROMPT='${RIVER_DREAMS_RIGHT_PROMPT}'
 
