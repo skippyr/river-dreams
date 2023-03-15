@@ -84,6 +84,6 @@ precmd() {
 }
 
 
-PROMPT='$(river_dreams::root)$(river_dreams::vi_mode)$(river_dreams::decorator)$(river_dreams::directory)${RIVER_DREAMS_GIT}$(river_dreams::directory_ownership)%f '
+PROMPT='$(river_dreams::exit_code)$(river_dreams::root)$(river_dreams::vi_mode)$(river_dreams::decorator)$(river_dreams::directory)${RIVER_DREAMS_GIT}$(river_dreams::directory_ownership)%f '
 RPROMPT='${RIVER_DREAMS_RIGHT_PROMPT}'
 
