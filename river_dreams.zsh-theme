@@ -49,11 +49,18 @@ river_dreams::async::callback() {
     river_dreams::symbolic_links)
       RIVER_DREAMS_SYMBOLIC_LINKS=${output}
       ;;
+    river_dreams::ignored_files)
+      RIVER_DREAMS_IGNORED_FILES=${output}
+      ;;
+    river_dreams::local_ip_address)
+      RIVER_DREAMS_LOCAL_IP_ADDRESS=${output}
+      ;;
   esac
   RIVER_DREAMS_RIGHT_PROMPT=(
     ${RIVER_DREAMS_HIDDEN_FILES}
     ${RIVER_DREAMS_EXECUTABLE_FILES}
     ${RIVER_DREAMS_SYMBOLIC_LINKS}
+    ${RIVER_DREAMS_IGNORED_FILES}
   )
   zle reset-prompt
 }
@@ -74,6 +81,7 @@ river_dreams::async::restart_worker() {
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::hidden_files
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::executable_files
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::symbolic_links
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::ignored_files
 }
 
 precmd() {
