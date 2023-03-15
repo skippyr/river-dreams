@@ -40,7 +40,21 @@ river_dreams::async::callback() {
     river_dreams::directory_ownership)
       RIVER_DREAMS_DIRECTORY_OWNERSHIP=${output}
       ;;
+    river_dreams::hidden_files)
+      RIVER_DREAMS_HIDDEN_FILES=${output}
+      ;;
+    river_dreams::executable_files)
+      RIVER_DREAMS_EXECUTABLE_FILES=${output}
+      ;;
+    river_dreams::symbolic_links)
+      RIVER_DREAMS_SYMBOLIC_LINKS=${output}
+      ;;
   esac
+  RIVER_DREAMS_RIGHT_PROMPT=(
+    ${RIVER_DREAMS_HIDDEN_FILES}
+    ${RIVER_DREAMS_EXECUTABLE_FILES}
+    ${RIVER_DREAMS_SYMBOLIC_LINKS}
+  )
   zle reset-prompt
 }
 
@@ -48,12 +62,18 @@ river_dreams::async::restart_worker() {
   async_start_worker RIVER_DREAMS_ASYNC_WORKER -n
   async_flush_jobs RIVER_DREAMS_ASYNC_WORKER
   async_worker_eval RIVER_DREAMS_ASYNC_WORKER cd ${PWD}
-
   async_register_callback RIVER_DREAMS_ASYNC_WORKER river_dreams::async::callback
+
+  # Left Prompt Components
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::directory
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::decorator
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::git
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::directory_ownership
+
+  # Right Prompt Components
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::hidden_files
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::executable_files
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::symbolic_links
 }
 
 precmd() {
@@ -61,4 +81,4 @@ precmd() {
 }
 
 PROMPT='${RIVER_DREAMS_DECORATOR}${RIVER_DREAMS_DIRECTORY}${RIVER_DREAMS_GIT}${RIVER_DREAMS_DIRECTORY_OWNERSHIP}%f '
-
+RPROMPT='${RIVER_DREAMS_RIGHT_PROMPT}'
