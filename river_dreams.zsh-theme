@@ -34,6 +34,12 @@ river_dreams::async::callback() {
     river_dreams::decorator)
       RIVER_DREAMS_DECORATOR=${output}
       ;;
+    river_dreams::git)
+      RIVER_DREAMS_GIT=${output}
+      ;;
+    river_dreams::directory_ownership)
+      RIVER_DREAMS_DIRECTORY_OWNERSHIP=${output}
+      ;;
   esac
   zle reset-prompt
 }
@@ -46,11 +52,13 @@ river_dreams::async::restart_worker() {
   async_register_callback RIVER_DREAMS_ASYNC_WORKER river_dreams::async::callback
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::directory
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::decorator
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::git
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::directory_ownership
 }
 
 precmd() {
   river_dreams::async::restart_worker
 }
 
-PROMPT='${RIVER_DREAMS_DECORATOR}${RIVER_DREAMS_DIRECTORY}%f '
+PROMPT='${RIVER_DREAMS_DECORATOR}${RIVER_DREAMS_DIRECTORY}${RIVER_DREAMS_GIT}${RIVER_DREAMS_DIRECTORY_OWNERSHIP}%f '
 
