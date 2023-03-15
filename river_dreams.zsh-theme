@@ -57,6 +57,12 @@ river_dreams::async::callback() {
 }
 
 river_dreams::async::restart_worker() {
+  RIVER_DREAMS_GIT=""
+  RIVER_DREAMS_SYMBOLIC_LINKS=""
+  RIVER_DREAMS_HIDDEN_FILES=""
+  RIVER_DREAMS_EXECUTABLE_FILES=""
+  RIVER_DREAMS_IGNORED_FILES=""
+
   async_start_worker RIVER_DREAMS_ASYNC_WORKER -n
   async_flush_jobs RIVER_DREAMS_ASYNC_WORKER
   async_worker_eval RIVER_DREAMS_ASYNC_WORKER cd ${PWD}
