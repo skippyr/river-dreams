@@ -114,7 +114,7 @@ If you are using MacOS, you can use [HomeBrew](https://brew.sh).
     `~/.oh-my-zsh/custom/themes`.
 
     ```bash
-    git clone --depth 1 https://github.com/skippyr/river_dreams ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/river_dreams
+    git clone --depth 1 --recurse-submodules https://github.com/skippyr/river_dreams ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/river_dreams
     ```
   + Set the variable `ZSH_THEME=river_dreams/river_dreams` in your `~/.zshrc`.
   + Refresh your ZSH by reopening your terminal emulator.
@@ -130,7 +130,7 @@ If you are using MacOS, you can use [HomeBrew](https://brew.sh).
     `~/.config/zsh/plugins/river_dreams`.
 
     ```bash
-    git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/plugins/river_dreams
+    git clone --depth 1 --recurse-submodules https://github.com/skippyr/river_dreams ~/.config/zsh/plugins/river_dreams
     ```
   + source the theme file `river_dreams.zsh-theme` that is inside the
     repository's directory in your `.zshrc`.
