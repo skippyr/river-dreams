@@ -51,6 +51,14 @@ river_dreams::async::callback() {
       RIVER_DREAMS_LOCAL_IP_ADDRESS=${output}
       ((RIVER_DREAMS_TOP_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
       ;;
+    river_dreams::disk_usage)
+      RIVER_DREAMS_DISK_USAGE=${output}
+      ((RIVER_DREAMS_TOP_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
+      ;;
+    river_dreams::storage_devices)
+      RIVER_DREAMS_STORAGE_DEVICES=${output}
+      ((RIVER_DREAMS_TOP_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
+      ;;
     river_dreams::git)
       RIVER_DREAMS_GIT=${output}
       RIVER_DREAMS_ASYNC_GIT_READY=true
@@ -87,10 +95,12 @@ river_dreams::async::callback() {
     ${RIVER_DREAMS_CALENDAR}
     ${RIVER_DREAMS_CLOCK}
     ${RIVER_DREAMS_LOCAL_IP_ADDRESS}
+    ${RIVER_DREAMS_DISK_USAGE}
+    ${RIVER_DREAMS_STORAGE_DEVICES}
     $(river_dreams::python_environment)
   )
   local -r right_prompt_async_modules_quantity=5
-  local -r top_prompt_async_modules_quantity=3
+  local -r top_prompt_async_modules_quantity=4
   if [[ ${RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY} -eq ${right_prompt_async_modules_quantity} ]]; then
     RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY=0
     river_dreams::async::refresh_prompt
@@ -117,6 +127,8 @@ river_dreams::async::restart_worker() {
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::local_ip_address
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::calendar
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::clock
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::disk_usage
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::storage_devices
 
   # Left Prompt Components
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::git
@@ -126,7 +138,7 @@ river_dreams::async::restart_worker() {
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::executable_files
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::symbolic_links
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::ignored_files
-  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::time_elapsed
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::time_elapsed # This does not work properly.
 }
 
 precmd() {
