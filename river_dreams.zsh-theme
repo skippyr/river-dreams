@@ -81,17 +81,12 @@ river_dreams::async::callback() {
       RIVER_DREAMS_IGNORED_FILES=${output}
       ((RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
       ;;
-    river_dreams::time_elapsed)
-      RIVER_DREAMS_TIME_ELAPSED=${output}
-      ((RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
-      ;;
   esac
   RIVER_DREAMS_RIGHT_PROMPT=(
     ${RIVER_DREAMS_HIDDEN_FILES}
     ${RIVER_DREAMS_EXECUTABLE_FILES}
     ${RIVER_DREAMS_SYMBOLIC_LINKS}
     ${RIVER_DREAMS_IGNORED_FILES}
-    ${RIVER_DREAMS_TIME_ELAPSED}
   )
   RIVER_DREAMS_TOP_PROMPT=(
     ${RIVER_DREAMS_CALENDAR}
@@ -102,7 +97,7 @@ river_dreams::async::callback() {
     ${RIVER_DREAMS_DOCKER_CONTAINERS}
     $(river_dreams::python_environment)
   )
-  local -r right_prompt_async_modules_quantity=5
+  local -r right_prompt_async_modules_quantity=4
   local -r top_prompt_async_modules_quantity=5
   if [[ ${RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY} -eq ${right_prompt_async_modules_quantity} ]]; then
     RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY=0
@@ -142,7 +137,6 @@ river_dreams::async::restart_worker() {
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::executable_files
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::symbolic_links
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::ignored_files
-  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::time_elapsed # This does not work properly.
 }
 
 precmd() {
