@@ -29,6 +29,9 @@ river_dreams::async::callback() {
   local -r function_name="$1"
   local -r output="$3"
   case ${function_name} in
+    river_dreams::local_ip_address)
+      RIVER_DREAMS_LOCAL_IP_ADDRESS=${output}
+      ;;
     river_dreams::git)
       RIVER_DREAMS_GIT=${output}
       ;;
@@ -58,6 +61,9 @@ river_dreams::async::callback() {
     ${RIVER_DREAMS_IGNORED_FILES}
     ${RIVER_DREAMS_TIME_ELAPSED}
   )
+  RIVER_DREAMS_TOP_PROMPT=(
+    ${RIVER_DREAMS_LOCAL_IP_ADDRESS}
+  )
   zle reset-prompt
   zle -R
 }
@@ -71,6 +77,9 @@ river_dreams::async::restart_worker() {
   async_worker_eval RIVER_DREAMS_ASYNC_WORKER cd ${PWD}
   async_worker_eval RIVER_DREAMS_ASYNC_WORKER export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT}
   async_register_callback RIVER_DREAMS_ASYNC_WORKER river_dreams::async::callback
+
+  # Top Prompt Components
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::local_ip_address
 
   # Left Prompt Components
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::git
@@ -87,6 +96,8 @@ precmd() {
   river_dreams::async::restart_worker
 }
 
-PROMPT='$(river_dreams::commands_separator)$(river_dreams::exit_code)$(river_dreams::root)$(river_dreams::vi_mode)$(river_dreams::decorator)$(river_dreams::directory)${RIVER_DREAMS_GIT}$(river_dreams::directory_ownership)%f '
+PROMPT='$(river_dreams::commands_separator)
+%F{red}┌%F{yellow}[%f${RIVER_DREAMS_TOP_PROMPT}%F{yellow}]%f
+%F{red}└%f$(river_dreams::exit_code)$(river_dreams::root)$(river_dreams::vi_mode)$(river_dreams::decorator)$(river_dreams::directory)${RIVER_DREAMS_GIT}$(river_dreams::directory_ownership)%f '
 RPROMPT='${RIVER_DREAMS_RIGHT_PROMPT}'
 
