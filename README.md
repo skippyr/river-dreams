@@ -27,28 +27,28 @@ for on it.
 
 Everything in it is a module:
 
-| Module | Function |
-| ------ | -------- |
-| commands_separator  | Shows a separator between commands. |
-| calendar            | Shows the current day of the week abbreviated and the date in YEAR/MONTH/DAY format. |
-| clock               | Shows the current hours and minutes with an icon that changes depending of the hour of the day. |
-| local_ip_address    | Shows your local ip address.
-| disk_usage          | Shows the disk usage percentage of the partition mounted at `/`. |
-| python_environment  | Shows the sourced Python environment. |
-| storage_devices     | Shows the quantity of external storage devices connected to the machine including a numeric indicator to show how many are actually mounted. |
-| exit_code           | Shows the exit code of commands that throwed an error. |
-| root                | Shows a decorator if you are root. |
-| vi_mode             | Shows the vi mode if you are using the [`zsh-vi-mode`](https://github.com/jeffreytse/zsh-vi-mode) plugin. |
-| directory           | Shows the current directory abbreviated, just like the `fish` shell. It will use an icon if it is a home directory. |
-| directory_ownership | Shows a decorator if you are not the owner of the current directory. |
-| git                 | Shows branch, status with numeric indicators for changes, commits, pulls and pushes, latest tag and last commit hash |
-| jobs                | Shows the quantity of jobs running in the background. |
-| executable_files    | Shows the quantity of executable files in the current directory. |
-| symbolic_links      | Shows the quantity of symbolic links in the current directory. |
-| hidden_files        | Shows the quantity of hidden directories/files in the current directory. |
-| ignored_files       | Shows the quantity of directories/files being ignored by `git`. |
-| docker_containers   | Shows the quantity of active Docker containers. |
-| elapsed_time        | Shows the elapsed time of the last command in minutes and seconds. |
+| Module | Function | Position | Runtime |
+| ------ | -------- | -------- | ------- |
+| commands_separator  | Shows a separator between commands. | top | sync |
+| calendar            | Shows the current day of the week abbreviated and the date in YEAR/MONTH/DAY format. | top | async
+| clock               | Shows the current hours and minutes with an icon that changes depending of the hour of the day. | top | async
+| local_ip_address    | Shows your local ip address. | top | async
+| disk_usage          | Shows the disk usage percentage of the partition mounted at `/`. | top | async
+| storage_devices     | Shows the quantity of external storage devices connected to the machine including a numeric indicator to show how many are actually mounted. | top | async
+| docker_containers   | Shows the quantity of active Docker containers. | top | async
+| python_environment  | Shows the sourced Python environment. | top | sync
+| exit_code           | Shows the exit code of commands that throwed an error. | left | sync
+| root                | Shows a decorator if you are root. | left | sync
+| vi_mode             | Shows the vi mode if you are using the [`zsh-vi-mode`](https://github.com/jeffreytse/zsh-vi-mode) plugin. | left | sync
+| directory           | Shows the current directory abbreviated, just like the `fish` shell. It will use an icon if it is a home directory. | left | sync
+| directory_ownership | Shows a decorator if you are not the owner of the current directory. | left | sync
+| git                 | Shows branch, status with numeric indicators for changes, commits, pulls and pushes, latest tag and last commit hash | left | async
+| jobs                | Shows the quantity of jobs running in the background. | right | sync
+| executable_files    | Shows the quantity of executable files in the current directory. | right | async
+| symbolic_links      | Shows the quantity of symbolic links in the current directory. | right | async
+| hidden_files        | Shows the quantity of hidden directories/files in the current directory. | right | async
+| ignored_files       | Shows the quantity of directories/files being ignored by `git`. | right | async
+| elapsed_time        | Shows the elapsed time of the last command in minutes and seconds. | right | async
 
 By default, River Dreams will also use fallback text if it detects that your
 terminal emulator only supports the 4-bits color palette. This is a measure that
