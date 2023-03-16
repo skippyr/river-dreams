@@ -25,8 +25,8 @@ for file in $(
   source ${file}
 done
 
-RIVER_DREAMS_ASYNC_RIGHT_PROMPT_READY_QUANTITY=0
-RIVER_DREAMS_ASYNC_TOP_PROMPT_READY_QUANTITY=0
+RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY=0
+RIVER_DREAMS_TOP_PROMPT_ASYNC_READY_MODULES_QUANTITY=0
 RIVER_DREAMS_ASYNC_GIT_READY=false
 RIVER_DREAMS_IS_TO_RESET=false
 
@@ -39,9 +39,17 @@ river_dreams::async::callback() {
   local -r function_name="$1"
   local -r output="$3"
   case ${function_name} in
+    river_dreams::calendar)
+      RIVER_DREAMS_CALENDAR=${output}
+      ((RIVER_DREAMS_TOP_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
+      ;;
+    river_dreams::clock)
+      RIVER_DREAMS_CLOCK=${output}
+      ((RIVER_DREAMS_TOP_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
+      ;;
     river_dreams::local_ip_address)
       RIVER_DREAMS_LOCAL_IP_ADDRESS=${output}
-      ((RIVER_DREAMS_ASYNC_TOP_PROMPT_READY_QUANTITY++))
+      ((RIVER_DREAMS_TOP_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
       ;;
     river_dreams::git)
       RIVER_DREAMS_GIT=${output}
@@ -49,23 +57,23 @@ river_dreams::async::callback() {
       ;;
     river_dreams::hidden_files)
       RIVER_DREAMS_HIDDEN_FILES=${output}
-      ((RIVER_DREAMS_ASYNC_RIGHT_PROMPT_READY_QUANTITY++))
+      ((RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
       ;;
     river_dreams::executable_files)
       RIVER_DREAMS_EXECUTABLE_FILES=${output}
-      ((RIVER_DREAMS_ASYNC_RIGHT_PROMPT_READY_QUANTITY++))
+      ((RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
       ;;
     river_dreams::symbolic_links)
       RIVER_DREAMS_SYMBOLIC_LINKS=${output}
-      ((RIVER_DREAMS_ASYNC_RIGHT_PROMPT_READY_QUANTITY++))
+      ((RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
       ;;
     river_dreams::ignored_files)
       RIVER_DREAMS_IGNORED_FILES=${output}
-      ((RIVER_DREAMS_ASYNC_RIGHT_PROMPT_READY_QUANTITY++))
+      ((RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
       ;;
     river_dreams::time_elapsed)
       RIVER_DREAMS_TIME_ELAPSED=${output}
-      ((RIVER_DREAMS_ASYNC_RIGHT_PROMPT_READY_QUANTITY++))
+      ((RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
       ;;
   esac
   RIVER_DREAMS_RIGHT_PROMPT=(
@@ -76,18 +84,21 @@ river_dreams::async::callback() {
     ${RIVER_DREAMS_TIME_ELAPSED}
   )
   RIVER_DREAMS_TOP_PROMPT=(
+    ${RIVER_DREAMS_CALENDAR}
+    ${RIVER_DREAMS_CLOCK}
     ${RIVER_DREAMS_LOCAL_IP_ADDRESS}
+    $(river_dreams::python_environment)
   )
-  local -r right_prompt_modules_quantity=5
-  local -r top_prompt_modules_quantity=1
-  if [[ ${RIVER_DREAMS_ASYNC_RIGHT_PROMPT_READY_QUANTITY} -eq ${right_prompt_modules_quantity} ]]; then
-    RIVER_DREAMS_ASYNC_RIGHT_PROMPT_READY_QUANTITY=0
+  local -r right_prompt_async_modules_quantity=5
+  local -r top_prompt_async_modules_quantity=3
+  if [[ ${RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY} -eq ${right_prompt_async_modules_quantity} ]]; then
+    RIVER_DREAMS_RIGHT_PROMPT_ASYNC_READY_MODULES_QUANTITY=0
     river_dreams::async::refresh_prompt
   elif [[ ${RIVER_DREAMS_ASYNC_GIT_READY} == true ]]; then
     RIVER_DREAMS_ASYNC_GIT_READY=false
     river_dreams::async::refresh_prompt
-  elif [[ ${RIVER_DREAMS_ASYNC_TOP_PROMPT_READY_QUANTITY} -eq ${top_prompt_modules_quantity} ]]; then
-    RIVER_DREAMS_ASYNC_TOP_PROMPT_READY_QUANTITY=0
+  elif [[ ${RIVER_DREAMS_TOP_PROMPT_ASYNC_READY_MODULES_QUANTITY} -eq ${top_prompt_async_modules_quantity} ]]; then
+    RIVER_DREAMS_TOP_PROMPT_ASYNC_READY_MODULES_QUANTITY=0
     river_dreams::async::refresh_prompt
   fi
 }
@@ -104,6 +115,8 @@ river_dreams::async::restart_worker() {
 
   # Top Prompt Components
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::local_ip_address
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::calendar
+  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::clock
 
   # Left Prompt Components
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::git
