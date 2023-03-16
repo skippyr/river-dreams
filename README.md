@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/github/license/skippyr/river_dreams?style=social"/>
 </div>
 
-<p align="center">A feature rich ZSH theme that developers have been <i>river dreaming</i> for a long time. Inspired by the paraense culture.</p>
+<p align="center">A feature rich and async ZSH theme that developers have been <i>river dreaming</i> for a long time. Inspired by Pará's culture.</p>
 
 ## Preview
 
@@ -48,7 +48,7 @@ Everything in it is a module:
 | hidden_files        | Shows the quantity of hidden directories/files in the current directory. |
 | ignored_files       | Shows the quantity of directories/files being ignored by `git`. |
 | docker_containers   | Shows the quantity of active Docker containers. |
-| time_elapsed        | Shows the time elapsed by the last command in minutes and seconds. |
+| elapsed_time        | Shows the elapsed time of the last command in minutes and seconds. |
 
 By default, River Dreams will also use fallback text if it detects that your
 terminal emulator only supports the 4-bits color palette. This is a measure that
@@ -62,13 +62,9 @@ if its value is `true`, it will use fallback text, otherwise, it will not.
 
 ## What about speed?
 
-River Dreams is fast enough to be usable, but I have to admit that its speed
-still not perfect and it annoys me sometimes, specially when there are others
-CPU intensive processes running at the same time. Stay tuned for future commits as
-I want to use [`zsh-async`](https://github.com/mafredri/zsh-async)
-to make some of its modules async. I just have to learn it first.
-
-Track this performance improvement by the issue (#17).
+River Dreams uses [`zsh-async`](https://github.com/mafredri/zsh-async) to
+perform slow tasks asynchronously in the background while you use the terminal.
+This helps it keep a pretty good speed while you are doing your work.
 
 
 ## What about testing?
