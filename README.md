@@ -64,7 +64,7 @@ if its value is `true`, it will use fallback text, otherwise, it will not.
 
 River Dreams uses [`zsh-async`](https://github.com/mafredri/zsh-async) to
 perform slow tasks asynchronously in the background while you use the terminal.
-This helps it keep a pretty good speed while you are doing your work.
+This helps it keep a decent speed while you are doing your work.
 
 
 ## What about testing?
