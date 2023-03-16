@@ -13,6 +13,7 @@ export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT:-$(
   echo "true" ||
   echo "false"
 )}
+export RIVER_DREAMS_VERSION="$(git -C "${RIVER_DREAMS_REPOSITORY_DIRECTORY}" branch --show-current)_$(git -C "${RIVER_DREAMS_REPOSITORY_DIRECTORY}" rev-parse --short HEAD)"
 
 source ${RIVER_DREAMS_DEPENDENCIES_DIRECTORY}/zsh_async/async.zsh
 async_init
