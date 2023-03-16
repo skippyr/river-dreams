@@ -83,6 +83,7 @@ river_dreams::async::callback() {
       ;;
   esac
   RIVER_DREAMS_RIGHT_PROMPT=(
+    $(river_dreams::jobs)
     ${RIVER_DREAMS_HIDDEN_FILES}
     ${RIVER_DREAMS_EXECUTABLE_FILES}
     ${RIVER_DREAMS_SYMBOLIC_LINKS}
