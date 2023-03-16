@@ -59,6 +59,7 @@ river_dreams::async::callback() {
     ${RIVER_DREAMS_TIME_ELAPSED}
   )
   zle reset-prompt
+  zle -R
 }
 
 river_dreams::async::restart_worker() {
@@ -86,6 +87,7 @@ precmd() {
   river_dreams::async::restart_worker
 }
 
-PROMPT='$(river_dreams::exit_code)$(river_dreams::root)$(river_dreams::vi_mode)$(river_dreams::decorator)$(river_dreams::directory)${RIVER_DREAMS_GIT}$(river_dreams::directory_ownership)%f '
+PROMPT='
+$(river_dreams::exit_code)$(river_dreams::root)$(river_dreams::vi_mode)$(river_dreams::decorator)$(river_dreams::directory)${RIVER_DREAMS_GIT}$(river_dreams::directory_ownership)%f '
 RPROMPT='${RIVER_DREAMS_RIGHT_PROMPT}'
 
