@@ -52,6 +52,9 @@ river_dreams::directory() {
       ${HOME}/Templates)
         directory_symbol=" "
         ;;
+      ${HOME}/.local)
+        directory_symbol=" "
+        ;;
       ${HOME}/.config)
         directory_symbol=" "
         ;;
