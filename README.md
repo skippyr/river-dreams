@@ -11,8 +11,8 @@
 ![](images/preview/preview_kitty.png)
 ![](images/preview/preview_xterm.png)
 
-> Default behavior of River Dreams in `kitty` and `xterm` in same environment
-> conditions.
+> Default behavior of River Dreams in `kitty` and `xterm`, respectively,
+> in an example repository.
 
 ## What features does it have?
 
