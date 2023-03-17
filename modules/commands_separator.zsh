@@ -10,6 +10,6 @@ river_dreams::commands_separator() {
   for column in $(seq 1 ${COLUMNS}); do
     [[ $((${column} % 2 )) -eq 0 ]] &&
       echo -n "%F{red}${commands_separator_symbol_even}%f" ||
-      echo -n "%F{yellow}${commands_separator_symbol_odd}%f" ||
+      echo -n "%F{yellow}${commands_separator_symbol_odd}%f"
   done
 }
