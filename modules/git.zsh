@@ -39,11 +39,11 @@ river_dreams::git() {
     
     local changes_quantity=$(river_dreams::git::get_changes_quantity)
     local changes_section=""
-    [[ ${changes_quantity} -gt 0 ]] && changes_section="${changes_quantity}* "
+    [[ ${changes_quantity} -gt 0 ]] && changes_section="%F{red}${changes_quantity}*%f"
     
     local staged_quantity=$(river_dreams::git::get_staged_quantity)
     local staged_section=""
-    [[ ${staged_quantity} -gt 0 ]] && staged_section="${staged_quantity}+ "
+    [[ ${staged_quantity} -gt 0 ]] && staged_section="%F{green}${staged_quantity}+%f"
 
     local -r diff=$(river_dreams::git::get_diff)
     local -r diff_status=$(river_dreams::git::get_diff_status "${diff}")
@@ -55,11 +55,18 @@ river_dreams::git() {
       diff_color="blue"
     fi
     local diff_section=""
-    [[ ${diff_quantity} -gt 0 ]] && diff_section="${diff_quantity}${diff_symbol} "
+    [[ ${diff_quantity} -gt 0 ]] && diff_section="%F{${diff_color}}${diff_quantity}${diff_symbol}%f"
+
+    local status_section=(
+      ${changes_section}
+      ${staged_section}
+      ${diff_section}
+    )
+    [[ -n ${status_section} ]] && status_section=" [${status_section}]"
 
     local tag=$(git describe --tags --abbrev=0 2>/dev/null)
     [[ -n ${tag} ]] && tag=" ${tag}"
 
-    echo "%F{red}«%F{red}${changes_section}%F{green}${staged_section}%F{${diff_color}}${diff_section}%f%B${branch}%b%F{magenta}${tag}%F{yellow}${commit_hash}%F{red}»"
+    echo "%F{red}::«%f%B${branch}%b${status_section}%F{magenta}${tag}%F{yellow}${commit_hash}%F{red}»"
   fi
 }
