@@ -46,7 +46,7 @@ river_dreams::directory() {
       ${HOME}/Public)
         directory_symbol=" "
         ;;
-      ${HOME}/Vides)
+      ${HOME}/Videos)
         directory_symbol="󰨜 "
         ;;
       ${HOME}/Templates)
