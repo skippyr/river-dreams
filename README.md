@@ -30,7 +30,6 @@ Everything in it is a module:
 | Module | Function | Position | Runtime |
 | ------ | -------- | -------- | ------- |
 | commands_separator  | Shows a separator between commands. | top | sync |
-| calendar            | Shows the current day of the week abbreviated and the date in YEAR/MONTH/DAY format. | top | async
 | clock               | Shows the current hours and minutes with an icon that changes depending of the hour of the day. | top | async
 | local_ip_address    | Shows your local ip address. | top | async
 | disk_usage          | Shows the disk usage percentage of the partition mounted at `/`. | top | async

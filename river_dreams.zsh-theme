@@ -36,10 +36,6 @@ river_dreams::async::callback() {
   local -r function_name="$1"
   local -r output="$3"
   case ${function_name} in
-    river_dreams::calendar)
-      RIVER_DREAMS_CALENDAR=${output}
-      ((RIVER_DREAMS_TOP_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
-      ;;
     river_dreams::clock)
       RIVER_DREAMS_CLOCK=${output}
       ((RIVER_DREAMS_TOP_PROMPT_ASYNC_READY_MODULES_QUANTITY++))
@@ -94,7 +90,6 @@ river_dreams::async::callback() {
     ${RIVER_DREAMS_ELAPSED_TIME}
   )
   RIVER_DREAMS_TOP_PROMPT=(
-    ${RIVER_DREAMS_CALENDAR}
     ${RIVER_DREAMS_CLOCK}
     ${RIVER_DREAMS_LOCAL_IP_ADDRESS}
     ${RIVER_DREAMS_DISK_USAGE}
@@ -129,7 +124,6 @@ river_dreams::async::restart_worker() {
 
   # Top Prompt Components
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::local_ip_address
-  async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::calendar
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::clock
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::disk_usage
   async_job RIVER_DREAMS_ASYNC_WORKER river_dreams::storage_devices
