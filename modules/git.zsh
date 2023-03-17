@@ -18,6 +18,7 @@ river_dreams::git::get_staged_quantity() {
 
 river_dreams::git::get_diff() {
   git branch -v |
+  grep "* " |
   awk -F '[][]' '{print $2}'
 }
 
