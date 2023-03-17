@@ -10,5 +10,5 @@ river_dreams::disk_usage() {
     echo "DISK" ||
     echo ""
   )
-  echo "%F{green}${disk_symbol} %f${disk_usage}% [%F{green}/%f]"
+  echo "%F{green}${disk_symbol} %f${disk_usage}%"
 }
