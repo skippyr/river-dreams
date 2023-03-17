@@ -40,7 +40,7 @@ Everything in it is a module:
 | exit_code           | Shows the exit code of commands that throwed an error. | left | sync
 | root                | Shows a decorator if you are root. | left | sync
 | vi_mode             | Shows the vi mode if you are using the [`zsh-vi-mode`](https://github.com/jeffreytse/zsh-vi-mode) plugin. | left | sync
-| directory           | Shows the current directory abbreviated, just like the `fish` shell. It will use an icon if it is a home directory. | left | sync
+| directory           | Shows the current directory abbreviated, just like the `fish` shell. It will use an icon for some directories. | left | sync
 | directory_ownership | Shows a decorator if you are not the owner of the current directory. | left | sync
 | git                 | Shows branch, status with numeric indicators for changes, commits, pulls and pushes, latest tag and last commit hash | left | async
 | jobs                | Shows the quantity of jobs running in the background. | right | sync
