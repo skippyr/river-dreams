@@ -14,7 +14,7 @@ export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT:-$(
 )}
 [[ $(git -C ${RIVER_DREAMS_REPOSITORY_DIRECTORY} branch 2>/dev/null) ]] &&
   export RIVER_DREAMS_VERSION="${OSTYPE}_$(git -C "${RIVER_DREAMS_REPOSITORY_DIRECTORY}" branch --show-current 2>/dev/null)_$(git -C "${RIVER_DREAMS_REPOSITORY_DIRECTORY}" rev-parse --short HEAD 2>/dev/null)" ||
-  export RIVER_DREAMS_VERSION="river_dreams: could not get version."
+  export RIVER_DREAMS_VERSION="river_dreams: could not get version. Is git installed and are you the user owner of the repository downloaded?"
 export RIVER_DREAMS_USE_COLOR_VARIANTS=${RIVER_DREAMS_USE_COLOR_VARIANTS:-false}
 
 source ${RIVER_DREAMS_DEPENDENCIES_DIRECTORY}/zsh_async/async.zsh

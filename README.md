@@ -176,6 +176,7 @@ improve it, feel free to use the issues tab on its page on GitHub.
 Questions can be made in the same way, but it would be better if you use
 the Discussions tab instead.
 
+
 ## License
 
 Copyright (c) 2023, Sherman Rofeman. MIT License.
