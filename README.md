@@ -59,6 +59,15 @@ cases, you can define the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT`:
 if its value is `true`, it will use fallback text, otherwise, it will not.
 
 
+## What about customization?
+
+River Dreams is not customizable unless you modify its source code. You can
+only change the colors it uses for the commands separator module
+by defining the environment variable `RIVER_DREAMS_USE_COLOR_VARIANTS`:
+if its value is `true`, it will use `blue` instead of `yellow`, otherwise,
+it will keep the default.
+
+
 ## What about speed?
 
 River Dreams uses [`zsh-async`](https://github.com/mafredri/zsh-async) to
