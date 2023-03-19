@@ -12,8 +12,6 @@
 ![](images/preview/preview_xterm.png)
 ![](images/preview/preview_kali.png)
 
-> Default behavior of River Dreams in `kitty` and `xterm`, respectively,
-> in an example repository.
 
 ## What features does it have?
 
