@@ -128,6 +128,20 @@ If you are using MacOS, you can use [HomeBrew](https://brew.sh).
   rm -rf ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/river_dreams
   ```
 
+
+### Installing/Uninstalling using antidote
+To install, use:
+
+```bash
+antidote install skippyr/river_dreams
+```
+
+To uninstall, use:
+
+```bash
+antidote purge skippyr/river_dreams
+```
+
 ### Installing/Uninstalling Manually
   + clone this repository to a separated directory, for example
     `~/.config/zsh/plugins/river_dreams`.
