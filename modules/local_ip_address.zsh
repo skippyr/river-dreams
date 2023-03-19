@@ -26,7 +26,7 @@ river_dreams::local_ip_address() {
   local -r local_ip_address_symbol=$(
     [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] &&
     echo "IP" ||
-    echo " "
+    echo ""
   )
   echo "%F{red}${local_ip_address_symbol} %f${local_ip_address}"
 }
