@@ -24,12 +24,41 @@ river_dreams::git::get_diff() {
 
 river_dreams::git::get_diff_status() {
   local -r diff="$1"
-  echo "${diff}" | cut -f 1 -d " "
+  [[ $(echo "${diff}" | grep ",") ]] &&
+    echo "both" ||
+    echo "${diff}" | cut -f 1 -d " "
 }
 
-river_dreams::git::get_diff_quantity() {
+river_dreams::git::get_pushes_quantity() {
   local -r diff="$1"
-  echo "${diff}" | cut -f 2 -d " "
+  local -r diff_status="$2"
+  case ${diff_status} in
+    both)
+      echo "${diff}" | cut -f 2 -d " " | tr -d ","
+      ;;
+    ahead)
+      echo "${diff}" | cut -f 2 -d " "
+      ;;
+    *)
+      echo 0
+      ;;
+  esac
+}
+
+river_dreams::git::get_pulls_quantity() {
+  local -r diff="$1"
+  local -r diff_status="$2"
+  case ${diff_status} in
+    both)
+      echo "${diff}" | cut -f 4 -d " " 
+      ;;
+    behind)
+      echo "${diff}" | cut -f 2 -d " "
+      ;;
+    *)
+      echo 0
+      ;;
+  esac
 }
 
 river_dreams::git() {
@@ -48,15 +77,16 @@ river_dreams::git() {
 
     local -r diff=$(river_dreams::git::get_diff)
     local -r diff_status=$(river_dreams::git::get_diff_status "${diff}")
-    local -r diff_quantity=$(river_dreams::git::get_diff_quantity "${diff}")
-    local diff_symbol="↑"
-    local diff_color="yellow"
-    if [[ ${diff_status} == behind ]]; then
-      diff_symbol="↓"
-      diff_color="blue"
-    fi
-    local diff_section=""
-    [[ ${diff_quantity} -gt 0 ]] && diff_section="%F{${diff_color}}${diff_quantity}${diff_symbol}%f"
+    local -r diff_pushes_quantity=$(river_dreams::git::get_pushes_quantity "${diff}" "${diff_status}")
+    local -r diff_pulls_quantity=$(river_dreams::git::get_pulls_quantity "${diff}" "${diff_status}")
+    local diff_pushes_section=""
+    local diff_pulls_section=""
+    [[ ${diff_pushes_quantity} -gt 0 ]] && diff_pushes_section="%F{yellow}${diff_pushes_quantity}↑%f"
+    [[ ${diff_pulls_quantity} -gt 0 ]] && diff_pulls_section="%F{blue}${diff_pulls_quantity}↓%f"
+    local diff_section=(
+      ${diff_pushes_section}
+      ${diff_pulls_section}
+    )
 
     local status_section=(
       ${changes_section}
