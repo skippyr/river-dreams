@@ -79,10 +79,20 @@ river_dreams::git() {
     local -r diff_status=$(river_dreams::git::get_diff_status "${diff}")
     local -r diff_pushes_quantity=$(river_dreams::git::get_pushes_quantity "${diff}" "${diff_status}")
     local -r diff_pulls_quantity=$(river_dreams::git::get_pulls_quantity "${diff}" "${diff_status}")
+    local -r diff_pushes_symbol=$(
+      [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] &&
+        echo "^" ||
+        echo "↑"
+    )
+    local -r diff_pulls_symbol=$(
+      [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} == true ]] &&
+        echo "v" ||
+        echo "↓"
+    )
     local diff_pushes_section=""
     local diff_pulls_section=""
-    [[ ${diff_pushes_quantity} -gt 0 ]] && diff_pushes_section="%F{yellow}${diff_pushes_quantity}↑%f"
-    [[ ${diff_pulls_quantity} -gt 0 ]] && diff_pulls_section="%F{blue}${diff_pulls_quantity}↓%f"
+    [[ ${diff_pushes_quantity} -gt 0 ]] && diff_pushes_section="%F{yellow}${diff_pushes_quantity}${diff_pushes_symbol}%f"
+    [[ ${diff_pulls_quantity} -gt 0 ]] && diff_pulls_section="%F{blue}${diff_pulls_quantity}${diff_pulls_symbol}%f"
     local diff_section=(
       ${diff_pushes_section}
       ${diff_pulls_section}
