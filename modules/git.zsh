@@ -9,7 +9,7 @@ river_dreams::git::get_commit_hash() {
 }
 
 river_dreams::git::get_changes_quantity() {
-  git ls-files -mo --exclude-standard | wc -l
+  git status -s | grep "[?NMDT] \S" | wc -l
 }
 
 river_dreams::git::get_staged_quantity() {
