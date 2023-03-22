@@ -28,5 +28,5 @@ river_dreams::local_ip_address() {
     echo "IP" ||
     echo ""
   )
-  echo "%F{red}${local_ip_address_symbol} %f${local_ip_address}"
+  echo "%F{blue}${local_ip_address_symbol} %f${local_ip_address}"
 }
