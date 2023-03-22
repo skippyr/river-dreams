@@ -8,9 +8,9 @@
 
 ## Preview
 
-![](images/preview/preview_kitty.png)
+![](images/preview/preview_kitty_dark.png)
+![](images/preview/preview_kitty_light.png)
 ![](images/preview/preview_xterm.png)
-![](images/preview/preview_kali.png)
 
 
 ## What features does it have?
@@ -178,7 +178,7 @@ repository. What about going there to find out more cool themes, frameworks and
 plugins for ZSH?
 
 Are you looking for a color scheme? I am proud to announce that
-[`Tropical Paradise`](https://github.com/skippyr/tropical_paradise) has been
+[`Tropical Paradise`](https://github.com/tropical-paradise) has been
 released with dark and light variants. What about checking it out?
 
 ## Issues, Enhancements And Questions
