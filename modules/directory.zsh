@@ -65,11 +65,6 @@ river_dreams::directory() {
         directory_symbol=" "
         ;;
     esac
-  local directory_color=$(
-    [[ ${RIVER_DREAMS_USE_COLOR_VARIANTS} == true ]] &&
-      echo cyan ||
-      echo blue
-  )
   local -r directory_abbreviated=$(river_dreams::directory::get_directory_abbreviated)
-  echo "%F{red}${directory_symbol}%F{${directory_color}}%B${directory_abbreviated}%b%f"
+  echo "%F{red}${directory_symbol}%F{green}%B${directory_abbreviated}%b%f"
 }
