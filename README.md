@@ -79,9 +79,10 @@ in the future, I found out a way of testing it in that system and solve them.
 
 ## What about the name?
 
-Pará is a state that is well know about its rivers with a culture that is
-heavily influenciated by it. And I am a person with dreams, so I though why
-not to call it "River Dreams"?
+River Dreams is inspired by Pará's culture, a state of Brazil. That is a state
+that is well know about its rivers with a culture that is heavily influenciated
+by it. And I am a person with dreams, so I though why not to call it "River
+Dreams"?
 
 
 ## Installation/Uninstallation
