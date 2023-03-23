@@ -1,15 +1,11 @@
-<h1 align="center">⛵ River Dreams 🌊</h1>
+# River Dreams
 
-<div align="center">
-  <img src="https://img.shields.io/github/license/skippyr/river_dreams?style=social"/>
-</div>
+A feature rich and async ZSH theme that developers have been river dreaming for a long time.
 
-<p align="center">A feature rich and async ZSH theme that developers have been <i>river dreaming</i> for a long time.</p>
 
 ## Preview
 
-![](images/preview/preview_kitty_dark.png)
-![](images/preview/preview_kitty_light.png)
+![](images/preview/preview_kitty.png)
 ![](images/preview/preview_xterm.png)
 
 
