@@ -108,6 +108,10 @@ river_dreams::git() {
     local tag=$(git describe --tags --abbrev=0 2>/dev/null)
     [[ -n ${tag} ]] && tag=" ${tag}"
 
-    echo "%F{red}::«%f%B${branch}%b${status_section}%F{magenta}${tag}%F{yellow}${commit_hash}%F{red}»"
+    local -r branches_quantity=$(git branch | wc -l)
+    local branches_section=""
+    [[ ${branches_quantity} -gt 1 ]] && branches_section="${branches_quantity}@ "
+
+    echo "%F{red}::«%F{cyan}${branches_section}%f%B${branch}%b${status_section}%F{magenta}${tag}%F{yellow}${commit_hash}%F{red}»"
   fi
 }

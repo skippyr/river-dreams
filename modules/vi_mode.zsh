@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 river_dreams::vi_mode() {
   if [[ -n ${ZVM_MODE} ]]; then
     local vi_mode="?"
