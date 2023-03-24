@@ -5,7 +5,8 @@ A feature rich and async ZSH theme that developers have been river dreaming for 
 
 ## Preview
 
-![](images/preview/preview_kitty.png)
+![](images/preview/preview_kitty_0.png)
+![](images/preview/preview_kitty_1.png)
 ![](images/preview/preview_xterm.png)
 
 
