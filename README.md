@@ -36,7 +36,7 @@ Everything in it is a module:
 | vi_mode             | Shows the vi mode if you are using the [`zsh-vi-mode`](https://github.com/jeffreytse/zsh-vi-mode) plugin. | left | sync
 | directory           | Shows the current directory abbreviated, just like the `fish` shell. It will use an icon for some directories. | left | sync
 | directory_ownership | Shows a decorator if you are not the owner of the current directory. | left | sync
-| git                 | Shows branch, status with numeric indicators for changes, commits, pulls and pushes, latest tag and last commit hash | left | async
+| git                 | Shows the quantity of branches, current branch, status with numeric indicators for changes, commits, pulls and pushes, latest tag and last commit hash | left | async
 | jobs                | Shows the quantity of jobs running in the background. | right | sync
 | executable_files    | Shows the quantity of executable files in the current directory. | right | async
 | symbolic_links      | Shows the quantity of symbolic links in the current directory. | right | async
