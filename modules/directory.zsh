@@ -67,6 +67,9 @@ river_dreams::directory() {
       ${HOME}/.Trash | ${HOME}/.local/share/Trash)
         directory_symbol=" "
         ;;
+      /usr/local/share/fonts | /usr/share/fonts | ${HOME}/.local/share/fonts)
+        directory_symbol=" "
+        ;;
     esac
   local -r directory_abbreviated=$(river_dreams::directory::get_directory_abbreviated)
   echo "%F{red}${directory_symbol}%F{green}%B${directory_abbreviated}%b%f"
