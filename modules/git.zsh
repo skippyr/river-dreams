@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-river_dreams::git::get_branch() {
+river_dreams::git::get_current_branch() {
   git branch --show-current 2>/dev/null
 }
 
@@ -62,8 +62,8 @@ river_dreams::git::get_pulls_quantity() {
 }
 
 river_dreams::git() {
-  local -r branch=$(river_dreams::git::get_branch)
-  if [[ -n ${branch} ]]; then
+  local -r current_branch=$(river_dreams::git::get_current_branch)
+  if [[ -n ${current_branch} ]]; then
     local commit_hash=$(river_dreams::git::get_commit_hash)
     [[ -n ${commit_hash} ]] && commit_hash=" ${commit_hash}"
     
@@ -112,6 +112,10 @@ river_dreams::git() {
     local branches_section=""
     [[ ${branches_quantity} -gt 1 ]] && branches_section="${branches_quantity}@ "
 
-    echo "%F{red}::«%F{cyan}${branches_section}%f%B${branch}%b${status_section}%F{magenta}${tag}%F{yellow}${commit_hash}%F{red}»"
+    local -r main_branch=$(git branch -a | grep HEAD | cut -f 2 -d ">" | cut -f 2 -d "/")
+    local current_branch_section="${current_branch}"
+    [[ ${main_branch} == ${current_branch} ]] && current_branch_section="${current_branch}%F{yellow}*%f"
+
+    echo "%F{red}::«%F{cyan}${branches_section}%f%B${current_branch_section}%b${status_section}%F{magenta}${tag}%F{yellow}${commit_hash}%F{red}»"
   fi
 }
