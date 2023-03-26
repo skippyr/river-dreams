@@ -114,7 +114,7 @@ river_dreams::git() {
 
     local -r main_branch=$(git branch -a | grep HEAD | cut -f 2 -d ">" | cut -f 2 -d "/")
     local current_branch_section="${current_branch}"
-    [[ ${main_branch} == ${current_branch} ]] && current_branch_section="${current_branch}%F{yellow}*%f"
+    [[ ${main_branch} == ${current_branch} ]] && current_branch_section="${current_branch}%F{yellow}%%%f"
 
     echo "%F{red}::«%F{cyan}${branches_section}%f%B${current_branch_section}%b${status_section}%F{magenta}${tag}%F{yellow}${commit_hash}%F{red}»"
   fi
