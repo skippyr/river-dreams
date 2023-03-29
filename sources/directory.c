@@ -53,34 +53,39 @@ int has_ownership(char* directory_path) {
   return 0;
 }
 
-char* get_ownership_symbol() {
+char* get_symbol() {
   return !strcmp(getenv("RIVER_DREAMS_USE_FALLBACK_TEXT"), "0")
-    ? " %F{red}" :
-    "  %F{red}LOCKED";
+    ? " "
+    : " LOCKED";
 }
 
 int main() {
   char* pwd = getenv("PWD");
   char* home = getenv("HOME");
-  char* directory_path = (char*) malloc(strlen(pwd));
-  strcpy(directory_path, pwd);
+  char* directory_path_with_aliases = (char*) malloc(strlen(pwd));
+  strcpy(directory_path_with_aliases, pwd);
   if (strstr(pwd, home) != NULL) {
     snprintf(
-      directory_path,
-      strlen(directory_path),
-      "%s%s",
+      directory_path_with_aliases,
+      strlen(directory_path_with_aliases),
+      "%s%%F{red}%s%%f",
       "~",
       pwd + strlen(home)
     );
   }
-  char* directory_path_abbreviated = (char*) malloc(strlen(directory_path));
-  get_directory_path_abbreviated(directory_path, directory_path_abbreviated);
-  printf(
-    "%%F{green}%s%s%%f\n",
-    directory_path_abbreviated,
-    has_ownership(pwd) ? "" : get_ownership_symbol()
+  char* directory_path_abbreviated = (char*) malloc(
+    strlen(directory_path_with_aliases)
   );
-  free(directory_path);
+  get_directory_path_abbreviated(
+    directory_path_with_aliases,
+    directory_path_abbreviated
+  );
+  printf(
+    "%%F{green}%s%%F{red}%s%%f\n",
+    directory_path_abbreviated,
+    has_ownership(pwd) ? "" : get_symbol()
+  );
+  free(directory_path_with_aliases);
   free(directory_path_abbreviated);
   return 0;
 }
