@@ -30,12 +30,14 @@ river_dreams::arrow() {
 }
 
 river_dreams::commands_separator() {
-  echo "$(
-    ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/commands_separator\
-    ${COLUMNS}\
-    ${RIVER_DREAMS_SYMBOLS[commands_separator_odd]}\
-    ${RIVER_DREAMS_SYMBOLS[commands_separator_even]}
-  )"
+  ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/commands_separator\
+  ${COLUMNS}\
+  ${RIVER_DREAMS_SYMBOLS[commands_separator_odd]}\
+  ${RIVER_DREAMS_SYMBOLS[commands_separator_even]}
+}
+
+river_dreams::directory_path() {
+  echo "%F{green}$(${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/directory_path)%f"
 }
 
 river_dreams::refresh_symbols() {
@@ -57,7 +59,7 @@ precmd() {
 }
 
 river_dreams::left_prompt() {
-  echo "$(river_dreams::commands_separator)$(river_dreams::arrow)"
+  echo "$(river_dreams::commands_separator)$(river_dreams::arrow)$(river_dreams::directory_path)"
 }
 
 PROMPT='$(river_dreams::left_prompt) '
