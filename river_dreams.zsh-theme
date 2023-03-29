@@ -1,42 +1,64 @@
 #!/usr/bin/env zsh
 
-# ZSH options
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+export RIVER_DREAMS_ROOT_DIRECTORY=$(dirname $0)
+typeset -g RIVER_DREAMS_SOURCES_DIRECTORY=${RIVER_DREAMS_ROOT_DIRECTORY}/sources
+typeset -g RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY=${RIVER_DREAMS_ROOT_DIRECTORY}/distributions
+export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT:-$(
+  [[ $(tput colors) -eq 8 ]] &&
+    echo 1 ||
+    echo 0
+)}
 
 setopt promptsubst
 setopt +o nomatch
 
-# Exports
+if [[
+  ! $(ls ${RIVER_DREAMS_SOURCES_DIRECTORY} | wc -l) -eq
+  $(ls ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY} 2>/dev/null | wc -l)
+]]; then
+  rm -rf ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}
+  mkdir -p ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}
+  for file in $(ls ${RIVER_DREAMS_SOURCES_DIRECTORY}); do
+    gcc ${RIVER_DREAMS_SOURCES_DIRECTORY}/${file} -o\
+    ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/$(echo ${file} | cut -f 1 -d ".")
+  done
+fi
 
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-export RIVER_DREAMS_REPOSITORY_DIRECTORY=$(dirname $0)
-RIVER_DREAMS_DEPENDENCIES_DIRECTORY=${RIVER_DREAMS_REPOSITORY_DIRECTORY}/dependencies
-RIVER_DREAMS_MODULES_DIRECTORY=${RIVER_DREAMS_REPOSITORY_DIRECTORY}/modules
-export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT:-$(
-  test $(tput colors) -eq 8 &&
-  echo "true" ||
-  echo "false"
-)}
-export RIVER_DREAMS_USE_COLOR_VARIANTS=${RIVER_DREAMS_USE_COLOR_VARIANTS:-false}
-
-# Dependencies
-
-source ${RIVER_DREAMS_DEPENDENCIES_DIRECTORY}/zsh_async/async.zsh
-async_init
-
-# Modules
-
-for file in $(find ${RIVER_DREAMS_MODULES_DIRECTORY} -maxdepth 1 -type f); do
-  source ${file}
-done
-
-# Prompt Definition
-
-precmd() {
-  river_dreams::async::restart_worker
+river_dreams::arrow() {
+  echo "%(?.%F{yellow}.%F{red})${RIVER_DREAMS_SYMBOLS[arrow]}%f"
 }
 
-PROMPT='$(river_dreams::commands_separator)
-%F{red}┌─%F{yellow}[%f${RIVER_DREAMS_TOP_PROMPT}%F{yellow}]%f
-%F{red}└%f$(river_dreams::exit_code)$(river_dreams::root)$(river_dreams::vi_mode)$(river_dreams::decorator)$(river_dreams::directory)${RIVER_DREAMS_GIT}$(river_dreams::directory_ownership)%f '
-RPROMPT='${RIVER_DREAMS_RIGHT_PROMPT}'
+river_dreams::commands_separator() {
+  echo "$(
+    ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/commands_separator\
+    ${COLUMNS}\
+    ${RIVER_DREAMS_SYMBOLS[commands_separator_odd]}\
+    ${RIVER_DREAMS_SYMBOLS[commands_separator_even]}
+  )"
+}
+
+river_dreams::refresh_symbols() {
+  [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} -eq 0 ]] &&
+    typeset -gA RIVER_DREAMS_SYMBOLS=(
+      ["arrow"]="⤐  "
+      ["commands_separator_odd"]="▼"
+      ["commands_separator_even"]="▲"
+    ) ||
+    typeset -gA RIVER_DREAMS_SYMBOLS=(
+      ["arrow"]=">"
+      ["commands_separator_odd"]="\\"
+      ["commands_separator_even"]="/"
+    )
+}
+
+precmd() {
+  river_dreams::refresh_symbols
+}
+
+river_dreams::left_prompt() {
+  echo "$(river_dreams::commands_separator)$(river_dreams::arrow)"
+}
+
+PROMPT='$(river_dreams::left_prompt) '
 
