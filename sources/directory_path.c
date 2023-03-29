@@ -23,7 +23,6 @@ int main() {
   }
   char* directory_path_abbreviated = (char*) malloc(strlen(directory_path));
   int directory_path_abbreviated_index = 0;
-  char last_character;
   int path_slice_index = 0;
   for (int i = 0; i != strlen(directory_path); ++i) {
     if (directory_path[i] == '/' && i != 0) {
@@ -35,18 +34,20 @@ int main() {
       directory_path[i] == '.' ||
       directory_path[i] == '~'
     ) {
-      *(directory_path_abbreviated + directory_path_abbreviated_index) = directory_path[i];
+      *(directory_path_abbreviated + directory_path_abbreviated_index) =
+        directory_path[i];
       ++directory_path_abbreviated_index;
     } else {
       if (directory_path[i - 1] == '/') {
-        *(directory_path_abbreviated + directory_path_abbreviated_index) = directory_path[i];
+        *(directory_path_abbreviated + directory_path_abbreviated_index) =
+          directory_path[i];
         ++directory_path_abbreviated_index;
       } else if (directory_path[i - 2] == '/' && directory_path[i - 1] == '.') {
-        *(directory_path_abbreviated + directory_path_abbreviated_index) = directory_path[i];
+        *(directory_path_abbreviated + directory_path_abbreviated_index) =
+          directory_path[i];
         ++directory_path_abbreviated_index;
       }
     }
-    last_character = directory_path[i];
   }
   printf("%s\n", directory_path_abbreviated);
   free(directory_path_abbreviated);

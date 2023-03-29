@@ -13,16 +13,20 @@ export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT:-$(
 setopt promptsubst
 setopt +o nomatch
 
-if [[
-  ! $(ls ${RIVER_DREAMS_SOURCES_DIRECTORY} | wc -l) -eq
-  $(ls ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY} 2>/dev/null | wc -l)
-]]; then
+river_dreams::recompile() {
   rm -rf ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}
   mkdir -p ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}
   for file in $(ls ${RIVER_DREAMS_SOURCES_DIRECTORY}); do
     gcc ${RIVER_DREAMS_SOURCES_DIRECTORY}/${file} -o\
     ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/$(echo ${file} | cut -f 1 -d ".")
   done
+}
+
+if [[
+  ! $(ls ${RIVER_DREAMS_SOURCES_DIRECTORY} | wc -l) -eq
+  $(ls ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY} 2>/dev/null | wc -l)
+]]; then
+  river_dreams::recompile
 fi
 
 river_dreams::arrow() {
