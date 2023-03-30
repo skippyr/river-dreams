@@ -1,4 +1,4 @@
 /distributions
-/sources/a.out
+/sources/*/a.out
 /.vscode
 

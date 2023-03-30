@@ -17,15 +17,15 @@ river_dreams::recompile() {
   echo "Recompiling sources"
   rm -rf ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}
   mkdir -p ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}
-  for file in $(ls ${RIVER_DREAMS_SOURCES_DIRECTORY}); do
-    gcc ${RIVER_DREAMS_SOURCES_DIRECTORY}/${file} -o\
+  for file in $(ls ${RIVER_DREAMS_SOURCES_DIRECTORY}/modules); do
+    gcc ${RIVER_DREAMS_SOURCES_DIRECTORY}/modules/${file} -o\
     ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/$(echo ${file} | cut -f 1 -d ".")
     echo "  * Recompiled ${file}"
   done
 }
 
 if [[
-  ! $(ls ${RIVER_DREAMS_SOURCES_DIRECTORY} | wc -l) -eq
+  ! $(ls ${RIVER_DREAMS_SOURCES_DIRECTORY}/modules | wc -l) -eq
   $(ls ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY} 2>/dev/null | wc -l)
 ]]; then
   river_dreams::recompile

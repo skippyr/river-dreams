@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
-#include <unistd.h>
+#include "../utils.c"
 
 char* get_directory_path_abbreviated(
   char* directory_path,
@@ -53,12 +49,6 @@ int has_ownership(char* directory_path) {
   return 0;
 }
 
-char* get_symbol() {
-  return !strcmp(getenv("RIVER_DREAMS_USE_FALLBACK_TEXT"), "0")
-    ? " "
-    : " LOCKED";
-}
-
 int main() {
   char* pwd = getenv("PWD");
   char* home = getenv("HOME");
@@ -83,7 +73,7 @@ int main() {
   printf(
     "%%F{green}%s%%F{red}%s%%f\n",
     directory_path_abbreviated,
-    has_ownership(pwd) ? "" : get_symbol()
+    has_ownership(pwd) ? "" : choose_symbol(" ", " LOCKED")
   );
   free(directory_path_with_aliases);
   free(directory_path_abbreviated);
