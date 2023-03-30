@@ -31,12 +31,16 @@ if [[
   river_dreams::recompile
 fi
 
-river_dreams::arrow() {
-  ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/arrow
-}
-
 river_dreams::commands_separator() {
   ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/commands_separator ${COLUMNS}
+}
+
+river_dreams::sysdisk() {
+  ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/sysdisk
+}
+
+river_dreams::arrow() {
+  ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/arrow
 }
 
 river_dreams::directory() {
@@ -44,7 +48,8 @@ river_dreams::directory() {
 }
 
 river_dreams::left_prompt() {
-  echo "$(river_dreams::commands_separator)$(river_dreams::arrow)$(river_dreams::directory)"
+  echo "$(river_dreams::commands_separator)[$(river_dreams::sysdisk)]
+$(river_dreams::arrow)$(river_dreams::directory)"
 }
 
 PROMPT='$(river_dreams::left_prompt) '
