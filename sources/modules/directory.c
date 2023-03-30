@@ -41,9 +41,10 @@ char* get_directory_path_abbreviated(
 }
 
 int has_ownership(char* directory_path) {
+  unsigned int user_uid = getuid();
   struct stat directory_status;
   stat(directory_path, &directory_status);
-  if (directory_status.st_uid == getuid()) {
+  if (directory_status.st_uid == user_uid || user_uid == 0) {
     return 1;
   }
   return 0;
