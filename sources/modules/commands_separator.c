@@ -9,7 +9,11 @@ main(int argc, char* argv[])
     if (i % 2 == 0) {
       printf("%%F{red}%s%%f", choose_symbol("▲", "/"));
     } else {
-      printf("%%F{yellow}%s%%f", choose_symbol("▼", "\\"));
+      printf(
+        "%%F{%s}%s%%f",
+        choose_color("yellow", "blue"),
+        choose_symbol("▼", "\\")
+      );
     }
   }
   printf("\n");

@@ -12,3 +12,4 @@ main()
   printf("%%F{green}%s%%f%u%%%%\n", choose_symbol(" ", "DISK "), percentage);
   return 0;
 }
+
