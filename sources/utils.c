@@ -28,3 +28,4 @@ choose_color(char* default_color, char* color_variant)
     ? default_color
     : color_variant;
 }
+

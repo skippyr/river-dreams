@@ -2,8 +2,8 @@
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export RIVER_DREAMS_ROOT_DIRECTORY=$(dirname $0)
-typeset -g RIVER_DREAMS_SOURCES_DIRECTORY=${RIVER_DREAMS_ROOT_DIRECTORY}/\
-sources
+typeset -g RIVER_DREAMS_MODULES_DIRECTORY=${RIVER_DREAMS_ROOT_DIRECTORY}/\
+sources/modules
 typeset -g RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY=${RIVER_DREAMS_ROOT_DIRECTORY}/\
 distributions
 export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT:-$(
@@ -21,15 +21,15 @@ river_dreams::recompile_modules()
   echo "Recompiling modules..."
   rm -rf ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}
   mkdir -p ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}
-  for file in $(ls ${RIVER_DREAMS_SOURCES_DIRECTORY}/modules); do
-    gcc ${RIVER_DREAMS_SOURCES_DIRECTORY}/modules/${file} -o\
+  for file in $(ls ${RIVER_DREAMS_MODULES_DIRECTORY}); do
+    gcc ${RIVER_DREAMS_MODULES_DIRECTORY}/${file} -o\
     ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/$(echo ${file} | cut -f 1 -d ".")
     echo "  \e[31m*\e[0m Recompiled ${file}."
   done
 }
 
 if [[
-  ! $(ls ${RIVER_DREAMS_SOURCES_DIRECTORY}/modules | wc -l) -eq
+  ! $(ls ${RIVER_DREAMS_MODULES_DIRECTORY} | wc -l) -eq
   $(ls ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY} 2>/dev/null | wc -l)
 ]]; then
   river_dreams::recompile_modules
