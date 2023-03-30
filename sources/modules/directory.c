@@ -1,9 +1,11 @@
 #include "../utils.c"
 
-void get_directory_path_abbreviated(
+void
+get_directory_path_abbreviated(
   char* directory_path,
   char* directory_path_abbreviated
-) {
+)
+{
   int path_slice_last_index = 0;
   for (int i = 0; i != strlen(directory_path); ++i) {
     if (directory_path[i] == '/' && i != 0) {
@@ -39,7 +41,9 @@ void get_directory_path_abbreviated(
   }
 }
 
-int has_ownership(char* directory_path) {
+int
+has_ownership(char* directory_path)
+{
   unsigned int user_uid = getuid();
   struct stat directory_status;
   stat(directory_path, &directory_status);
@@ -49,7 +53,9 @@ int has_ownership(char* directory_path) {
   return 0;
 }
 
-int main() {
+int
+main()
+{
   char* pwd = getenv("PWD");
   char* home = getenv("HOME");
   char* directory_path_with_aliases = (char*) malloc(strlen(pwd));

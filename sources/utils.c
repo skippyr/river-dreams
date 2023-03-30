@@ -6,11 +6,15 @@
 #include <string.h>
 #include <math.h>
 
-int to_gigabytes(long bytes) {
-  return (int) (bytes / pow(1024, 3));
+unsigned long
+to_gigabytes(unsigned long bytes)
+{
+  return (unsigned long) (bytes / pow(10, 9));
 }
 
-char* choose_symbol(char* default_symbol, char* fallback_symbol) {
+char*
+choose_symbol(char* default_symbol, char* fallback_symbol)
+{
   return !strcmp(getenv("RIVER_DREAMS_USE_FALLBACK_TEXT"), "0")
     ? default_symbol
     : fallback_symbol;

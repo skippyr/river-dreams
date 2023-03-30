@@ -1,11 +1,14 @@
 #include "../utils.c"
 
-int main() {
+int
+main()
+{
   struct statvfs sysdisk_status;
   statvfs("/", &sysdisk_status);
-  int total = to_gigabytes(sysdisk_status.f_blocks * sysdisk_status.f_frsize);
-  int free = to_gigabytes(sysdisk_status.f_bfree * sysdisk_status.f_frsize);
-  int used = total - free;
-  int percentage = (int) (((float) used / total) * 100);
-  printf("%%F{green}%s%%f%d%%%%\n", choose_symbol(" ", "DISK "), percentage);
+  unsigned long total = sysdisk_status.f_blocks * sysdisk_status.f_bsize;
+  unsigned long free = sysdisk_status.f_bfree * sysdisk_status.f_bsize;
+  unsigned long used = total - free;
+  unsigned int percentage = (unsigned int) (((float) used / total) * 100);
+  printf("%%F{green}%s%%f%u%%%%\n", choose_symbol(" ", "DISK "), percentage);
+  return 0;
 }

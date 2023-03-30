@@ -1,6 +1,8 @@
 #include "../utils.c"
 
-int main() {
+int
+main()
+{
   printf(
     "%%(?..%%F{yellow}[%%F{red}%s%%B%%?%%b%%F{yellow}]%%f)%%(!.%%F{yellow}\
 [%%F{red}#%%F{yellow}].)%%(?.%%F{yellow}.%%F{red})%s%%f\n",
