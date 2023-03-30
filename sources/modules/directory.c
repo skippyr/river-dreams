@@ -1,6 +1,6 @@
 #include "../utils.c"
 
-char* get_directory_path_abbreviated(
+void get_directory_path_abbreviated(
   char* directory_path,
   char* directory_path_abbreviated
 ) {
@@ -37,7 +37,6 @@ char* get_directory_path_abbreviated(
       }
     }
   }
-  return directory_path_abbreviated;
 }
 
 int has_ownership(char* directory_path) {
