@@ -21,47 +21,6 @@ has_ownership(char *path)
 }
 
 void
-get_directory_path_abbreviated(
-  char *directory_path,
-  char *directory_path_abbreviated
-)
-{
-  int path_slice_last_index = 0;
-  for (int i = 0; i != strlen(directory_path); ++i) {
-    if (directory_path[i] == '/' && i != 0) {
-      ++path_slice_last_index;
-    }
-  }
-  int directory_path_abbreviated_index = 0;
-  int path_slice_index = 0;
-  for (int i = 0; i != strlen(directory_path); ++i) {
-    if (directory_path[i] == '/' && i != 0) {
-      ++path_slice_index;
-    }
-    if (
-      path_slice_index == path_slice_last_index ||
-      directory_path[i] == '/' ||
-      directory_path[i] == '.' ||
-      directory_path[i] == '~'
-    ) {
-      *(directory_path_abbreviated + directory_path_abbreviated_index) =
-        directory_path[i];
-      ++directory_path_abbreviated_index;
-    } else {
-      if (directory_path[i - 1] == '/') {
-        *(directory_path_abbreviated + directory_path_abbreviated_index) =
-          directory_path[i];
-        ++directory_path_abbreviated_index;
-      } else if (directory_path[i - 2] == '/' && directory_path[i - 1] == '.') {
-        *(directory_path_abbreviated + directory_path_abbreviated_index) =
-          directory_path[i];
-        ++directory_path_abbreviated_index;
-      }
-    }
-  }
-}
-
-void
 print_separator()
 {
   struct winsize terminal_size;
@@ -141,33 +100,53 @@ print_arrow()
 void
 print_directory()
 {
-  char *pwd = getenv("PWD");
-  char *home = getenv("HOME");
-  char *directory_path_with_aliases = malloc(strlen(pwd));
-  strcpy(directory_path_with_aliases, pwd);
-  if (strstr(pwd, home) != NULL) {
+  char *current_directory_path = getenv("PWD");
+  int has_ownership_of_current_directory = has_ownership(current_directory_path);
+  char *home_directory_path = getenv("HOME");
+
+  if (strstr(current_directory_path, home_directory_path) != NULL) {
     snprintf(
-      directory_path_with_aliases,
-      strlen(directory_path_with_aliases),
-      "%s%%F{red}%s%%f",
+      current_directory_path,
+      strlen(current_directory_path),
+      "%s%s",
       "~",
-      pwd + strlen(home)
+      current_directory_path + strlen(home_directory_path)
     );
   }
-  char *directory_path_abbreviated = malloc(
-    strlen(directory_path_with_aliases)
-  );
-  get_directory_path_abbreviated(
-    directory_path_with_aliases,
-    directory_path_abbreviated
-  );
+
+  int path_slice_last_index = 0;
+  for (int i = 0; i != strlen(current_directory_path); ++i) {
+    if (current_directory_path[i] == '/' && i != 0) {
+      ++path_slice_last_index;
+    }
+  }
+
+  printf("%%F{green}");
+  int path_slice_index = 0;
+  for (int i = 0; i != strlen(current_directory_path); ++i) {
+    if (current_directory_path[i] == '/' && i != 0) {
+      ++path_slice_index;
+    }
+    if (
+      path_slice_index == path_slice_last_index ||
+      current_directory_path[i] == '/' ||
+      current_directory_path[i] == '.' ||
+      current_directory_path[i] == '~' ||
+      current_directory_path[i - 1] == '/' ||
+      (
+        current_directory_path[i - 2] == '/' &&
+        current_directory_path[i - 1] == '.'
+      )
+    ) {
+      printf("%c", current_directory_path[i]);
+    }
+  }
   printf(
-    "%%F{green}%s%%F{red}%s%%f",
-    directory_path_abbreviated,
-    has_ownership(pwd) ? "" : choose_symbol_by_environment(" ", " LOCKED")
+    "%%F{red}%s%%f",
+    has_ownership_of_current_directory
+    ? ""
+    : choose_symbol_by_environment(" ", " LOCKED")
   );
-  free(directory_path_with_aliases);
-  free(directory_path_abbreviated);
 }
 
 int
