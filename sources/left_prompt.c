@@ -47,7 +47,7 @@ print_top_connector_left(void)
 }
 
 void
-print_clock()
+print_clock(void)
 {
   time_t now = time(NULL);
   struct tm *local_time = localtime(&now);
