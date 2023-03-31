@@ -15,9 +15,11 @@ has_ownership(char *path)
 	unsigned int user_uid = getuid();
 	struct stat status;
 	stat(path, &status);
+	
 	if (status.st_uid == user_uid || user_uid == 0) {
 		return 1;
 	}
+
 	return 0;
 }
 
@@ -92,15 +94,15 @@ print_disk_usage_percentage(void)
 }
 
 void
-print_pyenv(void)
+print_python_environment(void)
 {
-	char *pyenv = getenv("VIRTUAL_ENV");
+	char *python_environment = getenv("VIRTUAL_ENV");
 
-	if (pyenv != NULL) {
+	if (python_environment != NULL) {
 		printf(
 			" %%F{red}%s%%f%s",
 			choose_symbol_by_environment("󰚐 ", "PYENV "),
-			basename(pyenv)
+			basename(python_environment)
 		);
 	}
 }
@@ -118,13 +120,13 @@ print_bottom_connector(void)
 }
 
 void
-print_arrow(void)
+print_shell_status(void)
 {
 	printf(
 		"%%(?..%%F{yellow}[%%F{red}%s%%B%%?%%b%%F{yellow}]%%f)%%(!.%%F{yellow}[%%F{red}#%%F{yellow}].)%%(?.%%F{yellow}.%%F{red})%s%%f",
 		choose_symbol_by_environment(" ", "X "),
 		choose_symbol_by_environment("⤐  ", "> ")
-  );
+	);
 }
 
 void
@@ -188,11 +190,12 @@ main(void)
 	print_top_connector_left();
 	print_clock();
 	print_disk_usage_percentage();
-	print_pyenv();
+	print_python_environment();
 	print_top_connector_right();
 	print_bottom_connector();
-	print_arrow();
+	print_shell_status();
 	print_directory();
+
 	return 0;
 }
 
