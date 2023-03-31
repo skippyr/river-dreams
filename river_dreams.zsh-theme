@@ -20,6 +20,9 @@ river_dreams::recompile() {
 
 	gcc ${RIVER_DREAMS_SOURCES_DIRECTORY}/left_prompt.c -o\
 	${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/left_prompt
+
+	gcc ${RIVER_DREAMS_SOURCES_DIRECTORY}/right_prompt.c -o\
+	${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/right_prompt
 }
 
 river_dreams::execute() {
@@ -29,4 +32,5 @@ river_dreams::execute() {
 [[ ! -d ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY} ]] && river_dreams::recompile
 
 PROMPT='$(river_dreams::execute left_prompt) '
+RPROMPT='$(river_dreams::execute right_prompt)'
 
