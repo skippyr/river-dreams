@@ -67,7 +67,7 @@ print_clock()
   }
 
   printf(
-    "%%f%s%dh%s%dm",\
+    "%%f%s%dh%s%dm",
     local_time->tm_hour < 10 ? "0" : "",
     local_time->tm_hour,
     local_time->tm_min < 10 ? "0" : "",
