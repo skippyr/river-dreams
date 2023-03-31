@@ -23,16 +23,20 @@ print_directory_entries()
 		if (entry->d_type == 10) { ++symbolic_link_entries_quantity; }
 	}
 
-	printf(
-		"%%F{red}%s%%f%u",
-		choose_symbol_by_environment(" ", "HIDDEN "),
-		hidden_entries_quantity
-	);
-	printf(
-		"%%F{blue}%s%%f%u\n",
-		choose_symbol_by_environment(" ", "SYMLINKS "),
-		symbolic_link_entries_quantity
-	);
+	if (hidden_entries_quantity > 0) {
+		printf(
+			"%%F{red}%s%%f%u",
+			choose_symbol_by_environment(" ", "HIDDEN "),
+			hidden_entries_quantity
+		);
+	}
+	if (symbolic_link_entries_quantity > 0) {
+		printf(
+			"%%F{blue}%s%%f%u\n",
+			choose_symbol_by_environment(" ", "SYMLINKS "),
+			symbolic_link_entries_quantity
+		);
+	}
 
 	closedir(directory_stream);
 }
