@@ -162,7 +162,7 @@ print_directory(void)
 		} else if (!strcmp(current_directory_path, "~/Videos")) {
 			printf("󰨜 ");
 		} else if (!strcmp(current_directory_path, "~/Public")) {
-			printf(" ");
+			printf("  ");
 		} else if (!strcmp(current_directory_path, "~/Templates")) {
 			printf(" ");
 		} else if (!strcmp(current_directory_path, "~/Desktop")) {
