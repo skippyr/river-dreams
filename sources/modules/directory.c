@@ -58,7 +58,7 @@ main()
 {
   char *pwd = getenv("PWD");
   char *home = getenv("HOME");
-  char *directory_path_with_aliases = (char*) malloc(strlen(pwd));
+  char *directory_path_with_aliases = malloc(strlen(pwd));
   strcpy(directory_path_with_aliases, pwd);
   if (strstr(pwd, home) != NULL) {
     snprintf(
@@ -69,7 +69,7 @@ main()
       pwd + strlen(home)
     );
   }
-  char *directory_path_abbreviated = (char*) malloc(
+  char *directory_path_abbreviated = malloc(
     strlen(directory_path_with_aliases)
   );
   get_directory_path_abbreviated(
