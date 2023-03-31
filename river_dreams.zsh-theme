@@ -21,8 +21,11 @@ river_dreams::recompile_modules()
   echo "Recompiling modules..."
   rm -rf ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}
   mkdir -p ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}
+  typeset -a gcc_flags=(
+    "-lm"
+  )
   for file in $(ls ${RIVER_DREAMS_MODULES_DIRECTORY}); do
-    gcc ${RIVER_DREAMS_MODULES_DIRECTORY}/${file} -o\
+    gcc ${RIVER_DREAMS_MODULES_DIRECTORY}/${file} ${gcc_flags} -o\
     ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/$(echo ${file} | cut -f 1 -d ".")
     echo "  \e[31m*\e[0m Recompiled ${file}."
   done
