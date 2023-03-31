@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <libgen.h>
+#include <time.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/statvfs.h>
@@ -46,13 +47,42 @@ print_top_connector_left(void)
 }
 
 void
+print_clock()
+{
+  time_t now = time(NULL);
+  struct tm *local_time = localtime(&now);
+
+  if (!strcmp(getenv(ENV_FALLBACK_TEXT_KEY), "0")) {
+    if (local_time->tm_hour < 6) {
+      printf("%%F{cyan} ");
+    } else if (local_time->tm_hour < 12) {
+      printf("%%F{red}盛 ");
+    } else if (local_time->tm_hour < 18) {
+      printf("%%F{blue} ");
+    } else {
+      printf("%%F{yellow}󰽥 ");
+    }
+  } else {
+    printf("%%F{yellow}CLOCK ");
+  }
+
+  printf(
+    "%%f%s%dh%s%dm",\
+    local_time->tm_hour < 10 ? "0" : "",
+    local_time->tm_hour,
+    local_time->tm_min < 10 ? "0" : "",
+    local_time->tm_min
+  );
+}
+
+void
 print_disk_usage_percentage(void)
 {
   struct statvfs sysdisk_status;
   statvfs("/", &sysdisk_status);
   unsigned long total = sysdisk_status.f_blocks * sysdisk_status.f_bsize;
   printf(
-    "%%F{green}%s%%f%u%%%%",
+    " %%F{green}%s%%f%u%%%%",
     choose_symbol_by_environment(" ", "DISK "),
     (unsigned int) (((
       total - sysdisk_status.f_bfree * sysdisk_status.f_bsize) / (float) total
@@ -153,6 +183,7 @@ main(void)
 {
   print_separator();
   print_top_connector_left();
+  print_clock();
   print_disk_usage_percentage();
   print_pyenv();
   print_top_connector_right();
