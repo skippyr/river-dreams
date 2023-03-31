@@ -51,13 +51,12 @@ print_disk_usage_percentage()
   struct statvfs sysdisk_status;
   statvfs("/", &sysdisk_status);
   unsigned long total = sysdisk_status.f_blocks * sysdisk_status.f_bsize;
-  unsigned long free = sysdisk_status.f_bfree * sysdisk_status.f_bsize;
-  unsigned long used = total - free;
-  unsigned int percentage = (unsigned int) (((float) used / total) * 100);
   printf(
     "%%F{green}%s%%f%u%%%%",
     choose_symbol_by_environment(" ", "DISK "),
-    percentage
+    (unsigned int) (((
+      total - sysdisk_status.f_bfree * sysdisk_status.f_bsize) / (float) total
+    ) * 100)
   );
 }
 

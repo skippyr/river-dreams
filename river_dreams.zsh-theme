@@ -31,3 +31,4 @@ if [[ ! -d ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY} ]]; then
 fi
 
 PROMPT='$(river_dreams::execute left_prompt) '
+
