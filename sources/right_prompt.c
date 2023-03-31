@@ -1,7 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
-#include <stdlib.h>
+#include <sys/stat.h>
 #include "lib.c"
 
 void
@@ -11,6 +12,7 @@ print_directory_entries()
 	struct dirent *entry;
 
 	unsigned int hidden_entries_quantity = 0;
+	unsigned int executable_entries_quantity = 0;
 	unsigned int symbolic_link_entries_quantity = 0;
 
 	while ((entry = readdir(directory_stream)) != NULL) {
@@ -19,21 +21,32 @@ print_directory_entries()
 			!strcmp(entry->d_name, "..")
 		) { continue; }
 
+		struct stat entry_status;
+		stat(entry->d_name, &entry_status);
+
+		if (entry_status.st_mode == 33261) { ++executable_entries_quantity; }
 		if (entry->d_name[0] == '.') { ++hidden_entries_quantity; }
 		if (entry->d_type == 10) { ++symbolic_link_entries_quantity; }
 	}
 
 	if (hidden_entries_quantity > 0) {
 		printf(
-			"%%F{red}%s%%f%u",
+			" %%F{red}%s%%f%u",
 			choose_symbol_by_environment(" ", "HIDDEN "),
 			hidden_entries_quantity
 		);
 	}
+	if (executable_entries_quantity > 0) {
+		printf(
+			" %%F{green}%s%%f%u",
+			choose_symbol_by_environment(" ", "EXECUTABLE "),
+			executable_entries_quantity
+		);
+	}
 	if (symbolic_link_entries_quantity > 0) {
 		printf(
-			"%%F{blue}%s%%f%u\n",
-			choose_symbol_by_environment(" ", "SYMLINKS "),
+			" %%F{blue}%s%%f%u\n",
+			choose_symbol_by_environment(" ", "SYMLINK "),
 			symbolic_link_entries_quantity
 		);
 	}
