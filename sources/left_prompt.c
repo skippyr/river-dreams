@@ -146,6 +146,36 @@ print_directory(void)
 		);
 	}
 
+	if (!strcmp(getenv(ENV_FALLBACK_TEXT_KEY), "0")) {
+		printf("%%F{red}");
+
+		if (!strcmp(current_directory_path, "~")) {
+			printf(" ");
+		} else if (!strcmp(current_directory_path, "~/Downloads")) {
+			printf(" ");
+		} else if (!strcmp(current_directory_path, "~/Documents")) {
+			printf(" ");
+		} else if (!strcmp(current_directory_path, "~/Pictures")) {
+			printf("  ");
+		} else if (!strcmp(current_directory_path, "~/Music")) {
+			printf("🎜 ");
+		} else if (!strcmp(current_directory_path, "~/Videos")) {
+			printf("󰨜 ");
+		} else if (!strcmp(current_directory_path, "~/Public")) {
+			printf(" ");
+		} else if (!strcmp(current_directory_path, "~/Templates")) {
+			printf(" ");
+		} else if (!strcmp(current_directory_path, "~/Desktop")) {
+			printf(" ");
+		} else if (!strcmp(current_directory_path, "~/.local")) {
+			printf(" ");
+		} else if (!strcmp(current_directory_path, "~/.config")) {
+			printf(" ");
+		} else if (!strcmp(current_directory_path, "~/.cache")) {
+			printf(" ");
+		}
+	}
+
 	int path_slice_last_index = 0;
 	for (int i = 0; i != strlen(current_directory_path); ++i) {
 		if (current_directory_path[i] == '/' && i != 0) {
