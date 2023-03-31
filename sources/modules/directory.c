@@ -2,8 +2,8 @@
 
 void
 get_directory_path_abbreviated(
-  char* directory_path,
-  char* directory_path_abbreviated
+  char *directory_path,
+  char *directory_path_abbreviated
 )
 {
   int path_slice_last_index = 0;

@@ -1,7 +1,7 @@
 #include "../utils.c"
 
 int
-main(int argc, char* argv[])
+main(int argc, char *argv[])
 {
   int columns;
   sscanf(argv[1], "%d", &columns);
