@@ -43,45 +43,16 @@ river_dreams::execute()
   ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY}/$@
 }
 
-river_dreams::separator()
-{
-  river_dreams::execute separator ${COLUMNS}
-}
-
-river_dreams::disk()
-{
-  river_dreams::execute disk
-}
-
-river_dreams::arrow()
-{
-  river_dreams::execute arrow
-}
-
-river_dreams::directory()
-{
-  river_dreams::execute directory
-}
-
-river_dreams::pyenv() {
-  river_dreams::execute pyenv
-}
-
 river_dreams::top_prompt()
 {
   typeset -ra top_prompt=(
-    $(river_dreams::disk)
-    $(river_dreams::pyenv)
+    $(river_dreams::execute disk)
+    $(river_dreams::execute pyenv)
   )
   echo ${top_prompt}
 }
 
-river_dreams::left_prompt()
-{
-  echo "$(river_dreams::arrow)$(river_dreams::directory)"
-}
-
-PROMPT='$(river_dreams::separator)%F{red}┌─%F{yellow}[%f\
+PROMPT='$(river_dreams::execute separator ${COLUMNS})%F{red}┌─%F{yellow}[%f\
 $(river_dreams::top_prompt)%F{yellow}]%f
-%F{red}└%f$(river_dreams::left_prompt) '
+%F{red}└%f$(river_dreams::execute arrow)$(river_dreams::execute directory) '
 
