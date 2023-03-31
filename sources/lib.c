@@ -1,4 +1,30 @@
-#include "../utils.c"
+char *
+choose_symbol_by_environment(char *default_symbol, char *fallback_symbol)
+{
+  return !strcmp(getenv("RIVER_DREAMS_USE_FALLBACK_TEXT"), "0")
+  ? default_symbol
+  : fallback_symbol;
+}
+
+char *
+choose_color_by_environment(char *default_color, char *color_variant)
+{
+  return !strcmp(getenv("RIVER_DREAMS_USE_COLOR_VARIANTS"), "0")
+  ? default_color
+  : color_variant;
+}
+
+int
+has_ownership(char* path)
+{
+  unsigned int user_uid = getuid();
+  struct stat status;
+  stat(path, &status);
+  if (status.st_uid == user_uid || user_uid == 0) {
+    return 1;
+  }
+  return 0;
+}
 
 void
 get_directory_path_abbreviated(
@@ -39,50 +65,5 @@ get_directory_path_abbreviated(
       }
     }
   }
-}
-
-int
-has_ownership(char* directory_path)
-{
-  unsigned int user_uid = getuid();
-  struct stat directory_status;
-  stat(directory_path, &directory_status);
-  if (directory_status.st_uid == user_uid || user_uid == 0) {
-    return 1;
-  }
-  return 0;
-}
-
-int
-main()
-{
-  char *pwd = getenv("PWD");
-  char *home = getenv("HOME");
-  char *directory_path_with_aliases = malloc(strlen(pwd));
-  strcpy(directory_path_with_aliases, pwd);
-  if (strstr(pwd, home) != NULL) {
-    snprintf(
-      directory_path_with_aliases,
-      strlen(directory_path_with_aliases),
-      "%s%%F{red}%s%%f",
-      "~",
-      pwd + strlen(home)
-    );
-  }
-  char *directory_path_abbreviated = malloc(
-    strlen(directory_path_with_aliases)
-  );
-  get_directory_path_abbreviated(
-    directory_path_with_aliases,
-    directory_path_abbreviated
-  );
-  printf(
-    "%%F{green}%s%%F{red}%s%%f\n",
-    directory_path_abbreviated,
-    has_ownership(pwd) ? "" : choose_symbol(" ", " LOCKED")
-  );
-  free(directory_path_with_aliases);
-  free(directory_path_abbreviated);
-  return 0;
 }
 
