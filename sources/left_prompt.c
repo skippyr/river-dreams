@@ -21,7 +21,7 @@ has_ownership(char *path)
 }
 
 void
-print_separator()
+print_separator(void)
 {
   struct winsize terminal_size;
   ioctl(0, TIOCGWINSZ, &terminal_size);
@@ -40,13 +40,13 @@ print_separator()
 }
 
 void
-print_top_connector_left()
+print_top_connector_left(void)
 {
   printf("%%F{red}┌─%%F{yellow}[%%f");
 }
 
 void
-print_disk_usage_percentage()
+print_disk_usage_percentage(void)
 {
   struct statvfs sysdisk_status;
   statvfs("/", &sysdisk_status);
@@ -61,7 +61,7 @@ print_disk_usage_percentage()
 }
 
 void
-print_pyenv()
+print_pyenv(void)
 {
   char *pyenv = getenv("VIRTUAL_ENV");
   if (pyenv != NULL) {
@@ -74,19 +74,19 @@ print_pyenv()
 }
 
 void
-print_top_connector_right()
+print_top_connector_right(void)
 {
   printf("%%F{yellow}]%%f\n");
 }
 
 void
-print_bottom_connector()
+print_bottom_connector(void)
 {
   printf("%%F{red}└%%f");
 }
 
 void
-print_arrow()
+print_arrow(void)
 {
   printf(
     "%%(?..%%F{yellow}[%%F{red}%s%%B%%?%%b%%F{yellow}]%%f)%%(!.%%F{yellow}\
@@ -97,7 +97,7 @@ print_arrow()
 }
 
 void
-print_directory()
+print_directory(void)
 {
   char *current_directory_path = getenv("PWD");
   int has_ownership_of_current_directory = has_ownership(current_directory_path);
@@ -149,7 +149,7 @@ print_directory()
 }
 
 int
-main()
+main(void)
 {
   print_separator();
   print_top_connector_left();
