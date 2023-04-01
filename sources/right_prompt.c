@@ -6,7 +6,7 @@
 #include "lib.c"
 
 static void
-print_directory_entries()
+print_directory_entries(void)
 {
 	DIR *directory_stream = opendir(".");
 	struct dirent *entry;

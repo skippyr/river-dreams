@@ -10,7 +10,7 @@
 #include "lib.c"
 
 static int
-has_ownership(char *path)
+has_ownership(const char *path)
 {
 	unsigned int user_uid = getuid();
 	struct stat status;
