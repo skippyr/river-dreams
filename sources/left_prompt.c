@@ -58,7 +58,7 @@ print_clock(void)
 		if (local_time->tm_hour < 6) {
 			printf("%%F{cyan} ");
 		} else if (local_time->tm_hour < 12) {
-			printf("%%F{red}盛 ");
+			printf("%%F{red}盛");
 		} else if (local_time->tm_hour < 18) {
 			printf("%%F{blue} ");
 		} else {
