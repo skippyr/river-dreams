@@ -9,7 +9,7 @@
 #include <sys/statvfs.h>
 #include "lib.c"
 
-static int
+static unsigned short int
 has_ownership(const char *path)
 {
 	unsigned int user_uid = getuid();
@@ -29,7 +29,7 @@ print_separator(void)
 	struct winsize terminal_size;
 	ioctl(0, TIOCGWINSZ, &terminal_size);
 
-	for (int i = 1; !(i > terminal_size.ws_col); ++i) {
+	for (unsigned short int i = 1; !(i > terminal_size.ws_col); ++i) {
 		if (i % 2 == 0) {
 			printf("%%F{red}%s%%f", choose_symbol_by_environment("▲", "/"));
 		} else {
@@ -87,7 +87,7 @@ print_disk_usage_percentage(void)
 	printf(
 		" %%F{green}%s%%f%u%%%%",
 		choose_symbol_by_environment(" ", "DISK "),
-		(unsigned int) (((
+		(unsigned short int) (((
 			total - sysdisk_status.f_bfree * sysdisk_status.f_bsize) / (float) total
 		) * 100)
 	);
@@ -133,7 +133,7 @@ static void
 print_directory(void)
 {
 	char *current_directory_path = getenv("PWD");
-	int has_ownership_of_current_directory = has_ownership(current_directory_path);
+	unsigned short int has_ownership_of_current_directory = has_ownership(current_directory_path);
 	char *home_directory_path = getenv("HOME");
 
 	if (strstr(current_directory_path, home_directory_path) != NULL) {
@@ -176,8 +176,8 @@ print_directory(void)
 		}
 	}
 
-	int path_slice_last_index = 0;
-	for (int i = 0; i != strlen(current_directory_path); ++i) {
+	unsigned short int path_slice_last_index = 0;
+	for (unsigned short int i = 0; i != strlen(current_directory_path); ++i) {
 		if (current_directory_path[i] == '/' && i != 0) {
 			++path_slice_last_index;
 		}
@@ -185,8 +185,8 @@ print_directory(void)
 
 	printf("%%F{green}");
 
-	int path_slice_index = 0;
-	for (int i = 0; i != strlen(current_directory_path); ++i) {
+	unsigned short int path_slice_index = 0;
+	for (unsigned short int i = 0; i != strlen(current_directory_path); ++i) {
 		if (current_directory_path[i] == '/' && i != 0) {
 			++path_slice_index;
 		}
