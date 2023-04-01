@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include "lib.c"
 
-void
+static void
 print_directory_entries()
 {
 	DIR *directory_stream = opendir(".");

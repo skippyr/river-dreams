@@ -9,7 +9,7 @@
 #include <sys/statvfs.h>
 #include "lib.c"
 
-int
+static int
 has_ownership(char *path)
 {
 	unsigned int user_uid = getuid();
@@ -23,7 +23,7 @@ has_ownership(char *path)
 	return 0;
 }
 
-void
+static void
 print_separator(void)
 {
 	struct winsize terminal_size;
@@ -42,13 +42,13 @@ print_separator(void)
 	}
 }
 
-void
+static void
 print_top_connector_left(void)
 {
 	printf("%%F{red}┌─%%F{yellow}[%%f");
 }
 
-void
+static void
 print_clock(void)
 {
 	time_t now = time(NULL);
@@ -77,7 +77,7 @@ print_clock(void)
 	);
 }
 
-void
+static void
 print_disk_usage_percentage(void)
 {
 	struct statvfs sysdisk_status;
@@ -93,7 +93,7 @@ print_disk_usage_percentage(void)
 	);
 }
 
-void
+static void
 print_python_environment(void)
 {
 	char *python_environment = getenv("VIRTUAL_ENV");
@@ -107,19 +107,19 @@ print_python_environment(void)
 	}
 }
 
-void
+static void
 print_top_connector_right(void)
 {
 	printf("%%F{yellow}]%%f\n");
 }
 
-void
+static void
 print_bottom_connector(void)
 {
 	printf("%%F{red}└%%f");
 }
 
-void
+static void
 print_shell_status(void)
 {
 	printf(
@@ -129,7 +129,7 @@ print_shell_status(void)
 	);
 }
 
-void
+static void
 print_directory(void)
 {
 	char *current_directory_path = getenv("PWD");
