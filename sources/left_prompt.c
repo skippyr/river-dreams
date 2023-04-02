@@ -89,7 +89,10 @@ print_ip_address(void)
 	struct hostent *host_entry;
 	host_entry = gethostbyname(host_name);
 
-	if (host_entry == NULL) { return; }
+	if (
+		host_entry == NULL ||
+		host_entry->h_addrtype != AF_INET
+	) { return; }
 
 	printf(
 		" %%F{red}%s%%f%s",
