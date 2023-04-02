@@ -12,7 +12,7 @@
 static unsigned short int
 has_ownership(const char *path)
 {
-	unsigned int user_uid = getuid();
+	const unsigned int user_uid = getuid();
 	struct stat status;
 	stat(path, &status);
 	
@@ -82,7 +82,7 @@ print_disk_usage_percentage(void)
 {
 	struct statvfs sysdisk_status;
 	statvfs("/", &sysdisk_status);
-	unsigned long total = sysdisk_status.f_blocks * sysdisk_status.f_bsize;
+	const unsigned long total = sysdisk_status.f_blocks * sysdisk_status.f_bsize;
 
 	printf(
 		" %%F{green}%s%%f%u%%%%",
