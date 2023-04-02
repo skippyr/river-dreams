@@ -54,9 +54,19 @@ print_directory_entries(void)
 	closedir(directory_stream);
 }
 
+static void
+print_jobs(void)
+{
+	printf(
+		" %%(1j.%%F{green}%s%%f%%j.)",
+		choose_symbol_by_environment(" ", "JOBS ")
+	);
+}
+
 int
 main(void)
 {
+	print_jobs();
 	print_directory_entries();
 
 	return 0;
