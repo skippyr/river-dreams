@@ -11,9 +11,9 @@ print_directory_entries(void)
 	DIR *directory_stream = opendir(".");
 	struct dirent *entry;
 
-	unsigned int hidden_entries_quantity = 0;
-	unsigned int executable_entries_quantity = 0;
-	unsigned int symbolic_link_entries_quantity = 0;
+	unsigned short int hidden_entries_quantity = 0;
+	unsigned short int executable_entries_quantity = 0;
+	unsigned short int symbolic_link_entries_quantity = 0;
 
 	while ((entry = readdir(directory_stream)) != NULL) {
 		if (

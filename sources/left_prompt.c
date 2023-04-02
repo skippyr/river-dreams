@@ -134,7 +134,7 @@ print_directory(void)
 {
 	char *current_directory_path = getenv("PWD");
 	unsigned short int has_ownership_of_current_directory = has_ownership(current_directory_path);
-	char *home_directory_path = getenv("HOME");
+	const char *home_directory_path = getenv("HOME");
 
 	if (strstr(current_directory_path, home_directory_path) != NULL) {
 		snprintf(
