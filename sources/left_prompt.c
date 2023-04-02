@@ -86,8 +86,7 @@ print_ip_address(void)
 	char host_name[HOST_NAME_MAX + 1];
 	gethostname(host_name, sizeof(host_name));
 
-	struct hostent *host_entry;
-	host_entry = gethostbyname(host_name);
+	struct hostent *host_entry = gethostbyname(host_name);
 
 	if (
 		host_entry == NULL ||
