@@ -7,6 +7,9 @@
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/statvfs.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <limits.h>
 #include "lib.c"
 
 static unsigned short int
@@ -74,6 +77,24 @@ print_clock(void)
 		local_time->tm_hour,
 		local_time->tm_min < 10 ? "0" : "",
 		local_time->tm_min
+	);
+}
+
+static void
+print_ip_address(void)
+{
+	char host_name[HOST_NAME_MAX + 1];
+	gethostname(host_name, sizeof(host_name));
+
+	struct hostent *host_entry;
+	host_entry = gethostbyname(host_name);
+
+	if (host_entry == NULL) { return; }
+
+	printf(
+		" %%F{red}%s%%f%s",
+		choose_symbol_by_environment(" ", "IP "),
+		inet_ntoa(*(struct in_addr *) host_entry->h_addr_list[0])
 	);
 }
 
@@ -219,6 +240,7 @@ main(void)
 	print_separator();
 	print_top_connector_left();
 	print_clock();
+	print_ip_address();
 	print_disk_usage_percentage();
 	print_python_environment();
 	print_top_connector_right();
