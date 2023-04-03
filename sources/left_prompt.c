@@ -22,9 +22,10 @@ has_ownership(const char *path)
 	struct stat status;
 	stat(path, &status);
 	
-	if (status.st_uid == user_uid || user_uid == 0) {
-		return 1;
-	}
+	if (
+		status.st_uid == user_uid ||
+		user_uid == 0
+	) { return 1; }
 
 	return 0;
 }
