@@ -24,8 +24,8 @@ It shows:
 
 ## Installation
 
-  + install a font patched by [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts).
-  + install `gcc` and the standart C libraries. They usually come bundled with the compiler.
+  + Install and use a font patched by [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts).
+  + install `gcc` and the standard C libraries. They usually come bundled with the compiler.
   + clone this repository to a directory, for example: `~/.config/zsh/themes/river_dreams`:
     ```bash
     git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams
@@ -42,7 +42,7 @@ again using the function `river_dreams::recompile`.
 
 ## Customization
 
-You can use environment variables to change River Dreams behaviors. For boolean values, use C standart: `1` for true and `0` for false.
+You can use environment variables to change River Dreams behaviors. For boolean values, use C standard: `1` for true and `0` for false.
 
 If the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT` is not set, it will set it with value `1` if your terminal only supports the 4-bits color pallete and `0` if not. This will allow you to use River Dreams even when your terminal does not support the symbols used by default.
 
