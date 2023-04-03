@@ -15,21 +15,6 @@
 
 #define GIT_BUFFER_SIZE 272
 
-static unsigned short int
-has_ownership(const char *path)
-{
-	const unsigned int user_uid = getuid();
-	struct stat status;
-	stat(path, &status);
-	
-	if (
-		status.st_uid == user_uid ||
-		user_uid == 0
-	) { return 1; }
-
-	return 0;
-}
-
 static void
 print_separator(void)
 {
@@ -150,6 +135,21 @@ print_shell_status(void)
 		choose_symbol_by_environment(" ", "X "),
 		choose_symbol_by_environment("⤐  ", "> ")
 	);
+}
+
+static unsigned short int
+has_ownership(const char *path)
+{
+	const unsigned int user_uid = getuid();
+	struct stat status;
+	stat(path, &status);
+	
+	if (
+		status.st_uid == user_uid ||
+		user_uid == 0
+	) { return 1; }
+
+	return 0;
 }
 
 static void
