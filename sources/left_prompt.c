@@ -200,8 +200,12 @@ print_directory(void)
 	}
 
 	unsigned short int path_slice_last_index = 0;
-	for (unsigned short int i = 0; i != strlen(current_directory_path); ++i) {
-		if (current_directory_path[i] == '/' && i != 0) {
+	for (
+		unsigned short int iterator = 0;
+		!(iterator == strlen(current_directory_path));
+		++iterator
+	) {
+		if (current_directory_path[iterator] == '/' && iterator != 0) {
 			++path_slice_last_index;
 		}
 	}
@@ -209,22 +213,26 @@ print_directory(void)
 	printf("%%F{green}");
 
 	unsigned short int path_slice_index = 0;
-	for (unsigned short int i = 0; i != strlen(current_directory_path); ++i) {
-		if (current_directory_path[i] == '/' && i != 0) {
+	for (
+		unsigned short int iterator = 0;
+		!(iterator == strlen(current_directory_path));
+		++iterator
+	) {
+		if (current_directory_path[iterator] == '/' && iterator != 0) {
 			++path_slice_index;
 		}
 		if (
 			path_slice_index == path_slice_last_index ||
-			current_directory_path[i] == '/' ||
-			current_directory_path[i] == '.' ||
-			current_directory_path[i] == '~' ||
-			current_directory_path[i - 1] == '/' ||
+			current_directory_path[iterator] == '/' ||
+			current_directory_path[iterator] == '.' ||
+			current_directory_path[iterator] == '~' ||
+			current_directory_path[iterator - 1] == '/' ||
 			(
-				current_directory_path[i - 2] == '/' &&
-				current_directory_path[i - 1] == '.'
+				current_directory_path[iterator - 2] == '/' &&
+				current_directory_path[iterator - 1] == '.'
 			)
 		) {
-			printf("%c", current_directory_path[i]);
+			printf("%c", current_directory_path[iterator]);
 		}
 	}
 
