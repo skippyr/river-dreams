@@ -21,8 +21,12 @@ print_separator(void)
 	struct winsize terminal_size;
 	ioctl(0, TIOCGWINSZ, &terminal_size);
 
-	for (unsigned short int i = 0; i != terminal_size.ws_col; ++i) {
-		if (i % 2 == 0) {
+	for (
+		unsigned short int iterator = 0;
+		iterator != terminal_size.ws_col;
+		++iterator
+	) {
+		if (iterator % 2 == 0) {
 			printf(
 				"%%F{red}%s%%f",
 				choose_symbol_by_environment("▲", "=")
