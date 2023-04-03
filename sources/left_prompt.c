@@ -40,13 +40,13 @@ print_separator(void)
 		if (i % 2 == 0) {
 			printf(
 				"%%F{red}%s%%f",
-				choose_symbol_by_environment("▲", "/")
+				choose_symbol_by_environment("▲", "=")
 			);
 		} else {
 			printf(
 				"%%F{%s}%s%%f",
 				choose_color_by_environment("yellow", "blue"),
-				choose_symbol_by_environment("▼", "\\")
+				choose_symbol_by_environment("▼", "-")
 			);
 		}
 	}
