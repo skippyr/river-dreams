@@ -244,8 +244,15 @@ print_directory(void)
 	);
 }
 
+static void
+print_git_branch(const char *git_branch)
+{
+	if (git_branch == NULL) { return; }
+	printf(" %%F{red}%s%%f", git_branch);
+}
+
 int
-main(void)
+main(int _argc, char *argv[])
 {
 	print_separator();
 	print_top_connector_left();
@@ -257,6 +264,7 @@ main(void)
 	print_bottom_connector();
 	print_shell_status();
 	print_directory();
+	print_git_branch(argv[1]);
 
 	return 0;
 }
