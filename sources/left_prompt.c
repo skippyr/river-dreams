@@ -146,7 +146,7 @@ static void
 print_shell_status(void)
 {
 	printf(
-		"%%(?..%%F{yellow}[%%F{red}%s%%B%%?%%b%%F{yellow}]%%f)%%(!.%%F{yellow}[%%F{red}#%%F{yellow}].)%%(?.%%F{yellow}.%%F{red})%s%%f",
+		"%%(?..%%F{yellow}[%%F{red}%s%%?%%F{yellow}]%%f)%%(!.%%F{yellow}[%%F{red}#%%F{yellow}].)%%(?.%%F{yellow}.%%F{red})%s%%f",
 		choose_symbol_by_environment(" ", "X "),
 		choose_symbol_by_environment("⤐  ", "> ")
 	);
