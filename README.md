@@ -16,6 +16,7 @@ It shows:
   + if you are owner of current directory.
   + current directory abbreviated like the `fish` shell.
   + current git branch.
+  + background jobs quantity.
   + hidden files quantity.
   + executable files quantity.
   + symbolic links quantity.
