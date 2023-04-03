@@ -13,6 +13,8 @@
 #include <dirent.h>
 #include "lib.c"
 
+#define GIT_BUFFER_SIZE 272
+
 static unsigned short int
 has_ownership(const char *path)
 {
@@ -33,7 +35,7 @@ print_separator(void)
 	struct winsize terminal_size;
 	ioctl(0, TIOCGWINSZ, &terminal_size);
 
-	for (unsigned short int i = 1; !(i > terminal_size.ws_col); ++i) {
+	for (unsigned short int i = 0; i != terminal_size.ws_col; ++i) {
 		if (i % 2 == 0) {
 			printf("%%F{red}%s%%f", choose_symbol_by_environment("▲", "/"));
 		} else {
@@ -173,31 +175,18 @@ print_directory(void)
 	if (!strcmp(getenv(ENV_FALLBACK_TEXT_KEY), "0")) {
 		printf("%%F{red}");
 
-		if (!strcmp(current_directory_path, "~")) {
-			printf(" ");
-		} else if (!strcmp(current_directory_path, "~/Downloads")) {
-			printf(" ");
-		} else if (!strcmp(current_directory_path, "~/Documents")) {
-			printf(" ");
-		} else if (!strcmp(current_directory_path, "~/Pictures")) {
-			printf("  ");
-		} else if (!strcmp(current_directory_path, "~/Music")) {
-			printf("🎜 ");
-		} else if (!strcmp(current_directory_path, "~/Videos")) {
-			printf("󰨜 ");
-		} else if (!strcmp(current_directory_path, "~/Public")) {
-			printf("  ");
-		} else if (!strcmp(current_directory_path, "~/Templates")) {
-			printf(" ");
-		} else if (!strcmp(current_directory_path, "~/Desktop")) {
-			printf(" ");
-		} else if (!strcmp(current_directory_path, "~/.local")) {
-			printf(" ");
-		} else if (!strcmp(current_directory_path, "~/.config")) {
-			printf(" ");
-		} else if (!strcmp(current_directory_path, "~/.cache")) {
-			printf(" ");
-		}
+		if (!strcmp(current_directory_path, "~")) { printf(" "); }
+		else if (!strcmp(current_directory_path, "~/Downloads")) { printf(" "); }
+		else if (!strcmp(current_directory_path, "~/Documents")) { printf(" "); }
+		else if (!strcmp(current_directory_path, "~/Pictures")) { printf("  "); }
+		else if (!strcmp(current_directory_path, "~/Music")) { printf("🎜 "); }
+		else if (!strcmp(current_directory_path, "~/Videos")) { printf("󰨜 "); }
+		else if (!strcmp(current_directory_path, "~/Public")) {	printf("  "); }
+		else if (!strcmp(current_directory_path, "~/Templates")) { printf(" "); }
+		else if (!strcmp(current_directory_path, "~/Desktop")) { printf(" "); }
+		else if (!strcmp(current_directory_path, "~/.local")) { printf(" "); }
+		else if (!strcmp(current_directory_path, "~/.config")) { printf(" "); }
+		else if (!strcmp(current_directory_path, "~/.cache")) { printf(" "); }
 	}
 
 	unsigned short int path_slice_last_index = 0;
@@ -206,9 +195,10 @@ print_directory(void)
 		!(iterator == strlen(current_directory_path));
 		++iterator
 	) {
-		if (current_directory_path[iterator] == '/' && iterator != 0) {
-			++path_slice_last_index;
-		}
+		if (
+			current_directory_path[iterator] == '/' &&
+			iterator != 0
+		) { ++path_slice_last_index; }
 	}
 
 	printf("%%F{green}");
@@ -219,9 +209,10 @@ print_directory(void)
 		!(iterator == strlen(current_directory_path));
 		++iterator
 	) {
-		if (current_directory_path[iterator] == '/' && iterator != 0) {
-			++path_slice_index;
-		}
+		if (
+			current_directory_path[iterator] == '/' &&
+			iterator != 0
+		) { ++path_slice_index;	}
 		if (
 			path_slice_index == path_slice_last_index ||
 			current_directory_path[iterator] == '/' ||
@@ -232,9 +223,7 @@ print_directory(void)
 				current_directory_path[iterator - 2] == '/' &&
 				current_directory_path[iterator - 1] == '.'
 			)
-		) {
-			printf("%c", current_directory_path[iterator]);
-		}
+		) { printf("%c", current_directory_path[iterator]); }
 	}
 
 	printf(
@@ -251,17 +240,16 @@ get_dot_git_parent_directory_path(const char *relative_path, char directory_path
 	DIR *directory_stream = opendir(relative_path);
 	struct dirent *directory_entry;
 	realpath(relative_path, directory_path); 
+
 	while ((directory_entry = readdir(directory_stream)) != NULL) {
 		if (
 			directory_entry->d_type == 4 &&
 			!strcmp(directory_entry->d_name, ".git")
-		) {
-			return 0;
-		}
+		) { return 0; }
 	}
-	if (!strcmp(directory_path, "/")) {
-		return 1;
-	}
+
+	if (!strcmp(directory_path, "/")) { return 1; }
+
 	get_dot_git_parent_directory_path(dirname(directory_path), directory_path);
 }
 
@@ -274,13 +262,16 @@ print_git_branch(void)
 		head_file_path,
 		"/.git/HEAD"
 	);
+
 	FILE *file_stream = fopen(head_file_path, "r");
-	char buffer[256];
-	fgets(buffer, sizeof(buffer), file_stream);
-	
+	char buffer[GIT_BUFFER_SIZE];
+	fgets(buffer, GIT_BUFFER_SIZE, file_stream);
+
 	printf(" %%F{red}");
+
 	unsigned short int iterator = 0;
 	unsigned short int slashes_passed = 0;
+
 	while (buffer[iterator] != '\n') {
 		if (buffer[iterator] == '/') {
 			++slashes_passed;
@@ -289,6 +280,7 @@ print_git_branch(void)
 		}
 		++iterator;
 	}
+
 	printf("%%f");
 }
 
