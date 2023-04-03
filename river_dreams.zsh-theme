@@ -31,6 +31,6 @@ river_dreams::execute() {
 
 [[ ! -d ${RIVER_DREAMS_DISTRIBUTIONS_DIRECTORY} ]] && river_dreams::recompile
 
-PROMPT='$(river_dreams::execute left_prompt $(git branch --show-current 2>/dev/null)) '
+PROMPT='$(river_dreams::execute left_prompt) '
 RPROMPT='$(river_dreams::execute right_prompt)'
 

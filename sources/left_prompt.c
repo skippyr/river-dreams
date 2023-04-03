@@ -10,6 +10,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <limits.h>
+#include <dirent.h>
 #include "lib.c"
 
 static unsigned short int
@@ -244,15 +245,55 @@ print_directory(void)
 	);
 }
 
-static void
-print_git_branch(const char *git_branch)
+static int
+get_dot_git_parent_directory_path(const char *relative_path, char directory_path[])
 {
-	if (git_branch == NULL) { return; }
-	printf(" %%F{red}%s%%f", git_branch);
+	DIR *directory_stream = opendir(relative_path);
+	struct dirent *directory_entry;
+	realpath(relative_path, directory_path); 
+	while ((directory_entry = readdir(directory_stream)) != NULL) {
+		if (
+			directory_entry->d_type == 4 &&
+			!strcmp(directory_entry->d_name, ".git")
+		) {
+			return 0;
+		}
+	}
+	if (!strcmp(directory_path, "/")) {
+		return 1;
+	}
+	get_dot_git_parent_directory_path(dirname(directory_path), directory_path);
+}
+
+static void
+print_git_branch(void)
+{
+	char head_file_path[PATH_MAX];
+	if (get_dot_git_parent_directory_path(".", head_file_path) != 0) { return; }
+	strcat(
+		head_file_path,
+		"/.git/HEAD"
+	);
+	FILE *file_stream = fopen(head_file_path, "r");
+	char buffer[256];
+	fgets(buffer, sizeof(buffer), file_stream);
+	
+	printf(" %%F{red}");
+	unsigned short int iterator = 0;
+	unsigned short int slashes_passed = 0;
+	while (buffer[iterator] != '\n') {
+		if (buffer[iterator] == '/') {
+			++slashes_passed;
+		} else if (slashes_passed == 2) {
+			printf("%c", buffer[iterator]);
+		}
+		++iterator;
+	}
+	printf("%%f");
 }
 
 int
-main(int _argc, char *argv[])
+main(void)
 {
 	print_separator();
 	print_top_connector_left();
@@ -264,7 +305,7 @@ main(int _argc, char *argv[])
 	print_bottom_connector();
 	print_shell_status();
 	print_directory();
-	print_git_branch(argv[1]);
+	print_git_branch();
 
 	return 0;
 }
