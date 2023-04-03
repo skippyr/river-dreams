@@ -37,7 +37,10 @@ print_separator(void)
 
 	for (unsigned short int i = 0; i != terminal_size.ws_col; ++i) {
 		if (i % 2 == 0) {
-			printf("%%F{red}%s%%f", choose_symbol_by_environment("▲", "/"));
+			printf(
+				"%%F{red}%s%%f",
+				choose_symbol_by_environment("▲", "/")
+			);
 		} else {
 			printf(
 				"%%F{%s}%s%%f",
@@ -61,18 +64,11 @@ print_clock(void)
 	struct tm *local_time = localtime(&now);
 
 	if (!strcmp(getenv(ENV_FALLBACK_TEXT_KEY), "0")) {
-		if (local_time->tm_hour < 6) {
-			printf("%%F{cyan} ");
-		} else if (local_time->tm_hour < 12) {
-			printf("%%F{red}盛");
-		} else if (local_time->tm_hour < 18) {
-			printf("%%F{blue} ");
-		} else {
-			printf("%%F{yellow}󰽥 ");
-		}
-	} else {
-		printf("%%F{yellow}CLOCK ");
-	}
+		if (local_time->tm_hour < 6) { printf("%%F{cyan} "); }
+		else if (local_time->tm_hour < 12) { printf("%%F{red}盛"); }
+		else if (local_time->tm_hour < 18) { printf("%%F{blue} "); }
+		else { printf("%%F{yellow}󰽥 "); }
+	} else { printf("%%F{yellow}CLOCK "); }
 
 	printf(
 		"%%f%s%dh%s%dm",
