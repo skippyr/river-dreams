@@ -231,7 +231,7 @@ print_directory(void)
 	);
 }
 
-static int
+static unsigned short int
 get_dot_git_parent_directory_path(const char *relative_path, char directory_path[])
 {
 	DIR *directory_stream = opendir(relative_path);
