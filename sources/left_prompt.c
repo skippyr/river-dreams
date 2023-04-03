@@ -245,6 +245,8 @@ get_dot_git_parent_directory_path(const char *relative_path, char directory_path
 		) { return 0; }
 	}
 
+	closedir(directory_stream);
+
 	if (!strcmp(directory_path, "/")) { return 1; }
 
 	get_dot_git_parent_directory_path(dirname(directory_path), directory_path);
@@ -263,6 +265,7 @@ print_git_branch(void)
 	FILE *file_stream = fopen(head_file_path, "r");
 	char buffer[GIT_BUFFER_SIZE];
 	fgets(buffer, GIT_BUFFER_SIZE, file_stream);
+	fclose(file_stream);
 
 	printf(" %%F{red}");
 
