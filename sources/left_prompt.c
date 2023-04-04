@@ -44,7 +44,10 @@ print_separator(void)
 static void
 print_top_connector_left(void)
 {
-	printf("%%F{red}┌─%%F{yellow}[%%f");
+	printf(
+		"%%F{red}%s─%%F{yellow}{%%f",
+		choose_symbol_by_environment("╭", "┌")
+	);
 }
 
 static void
@@ -122,20 +125,23 @@ print_python_environment(void)
 static void
 print_top_connector_right(void)
 {
-	printf("%%F{yellow}]%%f\n");
+	printf("%%F{yellow}}%%f\n");
 }
 
 static void
 print_bottom_connector(void)
 {
-	printf("%%F{red}└%%f");
+	printf(
+		"%%F{red}%s%%f",
+		choose_symbol_by_environment("╰", "└")
+	);
 }
 
 static void
 print_shell_status(void)
 {
 	printf(
-		"%%(?..%%F{yellow}[%%F{red}%s%%?%%F{yellow}]%%f)%%(!.%%F{yellow}[%%F{red}#%%F{yellow}].)%%(?.%%F{yellow}.%%F{red})%s%%f",
+		"%%(?..%%F{yellow}{%%F{red}%s%%?%%F{yellow}}%%f)%%(!.%%F{yellow}{%%F{red}#%%F{yellow}}.)%%(?.%%F{yellow}.%%F{red})%s%%f",
 		choose_symbol_by_environment(" ", "X "),
 		choose_symbol_by_environment("⤐  ", "> ")
 	);
