@@ -33,8 +33,7 @@ print_separator(void)
 			);
 		} else {
 			printf(
-				"%%F{%s}%s%%f",
-				choose_color_by_environment("yellow", "blue"),
+				"%%F{yellow}%s%%f",
 				choose_symbol_by_environment("▼", "-")
 			);
 		}

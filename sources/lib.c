@@ -9,11 +9,3 @@ choose_symbol_by_environment(const char *default_symbol, const char *fallback_sy
 	: default_symbol;
 }
 
-const char *
-choose_color_by_environment(const char *default_color, const char *color_variant)
-{
-	return !strcmp(getenv(ENV_COLOR_VARIANTS_KEY), "1")
-	? color_variant
-	: default_color;
-}
-
