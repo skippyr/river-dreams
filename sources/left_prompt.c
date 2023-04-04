@@ -182,7 +182,7 @@ print_directory(void)
 		else if (!strcmp(current_directory_path, "~/Pictures")) { printf("  "); }
 		else if (!strcmp(current_directory_path, "~/Music")) { printf("🎜 "); }
 		else if (!strcmp(current_directory_path, "~/Videos")) { printf("󰨜 "); }
-		else if (!strcmp(current_directory_path, "~/Public")) {	printf("  "); }
+		else if (!strcmp(current_directory_path, "~/Public")) { printf("  "); }
 		else if (!strcmp(current_directory_path, "~/Templates")) { printf(" "); }
 		else if (!strcmp(current_directory_path, "~/Desktop")) { printf(" "); }
 		else if (!strcmp(current_directory_path, "~/.local")) { printf(" "); }
@@ -213,7 +213,7 @@ print_directory(void)
 		if (
 			current_directory_path[iterator] == '/' &&
 			iterator != 0
-		) { ++path_slice_index;	}
+		) { ++path_slice_index; }
 		if (
 			path_slice_index == path_slice_last_index ||
 			current_directory_path[iterator] == '/' ||
