@@ -292,6 +292,12 @@ print_git_branch(void)
 	printf("%%f");
 }
 
+static void
+print_cursor_decorator()
+{
+	printf(" %%F{yellow}%s%%f", choose_symbol_by_environment("✗ ", "X "));
+}
+
 int
 main(void)
 {
@@ -306,6 +312,7 @@ main(void)
 	print_shell_status();
 	print_directory();
 	print_git_branch();
+	print_cursor_decorator();
 
 	return 0;
 }
