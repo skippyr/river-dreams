@@ -17,7 +17,7 @@ It shows:
 + a decorator if you are not the user owner of the current directory.
 + current directory path abbreviated just like what the `fish` shell does.
 + current git branch, if in a directory being tracked by git.
-+ a decorator to help you find your cursor position.
++ a decorator to help you find where you can type your commands.
 + background jobs quantity.
 + hidden files quantity for the current directory.
 + executable files quantity for the current directory.
