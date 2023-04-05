@@ -39,7 +39,7 @@ print_separator(void)
 }
 
 static void
-print_top_connector_left(void)
+print_top_left_connector(void)
 {
 	printf(
 		"%%F{red}%s─%%F{yellow}{%%f",
@@ -70,7 +70,7 @@ print_clock(void)
 }
 
 static void
-print_ip_address(void)
+print_local_ipv4_address(void)
 {
 	char host_name[HOST_NAME_MAX + 1];
 	gethostname(host_name, sizeof(host_name));
@@ -120,13 +120,13 @@ print_python_environment(void)
 }
 
 static void
-print_top_connector_right(void)
+print_top_right_connector(void)
 {
 	printf("%%F{yellow}}%%f\n");
 }
 
 static void
-print_bottom_connector(void)
+print_bottom_left_connector(void)
 {
 	printf(
 		"%%F{red}%s%%f",
@@ -135,7 +135,7 @@ print_bottom_connector(void)
 }
 
 static void
-print_shell_status(void)
+print_shell_status_decorators(void)
 {
 	printf(
 		"%%(?..%%F{yellow}{%%F{red}%s%%?%%F{yellow}}%%f)%%(!.%%F{yellow}{%%F{red}#%%F{yellow}}.)%%(?.%%F{yellow}.%%F{red})%s%%f",
@@ -160,7 +160,7 @@ has_ownership(const char *path)
 }
 
 static void
-print_directory(void)
+print_directory_path_abbreviated(void)
 {
 	char *current_directory_path = getenv("PWD");
 	unsigned short int has_ownership_of_current_directory = has_ownership(current_directory_path);
@@ -293,7 +293,7 @@ print_git_branch(void)
 }
 
 static void
-print_cursor_decorator()
+print_cursor_decorator(void)
 {
 	printf(" %%F{yellow}%s%%f", choose_symbol_by_environment("✗ ", "X "));
 }
@@ -302,15 +302,15 @@ int
 main(void)
 {
 	print_separator();
-	print_top_connector_left();
+	print_top_left_connector();
 	print_clock();
-	print_ip_address();
+	print_local_ipv4_address();
 	print_disk_usage_percentage();
 	print_python_environment();
-	print_top_connector_right();
-	print_bottom_connector();
-	print_shell_status();
-	print_directory();
+	print_top_right_connector();
+	print_bottom_left_connector();
+	print_shell_status_decorators();
+	print_directory_path_abbreviated();
 	print_git_branch();
 	print_cursor_decorator();
 
