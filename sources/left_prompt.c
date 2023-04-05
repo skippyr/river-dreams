@@ -13,8 +13,6 @@
 #include <dirent.h>
 #include "lib.c"
 
-#define GIT_BUFFER_SIZE 272
-
 static void
 print_separator(void)
 {
@@ -272,23 +270,24 @@ print_git_branch(void)
 	);
 
 	FILE *file_stream = fopen(head_file_path, "r");
-	char buffer[GIT_BUFFER_SIZE];
-	fgets(buffer, GIT_BUFFER_SIZE, file_stream);
-	fclose(file_stream);
+	char buffer[2];
 
 	printf(" %%F{red}");
 
-	unsigned short int iterator = 0;
 	unsigned short int slashes_passed = 0;
 
-	while (buffer[iterator] != '\n') {
-		if (buffer[iterator] == '/') {
+	while (fgets(buffer, sizeof(buffer), file_stream) != NULL) {
+		if (!strcmp(buffer, "/")) {
 			++slashes_passed;
-		} else if (slashes_passed == 2) {
-			printf("%c", buffer[iterator]);
+		} else if (
+			slashes_passed == 2 &&
+			strcmp(buffer, "\n")
+		) {
+			printf("%s", buffer);
 		}
-		++iterator;
 	}
+
+	fclose(file_stream);
 
 	printf("%%f");
 }
