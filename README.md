@@ -1,31 +1,34 @@
 # River Dreams
 
-A easy to use and fast ZSH theme for programmer and hackers.
+A easy to use and fast ZSH theme for programmers and hackers.
 
+> River Dreams with pretty symbols from Nerd Fonts.
 ![](images/image_0.png)
+> River Dreams with fallback text.
 ![](images/image_1.png)
-![](images/image_2.png)
 
 It shows:
-+ current hours and minutes.
++ current hours and minutes in 24h format.
 + local ipv4 address.
 + disk usage percentage.
 + sourced Python virtual environment.
-+ failed exit codes.
-+ if you are root.
-+ if you are owner of current directory.
-+ current directory abbreviated like the `fish` shell.
-+ current git branch.
++ exit code of failed commands.
++ a decorator if you are the root user.
++ a decorator if you are not the user owner of the current directory.
++ current directory path abbreviated just like what the `fish` shell does.
++ current git branch, if in a directory being tracked by git.
 + background jobs quantity.
-+ hidden files quantity.
-+ executable files quantity.
-+ symbolic links quantity.
++ hidden files quantity for the current directory.
++ executable files quantity for the current directory.
++ symbolic links quantity for the current directory.
+
+River Dreams also contains fallback text that can be used when your terminal can not render pretty symbols.
 
 
 ## Installation
 
-+ install `gcc` and the standard C libraries. You will probably have them already installed.
-+ optionally, install and use a font patched by [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) to see pretty symbols. If you do not use it, you can enable River Dreams's fallback text.
++ install `gcc` and the standard C libraries. You will probably have them already installed as those are, usually, a system dependencies.
++ optionally, install and use a font patched by [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) in your terminal to see pretty symbols. If you do not use it, you can enable River Dreams's fallback text.
 + clone this repository to a directory, for example: `~/.config/zsh/themes/river_dreams`:
 
 	```bash
@@ -47,7 +50,7 @@ The code will automatically be compiled. At any point, you can recompile it agai
 
 You can use environment variables to change River Dreams behaviors. For boolean values, use C standard: `1` for true and `0` for false.
 
-Set the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT` to enable/disable fallback text. If it is not set, it will be set with value `1` if your terminal only supports the 4-bits color pallete and `0` if not. This will allow you to use River Dreams even when your terminal can not render a font with pretty symbols.
+Set the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT` to enable and disable fallback text. If it is not set, it will be set with value `1` if your terminal only supports the 4-bits color pallete and `0` if not.
 
 
 ## Issues And Questions
