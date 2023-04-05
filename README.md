@@ -2,7 +2,7 @@
 
 A easy to use and fast ZSH theme for programmers and hackers.
 
-> River Dreams with pretty symbols from Nerd Fonts.
+> River Dreams with pretty symbols from Noto Sans and Nerd Fonts.
 ![](images/image_0.png)
 > River Dreams with fallback text.
 ![](images/image_1.png)
@@ -29,7 +29,7 @@ River Dreams also contains fallback text that can be used when your terminal can
 ## Installation
 
 + install `gcc` and the standard C libraries. You will probably have them already installed as those are, usually, a system dependencies.
-+ optionally, install and use a font patched by [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) in your terminal to see pretty symbols. If you do not use it, you can enable River Dreams's fallback text.
++ optionally, install the Noto Sans font and use a font patched by [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) in your terminal to see pretty symbols. If you do not use them, you can enable River Dreams's fallback text.
 + clone this repository to a directory, for example: `~/.config/zsh/themes/river_dreams`:
 
 	```bash
