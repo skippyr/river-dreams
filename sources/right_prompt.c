@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
-#include "lib.c"
+#include "common.c"
 
 static void
 print_background_jobs_quantity(void)

@@ -11,7 +11,7 @@
 #include <sys/statvfs.h>
 #include <time.h>
 #include <unistd.h>
-#include "lib.c"
+#include "common.c"
 
 static void
 print_separator(void)
