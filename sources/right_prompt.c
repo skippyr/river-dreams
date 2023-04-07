@@ -10,7 +10,7 @@ print_background_jobs_quantity(void)
 {
 	printf(
 		" %%(1j.%%F{green}%s%%f%%j.)",
-		choose_symbol_by_environment(" ", "JOBS ")
+		is_to_use_fallback_text() ? "JOBS " : " "
 	);
 }
 
@@ -41,21 +41,21 @@ print_directory_entry_types_quantity(void)
 	if (hidden_entries_quantity > 0) {
 		printf(
 			" %%F{red}%s%%f%u",
-			choose_symbol_by_environment(" ", "HIDDEN "),
+			is_to_use_fallback_text() ? "HIDDEN " : " ",
 			hidden_entries_quantity
 		);
 	}
 	if (executable_entries_quantity > 0) {
 		printf(
 			" %%F{green}%s%%f%u",
-			choose_symbol_by_environment(" ", "EXECUTABLE "),
+			is_to_use_fallback_text() ? "EXECUTABLE " : " ",
 			executable_entries_quantity
 		);
 	}
 	if (symbolic_link_entries_quantity > 0) {
 		printf(
 			" %%F{blue}%s%%f%u\n",
-			choose_symbol_by_environment(" ", "SYMLINK "),
+			is_to_use_fallback_text() ? "SYMLINK " : " ",
 			symbolic_link_entries_quantity
 		);
 	}

@@ -1,10 +1,12 @@
-#define ENV_FALLBACK_TEXT_KEY "RIVER_DREAMS_USE_FALLBACK_TEXT"
+#define FALLBACK_TEXT_ENVIRONMENT_VARIABLE "RIVER_DREAMS_USE_FALLBACK_TEXT"
 
-const char *
-choose_symbol_by_environment(const char *default_symbol, const char *fallback_symbol)
+unsigned short int
+is_to_use_fallback_text()
 {
-	return !strcmp(getenv(ENV_FALLBACK_TEXT_KEY), "1")
-	? fallback_symbol
-	: default_symbol;
+	return (
+		!strcmp(getenv(FALLBACK_TEXT_ENVIRONMENT_VARIABLE), "1")
+		? 1
+		: 0
+	);
 }
 

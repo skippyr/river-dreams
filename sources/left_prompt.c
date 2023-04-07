@@ -27,12 +27,12 @@ print_separator(void)
 		if (iterator % 2 == 0) {
 			printf(
 				"%%F{red}%s%%f",
-				choose_symbol_by_environment("▲", "=")
+				is_to_use_fallback_text() ? "=" : "▲"
 			);
 		} else {
 			printf(
 				"%%F{yellow}%s%%f",
-				choose_symbol_by_environment("▼", "-")
+				is_to_use_fallback_text() ? "-" : "▼"
 			);
 		}
 	}
@@ -43,7 +43,7 @@ print_top_left_connector(void)
 {
 	printf(
 		"%%F{red}%s─%%F{yellow}{%%f",
-		choose_symbol_by_environment("╭", "┌")
+		is_to_use_fallback_text() ? "┌" : "╭"
 	);
 }
 
@@ -53,7 +53,7 @@ print_clock(void)
 	time_t now = time(NULL);
 	struct tm *local_time = localtime(&now);
 
-	if (!strcmp(getenv(ENV_FALLBACK_TEXT_KEY), "0")) {
+	if (!is_to_use_fallback_text()) {
 		if (local_time->tm_hour < 6) { printf("%%F{cyan} "); }
 		else if (local_time->tm_hour < 12) { printf("%%F{red}盛"); }
 		else if (local_time->tm_hour < 18) { printf("%%F{blue} "); }
@@ -84,7 +84,7 @@ print_local_ipv4_address(void)
 
 	printf(
 		" %%F{red}%s%%f%s",
-		choose_symbol_by_environment(" ", "IP "),
+		is_to_use_fallback_text() ? "IP " : " ",
 		inet_ntoa(*(struct in_addr *) host_entry->h_addr_list[0])
 	);
 }
@@ -98,7 +98,7 @@ print_disk_usage_percentage(void)
 
 	printf(
 		" %%F{green}%s%%f%u%%%%",
-		choose_symbol_by_environment(" ", "DISK "),
+		is_to_use_fallback_text() ? "DISK " : " ",
 		(unsigned short int) (((
 			total - sysdisk_status.f_bfree * sysdisk_status.f_bsize) / (float) total
 		) * 100)
@@ -113,7 +113,7 @@ print_python_environment(void)
 	if (python_environment != NULL) {
 		printf(
 			" %%F{red}%s%%f%s",
-			choose_symbol_by_environment("󰚐 ", "PYENV "),
+			is_to_use_fallback_text() ? "PYENV " : "󰚐 ",
 			basename(python_environment)
 		);
 	}
@@ -130,7 +130,7 @@ print_bottom_left_connector(void)
 {
 	printf(
 		"%%F{red}%s%%f",
-		choose_symbol_by_environment("╰", "└")
+		is_to_use_fallback_text() ? "└" : "╰"
 	);
 }
 
@@ -139,8 +139,8 @@ print_shell_status_decorators(void)
 {
 	printf(
 		"%%(?..%%F{yellow}{%%F{red}%s%%?%%F{yellow}}%%f)%%(!.%%F{yellow}{%%F{red}#%%F{yellow}}.)%%(?.%%F{yellow}.%%F{red})%s%%f",
-		choose_symbol_by_environment(" ", "X "),
-		choose_symbol_by_environment("⤐  ", "> ")
+		is_to_use_fallback_text() ? "X " : " ",
+		is_to_use_fallback_text() ? "> " : "⤐  "
 	);
 }
 
@@ -176,7 +176,7 @@ print_directory_path_abbreviated(void)
 		);
 	}
 
-	if (!strcmp(getenv(ENV_FALLBACK_TEXT_KEY), "0")) {
+	if (!strcmp(getenv(FALLBACK_TEXT_ENVIRONMENT_VARIABLE), "0")) {
 		printf("%%F{red}");
 
 		if (!strcmp(current_directory_path, "~")) { printf(" "); }
@@ -234,7 +234,7 @@ print_directory_path_abbreviated(void)
 		"%%F{red}%s%%f",
 		has_ownership_of_current_directory
 		? ""
-		: choose_symbol_by_environment(" ", " LOCKED")
+		: is_to_use_fallback_text() ? " LOCKED" : " "
 	);
 }
 
@@ -295,7 +295,10 @@ print_git_branch(void)
 static void
 print_cursor_decorator(void)
 {
-	printf(" %%F{yellow}%s%%f", choose_symbol_by_environment("✗ ", "X "));
+	printf(
+		" %%F{yellow}%s%%f",
+		is_to_use_fallback_text() ? "X " : "✗ "
+	);
 }
 
 int
