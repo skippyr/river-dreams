@@ -178,7 +178,7 @@ has_ownership(const char *path)
 		path,
 		&status
 	);
-	return (status.st_uid == user_uid || user_uid == 0 ? 1 : 0);
+	return (status.st_uid == user_uid || user_uid == 0);
 }
 
 static void
