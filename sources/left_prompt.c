@@ -89,8 +89,8 @@ print_clock(void)
 		: "",
 		local_time->tm_hour,
 		local_time->tm_min < 10
-		? "0" :
-		"",
+		? "0"
+		: "",
 		local_time->tm_min
 	);
 }
@@ -363,7 +363,10 @@ static void
 print_git_branch(void)
 {
 	char head_file_path[PATH_MAX];
-	if (get_dot_git_parent_directory_path(".", head_file_path) != 0)
+	if (get_dot_git_parent_directory_path(
+		".",
+		head_file_path
+	) != 0)
 	{
 		return;
 	}
