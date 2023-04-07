@@ -44,12 +44,12 @@ River Dreams also contains fallback text that can be used when your terminal can
 
 + restart your ZSH session.
 
-The code will automatically be compiled. At any point, you can recompile it again using the function `river_dreams::recompile`.
+The source codes will automatically be compiled and start running. If you have modified the source codes, you can use the function `river_dreams::compile_source_files` to recompile them again.
 
 
 ## Customization
 
-You can use environment variables to change River Dreams behaviors. For boolean values, use C standard: `1` for true and `0` for false.
+You can set environment variables to change River Dreams behaviors, even while its already running. For boolean values, use C standard: `1` for true and `0` for false.
 
 Set the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT` to enable and disable fallback text. If it is not set, it will be set with value `1` if your terminal only supports the 4-bits color pallete and `0` if not.
 
