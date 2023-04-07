@@ -3,10 +3,6 @@
 unsigned short int
 is_to_use_fallback_text()
 {
-	return (
-		!strcmp(getenv(FALLBACK_TEXT_ENVIRONMENT_VARIABLE), "1")
-		? 1
-		: 0
-	);
+	return (!strcmp(getenv(FALLBACK_TEXT_ENVIRONMENT_VARIABLE), "1") ? 1 : 0);
 }
 
