@@ -142,16 +142,17 @@ static void
 print_python_environment(void)
 {
 	char *python_environment = getenv("VIRTUAL_ENV");
-	if (python_environment != NULL)
+	if (python_environment == NULL)
 	{
-		printf(
-			" %%F{red}%s%%f%s",
-			is_to_use_fallback_text()
-			? "PYENV "
-			: "󰚐 ",
-			basename(python_environment)
-		);
+		return;
 	}
+	printf(
+		" %%F{red}%s%%f%s",
+		is_to_use_fallback_text()
+		? "PYENV "
+		: "󰚐 ",
+		basename(python_environment)
+	);
 }
 
 static void
