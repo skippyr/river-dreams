@@ -29,7 +29,7 @@ River Dreams also contains fallback text that can be used when your terminal can
 ## Installation
 
 + install `gcc` and the standard C libraries. You will probably have them already installed as those are, usually, system dependencies.
-+ optionally, install the Noto Sans font - this one will be probably installed too - and use a font patched by [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) in your terminal to see pretty symbols. If you do not use them, you can enable River Dreams's fallback text.
++ optionally, install the [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans) font - this one will be probably installed too - and use a font patched by [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) in your terminal to see pretty symbols. If you do not use them, you can enable River Dreams's fallback text.
 + clone this repository to a directory, for example: `~/.config/zsh/themes/river_dreams`:
 
 	```bash
@@ -49,7 +49,7 @@ The source codes will automatically be compiled and start running. If you have m
 
 ## Customization
 
-You can set environment variables to change River Dreams behaviors, even while its already running. For boolean values, use C standard: `1` for true and `0` for false.
+You can set environment variables to change River Dreams behaviors, even while it is already running. For boolean values, use C standard: `1` for true and `0` for false.
 
 Set the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT` to enable and disable fallback text. If it is not set, it will be set with value `1` if your terminal only supports the 4-bits color pallete and `0` if not.
 
