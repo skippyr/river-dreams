@@ -84,9 +84,13 @@ print_clock(void)
 	}
 	printf(
 		"%%f%s%dh%s%dm",
-		local_time->tm_hour < 10 ? "0" : "",
+		local_time->tm_hour < 10
+		? "0"
+		: "",
 		local_time->tm_hour,
-		local_time->tm_min < 10 ? "0" : "",
+		local_time->tm_min < 10
+		? "0" :
+		"",
 		local_time->tm_min
 	);
 }
@@ -101,15 +105,17 @@ print_local_ipv4_address(void)
 	);
 	struct hostent *host_entry = gethostbyname(host_name);
 	if (
-		host_entry == NULL ||
-		host_entry->h_addrtype != AF_INET
+		host_entry == NULL
+		|| host_entry->h_addrtype != AF_INET
 	)
 	{
 		return;
 	}
 	printf(
 		" %%F{red}%s%%f%s",
-		is_to_use_fallback_text() ? "IP " : " ",
+		is_to_use_fallback_text()
+		? "IP "
+		: " ",
 		inet_ntoa(*(struct in_addr *) host_entry->h_addr_list[0])
 	);
 }
@@ -125,7 +131,9 @@ print_disk_usage_percentage(void)
 	const unsigned long total = sysdisk_status.f_blocks * sysdisk_status.f_bsize;
 	printf(
 		" %%F{green}%s%%f%u%%%%",
-		is_to_use_fallback_text() ? "DISK " : " ",
+		is_to_use_fallback_text()
+		? "DISK "
+		: " ",
 		(unsigned short int) (((total - sysdisk_status.f_bfree * sysdisk_status.f_bsize) / (float) total) * 100)
 	);
 }
@@ -138,7 +146,9 @@ print_python_environment(void)
 	{
 		printf(
 			" %%F{red}%s%%f%s",
-			is_to_use_fallback_text() ? "PYENV " : "󰚐 ",
+			is_to_use_fallback_text()
+			? "PYENV "
+			: "󰚐 ",
 			basename(python_environment)
 		);
 	}
@@ -155,7 +165,9 @@ print_bottom_left_connector(void)
 {
 	printf(
 		"%%F{red}%s%%f",
-		is_to_use_fallback_text() ? "└" : "╰"
+		is_to_use_fallback_text()
+		? "└"
+		: "╰"
 	);
 }
 
@@ -164,8 +176,12 @@ print_shell_status_decorators(void)
 {
 	printf(
 		"%%(?..%%F{yellow}{%%F{red}%s%%?%%F{yellow}}%%f)%%(!.%%F{yellow}{%%F{red}#%%F{yellow}}.)%%(?.%%F{yellow}.%%F{red})%s%%f",
-		is_to_use_fallback_text() ? "X " : " ",
-		is_to_use_fallback_text() ? "> " : "⤐  "
+		is_to_use_fallback_text()
+		? "X "
+		: " ",
+		is_to_use_fallback_text()
+		? "> "
+		: "⤐  "
 	);
 }
 
@@ -178,7 +194,10 @@ has_ownership(const char *path)
 		path,
 		&status
 	);
-	return (status.st_uid == user_uid || user_uid == 0);
+	return (
+		status.st_uid == user_uid
+		|| user_uid == 0
+	);
 }
 
 static void
@@ -260,8 +279,8 @@ print_directory_path_abbreviated(void)
 	)
 	{
 		if (
-			current_directory_path[iterator] == '/' &&
-			iterator != 0
+			current_directory_path[iterator] == '/'
+			&& iterator != 0
 		)
 		{
 			++path_slice_last_index;
@@ -276,21 +295,21 @@ print_directory_path_abbreviated(void)
 	)
 	{
 		if (
-			current_directory_path[iterator] == '/' &&
-			iterator != 0
+			current_directory_path[iterator] == '/'
+			&& iterator != 0
 		)
 		{
 			++path_slice_index;
 		}
 		if (
-			path_slice_index == path_slice_last_index ||
-			current_directory_path[iterator] == '/' ||
-			current_directory_path[iterator] == '.' ||
-			current_directory_path[iterator] == '~' ||
-			current_directory_path[iterator - 1] == '/' ||
-			(
-				current_directory_path[iterator - 2] == '/' &&
-				current_directory_path[iterator - 1] == '.'
+			path_slice_index == path_slice_last_index
+			|| current_directory_path[iterator] == '/'
+			|| current_directory_path[iterator] == '.'
+			|| current_directory_path[iterator] == '~'
+			|| current_directory_path[iterator - 1] == '/'
+			|| (
+				current_directory_path[iterator - 2] == '/'
+				&& current_directory_path[iterator - 1] == '.'
 			)
 		)
 		{
@@ -301,7 +320,9 @@ print_directory_path_abbreviated(void)
 		"%%F{red}%s%%f",
 		has_ownership_of_current_directory
 		? ""
-		: is_to_use_fallback_text() ? " LOCKED" : " "
+		: is_to_use_fallback_text()
+		? " LOCKED"
+		: " "
 	);
 }
 
@@ -320,8 +341,8 @@ get_dot_git_parent_directory_path(
 	while ((directory_entry = readdir(directory_stream)) != NULL)
 	{
 		if (
-			directory_entry->d_type == 4 &&
-			!strcmp(directory_entry->d_name, ".git")
+			directory_entry->d_type == 4
+			&& !strcmp(directory_entry->d_name, ".git")
 		)
 		{
 			return (0);
@@ -368,8 +389,8 @@ print_git_branch(void)
 			++slashes_passed;
 		}
 		else if (
-			slashes_passed == 2 &&
-			strcmp(buffer, "\n")
+			slashes_passed == 2
+			&& strcmp(buffer, "\n")
 		)
 		{
 			printf("%s", buffer);
@@ -384,7 +405,9 @@ print_cursor_decorator(void)
 {
 	printf(
 		" %%F{yellow}%s%%f",
-		is_to_use_fallback_text() ? "X " : "✗ "
+		is_to_use_fallback_text()
+		? "X "
+		: "✗ "
 	);
 }
 

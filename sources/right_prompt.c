@@ -10,7 +10,9 @@ print_background_jobs_quantity(void)
 {
 	printf(
 		" %%(1j.%%F{green}%s%%f%%j.)",
-		is_to_use_fallback_text() ? "JOBS " : " "
+		is_to_use_fallback_text()
+		? "JOBS "
+		: " "
 	);
 }
 
@@ -25,8 +27,8 @@ print_directory_entry_types_quantity(void)
 	while ((entry = readdir(directory_stream)) != NULL)
 	{
 		if (
-			!strcmp(entry->d_name, ".") ||
-			!strcmp(entry->d_name, "..")
+			!strcmp(entry->d_name, ".")
+			|| !strcmp(entry->d_name, "..")
 		)
 		{
 			continue;
@@ -50,7 +52,9 @@ print_directory_entry_types_quantity(void)
 	{
 		printf(
 			" %%F{red}%s%%f%u",
-			is_to_use_fallback_text() ? "HIDDEN " : " ",
+			is_to_use_fallback_text()
+			? "HIDDEN "
+			: " ",
 			hidden_entries_quantity
 		);
 	}
@@ -58,7 +62,9 @@ print_directory_entry_types_quantity(void)
 	{
 		printf(
 			" %%F{green}%s%%f%u",
-			is_to_use_fallback_text() ? "EXECUTABLE " : " ",
+			is_to_use_fallback_text()
+			? "EXECUTABLE "
+			: " ",
 			executable_entries_quantity
 		);
 	}
@@ -66,7 +72,9 @@ print_directory_entry_types_quantity(void)
 	{
 		printf(
 			" %%F{blue}%s%%f%u\n",
-			is_to_use_fallback_text() ? "SYMLINK " : " ",
+			is_to_use_fallback_text()
+			? "SYMLINK "
+			: " ",
 			symbolic_link_entries_quantity
 		);
 	}
