@@ -1,16 +1,16 @@
+#include <arpa/inet.h>
+#include <dirent.h>
+#include <libgen.h>
+#include <limits.h>
+#include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
-#include <libgen.h>
-#include <time.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/statvfs.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <limits.h>
-#include <dirent.h>
+#include <time.h>
+#include <unistd.h>
 #include "lib.c"
 
 static void
@@ -200,7 +200,7 @@ print_directory_path_abbreviated(void)
 			current_directory_path + strlen(home_directory_path)
 		);
 	}
-	if (!strcmp(getenv(FALLBACK_TEXT_ENVIRONMENT_VARIABLE), "0"))
+	if (!is_to_use_fallback_text())
 	{
 		printf("%%F{red}");
 		if (!strcmp(current_directory_path, "~"))
