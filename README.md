@@ -1,15 +1,15 @@
 # River Dreams
 
-An easy to use and fast ZSH theme for programmers and hackers.
+A fast and versatile ZSH theme for programmers and hackers.
 
-> River Dreams with pretty symbols from Noto Sans and Nerd Fonts.
+> River Dreams with pretty symbols.
 ![](images/image_0.png)
 > River Dreams with fallback text.
 ![](images/image_1.png)
 
 It shows:
 + current hours and minutes in 24h format.
-+ local ipv4 address with hostname.
++ local ipv4 address and hostname.
 + disk usage percentage.
 + sourced Python virtual environment.
 + exit code of failed commands.
@@ -23,7 +23,7 @@ It shows:
 + executable files quantity for the current directory.
 + symbolic links quantity for the current directory.
 
-River Dreams also contains fallback text that can be used when your terminal can not render pretty symbols.
+It also contains fallback text that can be used when your terminal can not render pretty symbols.
 
 
 ## Installation
@@ -35,6 +35,7 @@ River Dreams also contains fallback text that can be used when your terminal can
 	```bash
 	git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams
 	```
+If you do not have `git` installed, you can download the source code from the page on GitHub.
 
 + add a source rule in your `~/.zshrc` pointing to the file `river_dreams.zsh-theme` inside the repository you have cloned.
 

@@ -130,7 +130,7 @@ print_disk_usage_percentage(void)
 	);
 	const unsigned long total = sysdisk_status.f_blocks * sysdisk_status.f_bsize;
 	printf(
-		" %%F{green}%s%%f%u%%%%",
+		" %%F{yellow}%s%%f%u%%%%",
 		is_to_use_fallback_text()
 		? "DISK "
 		: " ",
