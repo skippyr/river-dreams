@@ -32,14 +32,18 @@ print_separator(void)
 		{
 			printf(
 				"%%F{red}%s%%f",
-				is_to_use_fallback_text() ? "=" : "▲"
+				is_to_use_fallback_text()
+				? "="
+				: "▲"
 			);
 		}
 		else
 		{
 			printf(
 				"%%F{yellow}%s%%f",
-				is_to_use_fallback_text() ? "-" : "▼"
+				is_to_use_fallback_text()
+				? "-"
+				: "▼"
 			);
 		}
 	}
@@ -50,7 +54,9 @@ print_top_left_connector(void)
 {
 	printf(
 		"%%F{red}%s─%%F{yellow}{%%f",
-		is_to_use_fallback_text() ? "┌" : "╭"
+		is_to_use_fallback_text()
+		? "┌"
+		: "╭"
 	);
 }
 
@@ -437,13 +443,19 @@ print_git_branch(void)
 		file_stream
 	) != NULL)
 	{
-		if (!strcmp(buffer, "/"))
+		if (!strcmp(
+			buffer,
+			"/"
+		))
 		{
 			++slashes_passed;
 		}
 		else if (
 			slashes_passed == 2
-			&& strcmp(buffer, "\n")
+			&& strcmp(
+				buffer,
+				"\n"
+			)
 		)
 		{
 			printf("%s", buffer);
