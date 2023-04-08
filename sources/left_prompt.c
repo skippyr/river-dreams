@@ -112,7 +112,7 @@ print_local_ipv4_address(void)
 		return;
 	}
 	printf(
-		" %%F{red}%s%%f%s",
+		" %%F{red}%s%%f%%m%%F{red}@%%f%s",
 		is_to_use_fallback_text()
 		? "IP "
 		: " ",
@@ -147,7 +147,7 @@ print_python_environment(void)
 		return;
 	}
 	printf(
-		" %%F{red}%s%%f%s",
+		" %%F{magenta}%s%%f%s",
 		is_to_use_fallback_text()
 		? "PYENV "
 		: "󰚐 ",
@@ -176,7 +176,7 @@ static void
 print_shell_status_decorators(void)
 {
 	printf(
-		"%%(?..%%F{yellow}{%%F{red}%s%%?%%F{yellow}}%%f)%%(!.%%F{yellow}{%%F{red}#%%F{yellow}}.)%%(?.%%F{yellow}.%%F{red})%s%%f",
+		"%%(?..%%F{yellow}{%%F{red}%s%%?%%F{yellow}}%%f)%%(?.%%F{yellow}.%%F{red})%s%%f",
 		is_to_use_fallback_text()
 		? "X "
 		: " ",
@@ -199,6 +199,12 @@ has_ownership(const char *path)
 		status.st_uid == user_uid
 		|| user_uid == 0
 	);
+}
+
+static void
+print_user(void)
+{
+	printf("%%F{cyan}%%n%%f ");
 }
 
 static void
@@ -427,6 +433,7 @@ main(void)
 	print_top_right_connector();
 	print_bottom_left_connector();
 	print_shell_status_decorators();
+	print_user();
 	print_directory_path_abbreviated();
 	print_git_branch();
 	print_cursor_decorator();

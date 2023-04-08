@@ -9,13 +9,13 @@ An easy to use and fast ZSH theme for programmers and hackers.
 
 It shows:
 + current hours and minutes in 24h format.
-+ local ipv4 address.
++ local ipv4 address with hostname.
 + disk usage percentage.
 + sourced Python virtual environment.
 + exit code of failed commands.
-+ a decorator if you are the root user.
-+ a decorator if you are not the user owner of the current directory.
++ current user.
 + current directory path abbreviated just like what the `fish` shell does.
++ a decorator if you are not the user owner of the current directory.
 + current git branch, if in a directory being tracked by git.
 + a decorator to help you find where you can type your commands.
 + background jobs quantity.
