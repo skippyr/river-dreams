@@ -13,7 +13,7 @@
 #include <unistd.h>
 #include "common.c"
 
-static void
+void
 print_separator(void)
 {
 	struct winsize terminal_size;
@@ -45,7 +45,7 @@ print_separator(void)
 	}
 }
 
-static void
+void
 print_top_left_connector(void)
 {
 	printf(
@@ -54,7 +54,7 @@ print_top_left_connector(void)
 	);
 }
 
-static void
+void
 print_clock(void)
 {
 	time_t now = time(NULL);
@@ -95,7 +95,7 @@ print_clock(void)
 	);
 }
 
-static void
+void
 print_local_ipv4_address(void)
 {
 	char host_name[HOST_NAME_MAX + 1];
@@ -120,7 +120,7 @@ print_local_ipv4_address(void)
 	);
 }
 
-static void
+void
 print_disk_usage_percentage(void)
 {
 	struct statvfs sysdisk_status;
@@ -138,7 +138,7 @@ print_disk_usage_percentage(void)
 	);
 }
 
-static void
+void
 print_python_environment(void)
 {
 	char *python_environment = getenv("VIRTUAL_ENV");
@@ -155,13 +155,13 @@ print_python_environment(void)
 	);
 }
 
-static void
+void
 print_top_right_connector(void)
 {
 	printf("%%F{yellow}}%%f\n");
 }
 
-static void
+void
 print_bottom_left_connector(void)
 {
 	printf(
@@ -172,7 +172,7 @@ print_bottom_left_connector(void)
 	);
 }
 
-static void
+void
 print_shell_status_decorators(void)
 {
 	printf(
@@ -186,7 +186,7 @@ print_shell_status_decorators(void)
 	);
 }
 
-static unsigned short int
+unsigned short int
 has_ownership(const char *path)
 {
 	const unsigned int user_uid = getuid();
@@ -201,13 +201,13 @@ has_ownership(const char *path)
 	);
 }
 
-static void
+void
 print_user(void)
 {
 	printf("%%F{cyan}%%n%%f ");
 }
 
-static void
+void
 print_directory_path_abbreviated(void)
 {
 	char *current_directory_path = getenv("PWD");
@@ -333,7 +333,7 @@ print_directory_path_abbreviated(void)
 	);
 }
 
-static unsigned short int
+unsigned short int
 get_dot_git_parent_directory_path(
 	const char *relative_path,
 	char directory_path[]
@@ -366,7 +366,7 @@ get_dot_git_parent_directory_path(
 	);
 }
 
-static void
+void
 print_git_branch(void)
 {
 	char head_file_path[PATH_MAX];
@@ -410,7 +410,7 @@ print_git_branch(void)
 	printf("%%f");
 }
 
-static void
+void
 print_cursor_decorator(void)
 {
 	printf(

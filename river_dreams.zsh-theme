@@ -22,7 +22,7 @@ river_dreams::compile_source_files()
 		"right_prompt"
 	)
 	for source_file in "${source_files[@]}"; do
-		gcc "${RIVER_DREAMS_SOURCES_DIRECTORY}/${source_file}.c" -o "${RIVER_DREAMS_BUILDS_DIRECTORY}/${source_file}"
+		gcc -Wall "${RIVER_DREAMS_SOURCES_DIRECTORY}/${source_file}.c" -o "${RIVER_DREAMS_BUILDS_DIRECTORY}/${source_file}"
 	done
 }
 

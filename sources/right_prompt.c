@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include "common.c"
 
-static void
+void
 print_background_jobs_quantity(void)
 {
 	printf(
@@ -16,7 +16,7 @@ print_background_jobs_quantity(void)
 	);
 }
 
-static void
+void
 print_directory_entry_types_quantity(void)
 {
 	DIR *directory_stream = opendir(".");
