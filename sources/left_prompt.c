@@ -208,19 +208,26 @@ print_user(void)
 }
 
 void
-print_directory_path_abbreviated(void)
+print_current_directory_path_abbreviated(void)
 {
-	char *current_directory_path = getenv("PWD");
-	unsigned short int has_ownership_of_current_directory = has_ownership(current_directory_path);
+	const char *current_directory_path = getenv("PWD");
 	const char *home_directory_path = getenv("HOME");
+	char current_directory_path_with_aliases[strlen(current_directory_path) + 1];
 	if (strstr(
 		current_directory_path,
 		home_directory_path
-	) != NULL)
+	) == NULL)
+	{
+		strcat(
+			current_directory_path_with_aliases,
+			current_directory_path
+		);
+	}
+	else
 	{
 		snprintf(
-			current_directory_path,
-			strlen(current_directory_path),
+			current_directory_path_with_aliases,
+			sizeof(current_directory_path_with_aliases),
 			"%s%s",
 			"~",
 			current_directory_path + strlen(home_directory_path)
@@ -229,51 +236,87 @@ print_directory_path_abbreviated(void)
 	if (!is_to_use_fallback_text())
 	{
 		printf("%%F{red}");
-		if (!strcmp(current_directory_path, "~"))
+		if (!strcmp(
+			current_directory_path_with_aliases,
+			"~"
+		))
 		{
 			printf(" ");
 		}
-		else if (!strcmp(current_directory_path, "~/Downloads"))
+		else if (!strcmp(
+			current_directory_path_with_aliases,
+			"~/Downloads"
+		))
 		{
 			printf(" ");
 		}
-		else if (!strcmp(current_directory_path, "~/Documents"))
+		else if (!strcmp(
+			current_directory_path_with_aliases,
+			"~/Documents"
+		))
 		{
 			printf(" ");
 		}
-		else if (!strcmp(current_directory_path, "~/Pictures"))
+		else if (!strcmp(
+			current_directory_path_with_aliases,
+			"~/Pictures"
+		))
 		{
 			printf("  ");
 		}
-		else if (!strcmp(current_directory_path, "~/Music"))
+		else if (!strcmp(
+			current_directory_path_with_aliases,
+			"~/Music"
+		))
 		{
 			printf("🎜 ");
 		}
-		else if (!strcmp(current_directory_path, "~/Videos"))
+		else if (!strcmp(
+			current_directory_path_with_aliases,
+			"~/Videos"
+		))
 		{
 			printf("󰨜 ");
 		}
-		else if (!strcmp(current_directory_path, "~/Public"))
+		else if (!strcmp(
+			current_directory_path_with_aliases,
+			"~/Public"
+		))
 		{
 			printf("  ");
 		}
-		else if (!strcmp(current_directory_path, "~/Templates"))
+		else if (!strcmp(
+			current_directory_path_with_aliases,
+			"~/Templates"
+		))
 		{
 			printf(" ");
 		}
-		else if (!strcmp(current_directory_path, "~/Desktop"))
+		else if (!strcmp(
+			current_directory_path_with_aliases,
+			"~/Desktop"
+		))
 		{
 			printf(" ");
 		}
-		else if (!strcmp(current_directory_path, "~/.local"))
+		else if (!strcmp(
+			current_directory_path_with_aliases,
+			"~/.local"
+		))
 		{
 			printf(" ");
 		}
-		else if (!strcmp(current_directory_path, "~/.config"))
+		else if (!strcmp(
+			current_directory_path_with_aliases,
+			"~/.config"
+		))
 		{
 			printf(" ");
 		}
-		else if (!strcmp(current_directory_path, "~/.cache"))
+		else if (!strcmp(
+			current_directory_path_with_aliases,
+			"~/.cache"
+		))
 		{
 			printf(" ");
 		}
@@ -281,12 +324,12 @@ print_directory_path_abbreviated(void)
 	unsigned short int path_slice_last_index = 0;
 	for (
 		unsigned short int iterator = 0;
-		!(iterator == strlen(current_directory_path));
+		iterator != strlen(current_directory_path_with_aliases);
 		++iterator
 	)
 	{
 		if (
-			current_directory_path[iterator] == '/'
+			current_directory_path_with_aliases[iterator] == '/'
 			&& iterator != 0
 		)
 		{
@@ -297,12 +340,12 @@ print_directory_path_abbreviated(void)
 	unsigned short int path_slice_index = 0;
 	for (
 		unsigned short int iterator = 0;
-		!(iterator == strlen(current_directory_path));
+		!(iterator == strlen(current_directory_path_with_aliases));
 		++iterator
 	)
 	{
 		if (
-			current_directory_path[iterator] == '/'
+			current_directory_path_with_aliases[iterator] == '/'
 			&& iterator != 0
 		)
 		{
@@ -310,22 +353,21 @@ print_directory_path_abbreviated(void)
 		}
 		if (
 			path_slice_index == path_slice_last_index
-			|| current_directory_path[iterator] == '/'
-			|| current_directory_path[iterator] == '.'
-			|| current_directory_path[iterator] == '~'
-			|| current_directory_path[iterator - 1] == '/'
+			|| current_directory_path_with_aliases[iterator] == '/'
+			|| current_directory_path_with_aliases[iterator] == '~'
+			|| current_directory_path_with_aliases[iterator - 1] == '/'
 			|| (
-				current_directory_path[iterator - 2] == '/'
-				&& current_directory_path[iterator - 1] == '.'
+				current_directory_path_with_aliases[iterator - 2] == '/'
+				&& current_directory_path_with_aliases[iterator - 1] == '.'
 			)
 		)
 		{
-			printf("%c", current_directory_path[iterator]);
+			printf("%c", current_directory_path_with_aliases[iterator]);
 		}
 	}
 	printf(
 		"%%F{red}%s%%f",
-		has_ownership_of_current_directory
+		has_ownership(current_directory_path)
 		? ""
 		: is_to_use_fallback_text()
 		? " LOCKED"
@@ -435,7 +477,7 @@ main(void)
 	print_bottom_left_connector();
 	print_shell_status_decorators();
 	print_user();
-	print_directory_path_abbreviated();
+	print_current_directory_path_abbreviated();
 	print_git_branch();
 	print_cursor_decorator();
 	return (0);
