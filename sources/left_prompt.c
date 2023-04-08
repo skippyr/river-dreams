@@ -364,6 +364,7 @@ get_dot_git_parent_directory_path(
 		dirname(directory_path),
 		directory_path
 	);
+	return (1);
 }
 
 void
