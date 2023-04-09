@@ -65,7 +65,7 @@ print_time(void)
 {
 	time_t now = time(NULL);
 	struct tm *local_time = localtime(&now);
-	printf("%%F{red}");
+	printf(" %%F{red}");
 	if (is_to_use_fallback_text())
 	{
 		printf("Calendar ");
@@ -199,7 +199,7 @@ print_local_ipv4_address(void)
 		return;
 	}
 	printf(
-		" %%F{red}%s%%f%%m%%F{red}@%%f%s",
+		"%%F{red}%s%%f%%m%%F{red}@%%f%s",
 		is_to_use_fallback_text()
 		? "Ip "
 		: " ",
@@ -562,9 +562,9 @@ main(void)
 {
 	print_separator();
 	print_top_left_connector();
-	print_time();
 	print_local_ipv4_address();
 	print_disk_usage_percentage();
+	print_time();
 	print_top_right_connector();
 	print_bottom_left_connector();
 	print_shell_status_decorators();
