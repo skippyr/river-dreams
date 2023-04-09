@@ -143,7 +143,7 @@ print_time(void)
 			break;
 	}
 	printf(
-		" %d ",
+		", %d ",
 		1900 + local_time->tm_year
 	);
 	if (is_to_use_fallback_text())
@@ -489,11 +489,10 @@ get_dot_git_parent_directory_path(
 	{
 		return (1);
 	}
-	get_dot_git_parent_directory_path(
+	return(get_dot_git_parent_directory_path(
 		dirname(directory_path),
 		directory_path
-	);
-	return (1);
+	));
 }
 
 void
