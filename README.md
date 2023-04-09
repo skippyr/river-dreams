@@ -1,6 +1,6 @@
 # River Dreams
 
-A fast and versatile ZSH theme for programmers and hackers.
+A fast ZSH theme for programmers and hackers.
 
 > River Dreams with pretty symbols.
 ![](images/image_0.png)
