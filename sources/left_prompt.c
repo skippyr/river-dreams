@@ -74,7 +74,7 @@ print_time(void)
 	{
 		printf(" ");
 	}
-	printf("%%f(");
+	printf("%%f");
 	switch (local_time->tm_wday)
 	{
 		case 0:
@@ -100,7 +100,7 @@ print_time(void)
 			break;
 	}
 	printf(
-		") %d ",
+		" %d ",
 		local_time->tm_mday
 	);
 	switch (local_time->tm_mon)
@@ -143,7 +143,7 @@ print_time(void)
 			break;
 	}
 	printf(
-		", %d ",
+		" %d ",
 		1900 + local_time->tm_year
 	);
 	if (is_to_use_fallback_text())
@@ -234,7 +234,7 @@ print_python_environment(void)
 		return;
 	}
 	printf(
-		"(%%F{magenta}%s%%f) ",
+		"%%F{magenta}%s%%f ",
 		basename(python_environment)
 	);
 }
