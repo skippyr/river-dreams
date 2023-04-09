@@ -61,10 +61,91 @@ print_top_left_connector(void)
 }
 
 void
-print_clock(void)
+print_time(void)
 {
 	time_t now = time(NULL);
 	struct tm *local_time = localtime(&now);
+	printf("%%F{red}");
+	if (is_to_use_fallback_text())
+	{
+		printf("CALENDAR ");
+	}
+	else
+	{
+		printf(" ");
+	}
+	printf("%%f(");
+	switch (local_time->tm_wday)
+	{
+		case 0:
+			printf("Mon");
+			break;
+		case 1:
+			printf("Sun");
+			break;
+		case 2:
+			printf("Tue");
+			break;
+		case 3:
+			printf("Wed");
+			break;
+		case 4:
+			printf("Thu");
+			break;
+		case 5:
+			printf("Fri");
+			break;
+		case 6:
+			printf("Sat");
+			break;
+	}
+	printf(
+		") %d ",
+		local_time->tm_mday
+	);
+	switch (local_time->tm_mon)
+	{
+		case 0:
+			printf("Jan");
+			break;
+		case 1:
+			printf("Feb");
+			break;
+		case 2:
+			printf("Mar");
+			break;
+		case 3:
+			printf("Apr");
+			break;
+		case 4:
+			printf("May");
+			break;
+		case 5:
+			printf("Jun");
+			break;
+		case 6:
+			printf("Jul");
+			break;
+		case 7:
+			printf("Aug");
+			break;
+		case 8:
+			printf("Sep");
+			break;
+		case 9:
+			printf("Oct");
+			break;
+		case 10:
+			printf("Nov");
+			break;
+		case 11:
+			printf("Dec");
+			break;
+	}
+	printf(
+		", %d ",
+		1900 + local_time->tm_year
+	);
 	if (is_to_use_fallback_text())
 	{
 		printf("%%F{yellow}CLOCK ");
@@ -397,7 +478,10 @@ get_dot_git_parent_directory_path(
 	{
 		if (
 			directory_entry->d_type == 4
-			&& !strcmp(directory_entry->d_name, ".git")
+			&& !strcmp(
+				directory_entry->d_name,
+				".git"
+			)
 		)
 		{
 			return (0);
@@ -481,7 +565,7 @@ main(void)
 {
 	print_separator();
 	print_top_left_connector();
-	print_clock();
+	print_time();
 	print_local_ipv4_address();
 	print_disk_usage_percentage();
 	print_python_environment();

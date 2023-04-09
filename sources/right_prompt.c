@@ -27,14 +27,23 @@ print_directory_entry_types_quantity(void)
 	while ((entry = readdir(directory_stream)) != NULL)
 	{
 		if (
-			!strcmp(entry->d_name, ".")
-			|| !strcmp(entry->d_name, "..")
+			!strcmp(
+				entry->d_name,
+				"."
+			)
+			|| !strcmp(
+				entry->d_name,
+				".."
+			)
 		)
 		{
 			continue;
 		}
 		struct stat entry_status;
-		stat(entry->d_name, &entry_status);
+		stat(
+			entry->d_name,
+			&entry_status
+		);
 		if (entry_status.st_mode == 33261)
 		{
 			++executable_entries_quantity;
