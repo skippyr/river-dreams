@@ -8,15 +8,16 @@ A fast and versatile ZSH theme for programmers and hackers.
 ![](images/image_1.png)
 
 It shows:
-+ current hours and minutes in 24h format.
 + local ipv4 address and hostname.
 + disk usage percentage.
-+ sourced Python virtual environment.
++ current week day abbreviated, day of month, month abbreviated and year.
++ current hours and minutes in 24h format.
 + exit code of failed commands.
 + current user.
++ sourced Python virtual environment.
 + current directory path abbreviated just like what the `fish` shell does.
 + a decorator if you are not the user owner of the current directory.
-+ current git branch, if in a directory being tracked by git.
++ current git branch, if in a directory inside `git`'s scope.
 + a decorator to help you find where you can type your commands.
 + background jobs quantity.
 + hidden files quantity for the current directory.
