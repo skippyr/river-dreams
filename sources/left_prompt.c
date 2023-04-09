@@ -68,7 +68,7 @@ print_time(void)
 	printf("%%F{red}");
 	if (is_to_use_fallback_text())
 	{
-		printf("CALENDAR ");
+		printf("Calendar ");
 	}
 	else
 	{
@@ -148,7 +148,7 @@ print_time(void)
 	);
 	if (is_to_use_fallback_text())
 	{
-		printf("%%F{yellow}CLOCK ");
+		printf("%%F{yellow}Clock ");
 	}
 	else
 	{
@@ -201,7 +201,7 @@ print_local_ipv4_address(void)
 	printf(
 		" %%F{red}%s%%f%%m%%F{red}@%%f%s",
 		is_to_use_fallback_text()
-		? "IP "
+		? "Ip "
 		: " ",
 		inet_ntoa(*(struct in_addr *) host_entry->h_addr_list[0])
 	);
@@ -219,7 +219,7 @@ print_disk_usage_percentage(void)
 	printf(
 		" %%F{yellow}%s%%f%u%%%%",
 		is_to_use_fallback_text()
-		? "DISK "
+		? "Disk "
 		: " ",
 		(unsigned short int) (((total - sysdisk_status.f_bfree * sysdisk_status.f_bsize) / (float) total) * 100)
 	);
@@ -236,7 +236,7 @@ print_python_environment(void)
 	printf(
 		" %%F{magenta}%s%%f%s",
 		is_to_use_fallback_text()
-		? "PYENV "
+		? "Pyenv "
 		: "󰚐 ",
 		basename(python_environment)
 	);
@@ -457,7 +457,7 @@ print_current_directory_path_abbreviated(void)
 		has_ownership(current_directory_path)
 		? ""
 		: is_to_use_fallback_text()
-		? " LOCKED"
+		? " #"
 		: " "
 	);
 }
