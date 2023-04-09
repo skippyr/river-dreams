@@ -234,10 +234,7 @@ print_python_environment(void)
 		return;
 	}
 	printf(
-		" %%F{magenta}%s%%f%s",
-		is_to_use_fallback_text()
-		? "Pyenv "
-		: "󰚐 ",
+		"(%%F{magenta}%s%%f) ",
 		basename(python_environment)
 	);
 }
@@ -568,11 +565,11 @@ main(void)
 	print_time();
 	print_local_ipv4_address();
 	print_disk_usage_percentage();
-	print_python_environment();
 	print_top_right_connector();
 	print_bottom_left_connector();
 	print_shell_status_decorators();
 	print_user();
+	print_python_environment();
 	print_current_directory_path_abbreviated();
 	print_git_branch();
 	print_cursor_decorator();
