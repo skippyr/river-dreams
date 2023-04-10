@@ -47,6 +47,7 @@ print_separator(void)
 			);
 		}
 	}
+	return;
 }
 
 void
@@ -58,6 +59,7 @@ print_top_left_connector(void)
 		? "┌"
 		: "╭"
 	);
+	return;
 }
 
 void
@@ -180,6 +182,7 @@ print_time(void)
 		: "",
 		local_time->tm_min
 	);
+	return;
 }
 
 void
@@ -205,6 +208,7 @@ print_local_ipv4_address(void)
 		: " ",
 		inet_ntoa(*(struct in_addr *) host_entry->h_addr_list[0])
 	);
+	return;
 }
 
 void
@@ -223,6 +227,7 @@ print_disk_usage_percentage(void)
 		: " ",
 		(unsigned short int) (((total - sysdisk_status.f_bfree * sysdisk_status.f_bsize) / (float) total) * 100)
 	);
+	return;
 }
 
 void
@@ -237,12 +242,14 @@ print_python_environment(void)
 		"%%F{magenta}%s%%f ",
 		basename(python_environment)
 	);
+	return;
 }
 
 void
 print_top_right_connector(void)
 {
 	printf("%%F{yellow}}%%f\n");
+	return;
 }
 
 void
@@ -254,6 +261,7 @@ print_bottom_left_connector(void)
 		? "└"
 		: "╰"
 	);
+	return;
 }
 
 void
@@ -268,6 +276,7 @@ print_shell_status_decorators(void)
 		? "> "
 		: "⤐  "
 	);
+	return;
 }
 
 unsigned short int
@@ -289,6 +298,7 @@ void
 print_user(void)
 {
 	printf("%%F{cyan}%%n%%f ");
+	return;
 }
 
 void
@@ -457,6 +467,7 @@ print_current_directory_path_abbreviated(void)
 		? " #"
 		: " "
 	);
+	return;
 }
 
 unsigned short int
@@ -543,6 +554,7 @@ print_git_branch(void)
 	}
 	fclose(file_stream);
 	printf("%%f");
+	return;
 }
 
 void
@@ -554,6 +566,7 @@ print_cursor_decorator(void)
 		? "X "
 		: "✗ "
 	);
+	return;
 }
 
 int

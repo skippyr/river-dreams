@@ -14,45 +14,46 @@ print_background_jobs_quantity(void)
 		? "Jobs "
 		: " "
 	);
+	return;
 }
 
 void
 print_directory_entry_types_quantity(void)
 {
 	DIR *directory_stream = opendir(".");
-	struct dirent *entry;
+	struct dirent *directory_entry;
 	unsigned short int hidden_entries_quantity = 0;
 	unsigned short int executable_entries_quantity = 0;
 	unsigned short int symbolic_link_entries_quantity = 0;
-	while ((entry = readdir(directory_stream)) != NULL)
+	while ((directory_entry = readdir(directory_stream)) != NULL)
 	{
 		if (
 			!strcmp(
-				entry->d_name,
+				directory_entry->d_name,
 				"."
 			)
 			|| !strcmp(
-				entry->d_name,
+				directory_entry->d_name,
 				".."
 			)
 		)
 		{
 			continue;
 		}
-		struct stat entry_status;
+		struct stat directory_entry_status;
 		stat(
-			entry->d_name,
-			&entry_status
+			directory_entry->d_name,
+			&directory_entry_status
 		);
-		if (entry_status.st_mode == 33261)
+		if (directory_entry_status.st_mode == 33261)
 		{
 			++executable_entries_quantity;
 		}
-		if (entry->d_name[0] == '.')
+		if (directory_entry->d_name[0] == '.')
 		{
 			++hidden_entries_quantity;
 		}
-		if (entry->d_type == 10)
+		if (directory_entry->d_type == 10)
 		{
 			++symbolic_link_entries_quantity;
 		}
@@ -88,6 +89,7 @@ print_directory_entry_types_quantity(void)
 		);
 	}
 	closedir(directory_stream);
+	return;
 }
 
 int
