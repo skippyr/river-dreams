@@ -7,6 +7,8 @@ A fast ZSH theme for programmers and hackers.
 > River Dreams with fallback text.
 ![](images/image_1.png)
 
+In the images, River Dreams was used on [Kitty](https://github.com/kovidgoyal/kitty) with [Flamerial](https://github.com/skippyr/flamerial) color scheme and [Inconsolata](https://github.com/googlefonts/Inconsolata) font.
+
 It shows:
 + local ipv4 address and hostname.
 + disk usage percentage.
