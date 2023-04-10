@@ -35,4 +35,5 @@ river_dreams::execute_build()
 
 PROMPT='$(river_dreams::execute_build "left_prompt") '
 RPROMPT='$(river_dreams::execute_build "right_prompt")'
+PS2='  %F{red}¦%f '
 
