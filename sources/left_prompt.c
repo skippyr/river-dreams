@@ -55,9 +55,9 @@ print_top_left_connector(void)
 {
 	printf(
 		"%%F{red}%s─%%F{yellow}{%%f",
-		is_to_use_fallback_text()
-		? "┌"
-		: "╭"
+		is_to_use_fallback_text() ?
+		"┌" :
+		"╭"
 	);
 	return;
 }
@@ -70,9 +70,9 @@ print_time(void)
 	printf(" %%F{red}");
 	printf(
 		"%s",
-		is_to_use_fallback_text()
-		? "Calendar "
-		: " "
+		is_to_use_fallback_text() ?
+		"Calendar " :
+		" "
 	);
 	printf("%%f(");
 	switch (local_time->tm_wday)
@@ -188,13 +188,13 @@ print_time(void)
 	}
 	printf(
 		"%%f%s%dh%s%dm",
-		local_time->tm_hour < 10
-		? "0"
-		: "",
+		local_time->tm_hour < 10 ?
+		"0" :
+		"",
 		local_time->tm_hour,
-		local_time->tm_min < 10
-		? "0"
-		: "",
+		local_time->tm_min < 10 ?
+		"0" :
+		"",
 		local_time->tm_min
 	);
 	return;
@@ -210,17 +210,17 @@ print_local_ipv4_address(void)
 	);
 	struct hostent *host_entry = gethostbyname(host_name);
 	if (
-		host_entry == NULL
-		|| host_entry->h_addrtype != AF_INET
+		host_entry == NULL ||
+		host_entry->h_addrtype != AF_INET
 	)
 	{
 		return;
 	}
 	printf(
 		"%%F{red}%s%%f%%m%%F{red}@%%f%s",
-		is_to_use_fallback_text()
-		? "Ip "
-		: " ",
+		is_to_use_fallback_text() ?
+		"Ip " :
+		" ",
 		inet_ntoa(*(struct in_addr *) host_entry->h_addr_list[0])
 	);
 	return;
@@ -237,9 +237,9 @@ print_disk_usage_percentage(void)
 	const unsigned long total = sysdisk_status.f_blocks * sysdisk_status.f_bsize;
 	printf(
 		" %%F{yellow}%s%%f%u%%%%",
-		is_to_use_fallback_text()
-		? "Disk "
-		: " ",
+		is_to_use_fallback_text() ?
+		"Disk " :
+		" ",
 		(unsigned short int) (((total - sysdisk_status.f_bfree * sysdisk_status.f_bsize) / (float) total) * 100)
 	);
 	return;
@@ -272,9 +272,9 @@ print_bottom_left_connector(void)
 {
 	printf(
 		"%%F{red}%s%%f",
-		is_to_use_fallback_text()
-		? "└"
-		: "╰"
+		is_to_use_fallback_text() ?
+		"└" :
+		"╰"
 	);
 	return;
 }
@@ -284,12 +284,12 @@ print_shell_status_decorators(void)
 {
 	printf(
 		"%%(?..%%F{yellow}{%%F{red}%s%%?%%F{yellow}}%%f)%%(?.%%F{yellow}.%%F{red})%s%%f",
-		is_to_use_fallback_text()
-		? "X "
-		: " ",
-		is_to_use_fallback_text()
-		? "> "
-		: "⤐  "
+		is_to_use_fallback_text() ?
+		"X " :
+		" ",
+		is_to_use_fallback_text() ?
+		"> " :
+		"⤐  "
 	);
 	return;
 }
@@ -304,8 +304,8 @@ has_ownership(const char *path)
 		&status
 	);
 	return (
-		status.st_uid == user_uid
-		|| user_uid == 0
+		status.st_uid == user_uid ||
+		user_uid == 0
 	);
 }
 
@@ -438,8 +438,8 @@ print_current_directory_path_abbreviated(void)
 	)
 	{
 		if (
-			current_directory_path_with_aliases[iterator] == '/'
-			&& iterator != 0
+			current_directory_path_with_aliases[iterator] == '/' &&
+			iterator != 0
 		)
 		{
 			++path_slice_last_index;
@@ -454,20 +454,20 @@ print_current_directory_path_abbreviated(void)
 	)
 	{
 		if (
-			current_directory_path_with_aliases[iterator] == '/'
-			&& iterator != 0
+			current_directory_path_with_aliases[iterator] == '/' &&
+			iterator != 0
 		)
 		{
 			++path_slice_index;
 		}
 		if (
-			path_slice_index == path_slice_last_index
-			|| current_directory_path_with_aliases[iterator] == '/'
-			|| current_directory_path_with_aliases[iterator] == '~'
-			|| current_directory_path_with_aliases[iterator - 1] == '/'
-			|| (
-				current_directory_path_with_aliases[iterator - 2] == '/'
-				&& current_directory_path_with_aliases[iterator - 1] == '.'
+			path_slice_index == path_slice_last_index ||
+			current_directory_path_with_aliases[iterator] == '/' ||
+			current_directory_path_with_aliases[iterator] == '~' ||
+			current_directory_path_with_aliases[iterator - 1] == '/' ||
+			(
+				current_directory_path_with_aliases[iterator - 2] == '/' &&
+				current_directory_path_with_aliases[iterator - 1] == '.'
 			)
 		)
 		{
@@ -476,11 +476,11 @@ print_current_directory_path_abbreviated(void)
 	}
 	printf(
 		"%%F{red}%s%%f",
-		has_ownership(current_directory_path)
-		? ""
-		: is_to_use_fallback_text()
-		? " #"
-		: " "
+		has_ownership(current_directory_path) ?
+		"" :
+		is_to_use_fallback_text() ?
+		" #" :
+		" "
 	);
 	return;
 }
@@ -504,8 +504,8 @@ get_dot_git_parent_directory_path(
 	while ((directory_entry = readdir(directory_stream)) != NULL)
 	{
 		if (
-			directory_entry->d_type == 4
-			&& !strcmp(
+			directory_entry->d_type == 4 &&
+			!strcmp(
 				directory_entry->d_name,
 				".git"
 			)
@@ -565,8 +565,8 @@ print_git_branch(void)
 			++slashes_passed;
 		}
 		else if (
-			slashes_passed == 2
-			&& strcmp(
+			slashes_passed == 2 &&
+			strcmp(
 				buffer,
 				"\n"
 			)
@@ -585,9 +585,9 @@ print_cursor_decorator(void)
 {
 	printf(
 		" %%F{yellow}%s%%f",
-		is_to_use_fallback_text()
-		? "X "
-		: "🗶 "
+		is_to_use_fallback_text() ?
+		"X " :
+		"🗶 "
 	);
 	return;
 }

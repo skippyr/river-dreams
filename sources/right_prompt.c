@@ -10,9 +10,9 @@ print_background_jobs_quantity(void)
 {
 	printf(
 		" %%(1j.%%F{green}%s%%f%%j.)",
-		is_to_use_fallback_text()
-		? "Jobs "
-		: " "
+		is_to_use_fallback_text() ?
+		"Jobs " :
+		" "
 	);
 	return;
 }
@@ -35,8 +35,8 @@ print_directory_entry_types_quantity(void)
 			!strcmp(
 				directory_entry->d_name,
 				"."
-			)
-			|| !strcmp(
+			) ||
+			!strcmp(
 				directory_entry->d_name,
 				".."
 			)
@@ -66,9 +66,9 @@ print_directory_entry_types_quantity(void)
 	{
 		printf(
 			" %%F{red}%s%%f%u",
-			is_to_use_fallback_text()
-			? "Hidden "
-			: " ",
+			is_to_use_fallback_text() ?
+			"Hidden " :
+			" ",
 			hidden_entries_quantity
 		);
 	}
@@ -76,9 +76,9 @@ print_directory_entry_types_quantity(void)
 	{
 		printf(
 			" %%F{green}%s%%f%u",
-			is_to_use_fallback_text()
-			? "Executable "
-			: " ",
+			is_to_use_fallback_text() ?
+			"Executable " :
+			" ",
 			executable_entries_quantity
 		);
 	}
@@ -86,9 +86,9 @@ print_directory_entry_types_quantity(void)
 	{
 		printf(
 			" %%F{blue}%s%%f%u\n",
-			is_to_use_fallback_text()
-			? "Symlink "
-			: " ",
+			is_to_use_fallback_text() ?
+			"Symlink " :
+			" ",
 			symbolic_link_entries_quantity
 		);
 	}
