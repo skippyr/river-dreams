@@ -378,7 +378,7 @@ print_current_directory_path_abbreviated(void)
 			"~/Music"
 		))
 		{
-			printf("🎜 ");
+			printf("🎜  ");
 		}
 		else if (!strcmp(
 			current_directory_path_with_aliases,
