@@ -23,11 +23,12 @@
 			<li>the quantity of hidden files in the current directory.</li>
 			<li>the quantity of executable files in the current directory.</li>
 			<li>the quantity of symbolic links in the current directory.</li>
+		</ul>
 		<p>River Dreams also contains fallback text, that can be used when you do not have access to a font that has the pretty symbols it uses. Learn how to enable and disable it in the Customization section.</p>
 	<h2>Installation</h2>
 		<p>This section will teach everything you need to know to install River Dreams.</p>
 		<ul>
-			<li>+ Install these dependencies:</li>
+			<li>Install these dependencies:</li>
 				<ul>
 					<li><code>ZSH</code>. This is the shell this theme applies on.</li>
 					<li><code>gcc</code> and standard C libraries. These are the compiler and libraries needed to compile the source codes. They will be probably already installed in your system.</li>
