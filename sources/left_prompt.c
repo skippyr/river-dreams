@@ -71,7 +71,7 @@ print_time(void)
 	printf(
 		"%s",
 		is_to_use_fallback_text()
-		? "Calendar"
+		? "Calendar "
 		: " "
 	);
 	printf("%%f(");
