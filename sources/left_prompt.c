@@ -587,7 +587,7 @@ print_cursor_decorator(void)
 		" %%F{yellow}%s%%f",
 		is_to_use_fallback_text()
 		? "X "
-		: "✗ "
+		: "🗶 "
 	);
 	return;
 }
