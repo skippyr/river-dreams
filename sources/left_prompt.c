@@ -76,7 +76,7 @@ print_time(void)
 	{
 		printf(" ");
 	}
-	printf("%%f");
+	printf("%%f(");
 	switch (local_time->tm_wday)
 	{
 		case 0:
@@ -102,9 +102,26 @@ print_time(void)
 			break;
 	}
 	printf(
-		" %d ",
+		") %d",
 		local_time->tm_mday
 	);
+	if ((local_time->tm_mday - 1) % 10 == 0)
+	{
+		printf("st");
+	}
+	else if ((local_time->tm_mday - 2) % 10 == 0)
+	{
+		printf("nd");
+	}
+	else if ((local_time->tm_mday - 3) % 10 == 0)
+	{
+		printf("rd");
+	}
+	else
+	{
+		printf("th");
+	}
+	printf(" ");
 	switch (local_time->tm_mon)
 	{
 		case 0:
