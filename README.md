@@ -1,69 +1,84 @@
 # River Dreams
 
-A fast ZSH theme for programmers and hackers.
+## Introduction
 
-> River Dreams with pretty symbols.
+River Dreams is a fast multiline ZSH theme written mostly in C, specially designed for programmers and hackers.
+
 ![](images/image_0.png)
-> River Dreams with fallback text.
 ![](images/image_1.png)
 
-In the images, River Dreams was used on [Kitty](https://github.com/kovidgoyal/kitty) with [Flamerial](https://github.com/skippyr/flamerial) color scheme and [Inconsolata](https://github.com/googlefonts/Inconsolata) font.
+The philosophy behind River Dreams is to create a confortable and professional environment for people that want to spend most of their time in the terminal, by grouping most of the information that you would normally find like in a system's bar in it.
 
-It shows:
-+ local ipv4 address and hostname.
-+ disk usage percentage.
-+ current week day abbreviated, day of month, month abbreviated and year.
-+ current hours and minutes in 24h format.
-+ exit code of failed commands.
-+ current user.
-+ sourced Python virtual environment.
-+ current directory path abbreviated just like what the `fish` shell does.
+Like this, it reduces your need of a graphical environment and becomes a great addition for when you are using a window manager or cannot have access to your graphical environment, like when doing a maintanence.
+
+In your prompt, you will find:
+
++ your local ipv4 address and your host name in the network.
++ the total disk usage percentage.
++ the current week day abbreviated, day of month, month abbreviated and year.
++ the current hours and minutes in 24h format.
++ the exit code of failed commands.
++ your current user.
++ the sourced Python virtual environment base name.
++ your current directory path abbreviated just like the `fish` shell does.
 + a decorator if you are not the user owner of the current directory.
-+ current git branch, if in a directory inside `git`'s scope.
++ the current git branch if you are in a directory being tracked by `git`.
 + a decorator to help you find where you can type your commands.
-+ background jobs quantity.
-+ hidden files quantity for the current directory.
-+ executable files quantity for the current directory.
-+ symbolic links quantity for the current directory.
++ the quantity of background jobs.
++ the quantity of hidden files in the current directory.
++ the quantity of executable files in the current directory.
++ the quantity of symbolic links in the current directory.
 
-It also contains fallback text that can be used when your terminal can not render pretty symbols.
-
+River Dreams also contains fallback text, that can be used when you do not have access to a font that has the pretty symbols it uses. Learn how to enable and disable it in the Customization section.
 
 ## Installation
 
-+ install `gcc` and the standard C libraries. You will probably have them already installed as those are, usually, system dependencies.
-+ optionally, install the [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans) font - this one will be probably installed too - and use a font patched by [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) in your terminal to see pretty symbols. If you do not use them, you can enable River Dreams's fallback text.
-+ clone this repository to a directory, for example: `~/.config/zsh/themes/river_dreams`:
+This section will teach everything you need to know to install River Dreams.
+
++ Install these dependencies:
+	+ `ZSH`. This is the shell this theme applies on.
+	+ `gcc` and standard C libraries. These are the compiler and libraries needed to compile the source codes. They will be probably already installed in your system.
+	+ `Noto Sans` and a font patched by `Nerd Fonts`. Those fonts provides the pretty symbols that are shown in the prompt. If you do want to install them, you can prefer to use River Dreams's fallback text.
++ Download this repository to a directory in your machine. If you have `git` installed, you can use it in the following command:
 
 	```bash
 	git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams
 	```
-If you do not have `git` installed, you can download the source code from the page on GitHub.
 
-+ add a source rule in your `~/.zshrc` pointing to the file `river_dreams.zsh-theme` inside the repository you have cloned.
+	This command will clone this repository to the directory `~/.config/zsh/themes/river_dreams`, but feel free to change to whatever directory you want to, just remember its path because you will need it for the next step. The flag `--depth` with value `1` specifies to `git` that you only want to download the latest commit, instead of the whole commit tree.
+
+	If you do not have `git` installed, you can refer to the page of this project on GitHub and download it from there. Click in the `Code` button on the top of the page, then `Download ZIP`. This will download a ZIP file with the repository, you just have to unzip it.
++ Write a source rule in your ZSH configuration, `~/.zshrc`, to include the theme file `river_dreams.zsh-theme` that is in the root directory of the repository that you have downloaded.
 
 	```bash
 	source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme
 	```
 
-+ restart your ZSH session.
+	If you have used the directory recommended in previous step when downloading the repository, this is the rule to used. If not, just substitute it with the directory you have chosen instead and ensure to add `/river_dreams.zsh-theme` in the end to source the theme file instead of the directory.
++ Restart your ZSH session if you are running it and you finished the installation.
 
-The source codes will automatically be compiled and start running. If you have modified the source codes, you can use the function `river_dreams::compile_source_files` to recompile them again.
-
+River Dreams is prepared to automatically compile the source codes once you source it, so it will just start running after it has done it.
 
 ## Customization
 
-You can set environment variables to change River Dreams behaviors, even while it is already running. For boolean values, use C standard: `1` for true and `0` for false.
+Without coding, River Dreams is customizable through the use of environment variables. When defining boolean values, use C standard: `0` means false and `1` means true.
 
-Set the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT` to enable and disable fallback text. If it is not set, it will be set with value `1` if your terminal only supports the 4-bits color pallete and `0` if not.
+Set the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT` to enable or disable the use of fallback text. If you do not set it, River Dreams will automatically set it based on your terminal capacity of showing colors: if your terminal can only render the 4-bits color palette (ansi values from `0` to `15`), it will set it with value `1`, and `0` if not. As there is no way to determinate precisely if your terminal can render pretty symbols, this is the best approach found to automatically set fallback text.
 
+Further more, you can change what River Dreams does and how it looks by customizing the source codes itself.
 
-## Issues And Questions
+## Issues, Questions And Ideas
 
-If you have found an issue while using this software or have an idea to improve it, feel free to use the issues tab on its page on GitHub.
+If you had an issue, has a question or has an idea to improve River Dreams, feel free to use the Issues tab on its page on GitHub, so I can help you and see what you come with.
 
+### Contributing
+
+Contributions are welcome to fix issues and to answer questions reported in the Issues tab.
+
+If you want to implement your own version of River Dreams, I would highly appreciate if you do it in a fork. Just remember to include credits to the original work and its original license.
 
 ## License
 
-Copyright (c) 2023, Sherman Rofeman. MIT License.
+River Dreams is released under the MIT License. You can refer to the license as the `LICENSE` in the root directory of this repository.
 
+Copyright (c) 2023, Sherman Rofeman. MIT License.
