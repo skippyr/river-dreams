@@ -69,11 +69,11 @@ River Dreams is prepared to automatically compile the source codes once you sour
 
 ## Customization
 
-Without coding, River Dreams is customizable through the use of environment variables. When defining boolean values, use C standard: `0` means false and `1` means true. Environment variables can have set their effects even when River Dreams is running.
+Without coding, River Dreams is customizable through the use of environment variables. When defining boolean values, use C standard: `0` means false and `1` means true. Environment variables can set their effects even when River Dreams is running.
 
 Set the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT` to enable or disable the use of fallback text. If you do not set it, River Dreams will automatically set it based on your terminal capability of showing colors: if your terminal can only render the 4-bits color palette (ANSI values from `0` to `15`), it will set it with value `1`, and `0` if not. As there is no way to determinate precisely if your terminal can render pretty symbols, this is the best approach found to automatically set fallback text.
 
-Further more, you can change what River Dreams does and how it looks by customizing the source codes itself. After you made your changes, use the function `river_dreams::compile_source_files`.
+Further more, you can change what River Dreams does and how it looks by customizing the source codes itself. After you made your changes, use the function `river_dreams::compile_source_files` to recompile the source files again.
 
 ## Issues, Questions And Ideas
 
