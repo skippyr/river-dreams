@@ -2,18 +2,24 @@
 
 ## Introduction
 
-River Dreams is a fast multiline ZSH theme written mostly in C, specially designed for programmers and hackers.
+River Dreams is a fast multi line ZSH theme written mostly in C, specially designed for programmers and hackers.
 
 ![](images/image_0.png)
 ![](images/image_1.png)
+![](images/image_2.png)
+![](images/image_3.png)
+![](images/image_4.png)
 
-The philosophy behind River Dreams is to create a confortable and professional environment for people that want to spend most of their time in the terminal, by grouping most of the information that you would normally find like in a system's bar in it.
 
-Like this, it reduces your need of a graphical environment and becomes a great addition for when you are using a window manager or cannot have access to your graphical environment, like when doing a maintanence.
+> In the images, River Dreams was used on the [Kitty](https://github.com/kovidgoyal/kitty) terminal with the [Flamerial](https://github.com/skippyr/flamerial) color schemes and [Iosevka](https://github.com/be5invis/Iosevka) ([stylistic set `ss08`](https://github.com/be5invis/Iosevka/blob/main/doc/stylistic-sets.md)) font. Noto Fonts and Symbols Nerd Font were used as fallback fonts.
+
+The philosophy behind River Dreams is to create a comfortable and professional environment for people that want to spend most of their time in the terminal, by grouping most of the information that you would normally find in a system's bar in it.
+
+Like this, it reduces your need of a graphical environment and becomes a great addition for when you are using a window manager or cannot have access to your graphical environment, like when doing a maintenance.
 
 In your prompt, you will find:
 
-+ your local ipv4 address and your host name in the network.
++ your local IPv4 address and your host name in the network.
 + the total disk usage percentage.
 + the current week day abbreviated, day of month, month abbreviated and year.
 + the current hours and minutes in 24h format.
@@ -38,7 +44,9 @@ This section will teach everything you need to know to install River Dreams.
 + Install these dependencies:
 	+ `ZSH`. This is the shell this theme applies on.
 	+ `gcc` and standard C libraries. These are the compiler and libraries needed to compile the source codes. They will be probably already installed in your system.
-	+ `Noto Sans` and a font patched by `Nerd Fonts`. Those fonts provides the pretty symbols that are shown in the prompt. If you do want to install them, you can prefer to use River Dreams's fallback text.
+	+ [`Noto Sans`](https://fonts.google.com/noto/specimen/Noto+Sans) and a font patched by [`Nerd Fonts`](https://github.com/ryanoasis/nerd-fonts). Those fonts provides the pretty symbols that are shown in the prompt. If you do want to install them, you can prefer to use River Dreams's fallback text. Normally, Noto Sans comes preinstalled in most systems.
+
+	Most dependencies can be installed through package managers. If you are using Linux, refer to your distributions's package manager. If you are using MacOS, refer to [`HomeBrew`](https://brew.sh). Other dependencies can be installed from their specific websites. Hyperlinks are available in the topics above.
 + Download this repository to a directory in your machine. If you have `git` installed, you can use it in the following command:
 
 	```bash
@@ -63,7 +71,7 @@ River Dreams is prepared to automatically compile the source codes once you sour
 
 Without coding, River Dreams is customizable through the use of environment variables. When defining boolean values, use C standard: `0` means false and `1` means true.
 
-Set the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT` to enable or disable the use of fallback text. If you do not set it, River Dreams will automatically set it based on your terminal capacity of showing colors: if your terminal can only render the 4-bits color palette (ansi values from `0` to `15`), it will set it with value `1`, and `0` if not. As there is no way to determinate precisely if your terminal can render pretty symbols, this is the best approach found to automatically set fallback text.
+Set the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT` to enable or disable the use of fallback text. If you do not set it, River Dreams will automatically set it based on your terminal capability of showing colors: if your terminal can only render the 4-bits color palette (ANSI values from `0` to `15`), it will set it with value `1`, and `0` if not. As there is no way to determinate precisely if your terminal can render pretty symbols, this is the best approach found to automatically set fallback text.
 
 Further more, you can change what River Dreams does and how it looks by customizing the source codes itself.
 
@@ -71,7 +79,7 @@ Further more, you can change what River Dreams does and how it looks by customiz
 
 If you had an issue, has a question or has an idea to improve River Dreams, feel free to use the Issues tab on its page on GitHub, so I can help you and see what you come with.
 
-### Contributing
+## Contributing
 
 Contributions are welcome to fix issues and to answer questions reported in the Issues tab.
 
@@ -82,3 +90,4 @@ If you want to implement your own version of River Dreams, I would highly apprec
 River Dreams is released under the MIT License. You can refer to the license as the `LICENSE` in the root directory of this repository.
 
 Copyright (c) 2023, Sherman Rofeman. MIT License.
+
