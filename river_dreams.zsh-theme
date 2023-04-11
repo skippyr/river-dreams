@@ -21,8 +21,12 @@ river_dreams::compile_source_files()
 		"left_prompt"
 		"right_prompt"
 	)
+	typeset -ra compilation_flags=(
+		"-Wall"
+		"-Wextra"
+	)
 	for source_file in "${source_files[@]}"; do
-		gcc -Wall "${RIVER_DREAMS_SOURCES_DIRECTORY}/${source_file}.c" -o "${RIVER_DREAMS_BUILDS_DIRECTORY}/${source_file}"
+		gcc ${compilation_flags} "${RIVER_DREAMS_SOURCES_DIRECTORY}/${source_file}.c" -o "${RIVER_DREAMS_BUILDS_DIRECTORY}/${source_file}"
 	done
 }
 

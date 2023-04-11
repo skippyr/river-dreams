@@ -68,14 +68,12 @@ print_time(void)
 	time_t now = time(NULL);
 	struct tm *local_time = localtime(&now);
 	printf(" %%F{red}");
-	if (is_to_use_fallback_text())
-	{
-		printf("Calendar ");
-	}
-	else
-	{
-		printf(" ");
-	}
+	printf(
+		"%s",
+		is_to_use_fallback_text()
+		? "Calendar"
+		: " "
+	);
 	printf("%%f(");
 	switch (local_time->tm_wday)
 	{
