@@ -15,7 +15,7 @@ River Dreams is a fast multi line ZSH theme written mostly in C, specially desig
 
 The philosophy behind River Dreams is to create a comfortable and professional environment for people that want to spend most of their time in the terminal, by grouping most of the information that you would normally find in a system's bar in it.
 
-Like this, it reduces your need of a graphical environment and becomes a great addition for when you are using a window manager or cannot have access to your graphical environment, like when doing a maintenance.
+Like this, it reduces your need of a graphical environment and becomes a great addition for when you are using a window manager or can not have access to your graphical environment, like when doing a maintenance.
 
 In your prompt, you will find:
 
@@ -85,9 +85,13 @@ Contributions are welcome to fix issues and to answer questions reported in the 
 
 If you want to implement your own version of River Dreams, I would highly appreciate if you do it in a fork. Just remember to include credits to the original work and its original license.
 
+## See Also
+
+Thanks to [unixorn](https://github.com/unixorn), River Dreams is now available in the [awesome-zsh-plugins](https://github.com/unixorn/awesome-zsh-plugins) repository. It hosts a lot of other cool ZSH themes, plugins, frameworks and more. So what about going there to see what else you like?
+
 ## License
 
-River Dreams is released under the MIT License. You can refer to the license as the `LICENSE` in the root directory of this repository.
+River Dreams is released under the MIT License. You can refer to the license as the file [`LICENSE`](https://github.com/skippyr/river_dreams/blob/main/LICENSE) in the root directory of this repository.
 
 Copyright (c) 2023, Sherman Rofeman. MIT License.
 
