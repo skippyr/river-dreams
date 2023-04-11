@@ -22,6 +22,10 @@ print_directory_entry_types_quantity(void)
 {
 	DIR *directory_stream = opendir(".");
 	struct dirent *directory_entry;
+	if (directory_stream == NULL)
+	{
+		return;
+	}
 	unsigned short int hidden_entries_quantity = 0;
 	unsigned short int executable_entries_quantity = 0;
 	unsigned short int symbolic_link_entries_quantity = 0;

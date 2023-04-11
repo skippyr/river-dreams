@@ -478,6 +478,10 @@ get_dot_git_parent_directory_path(
 {
 	DIR *directory_stream = opendir(relative_path);
 	struct dirent *directory_entry;
+	if (directory_stream == NULL)
+	{
+		return (1);
+	}
 	realpath(
 		relative_path,
 		directory_path
@@ -526,6 +530,10 @@ print_git_branch(void)
 		"r"
 	);
 	char buffer[2];
+	if (file_stream == NULL)
+	{
+		return;
+	}
 	printf(" %%F{red}");
 	unsigned short int slashes_passed = 0;
 	while (fgets(
