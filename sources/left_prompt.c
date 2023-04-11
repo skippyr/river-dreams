@@ -40,7 +40,7 @@ print_separator(void)
 		else
 		{
 			printf(
-				"%%F{yellow}%s%%f",
+				"%s",
 				is_to_use_fallback_text()
 				? "-"
 				: "▼"

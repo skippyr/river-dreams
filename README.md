@@ -1,83 +1,55 @@
-# River Dreams
-
-## Introduction
-
-River Dreams is a fast multi line ZSH theme written mostly in C, specially designed for programmers and hackers.
-
-![](images/image_0.png)
-![](images/image_1.png)
-![](images/image_2.png)
-![](images/image_3.png)
-![](images/image_4.png)
-
-
-> In the images, River Dreams was used on the [Kitty](https://github.com/kovidgoyal/kitty) terminal with the [Flamerial](https://github.com/skippyr/flamerial) color schemes and [Iosevka](https://github.com/be5invis/Iosevka) ([stylistic set `ss08`](https://github.com/be5invis/Iosevka/blob/main/doc/stylistic-sets.md)) font. Noto Fonts and Symbols Nerd Font were used as fallback fonts.
-
-The philosophy behind River Dreams is to create a comfortable and professional environment for people that want to spend most of their time in the terminal, by grouping most of the information that you would normally find in a system's bar in it.
-
-Like this, it reduces your need of a graphical environment and becomes a great addition for when you are using a window manager or can not have access to your graphical environment, like when doing a maintenance.
-
-In your prompt, you will find:
-
-+ your local IPv4 address and your host name in the network.
-+ the total disk usage percentage.
-+ the current week day abbreviated, day of month, month abbreviated and year.
-+ the current hours and minutes in 24h format.
-+ the exit code of failed commands.
-+ your current user.
-+ the sourced Python virtual environment base name.
-+ your current directory path abbreviated just like the `fish` shell does.
-+ a decorator if you are not the user owner of the current directory.
-+ the current git branch if you are in a directory being tracked by `git`.
-+ a decorator to help you find where you can type your commands.
-+ the quantity of background jobs.
-+ the quantity of hidden files in the current directory.
-+ the quantity of executable files in the current directory.
-+ the quantity of symbolic links in the current directory.
-
-River Dreams also contains fallback text, that can be used when you do not have access to a font that has the pretty symbols it uses. Learn how to enable and disable it in the Customization section.
-
-## Installation
-
-This section will teach everything you need to know to install River Dreams.
-
-+ Install these dependencies:
-	+ `ZSH`. This is the shell this theme applies on.
-	+ `gcc` and standard C libraries. These are the compiler and libraries needed to compile the source codes. They will be probably already installed in your system.
-	+ [`Noto Sans`](https://fonts.google.com/noto/specimen/Noto+Sans) and a font patched by [`Nerd Fonts`](https://github.com/ryanoasis/nerd-fonts). Those fonts provides the pretty symbols that are shown in the prompt. If you do want to install them, you can prefer to use River Dreams's fallback text. Normally, Noto Sans comes preinstalled in most systems.
-
-	Most dependencies can be installed through package managers. If you are using Linux, refer to your distributions's package manager. If you are using MacOS, refer to [`HomeBrew`](https://brew.sh). Other dependencies can be installed from their specific websites. Hyperlinks are available in the topics above.
-+ Download this repository to a directory in your machine. If you have `git` installed, you can use it in the following command:
-
-	```bash
-	git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams
-	```
-
-	This command will clone this repository to the directory `~/.config/zsh/themes/river_dreams`, but feel free to change to whatever directory you want to, just remember its path because you will need it for the next step. The flag `--depth` with value `1` specifies to `git` that you only want to download the latest commit, instead of the whole commit tree.
-
-	If you do not have `git` installed, you can refer to the page of this project on GitHub and download it from there. Click in the `Code` button on the top of the page, then `Download ZIP`. This will download a ZIP file with the repository, you just have to unzip it.
-+ Write a source rule in your ZSH configuration, `~/.zshrc`, to include the theme file `river_dreams.zsh-theme` that is in the root directory of the repository that you have downloaded.
-
-	```bash
-	source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme
-	```
-
-	If you have used the directory recommended in previous step when downloading the repository, this is the rule to used. If not, just substitute it with the directory you have chosen instead and ensure to add `/river_dreams.zsh-theme` in the end to source the theme file instead of the directory.
-+ Restart your ZSH session if you are running it and you finished the installation.
-
-River Dreams is prepared to automatically compile the source codes once you source it, so it will just start running after it has done it.
-
-## Customization
-
-Without coding, River Dreams is customizable through the use of environment variables. When defining boolean values, use C standard: `0` means false and `1` means true. Environment variables can set their effects even when River Dreams is running.
-
-Set the environment variable `RIVER_DREAMS_USE_FALLBACK_TEXT` to enable or disable the use of fallback text. If you do not set it, River Dreams will automatically set it based on your terminal capability of showing colors: if your terminal can only render the 4-bits color palette (ANSI values from `0` to `15`), it will set it with value `1`, and `0` if not. As there is no way to determinate precisely if your terminal can render pretty symbols, this is the best approach found to automatically set fallback text.
-
-Further more, you can change what River Dreams does and how it looks by customizing the source codes itself. After you made your changes, use the function `river_dreams::compile_source_files` to recompile the source files again.
-
-## Issues, Questions And Ideas
-
-If you had an issue, has a question or has an idea to improve River Dreams, feel free to use the Issues tab on its page on GitHub, so I can help you and see what you come with.
+<h1>River Dreams</h1>
+	<h2>Introduction</h2>
+		<p>River Dreams is a fast multi line ZSH theme written mostly in C, specially designed for programmers and hackers.</p>
+		<img src="./images/image_0.png"/>
+		<img src="./images/image_1.png"/>
+		<p>In the images, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> color palette and <a href="https://github.com/be5invis/Iosevka">Iosevka</a> (<a href="https://github.com/be5invis/Iosevka/blob/main/doc/stylistic-sets.md">stylistic set <code>ss05</code></a>) font. Noto Fonts and Symbols Nerd Font were used as fallback fonts.</p>
+		<p>The philosophy behind River Dreams is to create a comfortable and professional environment for people that want to spend most of their time in the terminal, by grouping most of the information that you would normally find in a system's bar in it.</p>
+		<p>Like this, it reduces your need of a graphical environment and becomes a great addition for when you are using a window manager or can not have access to your graphical environment, like when doing a maintenance.</p>
+		<p>In your prompt, you will find:</p>
+		<ul>
+			<li>your local IPv4 address and your host name in the network.</li>
+			<li>the total disk usage percentage.</li>
+			<li>the current week day abbreviated, day of month, month abbreviated and year.</li>
+			<li>the current hours and minutes in 24h format.</li>
+			<li>the exit code of failed commands.</li>
+			<li>your current user.</li>
+			<li>the sourced Python virtual environment base name.</li>
+			<li>your current directory path abbreviated just like the <code>fish</code> shell does.</li>
+			<li>a decorator if you are not the user owner of the current directory.</li>
+			<li>the current git branch if you are in a directory being tracked by <code>git</code>.</li>
+			<li>a decorator to help you find where you can type your commands.</li>
+			<li>the quantity of background jobs.</li>
+			<li>the quantity of hidden files in the current directory.</li>
+			<li>the quantity of executable files in the current directory.</li>
+			<li>the quantity of symbolic links in the current directory.</li>
+		<p>River Dreams also contains fallback text, that can be used when you do not have access to a font that has the pretty symbols it uses. Learn how to enable and disable it in the Customization section.</p>
+	<h2>Installation</h2>
+		<p>This section will teach everything you need to know to install River Dreams.</p>
+		<ul>
+			<li>+ Install these dependencies:</li>
+				<ul>
+					<li><code>ZSH</code>. This is the shell this theme applies on.</li>
+					<li><code>gcc</code> and standard C libraries. These are the compiler and libraries needed to compile the source codes. They will be probably already installed in your system.</li>
+					<li><a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans</a> and a font patched by <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a>. Those fonts provides the pretty symbols that are shown in the prompt. If you do want to install them, you can prefer to use River Dreams's fallback text. Normally, Noto Sans comes preinstalled in most systems.</li>
+					<p>Most dependencies can be installed through package managers. If you are using Linux, refer to your distributions's package manager. If you are using MacOS, refer to <a href="https://brew.sh">HomeBrew</a>. Other dependencies can be installed from their specific websites. Hyperlinks are available in the topics above.</p>
+				</ul>
+			<li>Download this repository to a directory in your machine. If you have <code>git</code> installed, you can use it in the following command:</li>
+			<pre><code>git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams</code></pre>
+			<p>This command will clone this repository to the directory <code>~/.config/zsh/themes/river_dreams</code>, but feel free to change to whatever directory you want to, just remember its path because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the latest commit, instead of the whole commit tree.</p>
+			<p>If you do not have <code>git</code> installed, you can refer to the page of this project on GitHub and download it from there. Click in the <code>Code</code> button on the top of the page, then <code>Download ZIP</code>. This will download a ZIP file with the repository, you just have to unzip it.</p>
+			<li>Write a source rule in your ZSH configuration, <code>~/.zshrc</code>, to include the theme file <code>river_dreams.zsh-theme</code> that is in the root directory of the repository that you have downloaded.</li>
+			<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
+			<p>If you have used the directory recommended in previous step when downloading the repository, this is the rule to used. If not, just substitute it with the directory you have chosen instead and ensure to add <code>/river_dreams.zsh-theme</code> in the end to source the theme file instead of the directory.</p>
+			<li>Restart your ZSH session if you are running it and you finished the installation.</li>
+		</ul>
+		<p>River Dreams is prepared to automatically compile the source codes once you source it, so it will just start running after it has done it.
+	<h2>Customization</h2>
+		<p>Without coding, River Dreams is customizable through the use of environment variables. When defining boolean values, use C standard: <code>0</code> means false and <code>1</code> means true. Environment variables can set their effects even when River Dreams is running.</p>
+		<p>Set the environment variable <code>RIVER_DREAMS_USE_FALLBACK_TEXT</code> to enable or disable the use of fallback text. If you do not set it, River Dreams will automatically set it based on your terminal capability of showing colors: if your terminal can only render the 4-bits color palette (ANSI values from <code>0</code> to <code>15</code>), it will set it with value <code>1</code>, and <code>0</code> if not. As there is no way to determinate precisely if your terminal can render pretty symbols, this is the best approach found to automatically set fallback text.</p>
+		<p>Further more, you can change what River Dreams does and how it looks by customizing the source codes itself. After you made your changes, use the function <code>river_dreams::compile_source_files</code> to recompile the source files again.</p>
+	<h2>Issues, Questions And Ideas</h2>
+		<p>If you had an issue, has a question or has an idea to improve River Dreams, feel free to use the Issues tab on its page on GitHub, so I can help you and see what you come with.</p>
 
 ## Contributing
 
@@ -91,7 +63,7 @@ Thanks to [unixorn](https://github.com/unixorn), River Dreams is now available i
 
 ## License
 
-River Dreams is released under the MIT License. You can refer to the license as the file [`LICENSE`](https://github.com/skippyr/river_dreams/blob/main/LICENSE) in the root directory of this repository.
+River Dreams is released under the MIT License. You can refer to the license as the file <a href="https://github.com/skippyr/river_dreams/blob/main/LICENSE">LICENSE</a> in the root directory of this repository.
 
 Copyright (c) 2023, Sherman Rofeman. MIT License.
 
