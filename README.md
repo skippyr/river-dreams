@@ -1,6 +1,6 @@
 <h1>River Dreams</h1>
 	<h2>Introduction</h2>
-		<p>River Dreams is a fast multi line ZSH theme written mostly in C, specially designed for programmers and hackers.</p>
+		<p>River Dreams is a fast multi line ZSH theme that is heavily inspired by the rich culture of Pará, a state of Brazil.</p>
 		<img src="./images/image_0.png"/>
 		<img src="./images/image_1.png"/>
 		<p>In the images, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> color palette and <a href="https://github.com/be5invis/Iosevka">Iosevka</a> (<a href="https://github.com/be5invis/Iosevka/blob/main/doc/stylistic-sets.md">stylistic set <code>ss05</code></a>) font. Noto Fonts and Symbols Nerd Font were used as fallback fonts.</p>
