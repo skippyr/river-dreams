@@ -44,7 +44,8 @@
 			<p>If you have used the directory recommended in previous step when downloading the repository, this is the rule to used. If not, just substitute it with the directory you have chosen instead and ensure to add <code>/river_dreams.zsh-theme</code> in the end to source the theme file instead of the directory.</p>
 			<li>Restart your ZSH session if you are running it and you finished the installation.</li>
 		</ul>
-		<p>River Dreams is prepared to automatically compile the source codes once you source it, so it will just start running after it has done it.
+		<p>River Dreams is prepared to automatically compile the source codes once you source it, so it will just start running after it has done it.</p>
+		<p>Even that River Dreams works with ZSH in basically any terminal, to accomplish the best experience I recommend that you use it in a fast terminal that can render characters pretty well like: <a href="https://github.com/kovidgoyal/kitty">Kitty</a> and <a href="https://github.com/alacritty/alacritty">Alacritty</a>.</p>
 	<h2>Customization</h2>
 		<p>Without coding, River Dreams is customizable through the use of environment variables. When defining boolean values, use C standard: <code>0</code> means false and <code>1</code> means true. Environment variables can set their effects even when River Dreams is running.</p>
 		<p>Set the environment variable <code>RIVER_DREAMS_USE_FALLBACK_TEXT</code> to enable or disable the use of fallback text. If you do not set it, River Dreams will automatically set it based on your terminal capability of showing colors: if your terminal can only render the 4-bits color palette (ANSI values from <code>0</code> to <code>15</code>), it will set it with value <code>1</code>, and <code>0</code> if not. As there is no way to determinate precisely if your terminal can render pretty symbols, this is the best approach found to automatically set fallback text.</p>
