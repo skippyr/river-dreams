@@ -33,8 +33,13 @@
 					<li><code>ZSH</code>. This is the shell this theme applies on.</li>
 					<li><code>gcc</code> and standard C libraries. These are the compiler and libraries needed to compile the source codes. They will be probably already installed in your system.</li>
 					<li><a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans</a> and a font patched by <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a>. Those fonts provides the pretty symbols that are shown in the prompt. If you do want to install them, you can prefer to use River Dreams's fallback text. Normally, Noto Sans comes preinstalled in most systems.</li>
-					<p>Most dependencies can be installed through package managers. If you are using Linux, refer to your distributions's package manager. If you are using MacOS, refer to <a href="https://brew.sh">HomeBrew</a>. Other dependencies can be installed from their specific websites. Hyperlinks are available in the topics above.</p>
 				</ul>
+				<p>Most dependencies can be installed through package managers. If you are using Linux, refer to your distributions's package manager. If you are using MacOS, refer to <a href="https://brew.sh">HomeBrew</a>. Other dependencies can be installed from their specific websites. Hyperlinks are available in the topics above.</p>
+				<p>If you are using a Debian based Linux distro like Ubuntu or PopOS!, you can install most of the dependencies using <code>apt</code>:</p>
+				<pre><code>sudo apt install -y build-essential fonts-noto-core</code></pre>
+				<p>If you are using an Arch based Linux distro, you can install most of the dependencies using <code>pacman</code>:</p>
+				<pre><code>sudo pacman -S --noconfirm --needed base-devel noto-fonts</code></pre>
+				<p>You will still need to install a font patched by Nerd Fonts manually.</p>
 			<li>Download this repository to a directory in your machine. If you have <code>git</code> installed, you can use it in the following command:</li>
 			<pre><code>git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams</code></pre>
 			<p>This command will clone this repository to the directory <code>~/.config/zsh/themes/river_dreams</code>, but feel free to change to whatever directory you want to, just remember its path because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the latest commit, instead of the whole commit tree.</p>
