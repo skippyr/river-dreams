@@ -36,7 +36,8 @@ river_dreams::execute_build()
 	"${RIVER_DREAMS_BUILDS_DIRECTORY}/$@"
 }
 
-[[ ! -d "${RIVER_DREAMS_BUILDS_DIRECTORY}" ]] && river_dreams::compile_source_files
+[[ ! -d "${RIVER_DREAMS_BUILDS_DIRECTORY}" ]] &&
+river_dreams::compile_source_files
 
 PROMPT='$(river_dreams::execute_build "left_prompt") '
 RPROMPT='$(river_dreams::execute_build "right_prompt")'
