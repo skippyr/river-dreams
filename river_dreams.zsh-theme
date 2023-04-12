@@ -26,7 +26,8 @@ river_dreams::compile_source_files()
 		"-Wextra"
 	)
 	for source_file in "${source_files[@]}"; do
-		gcc ${compilation_flags} "${RIVER_DREAMS_SOURCES_DIRECTORY}/${source_file}.c" -o "${RIVER_DREAMS_BUILDS_DIRECTORY}/${source_file}"
+		gcc ${compilation_flags} "${RIVER_DREAMS_SOURCES_DIRECTORY}/${source_file}.c" -o "${RIVER_DREAMS_BUILDS_DIRECTORY}/${source_file}" ||
+		rm -rf "${RIVER_DREAMS_BUILDS_DIRECTORY}"
 	done
 }
 
