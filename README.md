@@ -32,7 +32,7 @@
 				<ul>
 					<li><code>ZSH</code>. This is the shell this theme applies on.</li>
 					<li><code>gcc</code> and standard C libraries. These are the compiler and libraries needed to compile the source codes.</li>
-					<li><a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans</a> and a font patched by <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a>. Those fonts provides the pretty symbols that are shown in the prompt. If you do want to install them, you can prefer to use River Dreams's fallback text. Normally, Noto Sans comes preinstalled in most systems.</li>
+					<li><a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans</a> and a font patched by <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a>. Those fonts provides the pretty symbols that are shown in the prompt. If you do want to install them, you can prefer to use River Dreams's fallback text.</li>
 				</ul>
 				<p>Most dependencies can be installed through package managers. If you are using Linux, refer to your distributions's package manager. If you are using MacOS, refer to <a href="https://brew.sh">HomeBrew</a>. Other dependencies can be installed from their specific websites: hyperlinks are available in the topics above.</p>
 				<p>If you are using a Debian based Linux distribution like Ubuntu or PopOS!, you can install most of the dependencies using <code>apt</code>:</p>
@@ -43,14 +43,22 @@
 			<li>Download this repository to a directory in your machine. If you have <code>git</code> installed, you can use it in the following command:</li>
 			<pre><code>git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams</code></pre>
 			<p>This command will clone this repository to the directory <code>~/.config/zsh/themes/river_dreams</code>, but feel free to change to whatever directory you want to, just remember its path because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the latest commit, instead of the whole commit tree.</p>
-			<p>If you do not have <code>git</code> installed, you can refer to the page of this project on GitHub and download it from there. Click in the <code>Code</code> button on the top of the page, then <code>Download ZIP</code>. This will download a ZIP file with the repository, you just have to unzip it.</p>
-			<li>Write a source rule in your ZSH configuration, <code>~/.zshrc</code>, to include the theme file <code>river_dreams.zsh-theme</code> that is in the root directory of the repository that you have downloaded.</li>
+			<p>If you do not have <code>git</code> installed, you can refer to the page of this project on GitHub and download it from there. Click in the <code>Code</code> button on the top of the page, then <code>Download ZIP</code>. This will download a ZIP file with the repository, you just have to unzip it and move to the path you want it to be.</p>
+			<li>Write a source rule in your ZSH configuration file, <code>~/.zshrc</code>, to include the theme file <code>river_dreams.zsh-theme</code> that is in the root directory of the repository that you have downloaded.</li>
 			<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
-			<p>If you have used the directory recommended in previous step when downloading the repository, this is the rule to used. If not, just substitute it with the directory you have chosen instead and ensure to add <code>/river_dreams.zsh-theme</code> in the end to source the theme file instead of the directory.</p>
-			<li>Restart your ZSH session if you are running it and you finished the installation.</li>
+			<p>If you have used the directory recommended in the previous step when downloading the repository, this is the rule to used. If not, just substitute it with the directory you have chosen instead and ensure to add <code>/river_dreams.zsh-theme</code> in the end to source the theme file instead of the directory.</p>
+			<li>Restart your ZSH session if you are running it.</li>
+			<li>Wait for River Dreams to automatically compile the source codes and start running.</li>
+			<li>You have finished the installation.</li>
 		</ul>
-		<p>River Dreams is prepared to automatically compile the source codes once you source it, so it will just start running after it has done it.</p>
 		<p>Even that River Dreams works with ZSH in basically any terminal, to accomplish the best experience I recommend that you use it in a fast terminal that can render characters pretty well like: <a href="https://github.com/kovidgoyal/kitty">Kitty</a> and <a href="https://github.com/alacritty/alacritty">Alacritty</a>.</p>
+		<p>In most Linux distributions, the default shell is <code>bash</code>, so you terminal would be starting it instead of ZSH by default. If that is your case, you can do one of the following to start ZSH automatically:</p>
+		<ul>
+			<li>Verify your terminal's configuration: some terminals like <code>gnome-terminal</code> have an option to change the command they use when they start up. If that is your case, change the command to <code>/bin/zsh</code>.</li>
+			<li>If your terminal always starts up the default shell of your user, like Kitty and Alacritty do, you can set ZSH as your default shell with the following command:</li>
+			<pre><code>chsh -s /bin/zsh</code></pre>
+		</ul>
+		<p>If you are using MacOS, chances are likely that you are already using ZSH.</p>
 	<h2>Customization</h2>
 		<p>Without coding, River Dreams is customizable through the use of environment variables. When defining boolean values, use C standard: <code>0</code> means false and <code>1</code> means true. Environment variables can set their effects even when River Dreams is running.</p>
 		<p>Set the environment variable <code>RIVER_DREAMS_USE_FALLBACK_TEXT</code> to enable or disable the use of fallback text. If you do not set it, River Dreams will automatically set it based on your terminal capability of showing colors: if your terminal can only render the 4-bits color palette (ANSI values from <code>0</code> to <code>15</code>), it will set it with value <code>1</code>, and <code>0</code> if not. As there is no way to determinate precisely if your terminal can render pretty symbols, this is the best approach found to automatically set fallback text.</p>
