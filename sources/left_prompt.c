@@ -289,7 +289,7 @@ print_shell_status_decorators(void)
 		" ",
 		is_to_use_fallback_text() ?
 		"> " :
-		"⤐  "
+		"⤗  "
 	);
 	return;
 }
