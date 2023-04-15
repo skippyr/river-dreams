@@ -28,7 +28,7 @@
 		<p>River Dreams also contains fallback text, that can be used when you do not have access to a font that has the pretty symbols it uses. Learn how to enable and disable it in the Customization section.</p>
 	<h2>Installation</h2>
 		<p>This section will teach everything you need to know to install River Dreams.</p>
-		<p>River Dreams was only tested on Linux, as I do not own a MacOS. So I can not ensure that it will work for that system, even thought there will be instructions for it too. If you had any issue in that system, then please report them in the issues tab so I can know it and try to fix them in the future.</p>
+		<p>Be warned that River Dreams was only tested on Linux, as I do not own a MacOS. I can not ensure that it will work for that system, even thought there will be instructions for it too. If you had issues in that system, then please report them in the issues tab so I can know it and try to fix them in the future if I have an oportunity.</p>
 		<ul>
 			<li>Install these dependencies:</li>
 				<ul>
@@ -66,7 +66,7 @@
 		<p>Set the environment variable <code>RIVER_DREAMS_USE_FALLBACK_TEXT</code> to enable or disable the use of fallback text. If you do not set it, River Dreams will automatically set it based on your terminal capability of showing colors: if your terminal can only render the 4-bits color palette (ANSI values from <code>0</code> to <code>15</code>), it will set it with value <code>1</code>, and <code>0</code> if not. As there is no way to determinate precisely if your terminal can render pretty symbols, this is the best approach found to automatically set fallback text.</p>
 		<p>Further more, you can change what River Dreams does and how it looks by customizing the source codes itself. After you made your changes, use the function <code>river_dreams::compile_source_files</code> to recompile the source files again.</p>
 	<h2>Know issues</h2>
-	<p>During tests, I could not make River Dreams work with other popular plugins for ZSH like `zsh-autosuggestions` and `zsh-syntax-highlighting`. I belive that this issue is due to it be a multiline prompt, as I also had issues using `zle` to reset this type of prompt, and it was kinda tricky to make it to work.</p>
+	<p>During tests, I could not make River Dreams work with other popular plugins for ZSH such as <code>zsh-autosuggestions</code> and <code>zsh-syntax-highlighting</code>. I belive that this issue is due to it be a multiline prompt, as I also had issues when using `zle` to reset this type of prompt, and it was kinda tricky to make it to work.</p>
 	<h2>Issues, Questions And Ideas</h2>
 		<p>If you had an issue, has a question or has an idea to improve River Dreams, feel free to use the Issues tab on its page on GitHub, so I can help you and see what you come with.</p>
 	<h2>Contributing</h2>
