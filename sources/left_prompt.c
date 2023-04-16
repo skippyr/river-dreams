@@ -13,8 +13,7 @@
 #include <unistd.h>
 #include "common.c"
 
-void
-print_separator(void)
+void print_separator(void)
 {
 	struct winsize terminal_size;
 	ioctl(
@@ -50,8 +49,7 @@ print_separator(void)
 	return;
 }
 
-void
-print_top_left_connector(void)
+void print_top_left_connector(void)
 {
 	printf(
 		"%%F{red}%s─%%F{yellow}{%%f",
@@ -62,8 +60,7 @@ print_top_left_connector(void)
 	return;
 }
 
-void
-print_time(void)
+void print_time(void)
 {
 	time_t now = time(NULL);
 	struct tm *local_time = localtime(&now);
@@ -200,8 +197,7 @@ print_time(void)
 	return;
 }
 
-void
-print_local_ipv4_address(void)
+void print_local_ipv4_address(void)
 {
 	char host_name[HOST_NAME_MAX + 1];
 	gethostname(
@@ -226,8 +222,7 @@ print_local_ipv4_address(void)
 	return;
 }
 
-void
-print_disk_usage_percentage(void)
+void print_disk_usage_percentage(void)
 {
 	struct statvfs sysdisk_status;
 	statvfs(
@@ -245,8 +240,7 @@ print_disk_usage_percentage(void)
 	return;
 }
 
-void
-print_python_environment(void)
+void print_python_environment(void)
 {
 	char *python_environment = getenv("VIRTUAL_ENV");
 	if (python_environment == NULL)
@@ -260,15 +254,13 @@ print_python_environment(void)
 	return;
 }
 
-void
-print_top_right_connector(void)
+void print_top_right_connector(void)
 {
 	printf("%%F{yellow}}%%f\n");
 	return;
 }
 
-void
-print_bottom_left_connector(void)
+void print_bottom_left_connector(void)
 {
 	printf(
 		"%%F{red}%s%%f",
@@ -279,8 +271,7 @@ print_bottom_left_connector(void)
 	return;
 }
 
-void
-print_shell_status_decorators(void)
+void print_shell_status_decorators(void)
 {
 	printf(
 		"%%(?..%%F{yellow}{%%F{red}%s%%?%%F{yellow}}%%f)%%(?.%%F{yellow}.%%F{red})%s%%f",
@@ -294,8 +285,7 @@ print_shell_status_decorators(void)
 	return;
 }
 
-unsigned short int
-has_ownership(const char *path)
+unsigned short int has_ownership(const char *path)
 {
 	const unsigned int user_uid = getuid();
 	struct stat status;
@@ -309,15 +299,13 @@ has_ownership(const char *path)
 	);
 }
 
-void
-print_user(void)
+void print_user(void)
 {
 	printf("%%F{cyan}%%n%%f ");
 	return;
 }
 
-void
-print_current_directory_path_abbreviated(void)
+void print_current_directory_path_abbreviated(void)
 {
 	const char *current_directory_path = getenv("PWD");
 	const char *home_directory_path = getenv("HOME");
@@ -485,8 +473,7 @@ print_current_directory_path_abbreviated(void)
 	return;
 }
 
-unsigned short int
-get_dot_git_parent_directory_path(
+unsigned short int get_dot_git_parent_directory_path(
 	const char *relative_path,
 	char directory_path[]
 )
@@ -525,8 +512,7 @@ get_dot_git_parent_directory_path(
 	));
 }
 
-void
-print_git_branch(void)
+void print_git_branch(void)
 {
 	char head_file_path[PATH_MAX];
 	if (get_dot_git_parent_directory_path(
@@ -580,8 +566,7 @@ print_git_branch(void)
 	return;
 }
 
-void
-print_cursor_decorator(void)
+void print_cursor_decorator(void)
 {
 	printf(
 		" %%F{yellow}%s%%f",
@@ -592,8 +577,7 @@ print_cursor_decorator(void)
 	return;
 }
 
-int
-main(void)
+int main(void)
 {
 	print_separator();
 	print_top_left_connector();

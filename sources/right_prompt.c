@@ -5,8 +5,7 @@
 #include <sys/stat.h>
 #include "common.c"
 
-void
-print_background_jobs_quantity(void)
+void print_background_jobs_quantity(void)
 {
 	printf(
 		" %%(1j.%%F{green}%s%%f%%j.)",
@@ -17,8 +16,7 @@ print_background_jobs_quantity(void)
 	return;
 }
 
-void
-print_directory_entry_types_quantity(void)
+void print_directory_entry_types_quantity(void)
 {
 	DIR *directory_stream = opendir(".");
 	struct dirent *directory_entry;
@@ -96,8 +94,7 @@ print_directory_entry_types_quantity(void)
 	return;
 }
 
-int
-main(void)
+int main(void)
 {
 	print_background_jobs_quantity();
 	print_directory_entry_types_quantity();
