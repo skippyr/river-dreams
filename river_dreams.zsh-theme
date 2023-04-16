@@ -37,7 +37,9 @@ river_dreams::compile_source_files()
 [[ ! -d "${RIVER_DREAMS_BUILDS_DIRECTORY}" ]] &&
 river_dreams::compile_source_files
 
-PROMPT='$("${RIVER_DREAMS_BUILDS_DIRECTORY}/left_prompt") '
-RPROMPT='$("${RIVER_DREAMS_BUILDS_DIRECTORY}/right_prompt")'
-PS2='  %F{red}¦%f '
+if [[ -d "${RIVER_DREAMS_BUILDS_DIRECTORY}" ]]; then
+	PROMPT='$("${RIVER_DREAMS_BUILDS_DIRECTORY}/left_prompt") '
+	RPROMPT='$("${RIVER_DREAMS_BUILDS_DIRECTORY}/right_prompt")'
+	PS2='  %F{red}¦%f '
+fi
 
