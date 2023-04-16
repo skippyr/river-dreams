@@ -27,19 +27,17 @@ river_dreams::compile_source_files()
 	)
 	for source_file in "${source_files[@]}"; do
 		gcc ${compilation_flags} "${RIVER_DREAMS_SOURCES_DIRECTORY}/${source_file}.c" -o "${RIVER_DREAMS_BUILDS_DIRECTORY}/${source_file}" ||
-		rm -rf "${RIVER_DREAMS_BUILDS_DIRECTORY}"
+		(
+			rm -rf "${RIVER_DREAMS_BUILDS_DIRECTORY}"
+			break
+		)
 	done
-}
-
-river_dreams::execute_build()
-{
-	"${RIVER_DREAMS_BUILDS_DIRECTORY}/$@"
 }
 
 [[ ! -d "${RIVER_DREAMS_BUILDS_DIRECTORY}" ]] &&
 river_dreams::compile_source_files
 
-PROMPT='$(river_dreams::execute_build "left_prompt") '
-RPROMPT='$(river_dreams::execute_build "right_prompt")'
+PROMPT='$("${RIVER_DREAMS_BUILDS_DIRECTORY}/left_prompt") '
+RPROMPT='$("${RIVER_DREAMS_BUILDS_DIRECTORY}/right_prompt")'
 PS2='  %F{red}¦%f '
 
