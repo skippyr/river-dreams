@@ -59,6 +59,6 @@ fi
 if [[ -d "${RIVER_DREAMS_BUILDS_DIRECTORY}" ]]; then
 	PROMPT='$("${RIVER_DREAMS_BUILDS_DIRECTORY}/left_prompt") '
 	RPROMPT='$("${RIVER_DREAMS_BUILDS_DIRECTORY}/right_prompt")'
-	PS2='  %F{red}¦%f '
+	PS2=$'\t%F{red}¦%f '
 fi
 
