@@ -6,9 +6,9 @@ unsigned short int is_to_use_fallback_text(void)
 		!strcmp(
 			getenv(FALLBACK_TEXT_ENVIRONMENT_VARIABLE),
 			"1"
-		)
-		? 1
-		: 0
+		) ?
+		1 :
+		0
 	);
 }
 
