@@ -1,14 +1,12 @@
 #!/usr/bin/env zsh
 
 setopt promptsubst
-
 export VIRTUAL_ENV_DISABLE_PROMPT="1"
 export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT:-$(
 	[[ $(tput colors) -eq 8 ]] &&
 	echo "1" ||
 	echo "0"
 )}
-
 typeset -gr RIVER_DREAMS_ROOT_DIRECTORY="$(dirname $0)"
 typeset -gr RIVER_DREAMS_SOURCES_DIRECTORY="${RIVER_DREAMS_ROOT_DIRECTORY}/sources"
 typeset -gr RIVER_DREAMS_BUILDS_DIRECTORY="${RIVER_DREAMS_ROOT_DIRECTORY}/builds"
@@ -36,7 +34,6 @@ river_dreams::compile_source_files()
 
 [[ ! -d "${RIVER_DREAMS_BUILDS_DIRECTORY}" ]] &&
 river_dreams::compile_source_files
-
 if [[ -d "${RIVER_DREAMS_BUILDS_DIRECTORY}" ]]; then
 	PROMPT='$("${RIVER_DREAMS_BUILDS_DIRECTORY}/left_prompt") '
 	RPROMPT='$("${RIVER_DREAMS_BUILDS_DIRECTORY}/right_prompt")'
