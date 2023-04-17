@@ -3,13 +3,13 @@
 setopt promptsubst
 export VIRTUAL_ENV_DISABLE_PROMPT="1"
 if [[ ! ${RIVER_DREAMS_USE_FALLBACK_TEXT} ]]; then
-	if [[ $(tput colors) -eq 8 ]]; then
+	if [[ $(tput colors) -eq "8" ]]; then
 		export RIVER_DREAMS_USE_FALLBACK_TEXT="1"
 	else
 		export RIVER_DREAMS_USE_FALLBACK_TEXT="0"
 	fi
 fi
-typeset -gr RIVER_DREAMS_ROOT_DIRECTORY="$(dirname $0)"
+typeset -gr RIVER_DREAMS_ROOT_DIRECTORY="$(dirname "$0")"
 typeset -gr RIVER_DREAMS_SOURCES_DIRECTORY="${RIVER_DREAMS_ROOT_DIRECTORY}/sources"
 typeset -gr RIVER_DREAMS_BUILDS_DIRECTORY="${RIVER_DREAMS_ROOT_DIRECTORY}/builds"
 
@@ -25,16 +25,36 @@ river_dreams::compile_source_files()
 		"-Wall"
 		"-Wextra"
 	)
+	typeset -i compilation_has_failed="0"
+	echo "\x1b[33m*\x1b[0m Created directory structure for builds."
+	echo "\x1b[33m*\x1b[0m Compiling source files:"
 	for source_file in "${source_files[@]}"; do
+		echo "\t\x1b[33m*\x1b[0m Compiling \x1b[34m${source_file}.c\x1b[0m."
 		gcc ${compilation_flags} "${RIVER_DREAMS_SOURCES_DIRECTORY}/${source_file}.c" -o "${RIVER_DREAMS_BUILDS_DIRECTORY}/${source_file}" ||
-		(
+		compilation_has_failed="1"
+		if [[ "${compilation_has_failed}" -eq "1" ]]; then
 			rm -rf "${RIVER_DREAMS_BUILDS_DIRECTORY}"
+			echo ""
+			echo "Compilation of \x1b[34m${source_file}.c\x1b[0m has \x1b[34mfailed\x1b[0m."
+			echo "Please, try the following:"
+			echo "\t\x1b[33m*\x1b[0m Ensure that have installed all the required dependencies."
+			echo "\t\x1b[33m*\x1b[0m If you have modified the source code, verify the error message of gcc."
+			echo "After following these instructions, restart your ZSH session to try to compile again."
+			echo ""
+			echo "If you can not find a reason for this issue, you can file an issue on the page of the project on GitHub."
+			echo "Remember to post this output there."
 			break
-		)
+		fi
 	done
+	if [[ ${compilation_has_failed} == "0" ]]; then
+		echo ""
+		echo "Builds were stored at \x1b[34m${RIVER_DREAMS_BUILDS_DIRECTORY}\x1b[0m."
+	fi
 }
 
 if [[ ! -d "${RIVER_DREAMS_BUILDS_DIRECTORY}" ]]; then
+	echo "Builds were not found. Automatically compiling source files."
+	echo ""
 	river_dreams::compile_source_files
 fi
 if [[ -d "${RIVER_DREAMS_BUILDS_DIRECTORY}" ]]; then
