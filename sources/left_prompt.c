@@ -71,7 +71,7 @@ void print_time(void)
 		"Calendar " :
 		" "
 	);
-	printf("%%f(");
+	printf("(%%f");
 	switch (local_time->tm_wday)
 	{
 		case 0:
@@ -97,7 +97,7 @@ void print_time(void)
 			break;
 	}
 	printf(
-		") %d",
+		"%%F{red})%%f %d",
 		local_time->tm_mday
 	);
 	if ((local_time->tm_mday - 1) % 10 == 0)
@@ -248,7 +248,7 @@ void print_python_environment(void)
 		return;
 	}
 	printf(
-		"%%F{magenta}%s%%f ",
+		"on %%F{magenta}%s%%f ",
 		basename(python_environment)
 	);
 	return;
@@ -280,7 +280,7 @@ void print_shell_status_decorators(void)
 		" ",
 		is_to_use_fallback_text() ?
 		"> " :
-		"⤗  "
+		"⤐  "
 	);
 	return;
 }
@@ -330,6 +330,7 @@ void print_current_directory_path_abbreviated(void)
 			current_directory_path + strlen(home_directory_path)
 		);
 	}
+	printf("at ");
 	if (!is_to_use_fallback_text())
 	{
 		printf("%%F{red}");
@@ -535,7 +536,7 @@ void print_git_branch(void)
 	{
 		return;
 	}
-	printf(" %%F{red}");
+	printf(" on %%F{red}");
 	unsigned short int slashes_passed = 0;
 	while (fgets(
 		buffer,
