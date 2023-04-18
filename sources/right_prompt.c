@@ -5,6 +5,9 @@
 #include <sys/stat.h>
 #include "common.c"
 
+#define EXECUTABLE_MODE 33261
+#define SYMBOLIC_LINK_TYPE 10
+
 void print_background_jobs_quantity(void)
 {
 	printf(
@@ -47,7 +50,7 @@ void print_directory_entry_types_quantity(void)
 			directory_entry->d_name,
 			&directory_entry_status
 		);
-		if (directory_entry_status.st_mode == 33261)
+		if (directory_entry_status.st_mode == EXECUTABLE_MODE)
 		{
 			++executable_entries_quantity;
 		}
@@ -55,7 +58,7 @@ void print_directory_entry_types_quantity(void)
 		{
 			++hidden_entries_quantity;
 		}
-		if (directory_entry->d_type == 10)
+		if (directory_entry->d_type == SYMBOLIC_LINK_TYPE)
 		{
 			++symbolic_link_entries_quantity;
 		}

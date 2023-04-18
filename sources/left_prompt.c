@@ -13,6 +13,10 @@
 #include <unistd.h>
 #include "common.c"
 
+#define EPOCH_YEAR 1900
+#define ROOT_UID 0
+#define DIRECTORY_TYPE 4
+
 void print_separator(void)
 {
 	struct winsize terminal_size;
@@ -158,7 +162,7 @@ void print_time(void)
 	}
 	printf(
 		", %d %%F{red}¦ ",
-		1900 + local_time->tm_year
+		EPOCH_YEAR + local_time->tm_year
 	);
 	if (is_to_use_fallback_text())
 	{
@@ -295,7 +299,7 @@ unsigned short int has_ownership(const char *path)
 	);
 	return (
 		status.st_uid == user_uid ||
-		user_uid == 0
+		user_uid == ROOT_UID
 	);
 }
 
@@ -492,7 +496,7 @@ unsigned short int get_dot_git_parent_directory_path(
 	while ((directory_entry = readdir(directory_stream)) != NULL)
 	{
 		if (
-			directory_entry->d_type == 4 &&
+			directory_entry->d_type == DIRECTORY_TYPE &&
 			!strcmp(
 				directory_entry->d_name,
 				".git"
