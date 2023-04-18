@@ -8,7 +8,7 @@
 #define EXECUTABLE_MODE 33261
 #define SYMBOLIC_LINK_TYPE 10
 
-void print_background_jobs_quantity(void)
+void print_quantity_of_background_jobs(void)
 {
 	printf(
 		" %%(1j.%%F{green}%s%%f%%j.)",
@@ -19,7 +19,7 @@ void print_background_jobs_quantity(void)
 	return;
 }
 
-void print_directory_entry_types_quantity(void)
+void print_quantity_of_directory_entry_types(void)
 {
 	DIR *directory_stream = opendir(".");
 	struct dirent *directory_entry;
@@ -27,9 +27,9 @@ void print_directory_entry_types_quantity(void)
 	{
 		return;
 	}
-	unsigned short int hidden_entries_quantity = 0;
-	unsigned short int executable_entries_quantity = 0;
-	unsigned short int symbolic_link_entries_quantity = 0;
+	unsigned short int quantity_of_hidden_entries = 0;
+	unsigned short int quantity_of_executable_entries = 0;
+	unsigned short int quantity_of_symbolic_link_entries = 0;
 	while ((directory_entry = readdir(directory_stream)) != NULL)
 	{
 		if (
@@ -52,45 +52,45 @@ void print_directory_entry_types_quantity(void)
 		);
 		if (directory_entry_status.st_mode == EXECUTABLE_MODE)
 		{
-			++executable_entries_quantity;
+			++quantity_of_executable_entries;
 		}
 		if (directory_entry->d_name[0] == '.')
 		{
-			++hidden_entries_quantity;
+			++quantity_of_hidden_entries;
 		}
 		if (directory_entry->d_type == SYMBOLIC_LINK_TYPE)
 		{
-			++symbolic_link_entries_quantity;
+			++quantity_of_symbolic_link_entries;
 		}
 	}
-	if (hidden_entries_quantity > 0)
+	if (quantity_of_hidden_entries > 0)
 	{
 		printf(
 			" %%F{red}%s%%f%u",
 			is_to_use_fallback_text() ?
 			"Hidden " :
 			" ",
-			hidden_entries_quantity
+			quantity_of_hidden_entries
 		);
 	}
-	if (executable_entries_quantity > 0)
+	if (quantity_of_executable_entries > 0)
 	{
 		printf(
 			" %%F{green}%s%%f%u",
 			is_to_use_fallback_text() ?
 			"Executable " :
 			" ",
-			executable_entries_quantity
+			quantity_of_executable_entries
 		);
 	}
-	if (symbolic_link_entries_quantity > 0)
+	if (quantity_of_symbolic_link_entries > 0)
 	{
 		printf(
 			" %%F{blue}%s%%f%u\n",
 			is_to_use_fallback_text() ?
 			"Symlink " :
 			" ",
-			symbolic_link_entries_quantity
+			quantity_of_symbolic_link_entries
 		);
 	}
 	closedir(directory_stream);
@@ -99,8 +99,8 @@ void print_directory_entry_types_quantity(void)
 
 int main(void)
 {
-	print_background_jobs_quantity();
-	print_directory_entry_types_quantity();
+	print_quantity_of_background_jobs();
+	print_quantity_of_directory_entry_types();
 	return (0);
 }
 
