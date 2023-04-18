@@ -33,7 +33,7 @@ void print_separator(void)
 				"%%F{red}%s%%f",
 				is_to_use_fallback_text()
 				? "="
-				: "▲"
+				: ""
 			);
 		}
 		else
@@ -42,7 +42,7 @@ void print_separator(void)
 				"%s",
 				is_to_use_fallback_text()
 				? "-"
-				: "▼"
+				: ""
 			);
 		}
 	}
