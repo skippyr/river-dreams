@@ -1,6 +1,6 @@
 <h1>River Dreams</h1>
 	<h2>Starting Point</h2>
-		<p>River Dreams is a fast multi line ZSH theme with tribal inspirations.</p>
+		<p>River Dreams is a fast multi line theme for ZSH with tribal inspirations.</p>
 		<img src="./images/image_0.png"/>
 		<img src="./images/image_1.png"/>
 		<p>In the images, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> and xterm terminals with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> color palette and <a href="https://fonts.google.com/specimen/Inconsolata">Inconsolata</a> font. Noto Fonts and Symbols Nerd Font were used as fallback fonts.</p>
@@ -15,22 +15,22 @@
 			<li>the exit code of failed commands.</li>
 			<li>your current user.</li>
 			<li>the sourced Python virtual environment base name.</li>
-			<li>your current directory path abbreviated just like the <code>fish</code> shell does.</li>
+			<li>your current directory path abbreviated just like the <code><a href="https://github.com/fish-shell/fish-shell">fish</a></code> shell does.</li>
 			<li>a decorator if you are not the user owner of the current directory.</li>
 			<li>the current git branch if you are in a directory being tracked by <code>git</code>.</li>
 			<li>a decorator to help you find where you can type your commands.</li>
-			<li>the quantity of background jobs.</li>
-			<li>the quantity of hidden files in the current directory.</li>
-			<li>the quantity of executable files in the current directory.</li>
-			<li>the quantity of symbolic links in the current directory.</li>
+			<li>the quantity of background jobs of your shell session.</li>
+			<li>the quantity of hidden entries in the current directory.</li>
+			<li>the quantity of executable entries in the current directory.</li>
+			<li>the quantity of symbolic links entries in the current directory.</li>
 		</ul>
 		<p>River Dreams also contains fallback text, that can be used when you do not have access to a font that has the pretty symbols it uses. Learn how to enable and disable it in the Customization section.</p>
 	<h2>Installation And Usage</h2>
-		<p>Be warned that River Dreams was only tested on Linux. I can not ensure that it will work for other systems.</p>
+		<p>Be warned that River Dreams was only tested on Linux. I can not ensure that it will work for other systems. But, I would really appreciate if you could test it and report issues that you find in those other systems, maybe if I got an opportunity I can solve them.</p>
 		<ul>
 			<li>Install these dependencies:</li>
 				<ul>
-					<li><code>ZSH:</code></li>
+					<li><code>ZSH</code>:</li>
 					<p>This is the shell this theme applies on.</p>
 					<li><code>gcc</code> and standard C libraries:</li>
 					<p>These are the compiler and libraries needed to compile the source codes.</p>
