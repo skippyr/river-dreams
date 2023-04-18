@@ -464,7 +464,10 @@ void print_current_directory_path_abbreviated(void)
 			)
 		)
 		{
-			printf("%c", current_directory_path_with_aliases[iterator]);
+			printf(
+				"%c",
+				current_directory_path_with_aliases[iterator]
+			);
 		}
 	}
 	printf(
@@ -507,7 +510,10 @@ unsigned short int get_dot_git_parent_directory_path(
 		}
 	}
 	closedir(directory_stream);
-	if (!strcmp(directory_path, "/"))
+	if (!strcmp(
+		directory_path,
+		"/"
+	))
 	{
 		return (1);
 	}
