@@ -2,9 +2,14 @@
 
 unsigned short int is_to_use_fallback_text(void)
 {
+	char *fallback_text = getenv(FALLBACK_TEXT_ENVIRONMENT_VARIABLE);
+	if (fallback_text == NULL)
+	{
+		return (0);
+	}
 	return (
 		!strcmp(
-			getenv(FALLBACK_TEXT_ENVIRONMENT_VARIABLE),
+			fallback_text,
 			"1"
 		) ?
 		1 :
