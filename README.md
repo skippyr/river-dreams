@@ -3,7 +3,7 @@
 		<p>River Dreams is a fast multi line ZSH theme.</p>
 		<img src="./images/image_0.png"/>
 		<img src="./images/image_1.png"/>
-		<p>In the images, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> color palette and <a href="https://fonts.google.com/specimen/Inconsolata">Inconsolata</a> font. Noto Fonts and Symbols Nerd Font were used as fallback fonts.</p>
+		<p>In the images, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> and xterm terminals with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> color palette and <a href="https://fonts.google.com/specimen/Inconsolata">Inconsolata</a> font. Noto Fonts and Symbols Nerd Font were used as fallback fonts.</p>
 		<p>The philosophy behind River Dreams is to create a comfortable environment for people that want to spend most of their time in the terminal, by grouping most of the information that you would normally find in a system's bar in it.</p>
 		<p>Like this, it reduces your need of a graphical environment and becomes a great addition for when you are using a window manager or can not have access to your graphical environment, like when doing a maintenance.</p>
 		<p>In your prompt, you will find:</p>

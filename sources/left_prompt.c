@@ -64,7 +64,7 @@ void print_time(void)
 {
 	time_t now = time(NULL);
 	struct tm *local_time = localtime(&now);
-	printf(" %%F{red}");
+	printf(" %%F{red}¦ ");
 	printf(
 		"%s",
 		is_to_use_fallback_text() ?
@@ -157,7 +157,7 @@ void print_time(void)
 			break;
 	}
 	printf(
-		", %d ",
+		", %d %%F{red}¦ ",
 		1900 + local_time->tm_year
 	);
 	if (is_to_use_fallback_text())
@@ -215,7 +215,7 @@ void print_local_ipv4_address(void)
 	printf(
 		"%%F{red}%s%%f%%m%%F{red}@%%f%s",
 		is_to_use_fallback_text() ?
-		"Ip " :
+		"IP " :
 		" ",
 		inet_ntoa(*(struct in_addr *) host_entry->h_addr_list[0])
 	);
@@ -231,7 +231,7 @@ void print_disk_usage_percentage(void)
 	);
 	const unsigned long total = sysdisk_status.f_blocks * sysdisk_status.f_bsize;
 	printf(
-		" %%F{yellow}%s%%f%u%%%%",
+		" %%F{red}¦ %%F{yellow}%s%%f%u%%%%",
 		is_to_use_fallback_text() ?
 		"Disk " :
 		" ",
