@@ -248,7 +248,7 @@ void print_python_environment(void)
 		return;
 	}
 	printf(
-		"on %%F{magenta}%s%%f ",
+		"using %%F{magenta}%s%%f ",
 		basename(python_environment)
 	);
 	return;
