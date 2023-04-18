@@ -1,6 +1,6 @@
 <h1>River Dreams</h1>
-	<h2>Introduction</h2>
-		<p>River Dreams is a fast multi line ZSH theme.</p>
+	<h2>Starting Point</h2>
+		<p>River Dreams is a fast multi line ZSH theme with tribal inspirations.</p>
 		<img src="./images/image_0.png"/>
 		<img src="./images/image_1.png"/>
 		<p>In the images, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> and xterm terminals with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> color palette and <a href="https://fonts.google.com/specimen/Inconsolata">Inconsolata</a> font. Noto Fonts and Symbols Nerd Font were used as fallback fonts.</p>
@@ -25,27 +25,30 @@
 			<li>the quantity of symbolic links in the current directory.</li>
 		</ul>
 		<p>River Dreams also contains fallback text, that can be used when you do not have access to a font that has the pretty symbols it uses. Learn how to enable and disable it in the Customization section.</p>
-	<h2>Installation</h2>
+	<h2>Installation And Usage</h2>
 		<p>Be warned that River Dreams was only tested on Linux. I can not ensure that it will work for other systems.</p>
 		<ul>
 			<li>Install these dependencies:</li>
 				<ul>
-					<li><code>ZSH</code>. This is the shell this theme applies on.</li>
-					<li><code>gcc</code> and standard C libraries. These are the compiler and libraries needed to compile the source codes.</li>
-					<li><a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans</a> and a font patched by <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a>. Those fonts provides the pretty symbols that are shown in the prompt. If you do not want to install them, you can prefer to use River Dreams's fallback text.</li>
+					<li><code>ZSH:</code></li>
+					<p>This is the shell this theme applies on.</p>
+					<li><code>gcc</code> and standard C libraries:</li>
+					<p>These are the compiler and libraries needed to compile the source codes.</p>
+					<li><a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans</a> and a font patched by <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a>:</li>
+					<p>Those fonts provides the pretty symbols that are shown in the prompt. If you do not want to install them, you can prefer to use River Dreams's fallback text.</p>
 				</ul>
 				<p>Most dependencies can be installed through your distribution's package manager.</p>
 			<li>Download this repository to a directory in your machine. If you have <code>git</code> installed, you can use it in the following command:</li>
 			<pre><code>git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams</code></pre>
-			<p>This command will clone this repository to the directory <code>~/.config/zsh/themes/river_dreams</code>, but feel free to change to whatever directory you want to, just remember its path because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the latest commit, instead of the whole commit tree.</p>
-			<p>If you do not have <code>git</code> installed, you can refer to the page of this project on GitHub and download it from there. Click in the <code>Code</code> button on the top of the page, then <code>Download ZIP</code>. This will download a ZIP file with the repository, you just have to unzip it and move to the path you want it to be.</p>
+			<p>This command will clone this repository to the directory <code>~/.config/zsh/themes/river_dreams</code>, but feel free to change to whatever directory you want to, just remember its path because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the latest commit instead of the whole commit tree.</p>
+			<p>If you do not have <code>git</code> installed, you can download this repository from its page on GitHub. Access that page, click on the <code>Code</code> button on the top of the page, then click on <code>Download ZIP</code>. This will download a ZIP file containing the repository, you just have to unzip it and move to the path you want it to be.</p>
 			<li>Write a source rule in your ZSH configuration file, <code>~/.zshrc</code>, to include the theme file <code>river_dreams.zsh-theme</code> that is in the root directory of the repository that you have downloaded.</li>
 			<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
 			<p>If you have used the directory recommended in the previous step when downloading the repository, this is the rule to used. If not, just substitute it with the directory you have chosen instead and ensure to add <code>/river_dreams.zsh-theme</code> in the end of the directory path to source the theme file instead of the directory itself.</p>
 			<li>Restart your ZSH session if you are running it.</li>
 			<li>Wait for River Dreams to automatically compile the source codes and start running.</li>
 		</ul>
-		<p>Even that River Dreams works with ZSH in basically any terminal, to accomplish the best experience I recommend that you use it in a fast terminal that can render characters pretty well like: <a href="https://github.com/kovidgoyal/kitty">Kitty</a>.
+		<p>Even that River Dreams works with ZSH in basically any terminal, to accomplish the best experience I recommend that you use it in a fast terminal that can render characters pretty well like: <a href="https://github.com/kovidgoyal/kitty">Kitty</a>.</p>
 	<h2>Customization</h2>
 		<p>Without coding, River Dreams is customizable through the use of environment variables. When defining boolean values, use C standard: <code>0</code> means false and <code>1</code> means true. Environment variables can set their effects even when River Dreams is running.</p>
 		<p>Set the environment variable <code>RIVER_DREAMS_USE_FALLBACK_TEXT</code> to enable or disable the use of fallback text. If you do not set it, River Dreams will automatically set it based on your terminal capability of showing colors: if your terminal can only render the 4-bits color palette (ANSI values from <code>0</code> to <code>15</code>), it will set it with value <code>1</code>, and <code>0</code> if not.</p>
