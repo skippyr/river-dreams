@@ -35,18 +35,18 @@ void print_separator(void)
 		{
 			printf(
 				"%%F{red}%s%%f",
-				is_to_use_fallback_text()
-				? "="
-				: ""
+				is_to_use_fallback_text() ?
+				"=" :
+				""
 			);
 		}
 		else
 		{
 			printf(
 				"%s",
-				is_to_use_fallback_text()
-				? "-"
-				: ""
+				is_to_use_fallback_text() ?
+				"-" :
+				""
 			);
 		}
 	}
