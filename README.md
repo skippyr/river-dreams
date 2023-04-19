@@ -1,9 +1,9 @@
 <h1>River Dreams</h1>
 	<h2>Starting Point</h2>
-		<p>River Dreams is a fast multi line theme for ZSH with tribal inspirations.</p>
+		<p>River Dreams is a fast multi line theme for ZSH with inspiration in tribal patterns. It includes fallback text and shows information such as your local IPv4 address, disk usage percentage, git branch, calendar, clock and a bit more.</p>
 		<img src="./images/image_0.png"/>
 		<img src="./images/image_1.png"/>
-		<p>In the images, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> and xterm terminals with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> color palette and <a href="https://fonts.google.com/specimen/Inconsolata">Inconsolata</a> font. Noto Fonts and Symbols Nerd Font were used as fallback fonts.</p>
+		<p>In the images, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> and xterm terminals with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> color palette and <a href="https://github.com/source-foundry/Hack">Hack</a> font. Noto Fonts and Symbols Nerd Font were used as fallback fonts.</p>
 		<p>The philosophy behind River Dreams is to create a comfortable environment for people that want to spend most of their time in the terminal, by grouping most of the information that you would normally find in a system's bar in it.</p>
 		<p>Like this, it reduces your need of a graphical environment and becomes a great addition for when you are using a window manager or can not have access to your graphical environment, like when doing a maintenance.</p>
 		<p>In your prompt, you will find:</p>
