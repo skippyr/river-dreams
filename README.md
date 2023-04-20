@@ -55,13 +55,10 @@
 		<p>Further more, you can change what River Dreams does and how it looks by customizing the source codes itself. After you made your changes, use the function <code>river_dreams::compile_source_files</code> to recompile the source files again.</p>
 	<h2>Know issues</h2>
 		<p>During tests, I could not make River Dreams work perfectly with other popular plugins for ZSH such as <code>zsh-autosuggestions</code> and <code>zsh-syntax-highlighting</code>: when the terminal gets cleared, the separator at its top disappears. I believe that this issue is due to it be a multiline prompt, as I also had issues when using <code>zle</code> to reset this type of prompt, and it was kinda tricky to make it to work.</p>
-	<h2>Issues, Questions And Ideas</h2>
-		<p>If you had an issue, has a question or has an idea to improve River Dreams, feel free to use the Issues tab on its page on GitHub, so I can help you and see what you come with.</p>
-	<h2>Contributing</h2>
-		<p>Contributions are welcome to fix issues and to answer questions reported in the Issues tab.</p>
-		<p>If you want to implement your own version of River Dreams, I would highly appreciate if you do it in a fork. Just remember to include credits to the original work and its original license.</p>
 	<h2>See Also</h2>
 		<p>Thanks to <a href="https://github.com/unixorn">unixorn</a>, River Dreams is now available in the <a href="https://github.com/unixorn/awesome-zsh-plugins">awesome-zsh-plugins</a> repository. It hosts a lot of other cool ZSH themes, plugins, frameworks and more. So what about going there to see what else you like?</p>
+	<h2>Issues And Contributions</h2>
+		<p>Learn how to report issues, questions and ideas and how to contribute to this project by reading its <a href="https://skippyr.github.io/materials/pages/contributions_guideline.html">contributions guideline</a>.</p>
 	<h2>License</h2>
 		<p>River Dreams is released under the MIT License. You can refer to the license as the file <code><a href="https://github.com/skippyr/river_dreams/blob/main/LICENSE">LICENSE</a></code> in the root directory of this repository.</p>
 		<p>Copyright (c) 2023, Sherman Rofeman. MIT License.</p>
