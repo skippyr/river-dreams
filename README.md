@@ -4,7 +4,7 @@
 		<img src="./images/image_0.png"/>
 		<img src="./images/image_1.png"/>
 		<p>In the images, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> color palette and <a href="https://github.com/source-foundry/Hack">Hack</a> font. Noto Fonts and Symbols Nerd Font were used as fallback fonts.</p>
-		<p>The philosophy behind River Dreams is to create a comfortable environment for people that want to spend most of their time in the terminal, by grouping most of the information that you would normally find in a system's bar in it.</p>
+		<p>The idea behind River Dreams is to create a comfortable environment for people that want to spend most of their time in the terminal, by grouping most of the information that you would normally find in a system's bar in it.</p>
 		<p>Like this, it reduces your need of a graphical environment and becomes a great addition for when you are using a window manager or can not have access to your graphical environment, like when doing a maintenance.</p>
 		<p>In your prompt, you will find:</p>
 		<ul>
@@ -49,6 +49,7 @@
 			<li>Wait for River Dreams to automatically compile the source codes and start running.</li>
 		</ul>
 		<p>Even that River Dreams works with ZSH in basically any terminal, to accomplish the best experience I recommend that you use it in a fast terminal that can render characters pretty well like: <a href="https://github.com/kovidgoyal/kitty">Kitty</a>.</p>
+		<p>To uninstall River Dreams, simply remove the source rule from your ZSH configuration file and remove the directory's repository that you have downloaded.</p>
 	<h2>Customization</h2>
 		<p>Without coding, River Dreams is customizable through the use of environment variables. When defining boolean values, use C standard: <code>0</code> means false and <code>1</code> means true. Environment variables can set their effects even when River Dreams is running.</p>
 		<p>Set the environment variable <code>RIVER_DREAMS_USE_FALLBACK_TEXT</code> to enable or disable the use of fallback text. If you do not set it, River Dreams will automatically set it based on your terminal capability of showing colors: if your terminal can only render the 4-bits color palette (ANSI values from <code>0</code> to <code>15</code>), it will set it with value <code>1</code>, and <code>0</code> if not.</p>
