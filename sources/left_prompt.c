@@ -327,6 +327,13 @@ void print_current_directory_path_abbreviated(void)
 {
 	const char *current_directory_path = getenv("PWD");
 	const char *home_directory_path = getenv("HOME");
+	if (
+		current_directory_path == NULL ||
+		home_directory_path == NULL
+	)
+	{
+		return;
+	}
 	char current_directory_path_with_aliases[strlen(current_directory_path) + 1];
 	if (strstr(
 		current_directory_path,
@@ -501,15 +508,18 @@ unsigned short int get_dot_git_parent_directory_path(
 )
 {
 	DIR *directory_stream = opendir(relative_path);
-	struct dirent *directory_entry;
 	if (directory_stream == NULL)
 	{
 		return (1);
 	}
-	realpath(
+	struct dirent *directory_entry;
+	if (realpath(
 		relative_path,
 		directory_path
-	);
+	) == NULL)
+	{
+		return (1);
+	}
 	while ((directory_entry = readdir(directory_stream)) != NULL)
 	{
 		if (
@@ -524,17 +534,17 @@ unsigned short int get_dot_git_parent_directory_path(
 		}
 	}
 	closedir(directory_stream);
-	if (!strcmp(
-		directory_path,
-		"/"
-	))
-	{
-		return (1);
-	}
-	return(get_dot_git_parent_directory_path(
-		dirname(directory_path),
-		directory_path
-	));
+	return (
+		!strcmp(
+			directory_path,
+			"/"
+		) ?
+		1 :
+		get_dot_git_parent_directory_path(
+			dirname(directory_path),
+			directory_path
+		)
+	);
 }
 
 void print_git_branch(void)
@@ -555,11 +565,11 @@ void print_git_branch(void)
 		head_file_path,
 		"r"
 	);
-	char buffer[2];
 	if (file_stream == NULL)
 	{
 		return;
 	}
+	char buffer[2];
 	printf(" on %%F{red}");
 	unsigned short int slashes_passed = 0;
 	while (fgets(
