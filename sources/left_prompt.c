@@ -325,8 +325,9 @@ void print_user(void)
 
 void print_current_directory_path_abbreviated(void)
 {
-	const char *current_directory_path = getenv("PWD");
-	const char *home_directory_path = getenv("HOME");
+	const char
+		*current_directory_path = getenv("PWD"),
+		*home_directory_path = getenv("HOME");
 	if (
 		current_directory_path == NULL ||
 		home_directory_path == NULL

@@ -27,9 +27,10 @@ void print_quantity_of_directory_entry_types(void)
 		return;
 	}
 	struct dirent *directory_entry;
-	unsigned short int quantity_of_hidden_entries = 0;
-	unsigned short int quantity_of_executable_entries = 0;
-	unsigned short int quantity_of_symbolic_link_entries = 0;
+	unsigned short int
+		quantity_of_hidden_entries = 0,
+		quantity_of_executable_entries = 0,
+		quantity_of_symbolic_link_entries = 0;
 	while ((directory_entry = readdir(directory_stream)) != NULL)
 	{
 		if (
