@@ -20,11 +20,14 @@
 void print_separator(void)
 {
 	struct winsize terminal_size;
-	ioctl(
+	if (ioctl(
 		0,
 		TIOCGWINSZ,
 		&terminal_size
-	);
+	) != 0)
+	{
+		return;
+	}
 	for (
 		unsigned short int iterator = 0;
 		iterator != terminal_size.ws_col;
@@ -203,11 +206,14 @@ void print_time(void)
 
 void print_local_ipv4_address(void)
 {
-	char host_name[HOST_NAME_MAX + 1];
-	gethostname(
+	char host_name[HOST_NAME_MAX];
+	if (gethostname(
 		host_name,
 		sizeof(host_name)
-	);
+	) != 0)
+	{
+		return;
+	}
 	struct hostent *host_entry = gethostbyname(host_name);
 	if (
 		host_entry == NULL ||
@@ -229,10 +235,13 @@ void print_local_ipv4_address(void)
 void print_disk_usage_percentage(void)
 {
 	struct statvfs sysdisk_status;
-	statvfs(
+	if (statvfs(
 		"/",
 		&sysdisk_status
-	);
+	) != 0)
+	{
+		return;
+	}
 	const unsigned long total = sysdisk_status.f_blocks * sysdisk_status.f_bsize;
 	printf(
 		" %%F{red}¦ %%F{yellow}%s%%f%u%%%%",
