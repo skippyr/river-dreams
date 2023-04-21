@@ -71,6 +71,10 @@ void print_time(void)
 {
 	time_t now = time(NULL);
 	struct tm *local_time = localtime(&now);
+	if (local_time == NULL)
+	{
+		return;
+	}
 	printf(" %%F{red}¦ ");
 	printf(
 		"%s",
@@ -300,15 +304,16 @@ void print_shell_status_decorators(void)
 
 unsigned short int has_ownership(const char *path)
 {
-	const unsigned int user_uid = getuid();
+	uid_t user_uid = getuid();
 	struct stat status;
-	stat(
-		path,
-		&status
-	);
 	return (
+		stat(
+			path,
+			&status
+		) == 0 ?
 		status.st_uid == user_uid ||
-		user_uid == ROOT_UID
+		user_uid == ROOT_UID :
+		0
 	);
 }
 
