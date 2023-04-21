@@ -22,11 +22,11 @@ void print_quantity_of_background_jobs(void)
 void print_quantity_of_directory_entry_types(void)
 {
 	DIR *directory_stream = opendir(".");
-	struct dirent *directory_entry;
 	if (directory_stream == NULL)
 	{
 		return;
 	}
+	struct dirent *directory_entry;
 	unsigned short int quantity_of_hidden_entries = 0;
 	unsigned short int quantity_of_executable_entries = 0;
 	unsigned short int quantity_of_symbolic_link_entries = 0;
@@ -46,10 +46,13 @@ void print_quantity_of_directory_entry_types(void)
 			continue;
 		}
 		struct stat directory_entry_status;
-		stat(
+		if (stat(
 			directory_entry->d_name,
 			&directory_entry_status
-		);
+		) != 0)
+		{
+			continue;
+		}
 		if (directory_entry_status.st_mode == EXECUTABLE_MODE)
 		{
 			++quantity_of_executable_entries;
