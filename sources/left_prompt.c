@@ -107,27 +107,7 @@ void print_time(void)
 			printf("Sat");
 			break;
 	}
-	printf(
-		"%%F{red})%%f %d",
-		local_time->tm_mday
-	);
-	if ((local_time->tm_mday - 1) % 10 == 0)
-	{
-		printf("st");
-	}
-	else if ((local_time->tm_mday - 2) % 10 == 0)
-	{
-		printf("nd");
-	}
-	else if ((local_time->tm_mday - 3) % 10 == 0)
-	{
-		printf("rd");
-	}
-	else
-	{
-		printf("th");
-	}
-	printf(" ");
+	printf("%%F{red})%%f ");
 	switch (local_time->tm_mon)
 	{
 		case 0:
@@ -166,6 +146,26 @@ void print_time(void)
 		case 11:
 			printf("Dec");
 			break;
+	}
+	printf(
+		" %d",
+		local_time->tm_mday
+	);
+	if ((local_time->tm_mday - 1) % 10 == 0)
+	{
+		printf("st");
+	}
+	else if ((local_time->tm_mday - 2) % 10 == 0)
+	{
+		printf("nd");
+	}
+	else if ((local_time->tm_mday - 3) % 10 == 0)
+	{
+		printf("rd");
+	}
+	else
+	{
+		printf("th");
 	}
 	printf(
 		", %d %%F{red}¦ ",
