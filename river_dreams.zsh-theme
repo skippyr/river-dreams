@@ -48,7 +48,7 @@ river_dreams::compile_source_files()
 			break
 		fi
 	done
-	if [[ ${compilation_has_failed} == "0" ]]; then
+	if [[ ${compilation_has_failed} -eq "0" ]]; then
 		echo "Builds were stored at \x1b[34m${RIVER_DREAMS_BUILDS_DIRECTORY}\x1b[0m."
 	fi
 }
