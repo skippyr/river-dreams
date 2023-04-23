@@ -570,31 +570,24 @@ void print_git_branch(void)
 	{
 		return;
 	}
-	char buffer[2];
 	printf(" on %%F{red}");
+	char character;
 	unsigned short int slashes_passed = 0;
-	while (fgets(
-		buffer,
-		sizeof(buffer),
-		file_stream
-	) != NULL)
+	while ((character = fgetc(file_stream)) != EOF)
 	{
-		if (!strcmp(
-			buffer,
-			"/"
-		))
+		if (character == '/')
 		{
-			++slashes_passed;
+			++ slashes_passed;
 		}
 		else if (
 			slashes_passed == 2 &&
-			strcmp(
-				buffer,
-				"\n"
-			)
+			character != '\n'
 		)
 		{
-			printf("%s", buffer);
+			printf(
+				"%c",
+				character
+			);
 		}
 	}
 	fclose(file_stream);
