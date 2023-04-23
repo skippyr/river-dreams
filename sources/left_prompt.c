@@ -82,14 +82,14 @@ void print_time(void)
 		"Calendar " :
 		" "
 	);
-	printf("(%%f");
+	printf("%%f(");
 	switch (local_time->tm_wday)
 	{
 		case 0:
-			printf("Mon");
+			printf("Sun");
 			break;
 		case 1:
-			printf("Sun");
+			printf("Mon");
 			break;
 		case 2:
 			printf("Tue");
@@ -107,7 +107,7 @@ void print_time(void)
 			printf("Sat");
 			break;
 	}
-	printf("%%F{red})%%f ");
+	printf(") ");
 	switch (local_time->tm_mon)
 	{
 		case 0:
