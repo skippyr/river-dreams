@@ -7,9 +7,9 @@ use river_dreams::{
 	symbols::{
 		Symbol,
 		choose_symbol_string_for_environment,
+		get_commands_separator_symbol,
 		get_clock_symbol
 	},
-	math::is_pair,
 	time::{
 		get_calendar_string,
 		get_clock_string
@@ -71,23 +71,7 @@ fn print_commands_separator()
 {
 	for column in 0..get_output_stream_width()
 	{
-		let symbol: Symbol = if is_pair(column)
-		{
-			Symbol
-			{
-				default: String::from(""),
-				fallback: String::from("="),
-				color: Color::Red
-			}
-		}
-		else
-		{
-			Symbol {
-				default: String::from(""),
-				fallback: String::from("-"),
-				color: Color::Normal
-			}
-		};
+		let symbol: Symbol = get_commands_separator_symbol(column);
 		print!(
 			"{}",
 			colorize(
