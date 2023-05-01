@@ -15,6 +15,18 @@ pub fn get_disk_usage_percentage() -> u8
 	let mut available_disk_size_in_bytes: u64 = 0;
 	for disk in system.disks()
 	{
+		let disk_mount_point: &str = match disk.mount_point().to_str()
+		{
+			Some(disk_mount_point) =>
+			{ disk_mount_point }
+			None =>
+			{
+				print_error_message("Could not get disk mount point.");
+				exit(1);
+			}
+		};
+		if disk_mount_point != "/"
+		{ continue; }
 		total_disk_size_in_bytes += disk.total_space();
 		available_disk_size_in_bytes += disk.available_space();
 	}
