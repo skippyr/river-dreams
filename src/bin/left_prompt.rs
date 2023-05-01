@@ -149,6 +149,52 @@ fn print_clock(local_time: &DateTime<Local>)
 	);
 }
 
+fn print_shell_status()
+{
+	let error_symbol: Symbol = Symbol
+	{
+		default_text: String::from(" %?"),
+		fallback_text: String::from("X %?"),
+		color: Color::Red
+	};
+	let arrow_symbol: Symbol = Symbol
+	{
+		default_text: String::from("⤐  "),
+		fallback_text: String::from("> "),
+		color: Color::Other(String::from("%(?.yellow.red)"))
+	};
+	print!(
+		"%(?..{}{}{}){}",
+		colorize(
+			String::from("{"),
+			Color::Yellow
+		),
+		colorize(
+			error_symbol.get_text_for_environment(),
+			error_symbol.color
+		),
+		colorize(
+			String::from("}"),
+			Color::Yellow
+		),
+		colorize(
+			arrow_symbol.get_text_for_environment(),
+			arrow_symbol.color
+		)
+	);
+}
+
+fn print_user()
+{
+	print!(
+		"{} ",
+		colorize(
+			String::from("%n"),
+			Color::Cyan
+		)
+	);
+}
+
 fn main()
 {
 	let local_time: DateTime<Local> = Local::now();
@@ -161,5 +207,7 @@ fn main()
 	print_clock(&local_time);
 	print_top_right_decorator();
 	print_bottom_left_decorator();
+	print_shell_status();
+	print_user();
 }
 

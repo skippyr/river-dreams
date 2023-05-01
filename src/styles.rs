@@ -8,7 +8,8 @@ pub enum Color
 	Magenta,
 	Cyan,
 	White,
-	Normal
+	Normal,
+	Other(String)
 }
 
 fn get_color_sequence(color: Color) -> String
@@ -18,23 +19,25 @@ fn get_color_sequence(color: Color) -> String
 		match color
 		{
 			Color::Black =>
-			{ "black" }
+			{ String::from("black") }
 			Color::Red =>
-			{ "red" }
+			{ String::from("red") }
 			Color::Green =>
-			{ "green" }
+			{ String::from("green") }
 			Color::Yellow =>
-			{ "yellow" }
+			{ String::from("yellow") }
 			Color::Blue =>
-			{ "blue" }
+			{ String::from("blue") }
 			Color::Magenta =>
-			{ "magenta" }
+			{ String::from("magenta") }
 			Color::Cyan =>
-			{ "cyan" }
+			{ String::from("cyan") }
 			Color::White =>
-			{ "white" }
+			{ String::from("white") }
 			Color::Normal =>
-			{ "normal" }
+			{ String::from("normal") }
+			Color::Other(color) =>
+			{ color }
 		}
 	)
 }
