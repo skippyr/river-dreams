@@ -1,5 +1,5 @@
 use river_dreams::{
-	streams::get_standart_output_width,
+	standard_streams::get_output_stream_width,
 	styles::{
 		Color,
 		colorize_text
@@ -12,8 +12,8 @@ use river_dreams::{
 
 fn print_commands_separator()
 {
-	let standart_output_width: u16 = get_standart_output_width();
-	for column in 0..standart_output_width
+	let output_stream_width: u16 = get_output_stream_width();
+	for column in 0..output_stream_width
 	{
 		let is_column_pair: bool = column % 2 == 0;
 		if is_column_pair
@@ -46,3 +46,4 @@ fn main()
 {
 	print_commands_separator();
 }
+
