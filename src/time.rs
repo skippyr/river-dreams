@@ -28,3 +28,11 @@ pub fn get_calendar_string(local_time: &DateTime<Local>) -> String
 		))
 		.to_string()
 }
+
+pub fn get_clock_string(local_time: &DateTime<Local>) -> String
+{
+	local_time
+		.format("%Hh%Mm")
+		.to_string()
+}
+

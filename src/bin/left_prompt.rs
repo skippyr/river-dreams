@@ -6,10 +6,14 @@ use river_dreams::{
 	},
 	symbols::{
 		Symbol,
-		get_symbol_string
+		get_symbol_string,
+		get_colorized_clock_symbol
 	},
 	math::is_pair,
-	time::get_calendar_string
+	time::{
+		get_calendar_string,
+		get_clock_string
+	}
 };
 use chrono::{
 	DateTime,
@@ -61,6 +65,17 @@ fn print_top_left_decorator()
 	);
 }
 
+fn print_separator()
+{
+	print!(
+		" {} ",
+		colorize_string(
+			String::from("¦"),
+			Color::Red
+		)
+	);
+}
+
 fn print_calendar(local_time: &DateTime<Local>)
 {
 	print!(
@@ -76,11 +91,22 @@ fn print_calendar(local_time: &DateTime<Local>)
 	);
 }
 
+fn print_clock(local_time: &DateTime<Local>)
+{
+	print!(
+		"{}{}",
+		get_colorized_clock_symbol(local_time),
+		get_clock_string(local_time)
+	);
+}
+
 fn main()
 {
 	let local_time: DateTime<Local> = Local::now();
 	print_commands_separator();
 	print_top_left_decorator();
 	print_calendar(&local_time);
+	print_separator();
+	print_clock(&local_time);
 }
 

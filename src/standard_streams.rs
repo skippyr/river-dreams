@@ -8,11 +8,11 @@ pub fn get_output_stream_width() -> u16
 	{
 		Ok(output_stream_size) =>
 		{
-			let width: u16 = output_stream_size.0;
-			let _height: u16 = output_stream_size.1;
-			width
+			let output_stream_width: u16 = output_stream_size.0;
+			let _output_stream_height: u16 = output_stream_size.1;
+			output_stream_width
 		}
-		Err(_) =>
+		Err(_error) =>
 		{
 			print_error_message("Could not get output stream width.");
 			exit(1);
