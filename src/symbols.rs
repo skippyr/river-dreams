@@ -6,7 +6,7 @@ pub struct Symbol
 	pub fallback: String
 }
 
-pub fn get_symbol_by_environment(symbol: Symbol) -> String
+pub fn get_symbol_type_by_environment(symbol: Symbol) -> String
 {
 	if is_to_use_fallback_text()
 	{ symbol.fallback }

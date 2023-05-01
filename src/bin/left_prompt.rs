@@ -6,7 +6,7 @@ use river_dreams::{
 	},
 	symbols::{
 		Symbol,
-		get_symbol_by_environment
+		get_symbol_type_by_environment
 	}
 };
 
@@ -21,7 +21,7 @@ fn print_commands_separator()
 			print!(
 				"{}",
 				colorize_text(
-					get_symbol_by_environment(Symbol {
+					get_symbol_type_by_environment(Symbol {
 						default: String::from(""),
 						fallback: String::from("=")
 					}),
@@ -33,7 +33,7 @@ fn print_commands_separator()
 		{
 			print!(
 				"{}",
-				get_symbol_by_environment(Symbol {
+				get_symbol_type_by_environment(Symbol {
 					default: String::from(""),
 					fallback: String::from("-")
 				})
