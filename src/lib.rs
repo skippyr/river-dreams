@@ -17,13 +17,9 @@ pub mod environment
 		match option_env!("RIVER_DREAMS_USE_FALLBACK_TEXT")
 		{
 			Some(is_to_use_fallback_text) =>
-			{
-				is_to_use_fallback_text == "1"
-			}
+			{ is_to_use_fallback_text == "1" }
 			None =>
-			{
-				false
-			}
+			{ false }
 		}
 	}
 }
@@ -55,14 +51,46 @@ pub mod streams
 
 pub mod styles
 {
+	pub enum Color
+	{
+		Black,
+		Red,
+		Green,
+		Yellow,
+		Blue,
+		Magenta,
+		Cyan,
+		White,
+		Normal
+	}
+
+	pub fn get_color_as_string(color: Color) -> String
+	{
+		format!(
+			"%F{{{}}}",
+			match color
+			{
+				Color::Black => "black",
+				Color::Red => "red",
+				Color::Green => "green",
+				Color::Yellow => "Yellow",
+				Color::Blue => "blue",
+				Color::Magenta => "magenta",
+				Color::Cyan => "cyan",
+				Color::White => "white",
+				Color::Normal => "normal"
+			}
+		)
+	}
+
 	pub fn colorize_text(
 		text: String,
-		color: String
+		color: Color
 	) -> String
 	{
 		format!(
-			"%F{{{}}}{}%f",
-			color,
+			"{}{}%f",
+			get_color_as_string(color),
 			text
 		)
 	}
@@ -81,13 +109,9 @@ pub mod symbols
 	pub fn get_symbol_by_environment(symbol: Symbol) -> String
 	{
 		if is_to_use_fallback_text()
-		{
-			symbol.fallback
-		}
+		{ symbol.fallback }
 		else
-		{
-			symbol.default
-		}
+		{ symbol.default }
 	}
 }
 

@@ -1,6 +1,9 @@
 use river_dreams::{
 	streams::get_standart_output_width,
-	styles::colorize_text,
+	styles::{
+		Color,
+		colorize_text
+	},
 	symbols::{
 		Symbol,
 		get_symbol_by_environment
@@ -22,7 +25,7 @@ fn print_commands_separator()
 						default: String::from(""),
 						fallback: String::from("=")
 					}),
-					String::from("red")
+					Color::Red
 				)
 			);
 		}
