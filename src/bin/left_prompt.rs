@@ -20,6 +20,49 @@ use chrono::{
 	Local
 };
 
+fn print_top_left_decorator()
+{
+	print!(
+		"{}{}",
+		colorize_string(
+			get_symbol_string(Symbol {
+				default: String::from("╭─"),
+				fallback: String::from("┌─")
+			}),
+			Color::Red
+		),
+		colorize_string(
+			String::from("{"),
+			Color::Yellow
+		)
+	);
+}
+
+fn print_top_right_decorator()
+{
+	println!(
+		"{}",
+		colorize_string(
+			String::from("}"),
+			Color::Yellow
+		)
+	);
+}
+
+fn print_bottom_left_decorator()
+{
+	print!(
+		"{}",
+		colorize_string(
+			get_symbol_string(Symbol {
+				default: String::from("╰"),
+				fallback: String::from("└")
+			}),
+			Color::Red
+		)
+	);
+}
+
 fn print_commands_separator()
 {
 	for column in 0..get_output_stream_width()
@@ -45,24 +88,6 @@ fn print_commands_separator()
 			}
 		);
 	}
-}
-
-fn print_top_left_decorator()
-{
-	print!(
-		"{}{}",
-		colorize_string(
-			get_symbol_string(Symbol {
-				default: String::from("╭─"),
-				fallback: String::from("┌─")
-			}),
-			Color::Red
-		),
-		colorize_string(
-			String::from("{"),
-			Color::Yellow
-		)
-	);
 }
 
 fn print_separator()
@@ -108,5 +133,7 @@ fn main()
 	print_calendar(&local_time);
 	print_separator();
 	print_clock(&local_time);
+	print_top_right_decorator();
+	print_bottom_left_decorator();
 }
 
