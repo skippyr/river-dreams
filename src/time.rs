@@ -28,7 +28,7 @@ pub fn get_day_moment(hour_in_24h_format: u32) -> DayMoment
 	{ DayMoment::Night }
 }
 
-pub fn get_day_of_month_ordinal_suffix(day_of_month: i32) -> String
+pub fn get_day_of_month_ordinal_suffix(day_of_month: i8) -> String
 {
 	let is_first: bool = (day_of_month - 1) % 10 == 0;
 	let is_second: bool = (day_of_month - 2) % 10 == 0;
@@ -47,8 +47,9 @@ pub fn get_calendar_string(local_time: &DateTime<Local>) -> String
 {
 	local_time
 		.format(&format!(
-			"(%a) %b %_d{}, %Y",
-			get_day_of_month_ordinal_suffix(local_time.day() as i32)
+			"(%a) %b {}{}, %Y",
+			local_time.day(),
+			get_day_of_month_ordinal_suffix(local_time.day() as i8)
 		))
 		.to_string()
 }
