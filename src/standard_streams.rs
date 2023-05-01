@@ -1,6 +1,6 @@
+use super::error_treatment::print_error_message;
 use std::process::exit;
 use crossterm::terminal::size;
-use super::error_treatment::print_error_message;
 
 pub fn get_output_stream_width() -> u16
 {

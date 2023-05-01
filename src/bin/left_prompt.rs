@@ -16,7 +16,8 @@ use river_dreams::
 	{
 		get_calendar_string,
 		get_clock_string
-	}
+	},
+	file_system::get_disk_usage_percentage
 };
 use chrono::
 {
@@ -88,7 +89,7 @@ fn print_commands_separator()
 	}
 }
 
-fn print_separator()
+fn print_horizontal_separator()
 {
 	print!(
 		" {} ",
@@ -96,6 +97,24 @@ fn print_separator()
 			String::from("¦"),
 			Color::Red
 		)
+	);
+}
+
+fn print_disk_usage_percentage()
+{
+	let symbol: Symbol = Symbol
+	{
+		default_text: String::from(" "),
+		fallback_text: String::from("Disk "),
+		color: Color::Yellow
+	};
+	print!(
+		"{}{}%%",
+		colorize(
+			symbol.get_text_for_environment(),
+			symbol.color
+		),
+		get_disk_usage_percentage()
 	);
 }
 
@@ -135,8 +154,10 @@ fn main()
 	let local_time: DateTime<Local> = Local::now();
 	print_commands_separator();
 	print_top_left_decorator();
+	print_disk_usage_percentage();
+	print_horizontal_separator();
 	print_calendar(&local_time);
-	print_separator();
+	print_horizontal_separator();
 	print_clock(&local_time);
 	print_top_right_decorator();
 	print_bottom_left_decorator();
