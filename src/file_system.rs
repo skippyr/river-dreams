@@ -1,5 +1,6 @@
 use super::error_treatment::print_error_message;
-use std::{
+use std::
+{
 	process::exit,
 	path::Path
 };
@@ -25,7 +26,7 @@ pub fn get_disk_usage_percentage() -> u8
 	}
 	if total_disk_size_in_bytes == 0
 	{
-		print_error_message("Could not get disk size.");
+		print_error_message("Could not get total disk size.");
 		exit(1);
 	}
 	let used_disk_size_in_bytes: u64 = total_disk_size_in_bytes - available_disk_size_in_bytes;
