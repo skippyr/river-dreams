@@ -11,7 +11,7 @@ pub enum Color
 	Normal
 }
 
-fn get_color_as_string(color: Color) -> String
+fn get_color_sequence(color: Color) -> String
 {
 	format!(
 		"%F{{{}}}",
@@ -39,15 +39,15 @@ fn get_color_as_string(color: Color) -> String
 	)
 }
 
-pub fn colorize_string(
-	string: String,
+pub fn colorize(
+	text: String,
 	color: Color
 ) -> String
 {
 	format!(
 		"{}{}%f",
-		get_color_as_string(color),
-		string
+		get_color_sequence(color),
+		text
 	)
 }
 

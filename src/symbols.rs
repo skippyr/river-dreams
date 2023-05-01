@@ -3,70 +3,68 @@ use chrono::{
 	Local,
 	Timelike
 };
+use crate::time::{DayMoment, get_day_moment};
+
 use super::{
 	environment_variables::is_to_use_fallback_text,
-	styles::{
-		colorize_string,
-		Color
-	}
+	styles::Color
 };
 
 pub struct Symbol
 {
 	pub default: String,
-	pub fallback: String
+	pub fallback: String,
+	pub color: Color
 }
 
-pub fn get_symbol_string(symbol: Symbol) -> String
+pub fn choose_symbol_string_for_environment(symbol: &Symbol) -> String
 {
 	if is_to_use_fallback_text()
-	{ symbol.fallback }
+	{ symbol.fallback.clone() }
 	else
-	{ symbol.default }
+	{ symbol.default.clone() }
 }
 
-pub fn get_colorized_clock_symbol(local_time: &DateTime<Local>) -> String
+pub fn get_clock_symbol(local_time: &DateTime<Local>) -> Symbol
 {
-	if is_to_use_fallback_text()
+	let fallback: String = String::from("Clock ");
+	match get_day_moment(local_time.hour())
 	{
-		colorize_string(
-			String::from("Clock"),
-			Color::Yellow
-		)
-	}
-	else
-	{
-		let hour: u32 = local_time.hour();
-		let is_dawn: bool = hour < 6;
-		let is_morning: bool = !is_dawn && hour < 12;
-		let is_afternoon: bool = !is_morning && hour < 18;
-		if is_dawn
+		DayMoment::Dawn =>
 		{
-			colorize_string(
-				String::from(" "),
-				Color::Cyan
-			)
+			Symbol
+			{
+				default: String::from(" "),
+				fallback,
+				color: Color::Cyan
+			}
 		}
-		else if is_morning
+		DayMoment::Morning =>
 		{
-			colorize_string(
-				String::from("盛"),
-				Color::Yellow
-			)
+			Symbol
+			{
+				default: String::from("盛"),
+				fallback,
+				color: Color::Red
+			}
 		}
-		else if is_afternoon
+		DayMoment::Afternoon =>
 		{
-			colorize_string(
-				String::from(" "),
-				Color::Blue
-			)
+			Symbol
+			{
+				default: String::from(" "),
+				fallback,
+				color: Color::Blue
+			}
 		}
-		else
+		DayMoment::Night =>
 		{
-			colorize_string(
-				String::from("󰽥 "),
-				Color::Yellow
-			)	
+			Symbol
+			{
+				default: String::from("󰽥 "),
+				fallback,
+				color: Color::Yellow
+			}
 		}
 	}
 }

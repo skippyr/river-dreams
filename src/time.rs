@@ -4,6 +4,29 @@ use chrono::{
 	Datelike
 };
 
+pub enum DayMoment
+{
+	Dawn,
+	Morning,
+	Afternoon,
+	Night
+}
+
+pub fn get_day_moment(hour: u32) -> DayMoment
+{
+	let is_dawn: bool = hour < 6;
+	let is_morning: bool = !is_dawn && hour < 12;
+	let is_afternoon: bool = !is_morning && hour < 18;
+	if is_dawn
+	{ DayMoment::Dawn }
+	else if is_morning
+	{ DayMoment::Morning }
+	else if is_afternoon
+	{ DayMoment::Afternoon }
+	else
+	{ DayMoment::Night }
+}
+
 pub fn get_day_of_month_ordinal_suffix(day_of_month: i32) -> String
 {
 	let is_first: bool = (day_of_month - 1) % 10 == 0;
@@ -30,9 +53,5 @@ pub fn get_calendar_string(local_time: &DateTime<Local>) -> String
 }
 
 pub fn get_clock_string(local_time: &DateTime<Local>) -> String
-{
-	local_time
-		.format("%Hh%Mm")
-		.to_string()
-}
+{ local_time.format("%Hh%Mm").to_string() }
 
