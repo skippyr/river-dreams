@@ -15,17 +15,20 @@ use chrono::{
 
 pub struct Symbol
 {
-	pub default: String,
-	pub fallback: String,
+	pub default_text: String,
+	pub fallback_text: String,
 	pub color: Color
 }
 
-pub fn choose_symbol_string_for_environment(symbol: &Symbol) -> String
+impl Symbol
 {
-	if is_to_use_fallback_text()
-	{ symbol.fallback.clone() }
-	else
-	{ symbol.default.clone() }
+	pub fn get_text_for_environment(&self) -> String
+	{
+		if is_to_use_fallback_text()
+		{ self.fallback_text.clone() }
+		else
+		{ self.default_text.clone() }
+	}
 }
 
 pub fn get_commands_separator_symbol(column: u16) -> Symbol
@@ -34,8 +37,8 @@ pub fn get_commands_separator_symbol(column: u16) -> Symbol
 	{
 		Symbol
 		{
-			default: String::from(""),
-			fallback: String::from("="),
+			default_text: String::from(""),
+			fallback_text: String::from("="),
 			color: Color::Red
 		}
 	}
@@ -43,8 +46,8 @@ pub fn get_commands_separator_symbol(column: u16) -> Symbol
 	{
 		Symbol
 		{
-			default: String::from(""),
-			fallback: String::from("-"),
+			default_text: String::from(""),
+			fallback_text: String::from("-"),
 			color: Color::Normal
 		}
 	}
@@ -52,15 +55,15 @@ pub fn get_commands_separator_symbol(column: u16) -> Symbol
 
 pub fn get_clock_symbol(local_time: &DateTime<Local>) -> Symbol
 {
-	let fallback: String = String::from("Clock ");
+	let fallback_text: String = String::from("Clock ");
 	match get_day_moment(local_time.hour())
 	{
 		DayMoment::Dawn =>
 		{
 			Symbol
 			{
-				default: String::from(" "),
-				fallback,
+				default_text: String::from(" "),
+				fallback_text,
 				color: Color::Cyan
 			}
 		}
@@ -68,8 +71,8 @@ pub fn get_clock_symbol(local_time: &DateTime<Local>) -> Symbol
 		{
 			Symbol
 			{
-				default: String::from("盛"),
-				fallback,
+				default_text: String::from("盛"),
+				fallback_text,
 				color: Color::Red
 			}
 		}
@@ -77,8 +80,8 @@ pub fn get_clock_symbol(local_time: &DateTime<Local>) -> Symbol
 		{
 			Symbol
 			{
-				default: String::from(" "),
-				fallback,
+				default_text: String::from(" "),
+				fallback_text,
 				color: Color::Blue
 			}
 		}
@@ -86,8 +89,8 @@ pub fn get_clock_symbol(local_time: &DateTime<Local>) -> Symbol
 		{
 			Symbol
 			{
-				default: String::from("󰽥 "),
-				fallback,
+				default_text: String::from("󰽥 "),
+				fallback_text,
 				color: Color::Yellow
 			}
 		}

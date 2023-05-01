@@ -12,11 +12,11 @@ pub enum DayMoment
 	Night
 }
 
-pub fn get_day_moment(hour_in_24hrs_format: u32) -> DayMoment
+pub fn get_day_moment(hour_in_24h_format: u32) -> DayMoment
 {
-	let is_dawn: bool = hour_in_24hrs_format < 6;
-	let is_morning: bool = !is_dawn && hour_in_24hrs_format < 12;
-	let is_afternoon: bool = !is_morning && hour_in_24hrs_format < 18;
+	let is_dawn: bool = hour_in_24h_format < 6;
+	let is_morning: bool = !is_dawn && hour_in_24h_format < 12;
+	let is_afternoon: bool = !is_morning && hour_in_24h_format < 18;
 	if is_dawn
 	{ DayMoment::Dawn }
 	else if is_morning

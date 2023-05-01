@@ -6,7 +6,6 @@ use river_dreams::{
 	},
 	symbols::{
 		Symbol,
-		choose_symbol_string_for_environment,
 		get_commands_separator_symbol,
 		get_clock_symbol
 	},
@@ -23,14 +22,14 @@ use chrono::{
 fn print_top_left_decorator()
 {
 	let decorator: Symbol = Symbol {
-		default: String::from("╭─"),
-		fallback: String::from("┌─"),
+		default_text: String::from("╭─"),
+		fallback_text: String::from("┌─"),
 		color: Color::Red
 	};
 	print!(
 		"{}{}",
 		colorize(
-			choose_symbol_string_for_environment(&decorator),
+			decorator.get_text_for_environment(),
 			decorator.color
 		),
 		colorize(
@@ -54,14 +53,14 @@ fn print_top_right_decorator()
 fn print_bottom_left_decorator()
 {
 	let decorator: Symbol = Symbol {
-		default: String::from("╰"),
-		fallback: String::from("└"),
+		default_text: String::from("╰"),
+		fallback_text: String::from("└"),
 		color: Color::Red
 	};
 	print!(
 		"{}",
 		colorize(
-			choose_symbol_string_for_environment(&decorator),
+			decorator.get_text_for_environment(),
 			decorator.color
 		)
 	);
@@ -75,7 +74,7 @@ fn print_commands_separator()
 		print!(
 			"{}",
 			colorize(
-				choose_symbol_string_for_environment(&symbol),
+				symbol.get_text_for_environment(),
 				symbol.color
 			)
 		);
@@ -96,14 +95,14 @@ fn print_separator()
 fn print_calendar(local_time: &DateTime<Local>)
 {
 	let symbol: Symbol = Symbol {
-		default: String::from(" "),
-		fallback: String::from("Calendar "),
+		default_text: String::from(" "),
+		fallback_text: String::from("Calendar "),
 		color: Color::Red
 	};
 	print!(
 		"{}{}",
 		colorize(
-			choose_symbol_string_for_environment(&symbol),
+			symbol.get_text_for_environment(),
 			symbol.color
 		),
 		get_calendar_string(local_time)
@@ -116,7 +115,7 @@ fn print_clock(local_time: &DateTime<Local>)
 	print!(
 		"{}{}",
 		colorize(
-			choose_symbol_string_for_environment(&symbol),
+			symbol.get_text_for_environment(),
 			symbol.color
 		),
 		get_clock_string(local_time)
