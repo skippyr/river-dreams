@@ -1,27 +1,33 @@
-use river_dreams::{
+use river_dreams::
+{
 	standard_streams::get_output_stream_width,
-	styles::{
+	styles::
+	{
 		Color,
 		colorize
 	},
-	symbols::{
+	symbols::
+	{
 		Symbol,
 		get_commands_separator_symbol,
 		get_clock_symbol
 	},
-	time::{
+	time::
+	{
 		get_calendar_string,
 		get_clock_string
 	}
 };
-use chrono::{
+use chrono::
+{
 	DateTime,
 	Local
 };
 
 fn print_top_left_decorator()
 {
-	let decorator: Symbol = Symbol {
+	let decorator: Symbol = Symbol
+	{
 		default_text: String::from("╭─"),
 		fallback_text: String::from("┌─"),
 		color: Color::Red
@@ -52,7 +58,8 @@ fn print_top_right_decorator()
 
 fn print_bottom_left_decorator()
 {
-	let decorator: Symbol = Symbol {
+	let decorator: Symbol = Symbol
+	{
 		default_text: String::from("╰"),
 		fallback_text: String::from("└"),
 		color: Color::Red
@@ -94,7 +101,8 @@ fn print_separator()
 
 fn print_calendar(local_time: &DateTime<Local>)
 {
-	let symbol: Symbol = Symbol {
+	let symbol: Symbol = Symbol
+	{
 		default_text: String::from(" "),
 		fallback_text: String::from("Calendar "),
 		color: Color::Red

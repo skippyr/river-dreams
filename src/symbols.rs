@@ -1,5 +1,7 @@
-use super::{
-	time::{
+use super::
+{
+	time::
+	{
 		DayMoment,
 		get_day_moment
 	},
@@ -7,7 +9,8 @@ use super::{
 	math::is_pair,
 	styles::Color
 };
-use chrono::{
+use chrono::
+{
 	DateTime,
 	Local,
 	Timelike
