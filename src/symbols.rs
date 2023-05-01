@@ -6,7 +6,7 @@ use super::
 		get_day_moment
 	},
 	environment_variables::is_to_use_fallback_text,
-	math::is_pair,
+	math::is_even,
 	styles::Color
 };
 use chrono::
@@ -36,7 +36,7 @@ impl Symbol
 
 pub fn get_commands_separator_symbol(column: u16) -> Symbol
 {
-	if is_pair(column)
+	if is_even(column)
 	{
 		Symbol
 		{
