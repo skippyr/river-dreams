@@ -6,10 +6,10 @@ pub fn get_output_stream_width() -> u16
 {
 	match size()
 	{
-		Ok(size) =>
+		Ok(output_stream_size) =>
 		{
-			let width: u16 = size.0;
-			let _height: u16 = size.1;
+			let width: u16 = output_stream_size.0;
+			let _height: u16 = output_stream_size.1;
 			width
 		}
 		Err(_) =>
