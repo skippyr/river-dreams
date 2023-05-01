@@ -2,12 +2,13 @@ use river_dreams::{
 	standard_streams::get_output_stream_width,
 	styles::{
 		Color,
-		colorize_text
+		colorize_string
 	},
 	symbols::{
 		Symbol,
-		get_symbol_type_by_environment
-	}
+		get_symbol_string
+	},
+	math::is_pair
 };
 
 fn print_commands_separator()
@@ -15,13 +16,12 @@ fn print_commands_separator()
 	let output_stream_width: u16 = get_output_stream_width();
 	for column in 0..output_stream_width
 	{
-		let is_column_pair: bool = column % 2 == 0;
-		if is_column_pair
+		if is_pair(column)
 		{
 			print!(
 				"{}",
-				colorize_text(
-					get_symbol_type_by_environment(Symbol {
+				colorize_string(
+					get_symbol_string(Symbol {
 						default: String::from(""),
 						fallback: String::from("=")
 					}),
@@ -33,7 +33,7 @@ fn print_commands_separator()
 		{
 			print!(
 				"{}",
-				get_symbol_type_by_environment(Symbol {
+				get_symbol_string(Symbol {
 					default: String::from(""),
 					fallback: String::from("-")
 				})

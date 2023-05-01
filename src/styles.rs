@@ -39,15 +39,15 @@ fn get_color_as_string(color: Color) -> String
 	)
 }
 
-pub fn colorize_text(
-	text: String,
+pub fn colorize_string(
+	string: String,
 	color: Color
 ) -> String
 {
 	format!(
 		"{}{}%f",
 		get_color_as_string(color),
-		text
+		string
 	)
 }
 
