@@ -8,8 +8,14 @@ use::sysinfo::
 {
 	System,
 	SystemExt,
+	Disk,
 	DiskExt
 };
+
+fn does_disk_contain_operating_system(disk: &Disk) -> bool
+{
+	return disk.mount_point() == Path::new("/")
+}
 
 pub fn get_disk_usage_percentage() -> u8
 {
@@ -19,7 +25,7 @@ pub fn get_disk_usage_percentage() -> u8
 	let mut available_disk_size_in_bytes: u64 = 0;
 	for disk in system.disks()
 	{
-		if disk.mount_point() != Path::new("/")
+		if !does_disk_contain_operating_system(disk)
 		{ continue; }
 		total_disk_size_in_bytes += disk.total_space();
 		available_disk_size_in_bytes += disk.available_space();
