@@ -8,7 +8,12 @@ use river_dreams::{
 		Symbol,
 		get_symbol_string
 	},
-	math::is_pair
+	math::is_pair,
+	time::get_calendar_string
+};
+use chrono::{
+	DateTime,
+	Local
 };
 
 fn print_commands_separator()
@@ -34,12 +39,48 @@ fn print_commands_separator()
 					fallback: String::from("-")
 				})
 			}
-		)
+		);
 	}
+}
+
+fn print_top_left_decorator()
+{
+	print!(
+		"{}{}",
+		colorize_string(
+			get_symbol_string(Symbol {
+				default: String::from("╭─"),
+				fallback: String::from("┌─")
+			}),
+			Color::Red
+		),
+		colorize_string(
+			String::from("{"),
+			Color::Yellow
+		)
+	);
+}
+
+fn print_calendar(local_time: &DateTime<Local>)
+{
+	print!(
+		"{}{}",
+		colorize_string(
+			get_symbol_string(Symbol {
+				default: String::from(" "),
+				fallback: String::from("Calendar ")
+			}),
+			Color::Red
+		),
+		get_calendar_string(local_time)
+	);
 }
 
 fn main()
 {
+	let local_time: DateTime<Local> = Local::now();
 	print_commands_separator();
+	print_top_left_decorator();
+	print_calendar(&local_time);
 }
 
