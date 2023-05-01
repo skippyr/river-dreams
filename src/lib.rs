@@ -64,21 +64,30 @@ pub mod styles
 		Normal
 	}
 
-	pub fn get_color_as_string(color: Color) -> String
+	fn get_color_as_string(color: Color) -> String
 	{
 		format!(
 			"%F{{{}}}",
 			match color
 			{
-				Color::Black => "black",
-				Color::Red => "red",
-				Color::Green => "green",
-				Color::Yellow => "Yellow",
-				Color::Blue => "blue",
-				Color::Magenta => "magenta",
-				Color::Cyan => "cyan",
-				Color::White => "white",
-				Color::Normal => "normal"
+				Color::Black =>
+				{ "black" }
+				Color::Red =>
+				{ "red" }
+				Color::Green =>
+				{ "green" }
+				Color::Yellow =>
+				{ "Yellow" }
+				Color::Blue =>
+				{ "blue" }
+				Color::Magenta =>
+				{ "magenta" }
+				Color::Cyan =>
+				{ "cyan" }
+				Color::White =>
+				{ "white" }
+				Color::Normal =>
+				{ "normal" }
 			}
 		)
 	}
