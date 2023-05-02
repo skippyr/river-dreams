@@ -4,12 +4,12 @@ use river_dreams::{
 		Prompt,
 		PromptComponent
 	},
-	label::Label,
-	styles::
+	text::
 	{
-		Color,
-		colorize
+		Text,
+		TextWithFallback
 	},
+	styles::Color,
 	terminal::Terminal,
 	math::is_even,
 };
@@ -20,20 +20,20 @@ fn create_commands_separator_component() -> PromptComponent
 	let terminal: Terminal = Terminal::new();
 	for column in 0..terminal.get_columns()
 	{
-		let mut label: Label = Label::new();
+		let mut symbol: TextWithFallback = TextWithFallback::new();
 		if is_even(column)
 		{
-			label.set_fallback_text(String::from("="));
-			label.set_default_text(String::from(""));
-			label.set_color(Color::Red);
+			symbol.set_fallback_content(String::from("="));
+			symbol.set_default_content(String::from(""));
+			symbol.set_color(Color::Red);
 		}
 		else
 		{
-			label.set_fallback_text(String::from("-"));
-			label.set_default_text(String::from(""));
-			label.set_color(Color::Default);
+			symbol.set_fallback_content(String::from("-"));
+			symbol.set_default_content(String::from(""));
+			symbol.set_color(Color::Default);
 		}
-		structure.push_str(&label.as_string());
+		structure.push_str(&symbol.as_string());
 	}
 	PromptComponent::from(structure)
 }
@@ -41,15 +41,15 @@ fn create_commands_separator_component() -> PromptComponent
 fn create_top_left_connector_component() -> PromptComponent
 {
 	let mut structure: String = String::new();
-	let mut label: Label = Label::new();
-	label.set_fallback_text(String::from("┌"));
-	label.set_default_text(String::from("╭"));
-	label.set_color(Color::Red);
-	structure.push_str(&label.as_string());
-	structure.push_str(&colorize(
-		String::from("{"),
-		Color::Yellow
-	));
+	let mut connector: TextWithFallback = TextWithFallback::new();
+	connector.set_fallback_content(String::from("┌"));
+	connector.set_default_content(String::from("╭"));
+	connector.set_color(Color::Red);
+	structure.push_str(&connector.as_string());
+	let mut curly_brackets: Text = Text::new();
+	curly_brackets.set_content(String::from("{"));
+	curly_brackets.set_color(Color::Yellow);
+	structure.push_str(&curly_brackets.as_string());
 	PromptComponent::from(structure)
 }
 

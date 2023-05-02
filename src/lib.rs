@@ -6,5 +6,5 @@ pub mod math;
 pub mod time;
 pub mod file_system;
 pub mod prompt;
-pub mod label;
+pub mod text;
 
