@@ -15,6 +15,7 @@ use river_dreams::
 
 fn print_quantity_of_directory_entry_types()
 {
+	let mut quantity_of_directory_entry_types_strings: Vec<String> = Vec::new();
 	let quantity_of_directory_entry_types: QuantityOfDirectoryEntryTypes = get_quantity_of_directory_entry_types_in_current_directory();
 	if quantity_of_directory_entry_types.executable > 0
 	{
@@ -24,14 +25,14 @@ fn print_quantity_of_directory_entry_types()
 			fallback_text: String::from("Executable "),
 			color: Color::Green
 		};
-		print!(
-			"{}{} ",
+		quantity_of_directory_entry_types_strings.push(format!(
+			"{}{}",
 			colorize(
 				symbol.get_text_for_environment(),
 				symbol.color
 			),
 			quantity_of_directory_entry_types.executable
-		);
+		));
 	}
 	if quantity_of_directory_entry_types.hidden > 0
 	{
@@ -41,14 +42,14 @@ fn print_quantity_of_directory_entry_types()
 			fallback_text: String::from("Hidden "),
 			color: Color::Red
 		};
-		print!(
-			"{}{} ",
+		quantity_of_directory_entry_types_strings.push(format!(
+			"{}{}",
 			colorize(
 				symbol.get_text_for_environment(),
 				symbol.color
 			),
 			quantity_of_directory_entry_types.hidden
-		);
+		));
 	}
 	if quantity_of_directory_entry_types.symlink > 0
 	{
@@ -58,15 +59,19 @@ fn print_quantity_of_directory_entry_types()
 			fallback_text: String::from("Symlink "),
 			color: Color::Blue
 		};
-		print!(
+		quantity_of_directory_entry_types_strings.push(format!(
 			"{}{}",
 			colorize(
 				symbol.get_text_for_environment(),
 				symbol.color
 			),
 			quantity_of_directory_entry_types.symlink
-		);
+		));
 	}
+	print!(
+		"{}",
+		quantity_of_directory_entry_types_strings.join(" ")
+	);
 }
 
 fn main()
