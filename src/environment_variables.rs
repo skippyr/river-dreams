@@ -2,7 +2,8 @@ use std::
 {
 	env::var,
 	process::exit,
-	path::PathBuf
+	path::Path,
+	ffi::OsStr
 };
 use super::error_treatment::print_error_message;
 
@@ -56,29 +57,28 @@ pub fn get_current_directory_path_with_aliases() -> String
 
 pub fn get_python_environment() -> Option<String>
 {
-	match var("VIRTUAL_ENV")
+	let python_environment_path_as_string: String = match var("VIRTUAL_ENV")
 	{
-		Ok(python_environment) =>
-		{
-			let python_environment: PathBuf = PathBuf::from(python_environment);
-			match python_environment.file_name()
-			{
-				Some(python_environment) =>
-				{
-					match python_environment.to_str()
-					{
-						Some(python_environment) =>
-						{ return Some(String::from(python_environment)) }
-						None =>
-						{ return None }
-					};
-				}
-				None =>
-				{ return None }
-			}
-		}
+		Ok(python_environment_path) =>
+		{ python_environment_path }
 		Err(_error) =>
-		{ None }
-	}
+		{ return None }
+	};
+	let python_environment_path: &Path = Path::new(&python_environment_path_as_string);
+	let python_environment_as_osstr: &OsStr = match python_environment_path.file_name()
+	{
+		Some(python_environment_as_osstr) =>
+		{ python_environment_as_osstr }
+		None =>
+		{ return None }
+	};
+	let python_environment: String = match python_environment_as_osstr.to_str()
+	{
+		Some(python_environment) =>
+		{ String::from(python_environment) }
+		None =>
+		{ return None }
+	};
+	Some(python_environment)
 }
 
