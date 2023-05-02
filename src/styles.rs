@@ -55,8 +55,3 @@ pub fn colorize(
 	)
 }
 
-pub fn get_status_color() -> Color
-{
-	Color::Other(String::from("%(?.yellow.red)"))
-}
-
