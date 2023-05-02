@@ -11,7 +11,7 @@ use super::
 pub fn get_exit_code_string(error_symbol: &Symbol) -> String
 {
 	format!(
-		"%(?..{}{} %?{})",
+		"%(?..{}{}%?{})",
 		colorize(
 			String::from("{"),
 			Color::Yellow
