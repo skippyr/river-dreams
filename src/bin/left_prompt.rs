@@ -23,7 +23,11 @@ use river_dreams::
 		get_calendar_string,
 		get_clock_string
 	},
-	file_system::get_disk_usage_percentage
+	file_system::
+	{
+		get_disk_usage_percentage,
+		get_current_directory_path_abbreviated
+	}
 };
 use chrono::
 {
@@ -190,6 +194,17 @@ fn print_user()
 	);
 }
 
+fn print_current_directory_path_abbreviated()
+{
+	print!(
+		"at {}",
+		colorize(
+			get_current_directory_path_abbreviated(),
+			Color::Green
+		)
+	);
+}
+
 fn main()
 {
 	let local_time: DateTime<Local> = Local::now();
@@ -204,5 +219,6 @@ fn main()
 	print_bottom_left_decorator();
 	print_shell_status();
 	print_user();
+	print_current_directory_path_abbreviated();
 }
 
