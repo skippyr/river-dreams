@@ -4,8 +4,14 @@ pub struct PromptComponent
 
 impl PromptComponent
 {
-	pub fn from(structure: String) -> PromptComponent
-	{ PromptComponent { structure } }
+	pub fn new() -> PromptComponent
+	{ PromptComponent { structure: String::new() } }
+
+	pub fn append_string_to_structure(
+		&mut self,
+		string: String
+	)
+	{ self.structure.push_str(&string); }
 
 	pub fn get_structure(&self) -> String
 	{ self.structure.clone() }

@@ -16,7 +16,7 @@ use river_dreams::{
 
 fn create_commands_separator_component() -> PromptComponent
 {
-	let mut structure: String = String::new();
+	let mut component: PromptComponent = PromptComponent::new();
 	let terminal: Terminal = Terminal::new();
 	for column in 0..terminal.get_columns()
 	{
@@ -33,24 +33,24 @@ fn create_commands_separator_component() -> PromptComponent
 			symbol.set_default_content(String::from(""));
 			symbol.set_color(Color::Default);
 		}
-		structure.push_str(&symbol.as_string());
+		component.append_string_to_structure(symbol.as_string());
 	}
-	PromptComponent::from(structure)
+	component
 }
 
 fn create_top_left_connector_component() -> PromptComponent
 {
-	let mut structure: String = String::new();
+	let mut component: PromptComponent = PromptComponent::new();
 	let mut connector: TextWithFallback = TextWithFallback::new();
 	connector.set_fallback_content(String::from("┌"));
 	connector.set_default_content(String::from("╭"));
 	connector.set_color(Color::Red);
-	structure.push_str(&connector.as_string());
+	component.append_string_to_structure(connector.as_string());
 	let mut curly_brackets: Text = Text::new();
 	curly_brackets.set_content(String::from("{"));
 	curly_brackets.set_color(Color::Yellow);
-	structure.push_str(&curly_brackets.as_string());
-	PromptComponent::from(structure)
+	component.append_string_to_structure(curly_brackets.as_string());
+	component
 }
 
 fn main()

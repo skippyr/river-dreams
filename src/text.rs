@@ -1,9 +1,11 @@
-use crate::environment_variables::is_to_use_fallback_text;
-
-use super::styles::
+use super::
 {
-	Color,
-	colorize
+	styles::
+	{
+		Color,
+		colorize
+	},
+	environment_variables::is_to_use_fallback_text
 };
 
 pub struct TextWithFallback
