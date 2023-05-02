@@ -1,10 +1,16 @@
 use river_dreams::
 {
-	standard_streams::get_output_stream_width,
+	terminal::get_terminal_width,
+	shell::
+	{
+		get_exit_code_string,
+		get_user
+	},
 	styles::
 	{
 		Color,
-		colorize
+		colorize,
+		get_status_color
 	},
 	symbols::
 	{
@@ -76,7 +82,7 @@ fn print_bottom_left_decorator()
 
 fn print_commands_separator()
 {
-	for column in 0..get_output_stream_width()
+	for column in 0..get_terminal_width()
 	{
 		let symbol: Symbol = get_commands_separator_symbol(column);
 		print!(
@@ -153,30 +159,19 @@ fn print_shell_status()
 {
 	let error_symbol: Symbol = Symbol
 	{
-		default_text: String::from(" %?"),
-		fallback_text: String::from("X %?"),
+		default_text: String::from(" "),
+		fallback_text: String::from("X "),
 		color: Color::Red
 	};
 	let arrow_symbol: Symbol = Symbol
 	{
 		default_text: String::from("⤐  "),
 		fallback_text: String::from("> "),
-		color: Color::Other(String::from("%(?.yellow.red)"))
+		color: get_status_color()
 	};
 	print!(
-		"%(?..{}{}{}){}",
-		colorize(
-			String::from("{"),
-			Color::Yellow
-		),
-		colorize(
-			error_symbol.get_text_for_environment(),
-			error_symbol.color
-		),
-		colorize(
-			String::from("}"),
-			Color::Yellow
-		),
+		"{}{}",
+		get_exit_code_string(&error_symbol),
 		colorize(
 			arrow_symbol.get_text_for_environment(),
 			arrow_symbol.color
@@ -189,7 +184,7 @@ fn print_user()
 	print!(
 		"{} ",
 		colorize(
-			String::from("%n"),
+			get_user(),
 			Color::Cyan
 		)
 	);

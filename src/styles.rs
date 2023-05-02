@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub enum Color
 {
 	Black,
@@ -52,5 +53,10 @@ pub fn colorize(
 		get_color_sequence(color),
 		text
 	)
+}
+
+pub fn get_status_color() -> Color
+{
+	Color::Other(String::from("%(?.yellow.red)"))
 }
 
