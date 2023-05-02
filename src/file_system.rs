@@ -1,9 +1,12 @@
-use super::error_treatment::print_error_message;
+use super::
+{
+	error_treatment::print_error_message,
+	environment_variables::get_current_directory_path,
+};
 use std::
 {
-	process::exit,
 	path::Path,
-	env::var
+	process::exit
 };
 use::sysinfo::
 {
@@ -38,40 +41,6 @@ pub fn get_disk_usage_percentage() -> u8
 	}
 	let used_disk_size_in_bytes: u64 = total_disk_size_in_bytes - available_disk_size_in_bytes;
 	((used_disk_size_in_bytes as f32 / total_disk_size_in_bytes as f32) * 100.0) as u8
-}
-
-fn get_home_directory_path() -> String
-{
-	match var("HOME")
-	{
-		Ok(home_directory_path) =>
-		{ String::from(home_directory_path) }
-		Err(_error) =>
-		{
-			print_error_message("Could not get home directory path.");
-			exit(1);
-		}
-	}
-}
-
-fn get_current_directory_path() -> String
-{
-	match var("PWD")
-	{
-		Ok(current_directory_path) =>
-		{
-			current_directory_path.replacen(
-				&get_home_directory_path(),
-				"~",
-				1
-			)
-		}
-		Err(_error) =>
-		{
-			print_error_message("Could not get current directory path.");
-			exit(1);
-		}
-	}
 }
 
 fn get_path_splits(directory_path: String) -> Vec<String>

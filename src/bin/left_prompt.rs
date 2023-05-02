@@ -27,7 +27,7 @@ use river_dreams::
 	{
 		get_disk_usage_percentage,
 		get_current_directory_path_abbreviated
-	}
+	}, environment_variables::get_python_environment
 };
 use chrono::
 {
@@ -194,6 +194,24 @@ fn print_user()
 	);
 }
 
+fn print_python_environment()
+{
+	let python_environment: String = match get_python_environment()
+	{
+		Some(python_environment) =>
+		{ python_environment }
+		None =>
+		{ return; }
+	};
+	print!(
+		"using {} ",
+		colorize(
+			python_environment,
+			Color::Magenta
+		)
+	);
+}
+
 fn print_current_directory_path_abbreviated()
 {
 	print!(
@@ -219,6 +237,7 @@ fn main()
 	print_bottom_left_decorator();
 	print_shell_status();
 	print_user();
+	print_python_environment();
 	print_current_directory_path_abbreviated();
 }
 
