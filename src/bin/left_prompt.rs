@@ -26,7 +26,7 @@ use river_dreams::
 	file_system::
 	{
 		get_disk_usage_percentage,
-		get_current_directory_path_abbreviated
+		get_current_directory_path_abbreviated, does_user_have_ownership_of_current_directory_path
 	}, environment_variables::get_python_environment
 };
 use chrono::
@@ -201,7 +201,7 @@ fn print_python_environment()
 		Some(python_environment) =>
 		{ python_environment }
 		None =>
-		{ return; }
+		{ return }
 	};
 	print!(
 		"using {} ",
@@ -223,6 +223,25 @@ fn print_current_directory_path_abbreviated()
 	);
 }
 
+fn print_directory_ownership()
+{
+	if does_user_have_ownership_of_current_directory_path()
+	{ return; }
+	let symbol: Symbol = Symbol
+	{
+		default_text: String::from(""),
+		fallback_text: String::from("#"),
+		color: Color::Red
+	};
+	print!(
+		" {}",
+		colorize(
+			symbol.get_text_for_environment(),
+			symbol.color
+		)
+	)
+}
+
 fn main()
 {
 	let local_time: DateTime<Local> = Local::now();
@@ -239,5 +258,6 @@ fn main()
 	print_user();
 	print_python_environment();
 	print_current_directory_path_abbreviated();
+	print_directory_ownership();
 }
 

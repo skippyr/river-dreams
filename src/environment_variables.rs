@@ -36,19 +36,22 @@ pub fn get_current_directory_path() -> String
 	match var("PWD")
 	{
 		Ok(current_directory_path) =>
-		{
-			current_directory_path.replacen(
-				&get_home_directory_path(),
-				"~",
-				1
-			)
-		}
+		{ current_directory_path }
 		Err(_error) =>
 		{
 			print_error_message("Could not get current directory path.");
 			exit(1);
 		}
 	}
+}
+
+pub fn get_current_directory_path_with_aliases() -> String
+{
+	get_current_directory_path().replacen(
+		&get_home_directory_path(),
+		"~",
+		1
+	)
 }
 
 pub fn get_python_environment() -> Option<String>

@@ -1,12 +1,17 @@
 use super::
 {
 	error_treatment::print_error_message,
-	environment_variables::get_current_directory_path,
+	environment_variables::
+	{
+		get_current_directory_path,
+		get_current_directory_path_with_aliases
+	}
 };
 use std::
 {
 	path::Path,
-	process::exit
+	process::exit,
+	os::unix::fs::MetadataExt
 };
 use::sysinfo::
 {
@@ -15,6 +20,7 @@ use::sysinfo::
 	Disk,
 	DiskExt
 };
+use users::get_current_uid;
 
 fn does_disk_contain_operating_system(disk: &Disk) -> bool
 {
@@ -57,10 +63,10 @@ fn get_path_splits(directory_path: String) -> Vec<String>
 pub fn get_current_directory_path_abbreviated() -> String
 {
 	let mut current_directory_path_abbreviated: String = String::new();
-	let current_directory_path: String = get_current_directory_path();
-	if current_directory_path.chars().collect::<Vec<char>>()[0] == '/'
+	let current_directory_path_with_aliases: String = get_current_directory_path_with_aliases();
+	if current_directory_path_with_aliases.chars().collect::<Vec<char>>()[0] == '/'
 	{ current_directory_path_abbreviated.push('/'); }
-	let path_splits: Vec<String> = get_path_splits(current_directory_path);
+	let path_splits: Vec<String> = get_path_splits(current_directory_path_with_aliases);
 	for path_split_index in 0..path_splits.len()
 	{
 		if path_split_index == path_splits.len() - 1
@@ -99,5 +105,20 @@ pub fn get_current_directory_path_abbreviated() -> String
 		}
 	}
 	current_directory_path_abbreviated
+}
+
+pub fn does_user_have_ownership_of_current_directory_path() -> bool
+{
+	let current_directory_path_metadata = match Path::new(&get_current_directory_path()).metadata()
+	{
+		Ok(current_directory_path_metadata) =>
+		{ current_directory_path_metadata }
+		Err(_error) =>
+		{
+			print_error_message("Could not get metadata of current directory path.");
+			exit(1);
+		}
+	};
+	current_directory_path_metadata.uid() == get_current_uid()
 }
 
