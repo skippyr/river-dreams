@@ -9,9 +9,25 @@ use super::
 };
 use std::
 {
-	path::Path,
+	path::
+	{
+		Path,
+		PathBuf
+	},
+	fs::
+	{
+		read_dir,
+		ReadDir,
+		DirEntry,
+		Metadata,
+		symlink_metadata
+	},
+	ffi::OsStr,
 	process::exit,
-	os::unix::fs::MetadataExt
+	os::unix::{
+		fs::MetadataExt,
+		prelude::PermissionsExt
+	}
 };
 use::sysinfo::
 {
@@ -21,6 +37,16 @@ use::sysinfo::
 	DiskExt
 };
 use users::get_current_uid;
+
+#[derive(Debug)]
+pub struct QuantityOfDirectoryEntryTypes
+{
+	pub executable: u32,
+	pub hidden: u32,
+	pub symlink: u32
+}
+
+const OWNER_EXECUTION_PERMISSIONS_BIT: u32 = 0o100;
 
 fn does_disk_contain_operating_system(disk: &Disk) -> bool
 {
@@ -120,5 +146,74 @@ pub fn does_user_have_ownership_of_current_directory_path() -> bool
 		}
 	};
 	current_directory_path_metadata.uid() == get_current_uid()
+}
+
+fn does_the_owner_has_execution_permissions(permissions_mode: u32) -> bool
+{ permissions_mode & OWNER_EXECUTION_PERMISSIONS_BIT != 0 }
+
+pub fn get_quantity_of_directory_entry_types_in_current_directory() -> QuantityOfDirectoryEntryTypes
+{
+	let mut quantity_of_directory_entry_types: QuantityOfDirectoryEntryTypes = QuantityOfDirectoryEntryTypes
+	{
+		executable: 0,
+		hidden: 0,
+		symlink: 0
+	};
+	let directory_stream: ReadDir = match read_dir(get_current_directory_path())
+	{
+		Ok(directory_stream) =>
+		{ directory_stream }
+		Err(_error) =>
+		{ return quantity_of_directory_entry_types }
+	};
+	for directory_entry in directory_stream
+	{
+		let directory_entry: DirEntry = match directory_entry
+		{
+			Ok(directory_entry) =>
+			{ directory_entry }
+			Err(_error) =>
+			{ continue }
+		};
+		let directory_entry_path: PathBuf = directory_entry.path();
+		let directory_entry_file_name_as_osstr: &OsStr = match directory_entry_path.file_name()
+		{
+			Some(directory_entry_file_name_as_osstr) =>
+			{ directory_entry_file_name_as_osstr }
+			None =>
+			{ continue }
+		};
+		let directory_entry_file_name: String = match directory_entry_file_name_as_osstr.to_str()
+		{
+			Some(directory_entry_file_name_as_str) =>
+			{ String::from(directory_entry_file_name_as_str) }
+			None =>
+			{ continue }
+		};
+		let directory_entry_metadata: Metadata = match directory_entry.metadata()
+		{
+			Ok(directory_entry_metadata) =>
+			{ directory_entry_metadata }
+			Err(_error) =>
+			{ continue }
+		};
+		let directory_entry_symlink_metadata: Metadata = match symlink_metadata(directory_entry_path)
+		{
+			Ok(directory_entry_symlink_metadata) =>
+			{ directory_entry_symlink_metadata }
+			Err(_error) =>
+			{ continue }
+		};
+		let directory_entry_permissions_mode = directory_entry_metadata.permissions().mode();
+		if directory_entry_file_name.chars().collect::<Vec<char>>()[0] == '.'
+		{ quantity_of_directory_entry_types.hidden += 1 }
+		if directory_entry_symlink_metadata.is_symlink()
+		{ quantity_of_directory_entry_types.symlink += 1 }
+		if
+			does_the_owner_has_execution_permissions(directory_entry_permissions_mode) &&
+			!directory_entry_metadata.is_dir()
+		{ quantity_of_directory_entry_types.executable += 1 }
+	}
+	quantity_of_directory_entry_types
 }
 
