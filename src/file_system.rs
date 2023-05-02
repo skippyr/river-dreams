@@ -24,7 +24,8 @@ use std::
 	},
 	ffi::OsStr,
 	process::exit,
-	os::unix::{
+	os::unix::
+	{
 		fs::MetadataExt,
 		prelude::PermissionsExt
 	}
@@ -49,9 +50,7 @@ pub struct QuantityOfDirectoryEntryTypes
 const OWNER_EXECUTION_PERMISSIONS_BIT: u32 = 0o100;
 
 fn does_disk_contain_operating_system(disk: &Disk) -> bool
-{
-	return disk.mount_point() == Path::new("/")
-}
+{ disk.mount_point() == Path::new("/") }
 
 pub fn get_disk_usage_percentage() -> u8
 {
@@ -119,10 +118,7 @@ pub fn get_current_directory_path_abbreviated() -> String
 				{
 					format!(
 						".{}",
-						if path_split_characters.len() > 1
-						{ String::from(path_split_characters[1]) }
-						else
-						{ String::from("") }
+						String::from(path_split_characters[1])
 					)
 				}
 				else

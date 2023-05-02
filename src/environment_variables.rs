@@ -23,7 +23,7 @@ fn get_home_directory_path() -> String
 	match var("HOME")
 	{
 		Ok(home_directory_path) =>
-		{ String::from(home_directory_path) }
+		{ home_directory_path }
 		Err(_error) =>
 		{
 			print_error_message("Could not get home directory path.");
