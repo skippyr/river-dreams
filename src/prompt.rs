@@ -1,14 +1,14 @@
 
 pub struct PromptComponent
-{ body: String }
+{ structure: String }
 
 impl PromptComponent
 {
-	pub fn new(body: String) -> PromptComponent
-	{ PromptComponent { body } }
+	pub fn from(structure: String) -> PromptComponent
+	{ PromptComponent { structure } }
 
-	pub fn get_body(&self) -> String
-	{ self.body.clone() }
+	pub fn get_structure(&self) -> String
+	{ self.structure.clone() }
 }
 
 pub struct Prompt
@@ -33,7 +33,7 @@ impl Prompt
 			.iter()
 			.for_each(
 				|component|
-				{ prompt.push_str(&component.get_body()) }
+				{ prompt.push_str(&component.get_structure()) }
 			);
 		prompt
 	}

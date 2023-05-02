@@ -9,7 +9,7 @@ pub enum Color
 	Magenta,
 	Cyan,
 	White,
-	Normal,
+	Default,
 	Other(String)
 }
 
@@ -35,7 +35,7 @@ fn get_color_sequence(color: Color) -> String
 			{ String::from("cyan") }
 			Color::White =>
 			{ String::from("white") }
-			Color::Normal =>
+			Color::Default =>
 			{ String::from("normal") }
 			Color::Other(color) =>
 			{ color }

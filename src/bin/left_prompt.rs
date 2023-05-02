@@ -4,22 +4,34 @@ use river_dreams::{
 		Prompt,
 		PromptComponent
 	},
+	label::Label,
+	styles::Color,
 	terminal::Terminal,
-	math::is_even
+	math::is_even,
 };
 
 fn create_commands_separator_component() -> PromptComponent
 {
-	let mut body: String = String::new();
+	let mut structure: String = String::new();
 	let terminal: Terminal = Terminal::new();
 	for column in 0..terminal.get_columns()
 	{
+		let mut label: Label = Label::new();
 		if is_even(column)
-		{ body.push_str("a") }
+		{
+			label.set_fallback_text(String::from("="));
+			label.set_default_text(String::from(""));
+			label.set_color(Color::Red);
+		}
 		else
-		{ body.push_str("b") }
+		{
+			label.set_fallback_text(String::from("-"));
+			label.set_default_text(String::from(""));
+			label.set_color(Color::Default);
+		}
+		structure.push_str(&label.as_string());
 	}
-	PromptComponent::new(body)
+	PromptComponent::from(structure)
 }
 
 fn main()
