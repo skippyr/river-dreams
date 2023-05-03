@@ -1,9 +1,9 @@
+use super::error_treatment::print_error;
 use std::
 {
 	process::exit,
 	env::var
 };
-use super::error_treatment::print_error;
 
 pub fn is_to_use_fallback_text() -> bool
 {
@@ -25,6 +25,20 @@ pub fn get_pwd() -> String
 		Err(_error) =>
 		{
 			print_error("could not get PWD environment variable.");
+			exit(1);
+		}
+	}
+}
+
+pub fn get_home() -> String
+{
+	match var("HOME")
+	{
+		Ok(home) =>
+		{ home }
+		Err(_error) =>
+		{
+			print_error("could not get HOME environment variable.");
 			exit(1);
 		}
 	}

@@ -1,5 +1,3 @@
-use std::path::PathBuf;
-
 use river_dreams::
 {
 	prompt::
@@ -154,8 +152,10 @@ fn create_top_right_connector_component() -> PromptComponent
 fn create_pwd_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
-	let pwd: PathBuf = get_pwd_as_path_buff();
-	component.append_string_to_structure(pwd.as_abbreaviated_string());
+	let mut pwd: Text = Text::new();
+	pwd.set_content(get_pwd_as_path_buff().as_abbreviated_string());
+	pwd.set_color(Color::Green);
+	component.append_string_to_structure(pwd.as_string());
 	component
 }
 
