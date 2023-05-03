@@ -94,5 +94,13 @@ impl Text
 			self.color.clone()
 		)
 	}
+
+	pub fn as_error_string(&self) -> String
+	{
+		format!(
+			"%(?..{})",
+			self.as_string()
+		)
+	}
 }
 

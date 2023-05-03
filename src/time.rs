@@ -217,8 +217,16 @@ impl Clock
 	pub fn as_string(&self) -> String
 	{
 		format!(
-			"{}h{}m",
+			"{}{}h{}{}m",
+			if self.hour < 10
+			{ String::from("0") }
+			else
+			{ String::new() },
 			self.hour,
+			if self.minute < 10
+			{ String::from("0") }
+			else
+			{ String::new() },
 			self.minute
 		)
 	}

@@ -149,6 +149,35 @@ fn create_top_right_connector_component() -> PromptComponent
 	component
 }
 
+fn create_shell_status_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let mut left_curly_bracket: Text = Text::new();
+	left_curly_bracket.set_content(String::from("{"));
+	left_curly_bracket.set_color(Color::Yellow);
+	let mut right_curly_bracket: Text = Text::new();
+	right_curly_bracket.set_content(String::from("}"));
+	right_curly_bracket.set_color(Color::Yellow);
+	let mut error_symbol: TextWithFallback = TextWithFallback::new();
+	error_symbol.set_fallback_content(String::from("X "));
+	error_symbol.set_default_content(String::from(" "));
+	error_symbol.set_color(Color::Red);
+	let mut exit_code: Text = Text::new();
+	exit_code.set_content(format!(
+		"{}{}%?{}",
+		left_curly_bracket.as_string(),
+		error_symbol.as_string(),
+		right_curly_bracket.as_string()
+	));
+	let mut arrow: TextWithFallback = TextWithFallback::new();
+	arrow.set_fallback_content(String::from("> "));
+	arrow.set_default_content(String::from("⤐ "));
+	arrow.set_color(Color::Yellow);
+	component.append_string_to_structure(exit_code.as_error_string());
+	component.append_string_to_structure(arrow.as_string());
+	component
+}
+
 fn create_pwd_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
@@ -172,6 +201,7 @@ fn main()
 	left_prompt.add_component(create_horizontal_separator_component());
 	left_prompt.add_component(create_clock_component());
 	left_prompt.add_component(create_top_right_connector_component());
+	left_prompt.add_component(create_shell_status_component());
 	left_prompt.add_component(create_pwd_component());
 	print!(
 		"{}",
