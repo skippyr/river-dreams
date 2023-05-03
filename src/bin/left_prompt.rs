@@ -111,7 +111,7 @@ fn create_calendar_component() -> PromptComponent
 	let calendar: Calendar = Calendar::from_current_moment();
 	let mut symbol: TextWithFallback = TextWithFallback::new();
 	symbol.set_fallback_content(String::from("Calendar "));
-	symbol.set_default_content(String::from(" "));
+	symbol.set_default_content(String::from(" "));
 	symbol.set_color(Color::Red);
 	component.append_string_to_structure(symbol.as_string());
 	component.append_string_to_structure(calendar.as_string());
