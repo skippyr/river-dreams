@@ -1,7 +1,8 @@
 use super::environment_variables::
 {
 	get_pwd,
-	get_home
+	get_home,
+	get_virtual_env
 };
 use std::path::
 {
@@ -66,6 +67,17 @@ impl MainDisk
 
 pub fn get_pwd_as_path_buff() -> PathBuf
 { PathBuf::from(get_pwd()) }
+
+pub fn get_virtual_env_as_path_buff() -> Option<PathBuf>
+{
+	match get_virtual_env()
+	{
+		Some(virtual_env) =>
+		{ Some(PathBuf::from(virtual_env)) }
+		None =>
+		{ None }
+	}
+}
 
 pub trait PathAbbreviation
 {

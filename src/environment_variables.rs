@@ -44,3 +44,14 @@ pub fn get_home() -> String
 	}
 }
 
+pub fn get_virtual_env() -> Option<String>
+{
+	match var("VIRTUAL_ENV")
+	{
+		Ok(virtual_env) =>
+		{ Some(virtual_env) }
+		Err(_error) =>
+		{ None }
+	}
+}
+

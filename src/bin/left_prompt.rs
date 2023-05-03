@@ -23,7 +23,8 @@ use river_dreams::
 	{
 		MainDisk,
 		get_pwd_as_path_buff,
-		PathAbbreviation
+		PathAbbreviation,
+		get_virtual_env_as_path_buff
 	}
 };
 
@@ -201,6 +202,21 @@ fn create_user_component() -> PromptComponent
 	component
 }
 
+fn create_virtual_env_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	if let Some(virtual_env) = get_virtual_env_as_path_buff()
+	{
+		let prefix: String = String::from(" using ");
+		let mut virtual_env_as_text: Text = Text::new();
+		virtual_env_as_text.set_content(virtual_env.as_abbreviated_string());
+		virtual_env_as_text.set_color(Color::Magenta);
+		component.append_string_to_structure(prefix);
+		component.append_string_to_structure(virtual_env_as_text.as_string());
+	}
+	component
+}
+
 fn create_pwd_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
@@ -212,7 +228,6 @@ fn create_pwd_component() -> PromptComponent
 	component.append_string_to_structure(pwd_abbreviated.as_string());
 	component
 }
-
 fn main()
 {
 	let mut left_prompt: Prompt = Prompt::new();
@@ -227,6 +242,7 @@ fn main()
 	left_prompt.add_component(create_bottom_left_connector_component());
 	left_prompt.add_component(create_shell_status_component());
 	left_prompt.add_component(create_user_component());
+	left_prompt.add_component(create_virtual_env_component());
 	left_prompt.add_component(create_pwd_component());
 	print!(
 		"{}",
