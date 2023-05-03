@@ -183,7 +183,7 @@ pub enum DayMoment
 
 pub struct Clock
 {
-	hour_in_24h_format: u32,
+	hour: u32,
 	minute: u32
 }
 
@@ -194,16 +194,16 @@ impl Clock
 		let local_time: DateTime<Local> = Local::now();
 		Clock
 		{
-			hour_in_24h_format: local_time.hour(),
+			hour: local_time.hour(),
 			minute: local_time.minute()
 		}
 	}
 
 	pub fn get_day_moment(&self) -> DayMoment
 	{
-		let is_dawn: bool = self.hour_in_24h_format < 6;
-		let is_morning: bool = !is_dawn && self.hour_in_24h_format < 12;
-		let is_afternoon: bool = !is_morning && self.hour_in_24h_format < 18;
+		let is_dawn: bool = self.hour < 6;
+		let is_morning: bool = !is_dawn && self.hour < 12;
+		let is_afternoon: bool = !is_morning && self.hour < 18;
 		if is_dawn
 		{ DayMoment::Dawn }
 		else if is_morning
@@ -218,7 +218,7 @@ impl Clock
 	{
 		format!(
 			"{}h{}m",
-			self.hour_in_24h_format,
+			self.hour,
 			self.minute
 		)
 	}

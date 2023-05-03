@@ -18,7 +18,8 @@ use river_dreams::
 		Calendar,
 		Clock,
 		DayMoment
-	}
+	},
+	file_system::MainDisk
 };
 
 fn create_horizontal_separator_component() -> PromptComponent
@@ -120,11 +121,26 @@ fn create_clock_component() -> PromptComponent
 	component
 }
 
+fn create_disk_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let mut symbol: TextWithFallback = TextWithFallback::new();
+	symbol.set_fallback_content(String::from("Disk "));
+	symbol.set_default_content(String::from(" "));
+	symbol.set_color(Color::Yellow);
+	let main_disk: MainDisk = MainDisk::new();
+	component.append_string_to_structure(symbol.as_string());
+	component.append_string_to_structure(main_disk.get_in_use_percentage_as_string());
+	component
+}
+
 fn main()
 {
 	let mut left_prompt: Prompt = Prompt::new();
 	left_prompt.add_component(create_commands_separator_component());
 	left_prompt.add_component(create_top_left_connector_component());
+	left_prompt.add_component(create_disk_component());
+	left_prompt.add_component(create_horizontal_separator_component());
 	left_prompt.add_component(create_calendar_component());
 	left_prompt.add_component(create_horizontal_separator_component());
 	left_prompt.add_component(create_clock_component());
