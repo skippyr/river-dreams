@@ -31,8 +31,8 @@ impl MainDisk
 		let mut available_size_in_bytes: u64 = 0;
 		for disk in system.disks()
 		{
-			let does_disk_contain_operating_system: bool = disk.mount_point() == Path::new("/");
-			if !does_disk_contain_operating_system
+			let is_main_disk: bool = disk.mount_point() == Path::new("/");
+			if !is_main_disk
 			{ continue; }
 			total_size_in_bytes += disk.total_space();
 			available_size_in_bytes += disk.available_space();
