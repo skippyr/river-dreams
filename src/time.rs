@@ -1,7 +1,9 @@
 use chrono::
 {
 	DateTime,
-	Local, Datelike
+	Local,
+	Datelike,
+	Timelike
 };
 
 pub struct Month
@@ -78,9 +80,54 @@ impl WeekDay
 	}
 }
 
+pub struct Day
+{ value: u32 }
+
+impl Day
+{
+	pub fn from(value: u32) -> Day
+	{ Day { value } }
+
+	pub fn as_ordinal_string(&self) -> String
+	{
+		let value: i8 = self.value as i8;
+		let is_first: bool = (value - 1) % 10 == 0;
+		let is_second: bool = (value - 2) % 10 == 0;
+		let is_third: bool = (value - 3) % 10 == 0;
+		if is_first
+		{
+			format!(
+				"{}st",
+				value
+			)
+		}
+		else if is_second
+		{
+			format!(
+				"{}nd",
+				value
+			)
+		}
+		else if is_third
+		{
+			format!(
+				"{}rd",
+				value
+			)
+		}
+		else
+		{
+			format!(
+				"{}th",
+				value
+			)
+		}
+	}
+}
+
 pub struct Calendar
 {
-	day: u32,
+	day: Day,
 	month: Month,
 	week_day: WeekDay,
 	year: i32
@@ -93,7 +140,7 @@ impl Calendar
 		let local_time: DateTime<Local> = Local::now();
 		Calendar
 		{
-			day: local_time.day(),
+			day: Day::from(local_time.day()),
 			month: Month::from(local_time.month()),
 			week_day: WeekDay::from(local_time.weekday().num_days_from_sunday()),
 			year: local_time.year()
@@ -120,8 +167,59 @@ impl Calendar
 			"({}) {} {}, {}",
 			week_day_as_abbreviated_string,
 			month_as_abbreviated_string,
-			self.day,
+			self.day.as_ordinal_string(),
 			self.year
+		)
+	}
+}
+
+pub enum DayMoment
+{
+	Dawn,
+	Morning,
+	Afternoon,
+	Night
+}
+
+pub struct Clock
+{
+	hour_in_24h_format: u32,
+	minute: u32
+}
+
+impl Clock
+{
+	pub fn from_current_moment() -> Clock
+	{
+		let local_time: DateTime<Local> = Local::now();
+		Clock
+		{
+			hour_in_24h_format: local_time.hour(),
+			minute: local_time.minute()
+		}
+	}
+
+	pub fn get_day_moment(&self) -> DayMoment
+	{
+		let is_dawn: bool = self.hour_in_24h_format < 6;
+		let is_morning: bool = !is_dawn && self.hour_in_24h_format < 12;
+		let is_afternoon: bool = !is_morning && self.hour_in_24h_format < 18;
+		if is_dawn
+		{ DayMoment::Dawn }
+		else if is_morning
+		{ DayMoment::Morning }
+		else if is_afternoon
+		{ DayMoment::Afternoon }
+		else
+		{ DayMoment::Night }
+	}
+
+	pub fn as_string(&self) -> String
+	{
+		format!(
+			"{}h{}m",
+			self.hour_in_24h_format,
+			self.minute
 		)
 	}
 }

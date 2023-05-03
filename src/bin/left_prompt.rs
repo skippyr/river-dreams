@@ -1,4 +1,5 @@
-use river_dreams::{
+use river_dreams::
+{
 	prompt::
 	{
 		Prompt,
@@ -11,8 +12,24 @@ use river_dreams::{
 	},
 	styles::Color,
 	terminal::Terminal,
-	math::is_even, time::Calendar,
+	math::is_even,
+	time::
+	{
+		Calendar,
+		Clock,
+		DayMoment
+	}
 };
+
+fn create_horizontal_separator_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let mut symbol: Text = Text::new();
+	symbol.set_content(String::from(" ¦ "));
+	symbol.set_color(Color::Red);
+	component.append_string_to_structure(symbol.as_string());
+	component
+}
 
 fn create_commands_separator_component() -> PromptComponent
 {
@@ -58,11 +75,48 @@ fn create_calendar_component() -> PromptComponent
 	let mut component: PromptComponent = PromptComponent::new();
 	let calendar: Calendar = Calendar::from_current_moment();
 	let mut symbol: TextWithFallback = TextWithFallback::new();
-	symbol.set_default_content(String::from(" "));
 	symbol.set_fallback_content(String::from("Calendar "));
+	symbol.set_default_content(String::from(" "));
 	symbol.set_color(Color::Red);
 	component.append_string_to_structure(symbol.as_string());
 	component.append_string_to_structure(calendar.as_string());
+	component
+}
+
+fn create_clock_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let clock: Clock = Clock::from_current_moment();
+	let mut symbol: TextWithFallback = TextWithFallback::new();
+	match clock.get_day_moment()
+	{
+		DayMoment::Dawn =>
+		{
+			symbol.set_fallback_content(String::from("Dawn "));
+			symbol.set_default_content(String::from(""));
+			symbol.set_color(Color::Cyan);
+		}
+		DayMoment::Morning =>
+		{
+			symbol.set_fallback_content(String::from("Morning "));
+			symbol.set_default_content(String::from("盛"));
+			symbol.set_color(Color::Red);
+		}
+		DayMoment::Afternoon =>
+		{
+			symbol.set_fallback_content(String::from("Afternoon "));
+			symbol.set_default_content(String::from(" "));
+			symbol.set_color(Color::Blue);
+		}
+		DayMoment::Night =>
+		{
+			symbol.set_fallback_content(String::from("Night "));
+			symbol.set_default_content(String::from("󰽥 "));
+			symbol.set_color(Color::Yellow);
+		}
+	}
+	component.append_string_to_structure(symbol.as_string());
+	component.append_string_to_structure(clock.as_string());
 	component
 }
 
@@ -72,6 +126,8 @@ fn main()
 	left_prompt.add_component(create_commands_separator_component());
 	left_prompt.add_component(create_top_left_connector_component());
 	left_prompt.add_component(create_calendar_component());
+	left_prompt.add_component(create_horizontal_separator_component());
+	left_prompt.add_component(create_clock_component());
 	print!(
 		"{}",
 		left_prompt.as_string()
