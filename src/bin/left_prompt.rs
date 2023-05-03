@@ -149,6 +149,17 @@ fn create_top_right_connector_component() -> PromptComponent
 	component
 }
 
+fn create_bottom_left_connector_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let mut connector: TextWithFallback = TextWithFallback::new();
+	connector.set_fallback_content(String::from("└"));
+	connector.set_default_content(String::from("╰"));
+	connector.set_color(Color::Red);
+	component.append_string_to_structure(connector.as_string());
+	component
+}
+
 fn create_shell_status_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
@@ -178,10 +189,22 @@ fn create_shell_status_component() -> PromptComponent
 	component
 }
 
+fn create_user_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let prefix: String = String::from("as ");
+	let mut user: Text = Text::new();
+	user.set_content(String::from("%n"));
+	user.set_color(Color::Cyan);
+	component.append_string_to_structure(prefix);
+	component.append_string_to_structure(user.as_string());
+	component
+}
+
 fn create_pwd_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
-	let prefix: String = String::from("at ");
+	let prefix: String = String::from(" at ");
 	let mut pwd_abbreviated: Text = Text::new();
 	pwd_abbreviated.set_content(get_pwd_as_path_buff().as_abbreviated_string());
 	pwd_abbreviated.set_color(Color::Green);
@@ -201,7 +224,9 @@ fn main()
 	left_prompt.add_component(create_horizontal_separator_component());
 	left_prompt.add_component(create_clock_component());
 	left_prompt.add_component(create_top_right_connector_component());
+	left_prompt.add_component(create_bottom_left_connector_component());
 	left_prompt.add_component(create_shell_status_component());
+	left_prompt.add_component(create_user_component());
 	left_prompt.add_component(create_pwd_component());
 	print!(
 		"{}",
