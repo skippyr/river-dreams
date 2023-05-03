@@ -28,6 +28,7 @@ use river_dreams::
 	},
 	git::GitRepository
 };
+use local_ip_address::local_ip;
 
 fn create_horizontal_separator_component() -> PromptComponent
 {
@@ -75,6 +76,29 @@ fn create_top_left_connector_component() -> PromptComponent
 	left_curly_bracket.set_content(String::from("{"));
 	left_curly_bracket.set_color(Color::Yellow);
 	component.append_string_to_structure(left_curly_bracket.as_string());
+	component
+}
+
+fn create_local_ip_address_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let mut symbol: TextWithFallback = TextWithFallback::new();
+	symbol.set_fallback_content(String::from("IP "));
+	symbol.set_default_content(String::from(" "));
+	symbol.set_color(Color::Blue);
+	let host_name: String = String::from("%m");
+	let separator: String = String::from("@");
+	let local_ip_address: String = match local_ip()
+	{
+		Ok(local_ip_address) =>
+		{ local_ip_address.to_string() }
+		Err(_error) =>
+		{ String::from("No Address") }
+	};
+	component.append_string_to_structure(symbol.as_string());
+	component.append_string_to_structure(host_name);
+	component.append_string_to_structure(separator);
+	component.append_string_to_structure(local_ip_address);
 	component
 }
 
@@ -261,6 +285,8 @@ fn main()
 	let mut left_prompt: Prompt = Prompt::new();
 	left_prompt.add_component(create_commands_separator_component());
 	left_prompt.add_component(create_top_left_connector_component());
+	left_prompt.add_component(create_local_ip_address_component());
+	left_prompt.add_component(create_horizontal_separator_component());
 	left_prompt.add_component(create_disk_component());
 	left_prompt.add_component(create_horizontal_separator_component());
 	left_prompt.add_component(create_calendar_component());

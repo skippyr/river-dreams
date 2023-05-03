@@ -93,7 +93,6 @@ pub fn get_virtual_env_as_path_buff() -> Option<PathBuf>
 pub fn does_the_owner_have_execution_permissions(permissions_mode: u32) -> bool
 { permissions_mode & 0o100 != 0 }
 
-#[derive(Debug)]
 pub struct DirectoryEntryTypes
 {
 	quantity_of_executables: u32,
