@@ -94,13 +94,13 @@ fn create_clock_component() -> PromptComponent
 		DayMoment::Dawn =>
 		{
 			symbol.set_fallback_content(String::from("Dawn "));
-			symbol.set_default_content(String::from(""));
+			symbol.set_default_content(String::from(" "));
 			symbol.set_color(Color::Cyan);
 		}
 		DayMoment::Morning =>
 		{
 			symbol.set_fallback_content(String::from("Morning "));
-			symbol.set_default_content(String::from("盛"));
+			symbol.set_default_content(String::from(" "));
 			symbol.set_color(Color::Red);
 		}
 		DayMoment::Afternoon =>
@@ -126,7 +126,7 @@ fn create_disk_component() -> PromptComponent
 	let mut component: PromptComponent = PromptComponent::new();
 	let mut symbol: TextWithFallback = TextWithFallback::new();
 	symbol.set_fallback_content(String::from("Disk "));
-	symbol.set_default_content(String::from(" "));
+	symbol.set_default_content(String::from("󰋊 "));
 	symbol.set_color(Color::Yellow);
 	let main_disk: MainDisk = MainDisk::new();
 	component.append_string_to_structure(symbol.as_string());
