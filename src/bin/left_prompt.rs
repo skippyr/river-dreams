@@ -220,10 +220,15 @@ fn create_shell_status_component() -> PromptComponent
 
 fn create_user_component() -> PromptComponent
 {
+	let color: Color = Color::Cyan;
 	let mut component: PromptComponent = PromptComponent::new();
+	let mut symbol: TextWithFallback = TextWithFallback::new();
+	symbol.set_default_content(String::from(" "));
+	symbol.set_color(color.clone());
 	let mut user: Text = Text::new();
 	user.set_content(String::from("%n"));
-	user.set_color(Color::Cyan);
+	user.set_color(color.clone());
+	component.append_string_to_structure(symbol.as_string());
 	component.append_string_to_structure(user.as_string());
 	component
 }
