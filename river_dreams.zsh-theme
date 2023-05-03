@@ -10,8 +10,13 @@ export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT:-$(
 )}
 
 typeset -gr RIVER_DREAMS_DIRECTORY="$(dirname "$(realpath "$0")")"
+typeset -gr RIVER_DREAMS_MANIFEST_DIRECTORY="${RIVER_DREAMS_DIRECTORY}/Cargo.toml"
 typeset -gr RIVER_DREAMS_RELEASE_DIRECTORY="${RIVER_DREAMS_DIRECTORY}/target/release"
 
+river_dreams::compile()
+{ cargo build -r --manifest-path "${RIVER_DREAMS_MANIFEST_DIRECTORY}" }
+
+[[ ! -d "${RIVER_DREAMS_RELEASE_DIRECTORY}" ]] && river_dreams::compile
 if [[ -d "${RIVER_DREAMS_RELEASE_DIRECTORY}" ]]; then
 	PROMPT='$("${RIVER_DREAMS_RELEASE_DIRECTORY}/left_prompt") '
 	RPROMPT='$("${RIVER_DREAMS_RELEASE_DIRECTORY}/right_prompt") '
