@@ -81,6 +81,7 @@ pub fn get_virtual_env_as_path_buff() -> Option<PathBuf>
 
 pub trait PathAbbreviation
 {
+	fn file_name_as_string(&self) -> Option<String>;
 	fn as_string(&self) -> String;
 	fn as_string_with_home_alias(&self) -> String;
 	fn split_by_slash_using_home_alias(&self) -> Vec<String>;
@@ -89,6 +90,25 @@ pub trait PathAbbreviation
 
 impl PathAbbreviation for PathBuf
 {
+	fn file_name_as_string(&self) -> Option<String>
+	{
+		let file_name_as_osstr = match self.file_name()
+		{
+			Some(file_name_as_osstr) =>
+			{ file_name_as_osstr }
+			None =>
+			{ return None; }
+		};
+		let file_name: String = match file_name_as_osstr.to_str()
+		{
+			Some(file_name_as_str) =>
+			{ String::from(file_name_as_str) }
+			None =>
+			{ return None; }
+		};
+		Some(file_name)
+	}
+
 	fn as_string(&self) -> String
 	{
 		match self.to_str()

@@ -25,7 +25,8 @@ use river_dreams::
 		get_pwd_as_path_buff,
 		PathAbbreviation,
 		get_virtual_env_as_path_buff
-	}
+	},
+	git::GitRepository
 };
 
 fn create_horizontal_separator_component() -> PromptComponent
@@ -228,6 +229,22 @@ fn create_pwd_component() -> PromptComponent
 	component.append_string_to_structure(pwd_abbreviated.as_string());
 	component
 }
+
+fn create_git_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	if let Some(git_repository) = GitRepository::from_pwd()
+	{
+		let prefix: String = String::from(" on ");
+		component.append_string_to_structure(prefix);
+		let mut branch: Text = Text::new();
+		branch.set_content(git_repository.get_branch().get_name());
+		branch.set_color(Color::Red);
+		component.append_string_to_structure(branch.as_string());
+	};
+	component
+}
+
 fn main()
 {
 	let mut left_prompt: Prompt = Prompt::new();
@@ -244,6 +261,7 @@ fn main()
 	left_prompt.add_component(create_user_component());
 	left_prompt.add_component(create_virtual_env_component());
 	left_prompt.add_component(create_pwd_component());
+	left_prompt.add_component(create_git_component());
 	print!(
 		"{}",
 		left_prompt.as_string()

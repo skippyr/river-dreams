@@ -7,4 +7,5 @@ pub mod time;
 pub mod file_system;
 pub mod prompt;
 pub mod text;
+pub mod git;
 
