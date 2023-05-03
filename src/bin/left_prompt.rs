@@ -223,7 +223,7 @@ fn create_user_component() -> PromptComponent
 	let color: Color = Color::Cyan;
 	let mut component: PromptComponent = PromptComponent::new();
 	let mut symbol: TextWithFallback = TextWithFallback::new();
-	symbol.set_default_content(String::from(" "));
+	symbol.set_default_content(String::from(" "));
 	symbol.set_color(color.clone());
 	let mut user: Text = Text::new();
 	user.set_content(String::from("%n"));

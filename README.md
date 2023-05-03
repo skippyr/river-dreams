@@ -1,5 +1,6 @@
 <h1>River Dreams</h1>
 	<p>A fast multi line prompt for ZSH.</p>
+	<img src="./images/preview.gif"/>
 	<p>In the left prompt you will find:</p>
 	<ul>
 		<li>A separator to isolate the prompt from the output of the last command.</li>
@@ -9,7 +10,7 @@
 		<li>A clock that shows the hour and minute.</li>
 		<li>The exit code of your last command if it has failed.</li>
 		<li>Your user name.</li>
-		<li>The path of sourced virtual environment if you are using <code>virtualenv</code>.</li>
+		<li>The path of sourced virtual environment abbreviated if you are using <code>virtualenv</code>.</li>
 		<li>Your current directory path abbreviated.</li>
 		<li>The name of the branch if you are inside of a directory tracked by <code>git</code>.</li>
 	</ul>
@@ -17,14 +18,15 @@
 	<ul>
 		<li>The quantity of executables, hidden files and symbolic links in your current directory.</li>
 	</ul>
+	<p>River Dreams also contains a fallback text feature, that allows you to use it even when not using a modern terminal emulator.</p>
 	<h2>Installation And Usage</h2>
 		<ul>
 			<li>Install <a href="https://www.rust-lang.org/">Rust development tools</a>.</li>
 			<p>These are the compiler and tools needed to compile River Dreams's source code.</p>
 			<li>Install a font patched by the <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a> project.</li>
 			<p>These fonts contains pretty symbols that are used in the prompt. It is highly recommend to use one to improve your experience, however, they are optional as you can run River Dreams with its fallback text feature.</p>
-			<li>Install a fast terminal, like <a href="https://github.com/kovidgoyal/kitty">Kitty</a>.</li>
-			<p>Even that River Dreams and ZSH can run basically in any terminal, using a fast terminal will improve your experience.</p>
+			<li>Install a fast terminal emulator, like <a href="https://github.com/kovidgoyal/kitty">Kitty</a>.</li>
+			<p>Even that River Dreams and ZSH can run basically in any terminal emulator, using a fast one will improve your experience.</p>
 			<li>Download this repository to a directory in your machine.</li>
 			<p>If you have <code>git</code> installed, you can download it in the following command:</p>
 			<pre><code>git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams</code></pre>
