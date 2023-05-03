@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use river_dreams::
 {
 	prompt::
@@ -19,7 +21,12 @@ use river_dreams::
 		Clock,
 		DayMoment
 	},
-	file_system::MainDisk
+	file_system::
+	{
+		MainDisk,
+		get_pwd_as_path_buff,
+		PathAbbreviation
+	}
 };
 
 fn create_horizontal_separator_component() -> PromptComponent
@@ -134,6 +141,24 @@ fn create_disk_component() -> PromptComponent
 	component
 }
 
+fn create_top_right_connector_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let mut right_curly_bracket: Text = Text::new();
+	right_curly_bracket.set_content(String::from("}\n"));
+	right_curly_bracket.set_color(Color::Yellow);
+	component.append_string_to_structure(right_curly_bracket.as_string());
+	component
+}
+
+fn create_pwd_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let pwd: PathBuf = get_pwd_as_path_buff();
+	component.append_string_to_structure(pwd.as_abbreaviated_string());
+	component
+}
+
 fn main()
 {
 	let mut left_prompt: Prompt = Prompt::new();
@@ -144,6 +169,8 @@ fn main()
 	left_prompt.add_component(create_calendar_component());
 	left_prompt.add_component(create_horizontal_separator_component());
 	left_prompt.add_component(create_clock_component());
+	left_prompt.add_component(create_top_right_connector_component());
+	left_prompt.add_component(create_pwd_component());
 	print!(
 		"{}",
 		left_prompt.as_string()

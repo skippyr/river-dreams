@@ -1,4 +1,9 @@
-use std::path::Path;
+use super::environment_variables::get_pwd;
+use std::path::
+{
+	Path,
+	PathBuf
+};
 use::sysinfo::
 {
 	System,
@@ -53,5 +58,19 @@ impl MainDisk
 			self.get_in_use_percentage()
 		)
 	}
+}
+
+pub fn get_pwd_as_path_buff() -> PathBuf
+{ PathBuf::from(get_pwd()) }
+
+pub trait PathAbbreviation
+{
+	fn as_abbreaviated_string(&self) -> String;
+}
+
+impl PathAbbreviation for PathBuf
+{
+	fn as_abbreaviated_string(&self) -> String
+	{ String::from("test") }
 }
 
