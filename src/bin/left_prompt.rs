@@ -233,11 +233,16 @@ fn create_virtual_env_component() -> PromptComponent
 	let mut component: PromptComponent = PromptComponent::new();
 	if let Some(virtual_env) = get_virtual_env_as_path_buff()
 	{
+		let color: Color = Color::Magenta;
 		let prefix: String = String::from(" using ");
+		let mut symbol: TextWithFallback = TextWithFallback::new();
+		symbol.set_default_content(String::from(" "));
+		symbol.set_color(color.clone());
 		let mut virtual_env_as_text: Text = Text::new();
 		virtual_env_as_text.set_content(virtual_env.as_abbreviated_string());
-		virtual_env_as_text.set_color(Color::Magenta);
+		virtual_env_as_text.set_color(color.clone());
 		component.append_string_to_structure(prefix);
+		component.append_string_to_structure(symbol.as_string());
 		component.append_string_to_structure(virtual_env_as_text.as_string());
 	}
 	component
@@ -246,11 +251,16 @@ fn create_virtual_env_component() -> PromptComponent
 fn create_pwd_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
+	let color: Color = Color::Green;
 	let prefix: String = String::from(" at ");
+	let mut symbol: TextWithFallback = TextWithFallback::new();
+	symbol.set_default_content(String::from(" "));
+	symbol.set_color(color.clone());
 	let mut pwd_abbreviated: Text = Text::new();
 	pwd_abbreviated.set_content(get_pwd_as_path_buff().as_abbreviated_string());
-	pwd_abbreviated.set_color(Color::Green);
+	pwd_abbreviated.set_color(color.clone());
 	component.append_string_to_structure(prefix);
+	component.append_string_to_structure(symbol.as_string());
 	component.append_string_to_structure(pwd_abbreviated.as_string());
 	component
 }
@@ -260,11 +270,16 @@ fn create_git_component() -> PromptComponent
 	let mut component: PromptComponent = PromptComponent::new();
 	if let Some(git_repository) = GitRepository::from_pwd()
 	{
+		let color: Color = Color::Red;
 		let prefix: String = String::from(" on ");
-		component.append_string_to_structure(prefix);
+		let mut symbol: TextWithFallback = TextWithFallback::new();
+		symbol.set_default_content(String::from(" "));
+		symbol.set_color(color.clone());
 		let mut branch: Text = Text::new();
 		branch.set_content(git_repository.get_branch().get_name());
-		branch.set_color(Color::Red);
+		branch.set_color(color.clone());
+		component.append_string_to_structure(prefix);
+		component.append_string_to_structure(symbol.as_string());
 		component.append_string_to_structure(branch.as_string());
 	};
 	component
