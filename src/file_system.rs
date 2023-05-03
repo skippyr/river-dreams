@@ -1,6 +1,8 @@
-use crate::environment_variables::get_home;
-
-use super::environment_variables::get_pwd;
+use super::environment_variables::
+{
+	get_pwd,
+	get_home
+};
 use std::path::
 {
 	Path,
