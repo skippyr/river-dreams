@@ -82,22 +82,25 @@ fn create_top_left_connector_component() -> PromptComponent
 fn create_local_ip_address_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
+	let color: Color = Color::Blue;
 	let mut symbol: TextWithFallback = TextWithFallback::new();
 	symbol.set_fallback_content(String::from("IP "));
 	symbol.set_default_content(String::from(" "));
-	symbol.set_color(Color::Blue);
+	symbol.set_color(color.clone());
 	let host_name: String = String::from("%m");
-	let separator: String = String::from("@");
+	let mut separator: Text = Text::new();
+	separator.set_content(String::from("@"));
+	separator.set_color(color.clone());
 	let local_ip_address: String = match local_ip()
 	{
 		Ok(local_ip_address) =>
 		{ local_ip_address.to_string() }
 		Err(_error) =>
-		{ String::from("No Address") }
+		{ String::from("No Address Found") }
 	};
 	component.append_string_to_structure(symbol.as_string());
 	component.append_string_to_structure(host_name);
-	component.append_string_to_structure(separator);
+	component.append_string_to_structure(separator.as_string());
 	component.append_string_to_structure(local_ip_address);
 	component
 }
@@ -218,11 +221,9 @@ fn create_shell_status_component() -> PromptComponent
 fn create_user_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
-	let prefix: String = String::from("as ");
 	let mut user: Text = Text::new();
 	user.set_content(String::from("%n"));
 	user.set_color(Color::Cyan);
-	component.append_string_to_structure(prefix);
 	component.append_string_to_structure(user.as_string());
 	component
 }
