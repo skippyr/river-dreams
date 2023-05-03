@@ -1,17 +1,38 @@
 <h1>River Dreams</h1>
-	<p>A fast multiline prompt for ZSH.</p>
+	<p>A fast multi line prompt for ZSH.</p>
+	<p>In the left prompt you will find:</p>
+	<ul>
+		<li>A separator to isolate the prompt from the output of the last command.</li>
+		<li>Your host name and local ipv4 address.</li>
+		<li>The in-use percentage of your main disk.</li>
+		<li>A calendar that shows the week day, month, day and year.</li>
+		<li>A clock that shows the hour and minute.</li>
+		<li>The exit code of your last command if it has failed.</li>
+		<li>Your user name.</li>
+		<li>The path of sourced virtual environment if you are using <code>virtualenv</code>.</li>
+		<li>Your current directory path abbreviated.</li>
+		<li>The name of the branch if you are inside of a directory tracked by <code>git</code>.</li>
+	</ul>
+	<p>In the right prompt you will find:</p>
+	<ul>
+		<li>The quantity of executables, hidden files and symbolic links in your current directory.</li>
+	</ul>
 	<h2>Installation And Usage</h2>
 		<ul>
 			<li>Install <a href="https://www.rust-lang.org/">Rust development tools</a>.</li>
 			<p>These are the compiler and tools needed to compile River Dreams's source code.</p>
+			<li>Install a font patched by the <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a> project.</li>
+			<p>These fonts contains pretty symbols that are used in the prompt. It is highly recommend to use one to improve your experience, however, they are optional as you can run River Dreams with its fallback text feature.</p>
+			<li>Install a fast terminal, like <a href="https://github.com/kovidgoyal/kitty">Kitty</a>.</li>
+			<p>Even that River Dreams and ZSH can run basically in any terminal, using a fast terminal will improve your experience.</p>
 			<li>Download this repository to a directory in your machine.</li>
 			<p>If you have <code>git</code> installed, you can download it in the following command:</p>
 			<pre><code>git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams</code></pre>
-			<p>This command will clone this repository to the directory <code>~/.config/zsh/themes/river_dreams</code>, however fell free to change it by the last command used in the example. Just remember the path you used because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
+			<p>This command will clone this repository to the directory <code>~/.config/zsh/themes/river_dreams</code>, however fell free to change it in the example. Just remember the path you have used because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
 			<p>If you do not have <code>git</code> installed, do not worry, as you can also download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
 			<li>Add a source rule in your ZSH configuration file: <code>~/.zshrc</code> to source the theme file <code>river_dreams.zsh-theme</code> that is in the root directory of the repository that you have just downloaded.</li>
 			<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
-			<p>If you have choosen another directory in the last step, just change it in the source command. Pay attention to use <code>/river_dreams.zsh-theme</code> in the end of the path to include the theme file instead of the directory itself.</p>
+			<p>If you have chosen other directory in the last step, just change it in the source command. Pay attention to use <code>/river_dreams.zsh-theme</code> in the end of the path to include the theme file instead of the directory itself.</p>
 			<li>Restart your ZSH session.</li>
 			<p>At this point, the source code will be automatically compiled and, when it finishes, the prompt will be ready for you to use.</p>
 		</ul>

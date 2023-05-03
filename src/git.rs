@@ -65,9 +65,7 @@ impl GitBranch
 }
 
 pub struct GitRepository
-{
-	branch: GitBranch
-}
+{ branch: GitBranch }
 
 impl GitRepository
 {
