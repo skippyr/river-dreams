@@ -105,7 +105,7 @@ impl PathAbbreviation for PathBuf
 		for raw_split in raw_splits
 		{
 			if raw_split != ""
-			{ splits.push(String::from(raw_split)) }
+			{ splits.push(String::from(raw_split)); }
 		}
 		splits
 	}
