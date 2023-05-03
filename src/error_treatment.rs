@@ -1,9 +1,9 @@
-pub fn print_error_message(message: &str)
+pub fn print_error(description: &str)
 {
-	eprintln!("Opsie!");
+	eprintln!("river_dreams alerts an opsie!");
 	eprintln!(
-		"\triver_dreams: {}",
-		message
+		"\tdescription: {}",
+		description
 	);
 }
 

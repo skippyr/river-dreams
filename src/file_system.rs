@@ -36,7 +36,7 @@ impl MainDisk
 		}
 	}
 
-	pub fn get_in_use_percentage(&self) -> u8
+	fn get_in_use_percentage(&self) -> u8
 	{
 		if self.total_size_in_bytes == 0
 		{ 0 }

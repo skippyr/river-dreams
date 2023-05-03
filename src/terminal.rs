@@ -1,12 +1,9 @@
-use super::error_treatment::print_error_message;
+use super::error_treatment::print_error;
 use std::process::exit;
 use crossterm::terminal::size;
 
 pub struct Terminal
-{
-	columns: u16,
-	lines: u16
-}
+{ columns: u16 }
 
 impl Terminal
 {
@@ -14,28 +11,22 @@ impl Terminal
 	{
 		let (
 			columns,
-			lines
+			_lines
 		) = match size()
 		{
 			Ok(size) =>
 			{ size }
 			Err(_error) =>
 			{
-				print_error_message("Could not get output stream width.");
+				print_error("could not get terminal size.");
 				exit(1);
 			}
 		};
 		Terminal
-		{
-			columns,
-			lines
-		}
+		{ columns }
 	}
 	
 	pub fn get_columns(&self) -> u16
 	{ self.columns }
-
-	pub fn get_lines(&self) -> u16
-	{ self.lines }
 }
 
