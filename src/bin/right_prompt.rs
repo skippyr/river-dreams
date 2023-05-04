@@ -6,7 +6,11 @@ use river_dreams::
 		PromptComponent
 	},
 	styles::Color,
-	text::TextWithFallback,
+	text::
+	{
+		TextWithFallback,
+		Text
+	},
 	file_system::DirectoryEntryTypes
 };
 
@@ -55,10 +59,27 @@ fn create_directory_entry_types_component() -> PromptComponent
 	component
 }
 
+fn create_jobs_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let mut symbol: TextWithFallback = TextWithFallback::new();
+	symbol.set_fallback_content(String::from(" Jobs "));
+	symbol.set_default_content(String::from("  "));
+	symbol.set_color(Color::Magenta);
+	let mut jobs: Text = Text::new();
+	jobs.set_content(format!(
+		"{}%j",
+		symbol.as_string()
+	));
+	component.append_string_to_structure(jobs.as_job_string());
+	component
+}
+
 fn main()
 {
 	let mut right_prompt: Prompt = Prompt::new();
 	right_prompt.add_component(create_directory_entry_types_component());
+	right_prompt.add_component(create_jobs_component());
 	print!(
 		"{}",
 		right_prompt.as_string()

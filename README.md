@@ -20,6 +20,7 @@
 	<p>In the right prompt you will find:</p>
 	<ul>
 		<li>The quantity of executables, hidden files and symbolic links in your current directory.</li>
+		<li>The quantity of jobs running in the background for the current shell session.</li>
 	</ul>
 	<p>River Dreams also contains a fallback text feature, that allows you to use it even when not using a modern terminal emulator.</p>
 	<img src="./images/preview_with_fallback.png"/>

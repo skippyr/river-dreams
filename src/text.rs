@@ -102,5 +102,13 @@ impl Text
 			self.as_string()
 		)
 	}
+
+	pub fn as_job_string(&self) -> String
+	{
+		format!(
+			"%(1j.{}.)",
+			self.as_string()
+		)
+	}
 }
 
