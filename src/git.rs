@@ -10,7 +10,8 @@ use std::
 		ReadDir,
 		read_dir,
 		DirEntry,
-		File
+		File,
+		Metadata
 	},
 	io::
 	{
@@ -89,9 +90,18 @@ impl GitRepository
 				{ continue; }
 			};
 			let directory_entry_path: PathBuf = directory_entry.path();
+			let directory_entry_metadata: Metadata = match directory_entry.metadata()
+			{
+				Ok(directory_entry_metadata) =>
+				{ directory_entry_metadata }
+				Err(_error) =>
+				{ continue; }
+			};
 			if let Some(file_name) = directory_entry_path.file_name_as_string()
 			{
-				if file_name == String::from(".git")
+				if
+					file_name == String::from(".git") &&
+					directory_entry_metadata.is_dir()
 				{ dot_git_directory_path = Some(directory_entry_path); }
 			}
 		}
