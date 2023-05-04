@@ -23,7 +23,7 @@
 		<ul>
 			<li>Install <a href="https://www.rust-lang.org/">Rust development tools</a>.</li>
 			<p>These are the compiler and tools needed to compile River Dreams's source code.</p>
-			<li>Install a font patched by the <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a> project.</li>
+			<li>Install a font patched by the <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a> project and the <a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans Font Family</a>.</li>
 			<p>These fonts contains pretty symbols that are used in the prompt. It is highly recommend to use one to improve your experience, however, they are optional as you can run River Dreams with its fallback text feature.</p>
 			<li>Install a fast terminal emulator, like <a href="https://github.com/kovidgoyal/kitty">Kitty</a>.</li>
 			<p>Even that River Dreams and ZSH can run basically in any terminal emulator, using a fast one will improve your experience.</p>
