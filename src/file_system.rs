@@ -253,25 +253,25 @@ impl PathAbbreviation for PathBuf
 				else
 				{ String::new() }
 			));
-			if split_characters[0] == '.'
+			if split_iterator == splits.len() - 1
+			{
+				path_abbreviated.push_str(&format!(
+					"{}",
+					split
+				));
+			}
+			else if split_characters[0] == '.'
 			{
 				path_abbreviated.push_str(&format!(
 					".{}",
 					split_characters[1]
 				));
 			}
-			else if split_iterator != splits.len() - 1
-			{
-				path_abbreviated.push_str(&format!(
-					"{}",
-					split_characters[0]
-				));
-			}
 			else
 			{
 				path_abbreviated.push_str(&format!(
 					"{}",
-					split
+					split_characters[0]
 				));
 			}
 		}
