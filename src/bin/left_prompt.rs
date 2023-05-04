@@ -50,7 +50,7 @@ fn create_commands_separator_component() -> PromptComponent
 		if is_even(column)
 		{
 			symbol.set_fallback_content(String::from("="));
-			symbol.set_default_content(String::from(""));
+			symbol.set_default_content(String::from("⟐"));
 			symbol.set_color(Color::Red);
 		}
 		else
@@ -294,8 +294,8 @@ fn create_cursor_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let mut symbol: TextWithFallback = TextWithFallback::new();
-	symbol.set_fallback_content(String::from(" X "));
-	symbol.set_default_content(String::from(" 🗶 "));
+	symbol.set_fallback_content(String::from(" X  "));
+	symbol.set_default_content(String::from(" 🗶  "));
 	symbol.set_color(Color::Yellow);
 	component.append_string_to_structure(symbol.as_string());
 	component
