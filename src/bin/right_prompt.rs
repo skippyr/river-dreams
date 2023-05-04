@@ -30,7 +30,7 @@ fn create_directory_entry_types_component() -> PromptComponent
 	if directory_entry_types.get_quantity_of_hidden_files() > 0
 	{
 		let mut symbol: TextWithFallback = TextWithFallback::new();
-		symbol.set_fallback_content(String::from("Hiddens "));
+		symbol.set_fallback_content(String::from("Hidden "));
 		symbol.set_default_content(String::from(" "));
 		symbol.set_color(Color::Red);
 		component_structure_as_vec.push(format!(
