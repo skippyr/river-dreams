@@ -278,7 +278,7 @@ fn create_git_component() -> PromptComponent
 		let color: Color = Color::Red;
 		let prefix: String = String::from(" on ");
 		let mut symbol: TextWithFallback = TextWithFallback::new();
-		symbol.set_default_content(String::from(" "));
+		symbol.set_default_content(String::from("󰘬 "));
 		symbol.set_color(color.clone());
 		let mut branch: Text = Text::new();
 		branch.set_content(git_repository.get_branch().get_name());
