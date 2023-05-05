@@ -11,11 +11,17 @@ use river_dreams::
 		TextWithFallback,
 		Text
 	},
-	file_system::DirectoryEntryTypes
+	file_system::DirectoryEntryTypes,
+};
+use num_format::
+{
+	Locale,
+	ToFormattedString
 };
 
 fn create_directory_entry_types_component() -> PromptComponent
 {
+	let locale: Locale = Locale::en;
 	let mut component: PromptComponent = PromptComponent::new();
 	let mut component_structure_as_vec: Vec<String> = Vec::new();
 	let directory_entry_types: DirectoryEntryTypes = DirectoryEntryTypes::from_pwd();
@@ -28,7 +34,7 @@ fn create_directory_entry_types_component() -> PromptComponent
 		component_structure_as_vec.push(format!(
 			"{}{}",
 			symbol.as_string(),
-			directory_entry_types.get_quantity_of_executables()
+			directory_entry_types.get_quantity_of_executables().to_formatted_string(&locale)
 		));
 	}
 	if directory_entry_types.get_quantity_of_hidden_files() > 0
@@ -40,7 +46,7 @@ fn create_directory_entry_types_component() -> PromptComponent
 		component_structure_as_vec.push(format!(
 			"{}{}",
 			symbol.as_string(),
-			directory_entry_types.get_quantity_of_hidden_files()
+			directory_entry_types.get_quantity_of_hidden_files().to_formatted_string(&locale)
 		));
 	}
 	if directory_entry_types.get_quantity_of_symlinks() > 0
@@ -52,7 +58,7 @@ fn create_directory_entry_types_component() -> PromptComponent
 		component_structure_as_vec.push(format!(
 			"{}{}",
 			symbol.as_string(),
-			directory_entry_types.get_quantity_of_symlinks()
+			directory_entry_types.get_quantity_of_symlinks().to_formatted_string(&locale)
 		));
 	}
 	component.append_string_to_structure(component_structure_as_vec.join(" "));
