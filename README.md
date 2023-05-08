@@ -32,9 +32,9 @@
 				<p>This is the shell this theme applies to.</p>
 				<li>Install <a href="https://www.rust-lang.org/">Rust development tools</a>.</li>
 				<p>These are the compiler and tools needed to compile River Dreams's source code.</p>
+				<li>Install <code>git</code></li>
+				<p>Even that you do not really need it, <code>git</code> will ease the installation steps further in this document. So, you will not have to do some parts manually.</p>
 				<li>Install a font patched by the <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a> project and the <a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans Font Family</a>.</li>
-				<li>Install git</li>
-				<p>Even that you do not really need it, git will ease the installation steps further in this document. So, you will not have to do it manually.</p>
 				<p>These fonts contains pretty symbols that are used in the prompt. It is highly recommend to use one to improve your experience, however, they are optional as you can run River Dreams with its fallback text feature.</p>
 				<p>Are you looking for a font recommendation? As River Dreams can take a lot of space in your screen, it turns out to be the perfect environment for you to test out narrow fonts like <a href="https://github.com/be5invis/Iosevka">Iosevka</a>. That font also contains a lot of <a href="https://github.com/be5invis/Iosevka/blob/main/doc/stylistic-sets.md">stylistics sets</a> that make it more likely other fonts: like Fira Mono and Pragmata Pro. You probably will like it.</p>
 				<li>Install a great terminal emulator, like <a href="https://github.com/kovidgoyal/kitty">Kitty</a>.</li>
@@ -48,8 +48,8 @@
 				<li>Download this repository to a directory in your machine.</li>
 				<p>If you have <code>git</code> installed, you can download it in the following command:</p>
 				<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ${HOME}/.config/zsh/themes/river_dreams</code></pre>
-				<p>This command will clone this repository to the directory <code>${HOME}/.config/zsh/themes/river_dreams</code>, however fell free to change it in the example. Just remember the path you have used because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
-				<p>If you do not have <code>git</code> installed, do not worry, as you can also download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
+				<p>This command will clone this repository to the directory <code>${HOME}/.config/zsh/themes/river_dreams</code>, however fell free to change it when you use the command. Just remember the path you have used because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
+				<p>If you do not have not installed <code>git</code>, you can download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
 				<li>Add a source rule in your ZSH configuration file: <code>${HOME}/.zshrc</code> to source the theme file <code>river_dreams.zsh-theme</code> that is in the root directory of the repository that you have just downloaded.</li>
 				<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
 				<p>If you have chosen other directory in the last step, just change it in the source command. Pay attention to use <code>/river_dreams.zsh-theme</code> in the end of the path to include the theme file instead of the directory itself.</p>
@@ -71,7 +71,7 @@
 				<p>If you have git installed, this command will do the trick:</p>
 				<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/river_dreams</code></pre>
 				<p>This command will clone this repository to the required directory. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
-				<p>If you do not have <code>git</code> installed, do not worry, as you can also download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it the directory shown in the command.</p>
+				<p>If you do not have not installed <code>git</code>, you can download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it the directory shown in the command.</p>
 				<li>Change the value of the variable <code>ZSH_THEME</code> in the <code>${HOME}/.zshrc</code> file to start River Dreams:</li>
 				<pre><code>ZSH_THEME="river_dreams/river_dreams"</code></pre>
 				<li>Restart your ZSH session.</li>
