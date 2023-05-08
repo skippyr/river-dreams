@@ -1,7 +1,7 @@
 <h1>River Dreams</h1>
 	<h2>Starting Point</h2>
-	<p>An useful multi line theme for ZSH inspired by tribal patterns that includes fallback feature.</p>
-	<img src="./images/default_preview.png"/>
+	<p>An useful multi line theme for ZSH inspired by tribal patterns that includes a fallback text feature.</p>
+	<img src="./images/preview.gif"/>
 	<p>In the image, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/be5invis/Iosevka">Iosevka</a> font.</p>
 	<p>Below, there are descriptions of what the prompt has to offer:</p>
 	<p>In the left prompt you will find:</p>
@@ -23,7 +23,7 @@
 		<li>The quantity of jobs running in the background for the current shell session.</li>
 	</ul>
 	<p>River Dreams also contains a fallback text feature, that allows you to use it even when not using a modern terminal emulator.</p>
-	<img src="./images/preview_with_fallback.png"/>
+	<img src="./images/preview_with_fallback.gif"/>
 	<h2>Installation And Usage</h2>
 		<h3>Dependencies And Recommendations</h3>
 			<p>Before doing any installing step, we first need to talk about dependencies and recommendations to use River Dreams:</p>
