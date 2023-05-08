@@ -243,7 +243,7 @@ fn create_virtual_env_component() -> PromptComponent
 		let color: Color = Color::Magenta;
 		let prefix: String = String::from(" using ");
 		let mut symbol: TextWithFallback = TextWithFallback::new();
-		symbol.set_default_content(String::from(" "));
+		symbol.set_default_content(String::from(" "));
 		symbol.set_color(color.clone());
 		let mut virtual_env_as_text: Text = Text::new();
 		virtual_env_as_text.set_content(virtual_env.as_abbreviated_string());
