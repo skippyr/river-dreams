@@ -74,7 +74,7 @@ fn create_top_left_connector_component() -> PromptComponent
 	component.append_string_to_structure(connector.as_string());
 	let mut left_curly_bracket: Text = Text::new();
 	left_curly_bracket.set_content(String::from("{"));
-	left_curly_bracket.set_color(Color::Yellow);
+	left_curly_bracket.set_color(Color::Cyan);
 	component.append_string_to_structure(left_curly_bracket.as_string());
 	component
 }
@@ -111,7 +111,7 @@ fn create_calendar_component() -> PromptComponent
 	let calendar: Calendar = Calendar::from_current_moment();
 	let mut symbol: TextWithFallback = TextWithFallback::new();
 	symbol.set_fallback_content(String::from("Calendar "));
-	symbol.set_default_content(String::from(" "));
+	symbol.set_default_content(String::from("󰨲 "));
 	symbol.set_color(Color::Red);
 	component.append_string_to_structure(symbol.as_string());
 	component.append_string_to_structure(calendar.as_string());
@@ -173,7 +173,7 @@ fn create_top_right_connector_component() -> PromptComponent
 	let mut component: PromptComponent = PromptComponent::new();
 	let mut right_curly_bracket: Text = Text::new();
 	right_curly_bracket.set_content(String::from("}\n"));
-	right_curly_bracket.set_color(Color::Yellow);
+	right_curly_bracket.set_color(Color::Cyan);
 	component.append_string_to_structure(right_curly_bracket.as_string());
 	component
 }
