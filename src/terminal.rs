@@ -18,7 +18,11 @@ impl Terminal
 			{ size }
 			Err(_error) =>
 			{
-				print_error("could not get terminal size.");
+				print_error(
+					"could get the size of your terminal emulator.",
+					"ensure that you are running it directly from a terminal emulator.",
+					1
+				);
 				exit(1);
 			}
 		};

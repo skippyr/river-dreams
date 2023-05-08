@@ -24,7 +24,11 @@ pub fn get_pwd() -> String
 		{ pwd }
 		Err(_error) =>
 		{
-			print_error("could not get PWD environment variable.");
+			print_error(
+				"could not get the value of the environment variable PWD.",
+				"ensure that you are running it from an UNIX operating system.",
+				1
+			);
 			exit(1);
 		}
 	}
@@ -38,7 +42,11 @@ pub fn get_home() -> String
 		{ home }
 		Err(_error) =>
 		{
-			print_error("could not get HOME environment variable.");
+			print_error(
+				"could not get the value of the environment variable HOME.",
+				"ensure that you are running it from an UNIX operating system.",
+				1
+			);
 			exit(1);
 		}
 	}

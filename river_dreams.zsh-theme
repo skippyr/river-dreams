@@ -18,7 +18,14 @@ river_dreams::compile()
 
 if [[ ! -d "${RIVER_DREAMS_RELEASE_DIRECTORY}" ]]; then
 	river_dreams::compile ||
-	rm -rf "${RIVER_DREAMS_RELEASE_DIRECTORY}"
+	(
+		rm -rf "${RIVER_DREAMS_RELEASE_DIRECTORY}"
+		echo "Opsie!"
+		echo "\tprogram: river_dreams."
+		echo "\tdescription: could not compile the source files."
+		echo "\tsuggestion: ensure that you have installed all the required dependencies to compile them."
+		echo "\tYou can find more information about it in the README.md file."
+	)
 fi
 if [[ -d "${RIVER_DREAMS_RELEASE_DIRECTORY}" ]]; then
 	PROMPT='$("${RIVER_DREAMS_RELEASE_DIRECTORY}/left_prompt")'
