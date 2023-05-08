@@ -194,10 +194,10 @@ fn create_shell_status_component() -> PromptComponent
 	let mut component: PromptComponent = PromptComponent::new();
 	let mut left_curly_bracket: Text = Text::new();
 	left_curly_bracket.set_content(String::from("{"));
-	left_curly_bracket.set_color(Color::Yellow);
+	left_curly_bracket.set_color(Color::Cyan);
 	let mut right_curly_bracket: Text = Text::new();
 	right_curly_bracket.set_content(String::from("}"));
-	right_curly_bracket.set_color(Color::Yellow);
+	right_curly_bracket.set_color(Color::Cyan);
 	let mut error_symbol: TextWithFallback = TextWithFallback::new();
 	error_symbol.set_fallback_content(String::from("X "));
 	error_symbol.set_default_content(String::from(" "));
@@ -212,7 +212,7 @@ fn create_shell_status_component() -> PromptComponent
 	let mut arrow: TextWithFallback = TextWithFallback::new();
 	arrow.set_fallback_content(String::from("> "));
 	arrow.set_default_content(String::from("⤐ "));
-	arrow.set_color(Color::Yellow);
+	arrow.set_color(Color::Cyan);
 	component.append_string_to_structure(exit_code.as_error_string());
 	component.append_string_to_structure(arrow.as_string());
 	component
@@ -220,14 +220,16 @@ fn create_shell_status_component() -> PromptComponent
 
 fn create_user_component() -> PromptComponent
 {
-	let color: Color = Color::Cyan;
+	let color: Color = Color::Blue;
 	let mut component: PromptComponent = PromptComponent::new();
+	let prefix: String = String::from("as ");
 	let mut symbol: TextWithFallback = TextWithFallback::new();
-	symbol.set_default_content(String::from(" "));
+	symbol.set_default_content(String::from(" "));
 	symbol.set_color(color.clone());
 	let mut user: Text = Text::new();
 	user.set_content(String::from("%n"));
 	user.set_color(color.clone());
+	component.append_string_to_structure(prefix);
 	component.append_string_to_structure(symbol.as_string());
 	component.append_string_to_structure(user.as_string());
 	component
@@ -256,7 +258,7 @@ fn create_virtual_env_component() -> PromptComponent
 fn create_pwd_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
-	let color: Color = Color::Green;
+	let color: Color = Color::Red;
 	let prefix: String = String::from(" at ");
 	let mut symbol: TextWithFallback = TextWithFallback::new();
 	symbol.set_default_content(String::from(" "));
@@ -275,7 +277,7 @@ fn create_git_component() -> PromptComponent
 	let mut component: PromptComponent = PromptComponent::new();
 	if let Some(git_repository) = GitRepository::from_pwd()
 	{
-		let color: Color = Color::Red;
+		let color: Color = Color::Green;
 		let prefix: String = String::from(" on ");
 		let mut symbol: TextWithFallback = TextWithFallback::new();
 		symbol.set_default_content(String::from("󰘬 "));
@@ -296,7 +298,7 @@ fn create_cursor_component() -> PromptComponent
 	let mut symbol: TextWithFallback = TextWithFallback::new();
 	symbol.set_fallback_content(String::from(" X  "));
 	symbol.set_default_content(String::from(" 🗶  "));
-	symbol.set_color(Color::Yellow);
+	symbol.set_color(Color::Cyan);
 	component.append_string_to_structure(symbol.as_string());
 	component
 }
