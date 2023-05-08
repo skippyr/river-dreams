@@ -25,25 +25,65 @@
 	<p>River Dreams also contains a fallback text feature, that allows you to use it even when not using a modern terminal emulator.</p>
 	<img src="./images/preview_with_fallback.png"/>
 	<h2>Installation And Usage</h2>
-		<ul>
-			<li>Install <a href="https://www.rust-lang.org/">Rust development tools</a>.</li>
-			<p>These are the compiler and tools needed to compile River Dreams's source code.</p>
-			<li>Install a font patched by the <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a> project and the <a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans Font Family</a>.</li>
-			<p>These fonts contains pretty symbols that are used in the prompt. It is highly recommend to use one to improve your experience, however, they are optional as you can run River Dreams with its fallback text feature.</p>
-			<p>Are you looking for a font recommendation? As River Dreams can take a lot of space in your screen, it turns out to be the perfect environment for you to test out narrow fonts like <a href="https://github.com/be5invis/Iosevka">Iosevka</a>. That font also contains a lot of <a href="https://github.com/be5invis/Iosevka/blob/main/doc/stylistic-sets.md">stylistics sets</a> that make it more likely other fonts: like Fira Mono and Pragmata Pro. You probably will like it.</p>
-			<li>Install a great terminal emulator, like <a href="https://github.com/kovidgoyal/kitty">Kitty</a>.</li>
-			<p>Even that River Dreams and ZSH can run basically in any terminal emulator, using one that is fast and that can handle unicode character really well will improve your experience.</p>
-			<li>Download this repository to a directory in your machine.</li>
-			<p>If you have <code>git</code> installed, you can download it in the following command:</p>
-			<pre><code>git clone --depth 1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams</code></pre>
-			<p>This command will clone this repository to the directory <code>~/.config/zsh/themes/river_dreams</code>, however fell free to change it in the example. Just remember the path you have used because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
-			<p>If you do not have <code>git</code> installed, do not worry, as you can also download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
-			<li>Add a source rule in your ZSH configuration file: <code>~/.zshrc</code> to source the theme file <code>river_dreams.zsh-theme</code> that is in the root directory of the repository that you have just downloaded.</li>
-			<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
-			<p>If you have chosen other directory in the last step, just change it in the source command. Pay attention to use <code>/river_dreams.zsh-theme</code> in the end of the path to include the theme file instead of the directory itself.</p>
-			<li>Restart your ZSH session.</li>
-			<p>At this point, the source code will be automatically compiled and, when it finishes, the prompt will be ready for you to use.</p>
-		</ul>
+		<h3>Dependencies And Recommendations</h3>
+			<p>Before doing any installing step, we first need to talk about dependencies and recommendations to use River Dreams:</p>
+			<ul>
+				<li>Install ZSH</li>
+				<p>This is the shell this theme applies to.</p>
+				<li>Install <a href="https://www.rust-lang.org/">Rust development tools</a>.</li>
+				<p>These are the compiler and tools needed to compile River Dreams's source code.</p>
+				<li>Install a font patched by the <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a> project and the <a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans Font Family</a>.</li>
+				<li>Install git</li>
+				<p>Even that you do not really need it, git will ease the installation steps further in this document. So, you will not have to do it manually.</p>
+				<p>These fonts contains pretty symbols that are used in the prompt. It is highly recommend to use one to improve your experience, however, they are optional as you can run River Dreams with its fallback text feature.</p>
+				<p>Are you looking for a font recommendation? As River Dreams can take a lot of space in your screen, it turns out to be the perfect environment for you to test out narrow fonts like <a href="https://github.com/be5invis/Iosevka">Iosevka</a>. That font also contains a lot of <a href="https://github.com/be5invis/Iosevka/blob/main/doc/stylistic-sets.md">stylistics sets</a> that make it more likely other fonts: like Fira Mono and Pragmata Pro. You probably will like it.</p>
+				<li>Install a great terminal emulator, like <a href="https://github.com/kovidgoyal/kitty">Kitty</a>.</li>
+				<p>Even that River Dreams and ZSH can run basically in any terminal emulator, using one that is fast and that can handle unicode characters really well will improve your experience.</p>
+			</ul>
+			<p>After you have installed the dependencies, its time for you to choose how you want to install River Dreams: just by sourcing it or using a framework.</p>
+			<p>Below, there are some instructions to do some of those methods.</p>
+		<h3>Stand Alone Installation (recommended)</h3>
+			<p>In this section, you will learn how to install River Dreams without using any frameworks or package managers for ZSH.</p>
+			<ul>
+				<li>Download this repository to a directory in your machine.</li>
+				<p>If you have <code>git</code> installed, you can download it in the following command:</p>
+				<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ${HOME}/.config/zsh/themes/river_dreams</code></pre>
+				<p>This command will clone this repository to the directory <code>${HOME}/.config/zsh/themes/river_dreams</code>, however fell free to change it in the example. Just remember the path you have used because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
+				<p>If you do not have <code>git</code> installed, do not worry, as you can also download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
+				<li>Add a source rule in your ZSH configuration file: <code>${HOME}/.zshrc</code> to source the theme file <code>river_dreams.zsh-theme</code> that is in the root directory of the repository that you have just downloaded.</li>
+				<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
+				<p>If you have chosen other directory in the last step, just change it in the source command. Pay attention to use <code>/river_dreams.zsh-theme</code> in the end of the path to include the theme file instead of the directory itself.</p>
+				<li>Restart your ZSH session.</li>
+				<p>At this point, the source code will be automatically compiled and, when it finishes, the prompt will be ready for you to use.</p>
+			</ul>
+			<p>If you want to uninstall River Dreams, follow these steps:</p>
+			<ul>
+				<li>Remove the repository that you have cloned.</li>
+				<pre><code>rm -rf  ${HOME}/.config/zsh/themes/river_dreams</code></pre>
+				<p>This command will remove the directory used in the examples. If you have used other directory, you will have to change it in the command when you use it.</p>
+				<li>Remove the source rule you have included in the <code>${HOME}/.zshrc</code> file.</li>
+			</ul>
+		<h3>Installing Using OhMyZSH</h3>
+			<p>In this section, you will learn how to install River Dreams and make it work within the OhMyZSH framework.</p>
+			<p>For it to work, as expected, you must have installed <a href="https://github.com/ohmyzsh/ohmyzsh">OhMyZSH</a> first.</p>
+			<ul>
+				<li>Download this repository to the directory where OhMyZSH looks for custom themes.</li>
+				<p>If you have git installed, this command will do the trick:</p>
+				<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/river_dreams</code></pre>
+				<p>This command will clone this repository to the required directory. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
+				<p>If you do not have <code>git</code> installed, do not worry, as you can also download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it the directory shown in the command.</p>
+				<li>Change the value of the variable <code>ZSH_THEME</code> in the <code>${HOME}/.zshrc</code> file to start River Dreams:</li>
+				<pre><code>ZSH_THEME="river_dreams/river_dreams"</code></pre>
+				<li>Restart your ZSH session.</li>
+				<p>At this point, the source code will be automatically compiled and, when it finishes, the prompt will be ready for you to use.</p>
+			</ul>
+			<p>If you want to uninstall River Dreams, follow these steps:</p>
+			<ul>
+				<li>Remove the repository that you have cloned.</li>
+				<pre><code>rm -rf ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/river_dreams</code></pre>
+				<li>Change the value of the variable <code>ZSH_THEME</code> in the <code>${HOME}/.zshrc</code> file for a valid theme from OhMyZSH. Its default value is:</li>
+				<pre><code>ZSH_THEME="robbyrussell"</code></pre>
+			</ul>
 	<h2>Customization</h2>
 		<p>River Dreams can be customized through the use of environment variables.</p>
 		<ul>
