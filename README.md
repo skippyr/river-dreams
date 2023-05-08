@@ -1,6 +1,6 @@
 <h1>River Dreams</h1>
 	<h2>Starting Point</h2>
-	<p>A multi line theme for ZSH.</p>
+	<p>An useful multi line theme for ZSH inspired by tribal patterns that includes fallback feature.</p>
 	<img src="./images/default_preview.png"/>
 	<p>In the image, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/be5invis/Iosevka">Iosevka</a> font.</p>
 	<p>Below, there are descriptions of what the prompt has to offer:</p>
@@ -49,7 +49,7 @@
 				<p>If you have <code>git</code> installed, you can download it in the following command:</p>
 				<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ${HOME}/.config/zsh/themes/river_dreams</code></pre>
 				<p>This command will clone this repository to the directory <code>${HOME}/.config/zsh/themes/river_dreams</code>, however fell free to change it when you use the command. Just remember the path you have used because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
-				<p>If you do not have not installed <code>git</code>, you can download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
+				<p>If you did not install <code>git</code>, you can download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
 				<li>Add a source rule in your ZSH configuration file: <code>${HOME}/.zshrc</code> to source the theme file <code>river_dreams.zsh-theme</code> that is in the root directory of the repository that you have just downloaded.</li>
 				<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
 				<p>If you have chosen other directory in the last step, just change it in the source command. Pay attention to use <code>/river_dreams.zsh-theme</code> in the end of the path to include the theme file instead of the directory itself.</p>
@@ -68,10 +68,10 @@
 			<p>For it to work, as expected, you must have installed <a href="https://github.com/ohmyzsh/ohmyzsh">OhMyZSH</a> first.</p>
 			<ul>
 				<li>Download this repository to the directory where OhMyZSH looks for custom themes.</li>
-				<p>If you have git installed, this command will do the trick:</p>
+				<p>If you have <code>git</code> installed, this command will do the trick:</p>
 				<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/river_dreams</code></pre>
 				<p>This command will clone this repository to the required directory. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
-				<p>If you do not have not installed <code>git</code>, you can download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it the directory shown in the command.</p>
+				<p>If you did not install <code>git</code>, you can download the repository from GitHub. Just access the page of the project there, click on the <code>Code</code> button on the top of the page, then on <code>Download ZIP</code>. This will download a ZIP file, you just have to unzip it the directory shown in the command.</p>
 				<li>Change the value of the variable <code>ZSH_THEME</code> in the <code>${HOME}/.zshrc</code> file to start River Dreams:</li>
 				<pre><code>ZSH_THEME="river_dreams/river_dreams"</code></pre>
 				<li>Restart your ZSH session.</li>
