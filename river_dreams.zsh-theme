@@ -16,7 +16,10 @@ typeset -gr RIVER_DREAMS_RELEASE_DIRECTORY="${RIVER_DREAMS_DIRECTORY}/target/rel
 river_dreams::compile()
 { cargo build -r --manifest-path "${RIVER_DREAMS_MANIFEST_FILE}" }
 
-[[ ! -d "${RIVER_DREAMS_RELEASE_DIRECTORY}" ]] && river_dreams::compile
+if [[ ! -d "${RIVER_DREAMS_RELEASE_DIRECTORY}" ]]; then
+	river_dreams::compile ||
+	rm -rf "${RIVER_DREAMS_RELEASE_DIRECTORY}"
+fi
 if [[ -d "${RIVER_DREAMS_RELEASE_DIRECTORY}" ]]; then
 	PROMPT='$("${RIVER_DREAMS_RELEASE_DIRECTORY}/left_prompt")'
 	RPROMPT='$("${RIVER_DREAMS_RELEASE_DIRECTORY}/right_prompt")'
