@@ -134,7 +134,7 @@ fn create_clock_component() -> PromptComponent
 		DayMoment::Morning =>
 		{
 			symbol.set_fallback_content(String::from("Morning "));
-			symbol.set_default_content(String::from(" "));
+			symbol.set_default_content(String::from("󰖨 "));
 			symbol.set_color(Color::Red);
 		}
 		DayMoment::Afternoon =>
