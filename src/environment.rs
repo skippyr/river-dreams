@@ -1,8 +1,8 @@
 use std::env::var;
 
-pub struct Environment;
+pub struct EnvironmentVariables;
 
-impl Environment
+impl EnvironmentVariables
 {
 	pub fn is_to_use_fallback_text() -> bool
 	{

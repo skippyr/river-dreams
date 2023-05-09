@@ -183,7 +183,7 @@ pub fn create_top_right_connector_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let right_curly_brackets: PromptString = PromptString::new(
-		String::from("}"),
+		String::from("}\n"),
 		None,
 		Color::Cyan
 	);

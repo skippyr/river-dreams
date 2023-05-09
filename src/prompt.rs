@@ -1,7 +1,7 @@
 use crate::
 {
 	styles::Color,
-	environment::Environment
+	environment::EnvironmentVariables
 };
 use std::fmt::
 {
@@ -45,7 +45,7 @@ impl Display for PromptString
 		{
 			Some(fallback_content) =>
 			{
-				if Environment::is_to_use_fallback_text()
+				if EnvironmentVariables::is_to_use_fallback_text()
 				{ fallback_content.clone() }
 				else
 				{ self.default_content.clone() }
@@ -94,7 +94,7 @@ impl Prompt
 	)
 	{ self.components.push(component); }
 
-	pub fn get_structure(&self) -> String
+	fn get_structure(&self) -> String
 	{
 		let mut structure: String = String::new();
 		for component in &self.components
