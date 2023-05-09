@@ -66,7 +66,7 @@ fn create_jobs_component() -> PromptComponent
 	let symbol: PromptString = PromptString::new(
 		String::from("  "),
 		Some(String::from(" Jobs ")),
-		Color::Green
+		Color::Magenta
 	);
 	let jobs: JobString = JobString::new(format!(
 		"{}%j",
