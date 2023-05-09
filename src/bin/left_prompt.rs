@@ -10,7 +10,12 @@ use river_dreams::
 	terminal::TerminalEmulator,
 	math::MathOperations,
 	network::Network,
-	time::Calendar
+	time::
+	{
+		Calendar,
+		Clock,
+		DayMoment
+	}
 };
 
 fn create_horizontal_separator_component() -> PromptComponent
@@ -71,7 +76,7 @@ fn create_top_left_connector_component() -> PromptComponent
 	let left_curly_brackets: PromptString = PromptString::new(
 		String::from("{"),
 		None,
-		Color::Yellow
+		Color::Cyan
 	);
 	component.push(
 		format!(
@@ -127,6 +132,68 @@ fn create_calendar_component() -> PromptComponent
 	component
 }
 
+fn create_clock_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let clock: Clock = Clock::from_current_moment();
+	let symbol: PromptString = match clock.get_day_moment()
+	{
+		DayMoment::Dawn =>
+		{
+			PromptString::new(
+				String::from(" "),
+				Some(String::from("Dawn ")),
+				Color::Cyan
+			)
+		}
+		DayMoment::Morning =>
+		{
+			PromptString::new(
+				String::from("󰖨 "),
+				Some(String::from("Morning ")),
+				Color::Red
+			)
+		}
+		DayMoment::Afternoon =>
+		{
+			PromptString::new(
+				String::from(" "),
+				Some(String::from("Afternoon ")),
+				Color::Blue
+			)
+		}
+		DayMoment::Night =>
+		{
+			PromptString::new(
+				String::from("󰽥 "),
+				Some(String::from("Night ")),
+				Color::Yellow
+			)
+		}
+	};
+	component.push(format!(
+		"{}{}",
+		symbol,
+		clock
+	));
+	component
+}
+
+pub fn create_top_right_connector_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let right_curly_brackets: PromptString = PromptString::new(
+		String::from("}"),
+		None,
+		Color::Cyan
+	);
+	component.push(format!(
+		"{}",
+		right_curly_brackets
+	));
+	component
+}
+
 fn main()
 {
 	let mut left_prompt: Prompt = Prompt::new();
@@ -136,6 +203,8 @@ fn main()
 	left_prompt.push(create_horizontal_separator_component());
 	left_prompt.push(create_calendar_component());
 	left_prompt.push(create_horizontal_separator_component());
+	left_prompt.push(create_clock_component());
+	left_prompt.push(create_top_right_connector_component());
 	println!(
 		"{}",
 		left_prompt

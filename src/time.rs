@@ -12,7 +12,7 @@ use std::fmt::
 	Result
 };
 
-pub struct Month
+struct Month
 { value: u32 }
 
 impl Month
@@ -54,7 +54,7 @@ impl Month
 	}
 }
 
-pub struct WeekDay
+struct WeekDay
 { value: u32 }
 
 impl WeekDay
@@ -86,7 +86,7 @@ impl WeekDay
 	}
 }
 
-pub struct Day
+struct Day
 { value: u32 }
 
 impl Day
@@ -226,10 +226,17 @@ impl Clock
 		else
 		{ DayMoment::Night }
 	}
+}
 
-	pub fn as_string(&self) -> String
+impl Display for Clock
+{
+	fn fmt(
+		&self,
+		formatter: &mut Formatter
+	) -> Result
 	{
-		format!(
+		write!(
+			formatter,
 			"{}{}h{}{}m",
 			if self.hour < 10
 			{ String::from("0") }
