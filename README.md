@@ -25,7 +25,6 @@
 	</ul>
 	<p>River Dreams also contains a fallback text feature, that allows you to use it even when you are only able to access bitmap fonts.</p>
 	<img src="./images/preview_fallback.gif"/>
-	<p>In the preview above, River Dreams was used in the same conditions as the first preview.</p>
 	<h2>Installation And Usage</h2>
 		<h3>Dependencies And Recommendations</h3>
 			<p>Before doing any installing step, we first need to talk about dependencies and recommendations to use River Dreams:</p>
