@@ -5,7 +5,8 @@ use river_dreams::
 	{
 		Prompt,
 		PromptComponent,
-		PromptString
+		PromptString,
+		ErrorString
 	},
 	terminal::TerminalEmulator,
 	math::MathOperations,
@@ -15,7 +16,8 @@ use river_dreams::
 		Calendar,
 		Clock,
 		DayMoment
-	}, file_system::disks::MainDisk
+	},
+	file_system::disks::MainDisk
 };
 
 fn create_horizontal_separator_component() -> PromptComponent
@@ -73,7 +75,7 @@ fn create_top_left_connector_component() -> PromptComponent
 		Some(String::from("┌")),
 		Color::Red
 	);
-	let left_curly_brackets: PromptString = PromptString::new(
+	let left_curly_bracket: PromptString = PromptString::new(
 		String::from("{"),
 		None,
 		Color::Cyan
@@ -82,7 +84,7 @@ fn create_top_left_connector_component() -> PromptComponent
 		format!(
 			"{}{}",
 			connector,
-			left_curly_brackets
+			left_curly_bracket
 		)
 	);
 	component
@@ -199,14 +201,77 @@ fn create_clock_component() -> PromptComponent
 pub fn create_top_right_connector_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
-	let right_curly_brackets: PromptString = PromptString::new(
+	let right_curly_bracket: PromptString = PromptString::new(
 		String::from("}\n"),
 		None,
 		Color::Cyan
 	);
 	component.push(format!(
 		"{}",
-		right_curly_brackets
+		right_curly_bracket
+	));
+	component
+}
+
+pub fn create_bottom_left_connector_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let connector: PromptString = PromptString::new(
+		String::from("╰"),
+		Some(String::from("└")),
+		Color::Red
+	);
+	component.push(format!(
+		"{}",
+		connector
+	));
+	component
+}
+
+pub fn create_exit_code_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let left_curly_bracket: PromptString = PromptString::new(
+		String::from("{"),
+		None,
+		Color::Cyan
+	);
+	let right_curly_bracket: PromptString = PromptString::new(
+		String::from("}"),
+		None,
+		Color::Cyan
+	);
+	let error_symbol: PromptString = PromptString::new(
+		String::from(" "),
+		Some(String::from("X ")),
+		Color::Red
+	);
+	let exit_code: ErrorString = ErrorString::new(format!(
+		"{}{}%?{}",
+		left_curly_bracket,
+		error_symbol,
+		right_curly_bracket
+	));
+	component.push(
+		format!(
+			"{}",
+			exit_code
+		)
+	);
+	component
+}
+
+pub fn create_arrow_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let arrow: PromptString = PromptString::new(
+		String::from("⤐ "),
+		Some(String::from("> ")),
+		Color::Cyan
+	);
+	component.push(format!(
+		"{}",
+		arrow
 	));
 	component
 }
@@ -224,6 +289,9 @@ fn main()
 	left_prompt.push(create_horizontal_separator_component());
 	left_prompt.push(create_clock_component());
 	left_prompt.push(create_top_right_connector_component());
+	left_prompt.push(create_bottom_left_connector_component());
+	left_prompt.push(create_exit_code_component());
+	left_prompt.push(create_arrow_component());
 	println!(
 		"{}",
 		left_prompt

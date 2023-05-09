@@ -118,3 +118,27 @@ impl Display for Prompt
 	}
 }
 
+pub struct ErrorString
+{ content: String }
+
+impl ErrorString
+{
+	pub fn new(content: String) -> ErrorString
+	{ ErrorString { content } }
+}
+
+impl Display for ErrorString
+{
+	fn fmt(
+		&self,
+		formatter: &mut Formatter
+	) -> Result
+	{
+		write!(
+			formatter,
+			"%(?..{})",
+			self.content
+		)
+	}
+}
+
