@@ -276,6 +276,40 @@ pub fn create_arrow_component() -> PromptComponent
 	component
 }
 
+pub fn create_user_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let prefix: String = String::from("as ");
+	let symbol: PromptString = PromptString::new(
+		String::from(" "),
+		None,
+		Color::Blue
+	);
+	let user: String = String::from("%n");
+	component.push(format!(
+		"{}{}{}",
+		prefix,
+		symbol,
+		user
+	));
+	component
+}
+
+pub fn create_cursor_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let cursor: PromptString = PromptString::new(
+		String::from(" 🗶  "),
+		Some(String::from(" X  ")),
+		Color::Cyan
+	);
+	component.push(format!(
+		"{}",
+		cursor
+	));
+	component
+}
+
 fn main()
 {
 	let mut left_prompt: Prompt = Prompt::new();
@@ -292,6 +326,8 @@ fn main()
 	left_prompt.push(create_bottom_left_connector_component());
 	left_prompt.push(create_exit_code_component());
 	left_prompt.push(create_arrow_component());
+	left_prompt.push(create_user_component());
+	left_prompt.push(create_cursor_component());
 	println!(
 		"{}",
 		left_prompt
