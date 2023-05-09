@@ -8,7 +8,7 @@ use river_dreams::
 		PromptString
 	},
 	terminal::TerminalEmulator,
-	math::MathOperations
+	math::MathOperations, network::Network
 };
 
 fn create_commands_separator_component() -> PromptComponent
@@ -43,10 +43,42 @@ fn create_commands_separator_component() -> PromptComponent
 	component
 }
 
+fn create_top_left_connector_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let connector: PromptString = PromptString::new(
+		String::from("╭"),
+		Some(String::from("┌")),
+		Color::Red
+	);
+	let left_curly_brackets: PromptString = PromptString::new(
+		String::from("{"),
+		None,
+		Color::Yellow
+	);
+	component.push(
+		format!(
+			"{}{}",
+			connector,
+			left_curly_brackets
+		)
+	);
+	component
+}
+
+fn create_local_ip_address_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	component.push(Network::get_local_ip_address());
+	component
+}
+
 fn main()
 {
 	let mut left_prompt: Prompt = Prompt::new();
 	left_prompt.push(create_commands_separator_component());
+	left_prompt.push(create_top_left_connector_component());
+	left_prompt.push(create_local_ip_address_component());
 	println!(
 		"{}",
 		left_prompt
