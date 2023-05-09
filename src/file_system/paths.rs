@@ -114,6 +114,28 @@ pub struct Paths;
 impl Paths
 {
 	pub fn get_pwd_abbreviated() -> String
-	{ PathBuf::from(EnvironmentVariables::get_pwd()).as_abbreviated_string() }
+	{ PathBuf::from(Paths::get_pwd()).as_abbreviated_string() }
+
+	pub fn get_virtual_env_abbreviated() -> Option<String>
+	{
+		match EnvironmentVariables::get_virtual_env()
+		{
+			Some(virtual_env) =>
+			{ Some(PathBuf::from(virtual_env).as_abbreviated_string()) }
+			None =>
+			{ None }
+		}
+	}
+
+	fn get_pwd() -> PathBuf
+	{
+		match PathBuf::from(".").canonicalize()
+		{
+			Ok(pwd) =>
+			{ pwd }
+			Err(_error) =>
+			{ PathBuf::from("/") }
+		}
+	}
 }
 

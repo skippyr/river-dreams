@@ -304,6 +304,34 @@ pub fn create_user_component() -> PromptComponent
 	component
 }
 
+pub fn create_virtual_env_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let virtual_env: Option<String> = Paths::get_virtual_env_abbreviated();
+	if let Some(virtual_env) = virtual_env
+	{
+		let prefix: String = String::from(" using ");
+		let color: Color = Color::Magenta;
+		let symbol: PromptString = PromptString::new(
+			String::from(" "),
+			None,
+			color.clone()
+		);
+		let virtual_env: PromptString = PromptString::new(
+			virtual_env,
+			None,
+			color.clone()
+		);
+		component.push(format!(
+			"{}{}{}",
+			prefix,
+			symbol,
+			virtual_env
+		));
+	};
+	component
+}
+
 pub fn create_directory_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
@@ -360,6 +388,7 @@ fn main()
 	left_prompt.push(create_exit_code_component());
 	left_prompt.push(create_arrow_component());
 	left_prompt.push(create_user_component());
+	left_prompt.push(create_virtual_env_component());
 	left_prompt.push(create_directory_component());
 	left_prompt.push(create_cursor_component());
 	println!(

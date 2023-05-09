@@ -26,14 +26,14 @@ impl EnvironmentVariables
 		}
 	}
 
-	pub fn get_pwd() -> String
+	pub fn get_virtual_env() -> Option<String>
 	{
-		match var("PWD")
+		match var("VIRTUAL_ENV")
 		{
-			Ok(pwd) =>
-			{ pwd }
+			Ok(virtual_env) =>
+			{ Some(virtual_env) }
 			Err(_error) =>
-			{ String::from("/") }
+			{ None }
 		}
 	}
 }
