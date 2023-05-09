@@ -8,8 +8,25 @@ use river_dreams::
 		PromptString
 	},
 	terminal::TerminalEmulator,
-	math::MathOperations, network::Network
+	math::MathOperations,
+	network::Network,
+	time::Calendar
 };
+
+fn create_horizontal_separator_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let separator: PromptString = PromptString::new(
+		String::from(" ¦ "),
+		None,
+		Color::Red
+	);
+	component.push(format!(
+		"{}",
+		separator
+	));
+	component
+}
 
 fn create_commands_separator_component() -> PromptComponent
 {
@@ -68,8 +85,45 @@ fn create_top_left_connector_component() -> PromptComponent
 
 fn create_local_ip_address_component() -> PromptComponent
 {
+	let color: Color = Color::Blue;
 	let mut component: PromptComponent = PromptComponent::new();
-	component.push(Network::get_local_ip_address());
+	let symbol: PromptString = PromptString::new(
+		String::from(" "),
+		Some(String::from("IP ")),
+		color.clone()
+	);
+	let host: String = String::from("%m");
+	let separator: PromptString = PromptString::new(
+		String::from("@"),
+		None,
+		color.clone()
+	);
+	component.push(
+		format!(
+			"{}{}{}{}",
+			symbol,
+			host,
+			separator,
+			Network::get_local_ip_address()
+		)
+	);
+	component
+}
+
+fn create_calendar_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let symbol: PromptString = PromptString::new(
+		String::from("󰨲 "),
+		Some(String::from("Calendar ")),
+		Color::Red
+	);
+	let calendar: Calendar = Calendar::from_current_moment();
+	component.push(format!(
+		"{}{}",
+		symbol,
+		calendar
+	));
 	component
 }
 
@@ -79,6 +133,9 @@ fn main()
 	left_prompt.push(create_commands_separator_component());
 	left_prompt.push(create_top_left_connector_component());
 	left_prompt.push(create_local_ip_address_component());
+	left_prompt.push(create_horizontal_separator_component());
+	left_prompt.push(create_calendar_component());
+	left_prompt.push(create_horizontal_separator_component());
 	println!(
 		"{}",
 		left_prompt

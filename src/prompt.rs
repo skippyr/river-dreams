@@ -1,7 +1,7 @@
 use crate::
 {
 	styles::Color,
-	environment::EnvironmentAcessor
+	environment::Environment
 };
 use std::fmt::
 {
@@ -45,7 +45,7 @@ impl Display for PromptString
 		{
 			Some(fallback_content) =>
 			{
-				if EnvironmentAcessor::is_to_use_fallback_text()
+				if Environment::is_to_use_fallback_text()
 				{ fallback_content.clone() }
 				else
 				{ self.default_content.clone() }

@@ -1,8 +1,8 @@
 use std::env::var;
 
-pub struct EnvironmentAcessor;
+pub struct Environment;
 
-impl EnvironmentAcessor
+impl Environment
 {
 	pub fn is_to_use_fallback_text() -> bool
 	{
