@@ -421,7 +421,7 @@ fn main()
 	left_prompt.push(create_directory_component());
 	left_prompt.push(create_git_component());
 	left_prompt.push(create_cursor_component());
-	println!(
+	print!(
 		"{}",
 		left_prompt
 	);

@@ -142,3 +142,27 @@ impl Display for ErrorString
 	}
 }
 
+pub struct JobString
+{ content: String }
+
+impl JobString
+{
+	pub fn new(content: String) -> JobString
+	{ JobString { content } }
+}
+
+impl Display for JobString
+{
+	fn fmt(
+		&self,
+		formatter: &mut Formatter
+	) -> Result
+	{
+		write!(
+			formatter,
+			"%(1j.{}.)",
+			self.content
+		)
+	}
+}
+
