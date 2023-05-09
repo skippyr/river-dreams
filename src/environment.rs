@@ -1,0 +1,29 @@
+use std::env::var;
+
+pub struct EnvironmentAcessor;
+
+impl EnvironmentAcessor
+{
+	pub fn is_to_use_fallback_text() -> bool
+	{
+		match var("RIVER_DREAMS_USE_FALLBACK_TEXT")
+		{
+			Ok(fallback) =>
+			{ fallback == String::from("1") }
+			Err(_error) =>
+			{ false }
+		}
+	}
+
+	pub fn get_home() -> String
+	{
+		match var("HOME")
+		{
+			Ok(home) =>
+			{ home }
+			Err(_error) =>
+			{ String::new() }
+		}
+	}
+}
+

@@ -1,6 +1,6 @@
-#[derive(Clone)]
 pub enum Color
 {
+	Default,
 	Black,
 	Red,
 	Green,
@@ -9,49 +9,37 @@ pub enum Color
 	Magenta,
 	Cyan,
 	White,
-	Default,
 	Other(String)
 }
 
-fn get_color_sequence(color: Color) -> String
+impl Color
 {
-	format!(
-		"%F{{{}}}",
-		match color
+	pub fn get_escape_sequence(&self) -> String
+	{
+		match self
 		{
-			Color::Black =>
-			{ String::from("black") }
-			Color::Red =>
-			{ String::from("red") }
-			Color::Green =>
-			{ String::from("green") }
-			Color::Yellow =>
-			{ String::from("yellow") }
-			Color::Blue =>
-			{ String::from("blue") }
-			Color::Magenta =>
-			{ String::from("magenta") }
-			Color::Cyan =>
-			{ String::from("cyan") }
-			Color::White =>
-			{ String::from("white") }
 			Color::Default =>
-			{ String::from("normal") }
-			Color::Other(color) =>
-			{ color }
+			{ String::from("%f") }
+			Color::Black =>
+			{ String::from("%F{black}") }
+			Color::Red =>
+			{ String::from("%F{red}") }
+			Color::Green =>
+			{ String::from("%F{green}") }
+			Color::Yellow =>
+			{ String::from("%F{yellow}") }
+			Color::Blue =>
+			{ String::from("%F{blue}") }
+			Color::Magenta =>
+			{ String::from("%F{magenta}") }
+			Color::Cyan =>
+			{ String::from("%F{cyan}") }
+			Color::White =>
+			{ String::from("%F{white}") }
+			Color::Other(escape_sequence) =>
+			{ escape_sequence.clone() }
 		}
-	)
+	}
 }
 
-pub fn colorize(
-	text: String,
-	color: Color
-) -> String
-{
-	format!(
-		"{}{}%f",
-		get_color_sequence(color),
-		text
-	)
-}
 
