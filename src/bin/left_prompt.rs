@@ -17,7 +17,11 @@ use river_dreams::
 		Clock,
 		DayMoment
 	},
-	file_system::disks::MainDisk
+	file_system::
+	{
+		disks::MainDisk,
+		paths::Paths
+	}
 };
 
 fn create_horizontal_separator_component() -> PromptComponent
@@ -280,17 +284,46 @@ pub fn create_user_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let prefix: String = String::from("as ");
+	let color: Color = Color::Blue;
 	let symbol: PromptString = PromptString::new(
 		String::from(" "),
 		None,
-		Color::Blue
+		color.clone()
 	);
-	let user: String = String::from("%n");
+	let user: PromptString = PromptString::new(
+		String::from("%n"),
+		None,
+		color.clone()
+	);
 	component.push(format!(
 		"{}{}{}",
 		prefix,
 		symbol,
 		user
+	));
+	component
+}
+
+pub fn create_directory_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let prefix: String = String::from(" at ");
+	let color: Color = Color::Green;
+	let symbol: PromptString = PromptString::new(
+		String::from(" "),
+		None,
+		color.clone()
+	);
+	let directory: PromptString = PromptString::new(
+		Paths::get_pwd_abbreviated(),
+		None,
+		color.clone()
+	);
+	component.push(format!(
+		"{}{}{}",
+		prefix,
+		symbol,
+		directory
 	));
 	component
 }
@@ -327,6 +360,7 @@ fn main()
 	left_prompt.push(create_exit_code_component());
 	left_prompt.push(create_arrow_component());
 	left_prompt.push(create_user_component());
+	left_prompt.push(create_directory_component());
 	left_prompt.push(create_cursor_component());
 	println!(
 		"{}",
