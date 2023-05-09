@@ -21,7 +21,8 @@ use river_dreams::
 	{
 		disks::MainDisk,
 		paths::Paths
-	}
+	},
+	git::GitRepository
 };
 
 fn create_horizontal_separator_component() -> PromptComponent
@@ -336,7 +337,7 @@ pub fn create_directory_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let prefix: String = String::from(" at ");
-	let color: Color = Color::Green;
+	let color: Color = Color::Red;
 	let symbol: PromptString = PromptString::new(
 		String::from(" "),
 		None,
@@ -353,6 +354,34 @@ pub fn create_directory_component() -> PromptComponent
 		symbol,
 		directory
 	));
+	component
+}
+
+pub fn create_git_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let repository: Option<GitRepository> = GitRepository::from_pwd();
+	if let Some(repository) = repository
+	{
+		let prefix: String = String::from(" on ");
+		let color: Color = Color::Green;
+		let symbol: PromptString = PromptString::new(
+			String::from("󰘬 "),
+			None,
+			color.clone()
+		);
+		let branch: PromptString = PromptString::new(
+			repository.get_branch().get_name(),
+			None,
+			color.clone()
+		);
+		component.push(format!(
+			"{}{}{}",
+			prefix,
+			symbol,
+			branch
+		));
+	};
 	component
 }
 
@@ -390,6 +419,7 @@ fn main()
 	left_prompt.push(create_user_component());
 	left_prompt.push(create_virtual_env_component());
 	left_prompt.push(create_directory_component());
+	left_prompt.push(create_git_component());
 	left_prompt.push(create_cursor_component());
 	println!(
 		"{}",

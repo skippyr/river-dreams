@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use crate::environment::EnvironmentVariables;
 
-trait PathAbbreviation
+pub trait PathAbbreviation
 {
 	fn file_name_as_string(&self) -> Option<String>;
 	fn as_string(&self) -> String;
@@ -127,7 +127,7 @@ impl Paths
 		}
 	}
 
-	fn get_pwd() -> PathBuf
+	pub fn get_pwd() -> PathBuf
 	{
 		match PathBuf::from(".").canonicalize()
 		{
