@@ -10,14 +10,37 @@ use std::{
 	path::PathBuf,
 	os::unix::fs::PermissionsExt
 };
-use crate::file_system::paths::
+use crate::
 {
-	PathAbbreviation,
-	Paths
+	file_system::paths::
+	{
+		PathAbbreviation,
+		Paths
+	},
+	users::UnixUsers
 };
+pub struct DirectoryOwnership;
 
-fn does_the_owner_have_execution_permissions(permissions_mode: u32) -> bool
-{ permissions_mode & 0o100 != 0 }
+impl DirectoryOwnership
+{
+	pub fn does_current_user_owns_pwd() -> bool
+	{ UnixUsers::get_owner_uid_of_pwd() == UnixUsers::get_current_user_uid() }
+}
+
+struct UnixPermissions
+{ mode: u32 }
+
+impl UnixPermissions
+{
+	pub fn from(mode: u32) -> UnixPermissions
+	{ UnixPermissions { mode } }
+
+	pub fn does_owner_can_execute(&self) -> bool
+	{
+		const UNIX_OWNER_EXECUTION_PERMISSIONS_BIT: u32 = 0o100;
+		self.mode & UNIX_OWNER_EXECUTION_PERMISSIONS_BIT != 0
+	}
+}
 
 pub struct DirectoryEntryTypes
 {
@@ -76,7 +99,7 @@ impl DirectoryEntryTypes
 			};
 			let directory_entry_permissions_mode: u32 = directory_entry_metadata.permissions().mode();
 			if
-				does_the_owner_have_execution_permissions(directory_entry_permissions_mode) &&
+				UnixPermissions::from(directory_entry_permissions_mode).does_owner_can_execute() &&
 				!directory_entry_metadata.is_dir()
 			{ directory_entry_types.quantity_of_executable_files += 1; }
 			if directory_entry_file_name.chars().collect::<Vec<char>>()[0] == '.'

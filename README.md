@@ -15,6 +15,7 @@
 		<li>Your user name.</li>
 		<li>The path of sourced virtual environment abbreviated if you are using <code>virtualenv</code>.</li>
 		<li>Your current directory path abbreviated.</li>
+		<li>A lock symbol if you are in a directory that you do not own.</li>
 		<li>The name of the branch if you are inside of a directory tracked by <code>git</code>.</li>
 	</ul>
 	<p>In the right prompt you will find:</p>
