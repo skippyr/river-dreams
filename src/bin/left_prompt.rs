@@ -15,7 +15,7 @@ use river_dreams::
 		Calendar,
 		Clock,
 		DayMoment
-	}
+	}, file_system::disks::MainDisk
 };
 
 fn create_horizontal_separator_component() -> PromptComponent
@@ -115,6 +115,23 @@ fn create_local_ip_address_component() -> PromptComponent
 	component
 }
 
+fn create_disk_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let symbol: PromptString = PromptString::new(
+		String::from("󰋊 "),
+		Some(String::from("Disk ")),
+		Color::Yellow
+	);
+	let disk: MainDisk = MainDisk::from_environment();
+	component.push(format!(
+		"{}{}%%",
+		symbol,
+		disk.get_in_use_percentage()
+	));
+	component
+}
+
 fn create_calendar_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
@@ -200,6 +217,8 @@ fn main()
 	left_prompt.push(create_commands_separator_component());
 	left_prompt.push(create_top_left_connector_component());
 	left_prompt.push(create_local_ip_address_component());
+	left_prompt.push(create_horizontal_separator_component());
+	left_prompt.push(create_disk_component());
 	left_prompt.push(create_horizontal_separator_component());
 	left_prompt.push(create_calendar_component());
 	left_prompt.push(create_horizontal_separator_component());
