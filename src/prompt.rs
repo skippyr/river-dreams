@@ -68,31 +68,39 @@ pub struct PromptComponent
 impl PromptComponent
 {
 	pub fn new() -> PromptComponent
-	{ PromptComponent { structure: String::new() } }
+	{ PromptComponent {structure: String::new() } }
 
-	pub fn append_to_structure(
+	pub fn push(
 		&mut self,
-		structure_component: String
+		part: String
 	)
-	{ self.structure.push_str(&structure_component) }
+	{ self.structure.push_str(&part); }
 
 	pub fn get_structure(&self) -> String
 	{ self.structure.clone() }
 }
 
 pub struct Prompt
-{ structure: String }
+{ components: Vec<PromptComponent> }
 
 impl Prompt
 {
 	pub fn new() -> Prompt
-	{ Prompt { structure: String::new() } }
+	{ Prompt { components: Vec::new() } }
 
-	pub fn append_to_structure(
+	pub fn push(
 		&mut self,
-		structure_component: String
+		component: PromptComponent
 	)
-	{ self.structure.push_str(&structure_component) }
+	{ self.components.push(component); }
+
+	pub fn get_structure(&self) -> String
+	{
+		let mut structure: String = String::new();
+		for component in &self.components
+		{ structure.push_str(&component.get_structure()) }
+		structure
+	}
 }
 
 impl Display for Prompt
@@ -105,7 +113,7 @@ impl Display for Prompt
 		write!(
 			formatter,
 			"{}",
-			self.structure
+			self.get_structure()
 		)
 	}
 }
