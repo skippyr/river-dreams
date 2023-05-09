@@ -1,8 +1,8 @@
 <h1>River Dreams</h1>
 	<h2>Starting Point</h2>
-	<p>An useful multi line theme for ZSH inspired by tribal patterns that includes a fallback text feature.</p>
+	<p>A multi line theme for ZSH inspired by tribal patterns that includes a fallback text feature.</p>
+	<p>In the following previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/intel/intel-one-mono">IntelOne Mono</a> font. The colors used in the ZSH theme may vary depending of your terminal emulator's theme.</p>
 	<img src="./images/preview.gif"/>
-	<p>In the preview above, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/be5invis/Iosevka">Iosevka</a> font.</p>
 	<p>Below, there are descriptions of what the prompt has to offer:</p>
 	<p>In the left prompt you will find:</p>
 	<ul>
@@ -23,8 +23,8 @@
 		<li>The quantity of executable files, hidden files and symbolic links in your current directory.</li>
 		<li>The quantity of jobs running in the background for the current shell session.</li>
 	</ul>
-	<p>River Dreams also contains a fallback text feature, that allows you to use it even when not using a modern terminal emulator.</p>
-	<img src="./images/preview_with_fallback.gif"/>
+	<p>River Dreams also contains a fallback text feature, that allows you to use it even when you are only able to access bitmap fonts.</p>
+	<img src="./images/preview_fallback.gif"/>
 	<p>In the preview above, River Dreams was used in the same conditions as the first preview.</p>
 	<h2>Installation And Usage</h2>
 		<h3>Dependencies And Recommendations</h3>
@@ -38,7 +38,6 @@
 				<p>Even that you do not really need it, <code>git</code> will ease the installation steps further in this document. So, you will not have to do some parts manually.</p>
 				<li>Install a font patched by the <a href="https://github.com/ryanoasis/nerd-fonts">Nerd Fonts</a> project and the <a href="https://fonts.google.com/noto/specimen/Noto+Sans">Noto Sans Font Family</a>.</li>
 				<p>These fonts contains pretty symbols that are used in the prompt. It is highly recommend to use one to improve your experience, however, they are optional as you can run River Dreams with its fallback text feature.</p>
-				<p>Are you looking for a font recommendation? As River Dreams can take a lot of space in your screen, it turns out to be the perfect environment for you to test out narrow fonts like <a href="https://github.com/be5invis/Iosevka">Iosevka</a>. That font also contains a lot of <a href="https://github.com/be5invis/Iosevka/blob/main/doc/stylistic-sets.md">stylistics sets</a> that make it more likely other fonts: like Fira Mono and Pragmata Pro. You probably will like it.</p>
 				<li>Install a great terminal emulator, like <a href="https://github.com/kovidgoyal/kitty">Kitty</a>.</li>
 				<p>Even that River Dreams and ZSH can run basically in any terminal emulator, using one that is fast and that can handle unicode characters really well will improve your experience.</p>
 			</ul>
@@ -95,7 +94,7 @@
 			<pre><code>export RIVER_DREAMS_USE_FALLBACK_TEXT="1"</code></pre>
 			<p>Deactivate it by exporting it with any other value like <code>0</code> for example.</p>
 			<pre><code>export RIVER_DREAMS_USE_FALLBACK_TEXT="0"</code></pre>
-			<p>If you do not set it, River Dreams will automatically set it for your current shell session based in your terminal's color support: if your terminal only supports the 3-bits color palette (ansi values from 0 to 8), it will activate it by setting it with value <code>1</code>. If not, it will deactivate it with value <code>0</code>. I know that it sounds weird, but that is the only effective method that I have found to determinate if you are possibling using an old terminal or not.</p>
+			<p>If you do not set it, River Dreams will automatically set it for your current shell session based on your terminal emulators's color support: if it only supports the 3-bits color palette (ansi values from 0 to 8), it will activate it by setting it with value <code>1</code>. If not, it will deactivate it by setting it with value <code>0</code>. I know that it sounds weird, but that is the only effective method that I have found to determinate if you are possibling using a terminal emulator that might render bitmap fonts.</p>
 			<p>This variable can make changes even when River Dreams is already running.</p>
 		</ul>
 		<p>Further more, if you know Rust, you can change River Dreams's source code and make it be however you would like it to be. After making your changes, you can recompile the source again in your current ZSH session by using the function <code>river_dreams::compile</code></p>
