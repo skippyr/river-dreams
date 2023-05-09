@@ -9,8 +9,7 @@ pub enum Color
 	Blue,
 	Magenta,
 	Cyan,
-	White,
-	Other(String)
+	White
 }
 
 impl Color
@@ -37,8 +36,6 @@ impl Color
 			{ String::from("%F{cyan}") }
 			Color::White =>
 			{ String::from("%F{white}") }
-			Color::Other(escape_sequence) =>
-			{ escape_sequence.clone() }
 		}
 	}
 }
