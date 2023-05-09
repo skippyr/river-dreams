@@ -289,7 +289,7 @@ pub fn create_user_component() -> PromptComponent
 	let color: Color = Color::Blue;
 	let symbol: PromptString = PromptString::new(
 		String::from(" "),
-		None,
+		Some(String::new()),
 		color.clone()
 	);
 	let user: PromptString = PromptString::new(
@@ -316,7 +316,7 @@ pub fn create_virtual_env_component() -> PromptComponent
 		let color: Color = Color::Magenta;
 		let symbol: PromptString = PromptString::new(
 			String::from(" "),
-			None,
+			Some(String::new()),
 			color.clone()
 		);
 		let virtual_env: PromptString = PromptString::new(
@@ -341,7 +341,7 @@ pub fn create_directory_component() -> PromptComponent
 	let color: Color = Color::Red;
 	let symbol: PromptString = PromptString::new(
 		String::from(" "),
-		None,
+		Some(String::new()),
 		color.clone()
 	);
 	let directory: PromptString = PromptString::new(
@@ -368,7 +368,7 @@ pub fn create_git_component() -> PromptComponent
 		let color: Color = Color::Green;
 		let symbol: PromptString = PromptString::new(
 			String::from("󰘬 "),
-			None,
+			Some(String::new()),
 			color.clone()
 		);
 		let branch: PromptString = PromptString::new(
