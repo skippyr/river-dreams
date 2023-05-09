@@ -100,7 +100,7 @@ impl DirectoryEntryTypes
 			let directory_entry_permissions_mode: u32 = directory_entry_metadata.permissions().mode();
 			if
 				UnixPermissions::from(directory_entry_permissions_mode).does_owner_can_execute() &&
-				!directory_entry_metadata.is_dir()
+				directory_entry_metadata.is_file()
 			{ directory_entry_types.quantity_of_executable_files += 1; }
 			if directory_entry_file_name.chars().collect::<Vec<char>>()[0] == '.'
 			{ directory_entry_types.quantity_of_hidden_files += 1; }

@@ -102,7 +102,10 @@ impl GitRepository
 				if
 					file_name == String::from(".git") &&
 					directory_entry_metadata.is_dir()
-				{ dot_git_directory_path = Some(directory_entry_path); }
+				{
+					dot_git_directory_path = Some(directory_entry_path);
+					break;
+				}
 			}
 		}
 		match dot_git_directory_path
