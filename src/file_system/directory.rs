@@ -24,7 +24,10 @@ pub struct DirectoryOwnership;
 impl DirectoryOwnership
 {
 	pub fn does_current_user_owns_pwd() -> bool
-	{ UnixUsers::get_owner_uid_of_pwd() == UnixUsers::get_current_user_uid() }
+	{
+		UnixUsers::is_current_user_root() ||
+		UnixUsers::get_owner_uid_of_pwd() == UnixUsers::get_current_user_uid()
+	}
 }
 
 struct UnixPermissions

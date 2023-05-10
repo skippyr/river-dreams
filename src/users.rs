@@ -6,6 +6,8 @@ use std::
 use users::get_current_uid;
 use crate::file_system::paths::Paths;
 
+const ROOT_UID: u32 = 0;
+
 pub struct UnixUsers;
 
 impl UnixUsers
@@ -25,5 +27,8 @@ impl UnixUsers
 
 	pub fn get_current_user_uid() -> u32
 	{ get_current_uid() }
+
+	pub fn is_current_user_root() -> bool
+	{ UnixUsers::get_current_user_uid() == ROOT_UID }
 }
 
