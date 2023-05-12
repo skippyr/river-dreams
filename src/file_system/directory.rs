@@ -12,27 +12,12 @@ use std::{
 };
 use crate::
 {
-	file_system::paths::
+	file_system::
 	{
-		PathAbbreviation,
-		Paths
+		paths::PathAbbreviation,
+		permissions::UnixPermissions
 	}
 };
-
-struct UnixPermissions
-{ mode: u32 }
-
-impl UnixPermissions
-{
-	pub fn from(mode: u32) -> UnixPermissions
-	{ UnixPermissions { mode } }
-
-	pub fn does_owner_can_execute(&self) -> bool
-	{
-		const UNIX_OWNER_EXECUTION_PERMISSIONS_BIT: u32 = 0o100;
-		self.mode & UNIX_OWNER_EXECUTION_PERMISSIONS_BIT != 0
-	}
-}
 
 pub struct DirectoryEntryTypes
 {
@@ -51,7 +36,7 @@ impl DirectoryEntryTypes
 			quantity_of_symlinks: 0,
 			quantity_of_hidden_files: 0
 		};
-		let directory_stream: ReadDir = match read_dir(Paths::get_pwd())
+		let directory_stream: ReadDir = match read_dir(".")
 		{
 			Ok(directory_stream) =>
 			{ directory_stream }

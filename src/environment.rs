@@ -15,17 +15,6 @@ impl EnvironmentVariables
 		}
 	}
 
-	pub fn get_home() -> String
-	{
-		match var("HOME")
-		{
-			Ok(home) =>
-			{ home }
-			Err(_error) =>
-			{ String::new() }
-		}
-	}
-
 	pub fn get_virtual_env() -> Option<String>
 	{
 		match var("VIRTUAL_ENV")
