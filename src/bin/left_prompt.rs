@@ -303,7 +303,7 @@ pub fn create_git_component() -> PromptComponent
 	if let Some(repository) = repository
 	{
 		let prefix: PromptString = PromptString::new(
-			String::from("::«"),
+			String::from(":«"),
 			None,
 			Color::Green
 		);
