@@ -3,19 +3,18 @@
 	<p>A multi line theme for ZSH inspired by tribal patterns that includes a fallback text feature.</p>
 	<p>In the following previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/intel/intel-one-mono">IntelOne Mono</a> font. The colors used in the ZSH theme may vary depending of your terminal emulator's theme.</p>
 	<img src="./images/preview.gif"/>
+	<img src="./images/preview_with_fallback.gif"/>
 	<p>Below, there are descriptions of what the prompt has to offer:</p>
 	<p>In the left prompt you will find:</p>
 	<ul>
 		<li>A separator to isolate the prompt from the output of the last command.</li>
-		<li>Your host name and local ipv4 address.</li>
-		<li>The in-use percentage of your main disk.</li>
-		<li>A calendar that shows the week day, month, day and year.</li>
+		<li>Your local iPV4 address.</li>
+		<li>The in-use percentage the disk partition mounted at <code>/</code>.</li>
+		<li>A calendar that shows the month and day.</li>
 		<li>A clock that shows the hour and minute.</li>
-		<li>The exit code of your last command if it has failed.</li>
-		<li>Your user name.</li>
-		<li>The path of sourced virtual environment abbreviated if you are using <code>virtualenv</code>.</li>
-		<li>Your current directory path abbreviated.</li>
-		<li>A lock symbol if you are in a directory that you do not own.</li>
+		<li>A decorator to show if you are root or not.</li>
+		<li>The name of sourced virtual environments.</li>
+		<li>Your current directory path.</li>
 		<li>The name of the branch if you are inside of a directory tracked by <code>git</code>.</li>
 	</ul>
 	<p>In the right prompt you will find:</p>
@@ -23,8 +22,6 @@
 		<li>The quantity of executable files, hidden files and symbolic links in your current directory.</li>
 		<li>The quantity of jobs running in the background for the current shell session.</li>
 	</ul>
-	<p>River Dreams also contains a fallback text feature, that allows you to use it even when you are only able to access bitmap fonts.</p>
-	<img src="./images/preview_fallback.gif"/>
 	<h2>Installation And Usage</h2>
 		<h3>Dependencies And Recommendations</h3>
 			<p>Before doing any installing step, we first need to talk about dependencies and recommendations to use River Dreams:</p>
