@@ -20,7 +20,7 @@ fn create_directory_entry_types_component() -> PromptComponent
 	if entry_types.get_quantity_of_executable_files() > 0
 	{
 		let symbol: PromptString = PromptString::new(
-			String::from(" "),
+			String::from(" "),
 			Some(String::from("Executable ")),
 			Color::Green
 		);
