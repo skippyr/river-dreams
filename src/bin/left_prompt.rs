@@ -105,18 +105,10 @@ fn create_local_ip_address_component() -> PromptComponent
 		Some(String::from("IP ")),
 		color.clone()
 	);
-	let host: String = String::from("%m");
-	let separator: PromptString = PromptString::new(
-		String::from("@"),
-		None,
-		color.clone()
-	);
 	component.push(
 		format!(
-			"{}{}{}{}",
+			"{}{}",
 			symbol,
-			host,
-			separator,
 			Network::get_local_ip_address()
 		)
 	);
@@ -282,37 +274,13 @@ pub fn create_arrow_component() -> PromptComponent
 	component
 }
 
-pub fn create_user_component() -> PromptComponent
-{
-	let mut component: PromptComponent = PromptComponent::new();
-	let prefix: String = String::from("as ");
-	let color: Color = Color::Blue;
-	let symbol: PromptString = PromptString::new(
-		String::from(" "),
-		Some(String::new()),
-		color.clone()
-	);
-	let user: PromptString = PromptString::new(
-		String::from("%n"),
-		None,
-		color.clone()
-	);
-	component.push(format!(
-		"{}{}{}",
-		prefix,
-		symbol,
-		user
-	));
-	component
-}
-
 pub fn create_virtual_env_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
-	let virtual_env: Option<String> = Paths::get_virtual_env_abbreviated();
+	let virtual_env: Option<String> = Paths::get_virtual_env();
 	if let Some(virtual_env) = virtual_env
 	{
-		let prefix: String = String::from(" using ");
+		let prefix: String = String::from("using ");
 		let color: Color = Color::Magenta;
 		let symbol: PromptString = PromptString::new(
 			String::from(" "),
@@ -325,7 +293,7 @@ pub fn create_virtual_env_component() -> PromptComponent
 			color.clone()
 		);
 		component.push(format!(
-			"{}{}{}",
+			"{}{}{} ",
 			prefix,
 			symbol,
 			virtual_env
@@ -337,7 +305,7 @@ pub fn create_virtual_env_component() -> PromptComponent
 pub fn create_directory_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
-	let prefix: String = String::from(" at ");
+	let prefix: String = String::from("at ");
 	let color: Color = Color::Red;
 	let symbol: PromptString = PromptString::new(
 		String::from(" "),
@@ -435,7 +403,6 @@ fn main()
 	left_prompt.push(create_bottom_left_connector_component());
 	left_prompt.push(create_exit_code_component());
 	left_prompt.push(create_arrow_component());
-	left_prompt.push(create_user_component());
 	left_prompt.push(create_virtual_env_component());
 	left_prompt.push(create_directory_component());
 	left_prompt.push(create_git_component());

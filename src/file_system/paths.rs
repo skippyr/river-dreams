@@ -116,15 +116,16 @@ impl Paths
 	pub fn get_pwd_abbreviated() -> String
 	{ PathBuf::from(Paths::get_pwd()).as_abbreviated_string() }
 
-	pub fn get_virtual_env_abbreviated() -> Option<String>
+	pub fn get_virtual_env() -> Option<String>
 	{
-		match EnvironmentVariables::get_virtual_env()
+		let virtual_env: PathBuf = match EnvironmentVariables::get_virtual_env()
 		{
 			Some(virtual_env) =>
-			{ Some(PathBuf::from(virtual_env).as_abbreviated_string()) }
+			{ PathBuf::from(virtual_env) }
 			None =>
-			{ None }
-		}
+			{ return None; }
+		};
+		virtual_env.file_name_as_string()
 	}
 
 	pub fn get_pwd() -> PathBuf

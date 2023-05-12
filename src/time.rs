@@ -54,38 +54,6 @@ impl Month
 	}
 }
 
-struct WeekDay
-{ value: u32 }
-
-impl WeekDay
-{
-	pub fn from(value: u32) -> WeekDay
-	{ WeekDay { value } }
-
-	pub fn as_abbreviated_string(&self) -> Option<String>
-	{
-		match self.value
-		{
-			0 =>
-			{ Some(String::from("Sun")) }
-			1 =>
-			{ Some(String::from("Mon")) }
-			2 =>
-			{ Some(String::from("Tue")) }
-			3 =>
-			{ Some(String::from("Wed")) }
-			4 =>
-			{ Some(String::from("Thu")) }
-			5 =>
-			{ Some(String::from("Fri")) }
-			6 =>
-			{ Some(String::from("Sat")) }
-			_ =>
-			{ None }
-		}
-	}
-}
-
 struct Day
 { value: u32 }
 
@@ -134,9 +102,7 @@ impl Day
 pub struct Calendar
 {
 	day: Day,
-	month: Month,
-	week_day: WeekDay,
-	year: i32
+	month: Month
 }
 
 impl Calendar
@@ -147,9 +113,7 @@ impl Calendar
 		Calendar
 		{
 			day: Day::from(local_time.day()),
-			month: Month::from(local_time.month()),
-			week_day: WeekDay::from(local_time.weekday().num_days_from_sunday()),
-			year: local_time.year()
+			month: Month::from(local_time.month())
 		}
 	}
 }
@@ -168,20 +132,11 @@ impl Display for Calendar
 			None =>
 			{ String::new() }
 		};
-		let week_day_as_abbreviated_string: String = match self.week_day.as_abbreviated_string()
-		{
-			Some(week_day_as_abbreviated_string) =>
-			{ week_day_as_abbreviated_string }
-			None =>
-			{ String::new() } 
-		};
 		write!(
 			formatter,
-			"({}) {} {}, {}",
-			week_day_as_abbreviated_string,
+			"{} {}",
 			month_as_abbreviated_string,
-			self.day.as_ordinal_string(),
-			self.year
+			self.day.as_ordinal_string()
 		)  
 	}
 }
