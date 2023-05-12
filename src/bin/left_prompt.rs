@@ -97,12 +97,11 @@ fn create_top_left_connector_component() -> PromptComponent
 
 fn create_local_ip_address_component() -> PromptComponent
 {
-	let color: Color = Color::Blue;
 	let mut component: PromptComponent = PromptComponent::new();
 	let symbol: PromptString = PromptString::new(
 		String::from(" "),
 		Some(String::from("IP ")),
-		color.clone()
+		Color::Blue
 	);
 	component.push(
 		format!(
