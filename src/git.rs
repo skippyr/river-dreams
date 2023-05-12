@@ -15,7 +15,11 @@ use std::
 	},
 	path::PathBuf
 };
-use crate::file_system::paths::PathAbbreviation;
+use crate::file_system::paths::
+{
+	PathAbbreviation,
+	Paths
+};
 
 #[derive(Clone)]
 pub struct GitBranch
@@ -123,7 +127,7 @@ impl GitRepository
 
 	pub fn from_pwd() -> Option<GitRepository>
 	{
-		let dot_git_directory_path: PathBuf = match GitRepository::get_dot_git_directory_path(PathBuf::from("."))
+		let dot_git_directory_path: PathBuf = match GitRepository::get_dot_git_directory_path(Paths::get_pwd())
 		{
 			Some(dot_git_directory_path) =>
 			{ dot_git_directory_path }

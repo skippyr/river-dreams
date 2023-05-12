@@ -14,7 +14,11 @@ use crate::
 {
 	file_system::
 	{
-		paths::PathAbbreviation,
+		paths::
+		{
+			PathAbbreviation,
+			Paths
+		},
 		permissions::UnixPermissions
 	}
 };
@@ -36,7 +40,7 @@ impl DirectoryEntryTypes
 			quantity_of_symlinks: 0,
 			quantity_of_hidden_files: 0
 		};
-		let directory_stream: ReadDir = match read_dir(".")
+		let directory_stream: ReadDir = match read_dir(Paths::get_pwd())
 		{
 			Ok(directory_stream) =>
 			{ directory_stream }

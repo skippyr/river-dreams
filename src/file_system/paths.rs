@@ -41,5 +41,16 @@ impl Paths
 		};
 		virtual_env.file_name_as_string()
 	}
+
+	pub fn get_pwd() -> PathBuf
+	{
+		match PathBuf::from(".").canonicalize()
+		{
+			Ok(pwd) =>
+			{ pwd }
+			Err(_error) =>
+			{ PathBuf::from("/") }
+		}
+	}
 }
 
