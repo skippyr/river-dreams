@@ -6,7 +6,7 @@ use river_dreams::
 		Prompt,
 		PromptComponent,
 		PromptString,
-		ErrorString, RootString
+		RootString
 	},
 	terminal::TerminalEmulator,
 	math::MathOperations,
@@ -204,39 +204,6 @@ pub fn create_top_right_connector_component() -> PromptComponent
 	component
 }
 
-pub fn create_exit_code_component() -> PromptComponent
-{
-	let mut component: PromptComponent = PromptComponent::new();
-	let left_curly_bracket: PromptString = PromptString::new(
-		String::from("{"),
-		None,
-		Color::Cyan
-	);
-	let right_curly_bracket: PromptString = PromptString::new(
-		String::from("}"),
-		None,
-		Color::Cyan
-	);
-	let error_symbol: PromptString = PromptString::new(
-		String::from(" "),
-		Some(String::from("X ")),
-		Color::Red
-	);
-	let exit_code: ErrorString = ErrorString::new(format!(
-		"{}{}%?{}",
-		left_curly_bracket,
-		error_symbol,
-		right_curly_bracket
-	));
-	component.push(
-		format!(
-			"{}",
-			exit_code
-		)
-	);
-	component
-}
-
 pub fn create_root_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
@@ -272,7 +239,7 @@ pub fn create_arrow_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let arrow: PromptString = PromptString::new(
-		String::from("⤐ "),
+		String::from("⤐  "),
 		Some(String::from("> ")),
 		Color::Yellow
 	);
@@ -333,12 +300,12 @@ pub fn create_git_component() -> PromptComponent
 		let prefix: PromptString = PromptString::new(
 			String::from("::«"),
 			None,
-			Color::Blue
+			Color::Green
 		);
 		let suffix: PromptString = PromptString::new(
 			String::from("»"),
 			None,
-			Color::Blue
+			Color::Green
 		);
 		let branch: String = repository.get_branch().get_name();
 		component.push(format!(
@@ -364,7 +331,6 @@ fn main()
 	left_prompt.push(create_horizontal_separator_component());
 	left_prompt.push(create_clock_component());
 	left_prompt.push(create_top_right_connector_component());
-	left_prompt.push(create_exit_code_component());
 	left_prompt.push(create_root_component());
 	left_prompt.push(create_arrow_component());
 	left_prompt.push(create_virtual_env_component());
