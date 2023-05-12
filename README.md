@@ -4,14 +4,14 @@
 	<p>In the following previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/intel/intel-one-mono">IntelOne Mono</a> font. The colors used in the ZSH theme may vary depending of your terminal emulator's theme.</p>
 	<img src="./images/preview.gif"/>
 	<img src="./images/preview_fallback.gif"/>
-	<p>Below, there are descriptions of what the prompt has to offer:</p>
+	<p>Below, there are descriptions of what this theme has to offer:</p>
 	<p>In the left prompt you will find:</p>
 	<ul>
 		<li>A separator to isolate the prompt from the output of the last command.</li>
 		<li>Your local IPV4 address.</li>
 		<li>The in-use percentage the disk partition mounted at <code>/</code>.</li>
-		<li>A calendar that shows the month and day.</li>
-		<li>A clock that shows the hour and minute.</li>
+		<li>A calendar that shows the name of the month abbreviated and day.</li>
+		<li>A clock that shows the hour and minute in 24 hours format.</li>
 		<li>A decorator to show if you are root or not.</li>
 		<li>The name of sourced virtual environments.</li>
 		<li>Your current directory path.</li>
