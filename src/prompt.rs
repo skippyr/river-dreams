@@ -166,3 +166,27 @@ impl Display for JobString
 	}
 }
 
+pub struct RootString
+{ content: String }
+
+impl RootString
+{
+	pub fn new(content: String) -> RootString
+	{ RootString { content } }
+}
+
+impl Display for RootString
+{
+	fn fmt(
+		&self,
+		formatter: &mut Formatter
+	) -> Result
+	{
+		write!(
+			formatter,
+			"%(#.{}.)",
+			self.content
+		)
+	}
+}
+

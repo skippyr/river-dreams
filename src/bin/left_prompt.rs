@@ -6,7 +6,7 @@ use river_dreams::
 		Prompt,
 		PromptComponent,
 		PromptString,
-		ErrorString
+		ErrorString, RootString
 	},
 	terminal::TerminalEmulator,
 	math::MathOperations,
@@ -52,7 +52,7 @@ fn create_commands_separator_component() -> PromptComponent
 				"{}",
 				PromptString::new(
 					String::from("⟐"),
-					Some(String::from("=")),
+					Some(String::from("*")),
 					Color::Red
 				)
 			))
@@ -63,7 +63,7 @@ fn create_commands_separator_component() -> PromptComponent
 				"{}",
 				PromptString::new(
 					String::from(""),
-					Some(String::from("-")),
+					Some(String::from("X")),
 					Color::Default
 				)
 			))
@@ -258,6 +258,37 @@ pub fn create_exit_code_component() -> PromptComponent
 	component
 }
 
+pub fn create_root_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let left_curly_bracket: PromptString = PromptString::new(
+		String::from("{"),
+		None,
+		Color::Cyan
+	);
+	let right_curly_bracket: PromptString = PromptString::new(
+		String::from("}"),
+		None,
+		Color::Cyan
+	);
+	let symbol: PromptString = PromptString::new(
+		String::from("#"),
+		None,
+		Color::Red
+	);
+	let user: RootString = RootString::new(format!(
+		"{}{}{}",
+		left_curly_bracket,
+		symbol,
+		right_curly_bracket
+	));
+	component.push(format!(
+		"{}",
+		user
+	));
+	component
+}
+
 pub fn create_arrow_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
@@ -357,7 +388,7 @@ pub fn create_cursor_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let cursor: PromptString = PromptString::new(
-		String::from(" 🗶  "),
+		String::from(" ✗  "),
 		Some(String::from(" X  ")),
 		Color::Cyan
 	);
@@ -383,6 +414,7 @@ fn main()
 	left_prompt.push(create_top_right_connector_component());
 	left_prompt.push(create_bottom_left_connector_component());
 	left_prompt.push(create_exit_code_component());
+	left_prompt.push(create_root_component());
 	left_prompt.push(create_arrow_component());
 	left_prompt.push(create_virtual_env_component());
 	left_prompt.push(create_directory_component());
