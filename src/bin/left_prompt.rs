@@ -29,7 +29,6 @@ fn create_horizontal_separator_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let separator: PromptString = PromptString::new(
-		//String::from(" ¦ "),
 		String::from(" :: "),
 		None,
 		Color::Red
@@ -76,6 +75,11 @@ fn create_commands_separator_component() -> PromptComponent
 fn create_top_left_connector_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
+	let connector: PromptString = PromptString::new(
+		String::from(":"),
+		None,
+		Color::Red
+	);
 	let left_curly_bracket: PromptString = PromptString::new(
 		String::from("{"),
 		None,
@@ -83,7 +87,8 @@ fn create_top_left_connector_component() -> PromptComponent
 	);
 	component.push(
 		format!(
-			"{}",
+			"{}{}",
+			connector,
 			left_curly_bracket
 		)
 	);
@@ -211,19 +216,19 @@ pub fn create_root_component() -> PromptComponent
 	let left_curly_bracket: PromptString = PromptString::new(
 		String::from("{"),
 		None,
-		Color::Cyan
+		Color::Yellow
 	);
 	let right_curly_bracket: PromptString = PromptString::new(
 		String::from("}"),
 		None,
-		Color::Cyan
+		Color::Yellow
 	);
 	let symbol: PromptString = PromptString::new(
 		String::from("#"),
 		None,
 		Color::Red
 	);
-	let user: RootString = RootString::new(format!(
+	let root: RootString = RootString::new(format!(
 		"{}{}{}",
 		left_curly_bracket,
 		symbol,
@@ -231,7 +236,7 @@ pub fn create_root_component() -> PromptComponent
 	));
 	component.push(format!(
 		"{}",
-		user
+		root
 	));
 	component
 }
