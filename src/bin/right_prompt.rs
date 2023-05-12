@@ -56,7 +56,7 @@ fn create_directory_entry_types_component() -> PromptComponent
 			NumberFormatter::format_u32(entry_types.get_quantity_of_symlinks())
 		));
 	}
-	component.push(structure.join(" "));
+	component.push(structure.join("  "));
 	component
 }
 
@@ -64,8 +64,8 @@ fn create_jobs_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let symbol: PromptString = PromptString::new(
-		String::from("  "),
-		Some(String::from(" Job ")),
+		String::from("   "),
+		Some(String::from("  Job ")),
 		Color::Magenta
 	);
 	let jobs: JobString = JobString::new(format!(
