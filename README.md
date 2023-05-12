@@ -8,7 +8,7 @@
 	<p>In the left prompt you will find:</p>
 	<ul>
 		<li>A separator to isolate the prompt from the output of the last command.</li>
-		<li>Your local iPV4 address.</li>
+		<li>Your local IPV4 address.</li>
 		<li>The in-use percentage the disk partition mounted at <code>/</code>.</li>
 		<li>A calendar that shows the month and day.</li>
 		<li>A clock that shows the hour and minute.</li>

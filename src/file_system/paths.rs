@@ -2,9 +2,7 @@ use std::path::PathBuf;
 use crate::environment::EnvironmentVariables;
 
 pub trait PathAbbreviation
-{
-	fn file_name_as_string(&self) -> Option<String>;
-}
+{ fn file_name_as_string(&self) -> Option<String>; }
 
 impl PathAbbreviation for PathBuf
 {
