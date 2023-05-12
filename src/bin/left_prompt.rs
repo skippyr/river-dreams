@@ -75,11 +75,6 @@ fn create_commands_separator_component() -> PromptComponent
 fn create_top_left_connector_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
-	let connector: PromptString = PromptString::new(
-		String::from("╭"),
-		Some(String::from("┌")),
-		Color::Red
-	);
 	let left_curly_bracket: PromptString = PromptString::new(
 		String::from("{"),
 		None,
@@ -87,8 +82,7 @@ fn create_top_left_connector_component() -> PromptComponent
 	);
 	component.push(
 		format!(
-			"{}{}",
-			connector,
+			"{}",
 			left_curly_bracket
 		)
 	);
@@ -210,21 +204,6 @@ pub fn create_top_right_connector_component() -> PromptComponent
 	component
 }
 
-pub fn create_bottom_left_connector_component() -> PromptComponent
-{
-	let mut component: PromptComponent = PromptComponent::new();
-	let connector: PromptString = PromptString::new(
-		String::from("╰"),
-		Some(String::from("└")),
-		Color::Red
-	);
-	component.push(format!(
-		"{}",
-		connector
-	));
-	component
-}
-
 pub fn create_exit_code_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
@@ -295,7 +274,7 @@ pub fn create_arrow_component() -> PromptComponent
 	let arrow: PromptString = PromptString::new(
 		String::from("⤐ "),
 		Some(String::from("> ")),
-		Color::Cyan
+		Color::Yellow
 	);
 	component.push(format!(
 		"{}",
@@ -310,23 +289,21 @@ pub fn create_virtual_env_component() -> PromptComponent
 	let virtual_env: Option<String> = Paths::get_virtual_env();
 	if let Some(virtual_env) = virtual_env
 	{
-		let prefix: String = String::from("using ");
-		let color: Color = Color::Magenta;
-		let symbol: PromptString = PromptString::new(
-			String::from(" "),
-			Some(String::new()),
-			color.clone()
-		);
-		let virtual_env: PromptString = PromptString::new(
-			virtual_env,
+		let prefix: PromptString = PromptString::new(
+			String::from("("),
 			None,
-			color.clone()
+			Color::Magenta
+		);
+		let suffix: PromptString = PromptString::new(
+			String::from(")"),
+			None,
+			Color::Magenta
 		);
 		component.push(format!(
 			"{}{}{} ",
 			prefix,
-			symbol,
-			virtual_env
+			virtual_env,
+			suffix
 		));
 	};
 	component
@@ -335,22 +312,13 @@ pub fn create_virtual_env_component() -> PromptComponent
 pub fn create_directory_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
-	let prefix: String = String::from("at ");
-	let color: Color = Color::Red;
-	let symbol: PromptString = PromptString::new(
-		String::from(" "),
-		Some(String::new()),
-		color.clone()
-	);
 	let directory: PromptString = PromptString::new(
 		String::from("%1~"),
 		None,
-		color.clone()
+		Color::Red
 	);
 	component.push(format!(
-		"{}{}{}",
-		prefix,
-		symbol,
+		"{}",
 		directory
 	));
 	component
@@ -362,40 +330,24 @@ pub fn create_git_component() -> PromptComponent
 	let repository: Option<GitRepository> = GitRepository::from_pwd();
 	if let Some(repository) = repository
 	{
-		let prefix: String = String::from(" on ");
-		let color: Color = Color::Green;
-		let symbol: PromptString = PromptString::new(
-			String::from("󰘬 "),
-			Some(String::new()),
-			color.clone()
-		);
-		let branch: PromptString = PromptString::new(
-			repository.get_branch().get_name(),
+		let prefix: PromptString = PromptString::new(
+			String::from("::«"),
 			None,
-			color.clone()
+			Color::Blue
 		);
+		let suffix: PromptString = PromptString::new(
+			String::from("»"),
+			None,
+			Color::Blue
+		);
+		let branch: String = repository.get_branch().get_name();
 		component.push(format!(
 			"{}{}{}",
 			prefix,
-			symbol,
-			branch
+			branch,
+			suffix
 		));
 	};
-	component
-}
-
-pub fn create_cursor_component() -> PromptComponent
-{
-	let mut component: PromptComponent = PromptComponent::new();
-	let cursor: PromptString = PromptString::new(
-		String::from(" ✗  "),
-		Some(String::from(" X  ")),
-		Color::Cyan
-	);
-	component.push(format!(
-		"{}",
-		cursor
-	));
 	component
 }
 
@@ -412,14 +364,12 @@ fn main()
 	left_prompt.push(create_horizontal_separator_component());
 	left_prompt.push(create_clock_component());
 	left_prompt.push(create_top_right_connector_component());
-	left_prompt.push(create_bottom_left_connector_component());
 	left_prompt.push(create_exit_code_component());
 	left_prompt.push(create_root_component());
 	left_prompt.push(create_arrow_component());
 	left_prompt.push(create_virtual_env_component());
 	left_prompt.push(create_directory_component());
 	left_prompt.push(create_git_component());
-	left_prompt.push(create_cursor_component());
 	print!(
 		"{}",
 		left_prompt

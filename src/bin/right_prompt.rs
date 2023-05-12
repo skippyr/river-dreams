@@ -21,7 +21,7 @@ fn create_directory_entry_types_component() -> PromptComponent
 	{
 		let symbol: PromptString = PromptString::new(
 			String::from(" "),
-			Some(String::from("Executables ")),
+			Some(String::from("Executable ")),
 			Color::Green
 		);
 		structure.push(format!(
@@ -65,7 +65,7 @@ fn create_jobs_component() -> PromptComponent
 	let mut component: PromptComponent = PromptComponent::new();
 	let symbol: PromptString = PromptString::new(
 		String::from("  "),
-		Some(String::from(" Jobs ")),
+		Some(String::from(" Job ")),
 		Color::Magenta
 	);
 	let jobs: JobString = JobString::new(format!(
