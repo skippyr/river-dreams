@@ -29,7 +29,8 @@ fn create_horizontal_separator_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let separator: PromptString = PromptString::new(
-		String::from(" ¦ "),
+		//String::from(" ¦ "),
+		String::from(" :: "),
 		None,
 		Color::Red
 	);
@@ -78,7 +79,7 @@ fn create_top_left_connector_component() -> PromptComponent
 	let left_curly_bracket: PromptString = PromptString::new(
 		String::from("{"),
 		None,
-		Color::Cyan
+		Color::Yellow
 	);
 	component.push(
 		format!(
@@ -195,7 +196,7 @@ pub fn create_top_right_connector_component() -> PromptComponent
 	let right_curly_bracket: PromptString = PromptString::new(
 		String::from("}\n"),
 		None,
-		Color::Cyan
+		Color::Yellow
 	);
 	component.push(format!(
 		"{}",
