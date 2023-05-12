@@ -29,7 +29,7 @@ fn create_horizontal_separator_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let separator: PromptString = PromptString::new(
-		String::from(" :: "),
+		String::from("  "),
 		None,
 		Color::Red
 	);
