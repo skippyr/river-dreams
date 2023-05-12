@@ -21,9 +21,8 @@ use river_dreams::
 	{
 		disks::MainDisk,
 		paths::Paths,
-		directory::DirectoryOwnership
 	},
-	git::GitRepository,
+	git::GitRepository
 };
 
 fn create_horizontal_separator_component() -> PromptComponent
@@ -369,24 +368,6 @@ pub fn create_cursor_component() -> PromptComponent
 	component
 }
 
-fn create_directory_ownership_component() -> PromptComponent
-{
-	let mut component: PromptComponent = PromptComponent::new();
-	if !DirectoryOwnership::does_current_user_owns_pwd()
-	{
-		let symbol: PromptString = PromptString::new(
-			String::from("  "),
-			Some(String::from(" # ")),
-			Color::Magenta
-		);
-		component.push(format!(
-			"{}",
-			symbol
-		));
-	}
-	component
-}
-
 fn main()
 {
 	let mut left_prompt: Prompt = Prompt::new();
@@ -406,7 +387,6 @@ fn main()
 	left_prompt.push(create_virtual_env_component());
 	left_prompt.push(create_directory_component());
 	left_prompt.push(create_git_component());
-	left_prompt.push(create_directory_ownership_component());
 	left_prompt.push(create_cursor_component());
 	print!(
 		"{}",
