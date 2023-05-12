@@ -313,7 +313,7 @@ pub fn create_directory_component() -> PromptComponent
 		color.clone()
 	);
 	let directory: PromptString = PromptString::new(
-		Paths::get_pwd_abbreviated(),
+		String::from("%1~"),
 		None,
 		color.clone()
 	);
@@ -375,7 +375,7 @@ fn create_directory_ownership_component() -> PromptComponent
 	if !DirectoryOwnership::does_current_user_owns_pwd()
 	{
 		let symbol: PromptString = PromptString::new(
-			String::from(" 󰌾 "),
+			String::from("  "),
 			Some(String::from(" # ")),
 			Color::Magenta
 		);
