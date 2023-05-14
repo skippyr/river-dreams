@@ -143,10 +143,10 @@ impl GitRepository
 		)
 	}
 
-	pub fn get_branch(&self) -> GitBranch
-	{ self.branch.clone() }
-
 	pub fn get_path(&self) -> PathBuf
 	{ self.path.clone() }
+	
+	pub fn get_branch(&self) -> GitBranch
+	{ self.branch.clone() }
 }
 

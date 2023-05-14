@@ -72,6 +72,27 @@ fn create_commands_separator_component() -> PromptComponent
 	component
 }
 
+fn create_top_left_connector_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let connector: PromptString = PromptString::new(
+		String::from(":«"),
+		None,
+		Color::Yellow
+	);
+	let compass_rose: PromptString = PromptString::new(
+		String::from("󱎂 "),
+		Some(String::from("X ")),
+		Color::Red
+	);
+	component.push(format!(
+		"{} {}",
+		connector,
+		compass_rose
+	));
+	component
+}
+
 fn create_local_ip_address_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
@@ -167,6 +188,27 @@ fn create_clock_component() -> PromptComponent
 		"{}{}",
 		symbol,
 		clock
+	));
+	component
+}
+
+fn create_top_right_connector_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let connector: PromptString = PromptString::new(
+		String::from("»:"),
+		None,
+		Color::Yellow
+	);
+	let compass_rose: PromptString = PromptString::new(
+		String::from(" 󱎂"),
+		Some(String::from(" X")),
+		Color::Red
+	);
+	component.push(format!(
+		"{} {}",
+		compass_rose,
+		connector
 	));
 	component
 }
@@ -288,48 +330,6 @@ pub fn create_git_component(repository: &Option<GitRepository>) -> PromptCompone
 			suffix
 		));
 	};
-	component
-}
-
-fn create_top_left_connector_component() -> PromptComponent
-{
-	let mut component: PromptComponent = PromptComponent::new();
-	let connector: PromptString = PromptString::new(
-		String::from(":«"),
-		None,
-		Color::Yellow
-	);
-	let compass_rose: PromptString = PromptString::new(
-		String::from("󱎂 "),
-		Some(String::from("X ")),
-		Color::Red
-	);
-	component.push(format!(
-		"{} {}",
-		connector,
-		compass_rose
-	));
-	component
-}
-
-fn create_top_right_connector_component() -> PromptComponent
-{
-	let mut component: PromptComponent = PromptComponent::new();
-	let connector: PromptString = PromptString::new(
-		String::from("»:"),
-		None,
-		Color::Yellow
-	);
-	let compass_rose: PromptString = PromptString::new(
-		String::from(" 󱎂"),
-		Some(String::from(" X")),
-		Color::Red
-	);
-	component.push(format!(
-		"{} {}",
-		compass_rose,
-		connector
-	));
 	component
 }
 

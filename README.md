@@ -14,8 +14,9 @@
 		<li>A clock that shows the hour and minute in 24 hours format.</li>
 		<li>A decorator to show if you are root or not.</li>
 		<li>The name of sourced virtual environments.</li>
-		<li>Your current directory path.</li>
-		<li>The name of the branch if you are inside of a directory tracked by <code>git</code>.</li>
+		<li>Your current directory path abbreviated like what the <code>fish</code> shell does, but one special touch: abbreviation will take in account if you are inside a <code>git</code> repository or not, and will shrink any parent path.</li>
+		<p>This feature is specially useful if you have to manage a repository with many directories, like Java projects do naturally.</p>
+		<li>The name of the branch if you are inside of a <code>git</code> repository.</li>
 	</ul>
 	<p>In the right prompt you will find:</p>
 	<ul>
