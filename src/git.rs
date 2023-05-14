@@ -27,10 +27,12 @@ pub struct GitBranch
 
 impl GitBranch
 {
-	pub fn from_dot_git_directory(dot_git_directory_path: &PathBuf) -> Option<GitBranch>
+	pub fn from_repository_directory(repository_directory: &PathBuf) -> Option<GitBranch>
 	{
-		let mut head_file_path: PathBuf = dot_git_directory_path.clone();
-		head_file_path.push("HEAD");
+		let head_file_path: PathBuf = repository_directory
+			.clone()
+			.join(".git")
+			.join("HEAD");
 		let head_file: File = match File::open(head_file_path)
 		{
 			Ok(head_file) =>
@@ -73,7 +75,7 @@ pub struct GitRepository
 
 impl GitRepository
 {
-	fn get_dot_git_directory_path(directory_path: PathBuf) -> Option<PathBuf>
+	fn get_repository_directory(directory_path: PathBuf) -> Option<PathBuf>
 	{
 		let directory_stream: ReadDir = match read_dir(&directory_path)
 		{
@@ -82,7 +84,6 @@ impl GitRepository
 			Err(_error) =>
 			{ return None; }
 		};
-		let mut dot_git_directory_path: Option<PathBuf> = None;
 		for directory_entry in directory_stream
 		{
 			let directory_entry: DirEntry = match directory_entry
@@ -103,48 +104,30 @@ impl GitRepository
 			if let Some(file_name) = directory_entry_path.file_name_as_string()
 			{
 				if
-					file_name == String::from(".git") &&
+					file_name == ".git" &&
 					directory_entry_metadata.is_dir()
-				{
-					dot_git_directory_path = Some(directory_entry_path);
-					break;
-				}
+				{ return Some(directory_path); }
 			}
 		}
-		match dot_git_directory_path
+		match directory_path.parent()
 		{
-			Some(dot_git_directory_path) =>
-			{ Some(dot_git_directory_path) }
+			Some(parent_directory_path) =>
+			{ GitRepository::get_repository_directory(parent_directory_path.to_path_buf()) }
 			None =>
-			{
-				match directory_path.parent()
-				{
-					Some(parent_directory_path) =>
-					{ return GitRepository::get_dot_git_directory_path(parent_directory_path.to_owned()); }
-					None =>
-					{ return None; }
-				};
-			}
+			{ None }
 		}
 	}
 
 	pub fn from_pwd() -> Option<GitRepository>
 	{
-		let dot_git_directory_path: PathBuf = match GitRepository::get_dot_git_directory_path(Paths::get_pwd())
-		{
-			Some(dot_git_directory_path) =>
-			{ dot_git_directory_path }
-			None =>
-			{ return None; }
-		};
-		let path: PathBuf = match dot_git_directory_path.parent()
+		let path: PathBuf = match GitRepository::get_repository_directory(Paths::get_pwd())
 		{
 			Some(path) =>
-			{ path.to_path_buf() }
+			{ path }
 			None =>
 			{ return None; }
 		};
-		let branch: GitBranch = match GitBranch::from_dot_git_directory(&dot_git_directory_path)
+		let branch: GitBranch = match GitBranch::from_repository_directory(&path)
 		{
 			Some(branch) =>
 			{ branch }
