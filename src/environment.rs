@@ -25,5 +25,16 @@ impl EnvironmentVariables
 			{ None }
 		}
 	}
+
+	pub fn get_home() -> String
+	{
+		match var("HOME")
+		{
+			Ok(home) =>
+			{ home }
+			Err(_error) =>
+			{ String::from("/root") }
+		}
+	}
 }
 

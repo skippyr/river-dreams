@@ -20,7 +20,7 @@ use river_dreams::
 	file_system::
 	{
 		disks::MainDisk,
-		paths::Paths,
+		paths::{Paths, PathAbbreviation},
 	},
 	git::GitRepository
 };
@@ -254,7 +254,7 @@ pub fn create_directory_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let directory: PromptString = PromptString::new(
-		String::from("%1~"),
+		Paths::get_pwd().as_abbreviated_string(),
 		None,
 		Color::Red
 	);
