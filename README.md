@@ -1,7 +1,7 @@
 <h1>River Dreams</h1>
 	<h2>Starting Point</h2>
 	<p>A multi line theme for ZSH inspired by tribal patterns that includes a fallback text feature.</p>
-	<p>In the following previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/intel/intel-one-mono">IntelOne Mono</a> font. The colors used in the ZSH theme may vary depending of your terminal emulator's theme.</p>
+	<p>In the following previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/source-foundry/Hack">Hack</a> font. The colors used in the ZSH theme may vary depending of your terminal emulator's theme.</p>
 	<img src="./images/preview.gif"/>
 	<img src="./images/preview_fallback.gif"/>
 	<p>Below, there are descriptions of what this theme has to offer:</p>
