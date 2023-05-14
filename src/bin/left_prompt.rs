@@ -292,10 +292,53 @@ pub fn create_git_component() -> PromptComponent
 	component
 }
 
+fn create_top_left_connector_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let connector: PromptString = PromptString::new(
+		String::from("="),
+		None,
+		Color::Yellow
+	);
+	let compass_rose: PromptString = PromptString::new(
+		String::from("󱎂 "),
+		Some(String::from("X ")),
+		Color::Red
+	);
+	component.push(format!(
+		"-{} {}",
+		connector,
+		compass_rose
+	));
+	component
+}
+
+fn create_top_right_connector_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let connector: PromptString = PromptString::new(
+		String::from("="),
+		None,
+		Color::Yellow
+	);
+	let compass_rose: PromptString = PromptString::new(
+		String::from(" 󱎂"),
+		Some(String::from(" X")),
+		Color::Red
+	);
+	component.push(format!(
+		"{} {}-",
+		compass_rose,
+		connector
+	));
+	component
+}
+
 fn main()
 {
 	let mut left_prompt: Prompt = Prompt::new();
 	left_prompt.push(create_commands_separator_component());
+	left_prompt.push(create_top_left_connector_component());
 	left_prompt.push(create_local_ip_address_component());
 	left_prompt.push(create_horizontal_separator_component());
 	left_prompt.push(create_disk_component());
@@ -303,6 +346,7 @@ fn main()
 	left_prompt.push(create_calendar_component());
 	left_prompt.push(create_horizontal_separator_component());
 	left_prompt.push(create_clock_component());
+	left_prompt.push(create_top_right_connector_component());
 	left_prompt.push(create_new_line_component());
 	left_prompt.push(create_root_component());
 	left_prompt.push(create_arrow_component());
