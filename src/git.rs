@@ -66,7 +66,10 @@ impl GitBranch
 }
 
 pub struct GitRepository
-{ branch: GitBranch }
+{
+	path: PathBuf,
+	branch: GitBranch
+}
 
 impl GitRepository
 {
@@ -134,6 +137,13 @@ impl GitRepository
 			None =>
 			{ return None; }
 		};
+		let path: PathBuf = match dot_git_directory_path.parent()
+		{
+			Some(path) =>
+			{ path.to_path_buf() }
+			None =>
+			{ return None; }
+		};
 		let branch: GitBranch = match GitBranch::from_dot_git_directory(&dot_git_directory_path)
 		{
 			Some(branch) =>
@@ -141,10 +151,19 @@ impl GitRepository
 			None =>
 			{ return None; }
 		};
-		Some(GitRepository { branch })
+		Some(
+			GitRepository
+			{
+				path,
+				branch
+			}
+		)
 	}
 
 	pub fn get_branch(&self) -> GitBranch
 	{ self.branch.clone() }
+
+	pub fn get_path(&self) -> PathBuf
+	{ self.path.clone() }
 }
 

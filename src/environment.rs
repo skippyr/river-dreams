@@ -33,7 +33,7 @@ impl EnvironmentVariables
 			Ok(home) =>
 			{ home }
 			Err(_error) =>
-			{ String::from("/root") }
+			{ String::new() }
 		}
 	}
 }

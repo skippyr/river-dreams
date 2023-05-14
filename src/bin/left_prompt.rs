@@ -250,11 +250,11 @@ pub fn create_virtual_env_component() -> PromptComponent
 	component
 }
 
-pub fn create_directory_component() -> PromptComponent
+pub fn create_directory_component(repository: &Option<GitRepository>) -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let directory: PromptString = PromptString::new(
-		Paths::get_pwd().as_abbreviated_string(),
+		Paths::get_pwd().as_abbreviated_string(repository),
 		None,
 		Color::Red
 	);
@@ -265,10 +265,9 @@ pub fn create_directory_component() -> PromptComponent
 	component
 }
 
-pub fn create_git_component() -> PromptComponent
+pub fn create_git_component(repository: &Option<GitRepository>) -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
-	let repository: Option<GitRepository> = GitRepository::from_pwd();
 	if let Some(repository) = repository
 	{
 		let prefix: PromptString = PromptString::new(
@@ -337,6 +336,7 @@ fn create_top_right_connector_component() -> PromptComponent
 fn main()
 {
 	let mut left_prompt: Prompt = Prompt::new();
+	let repository: Option<GitRepository> = GitRepository::from_pwd();
 	left_prompt.push(create_commands_separator_component());
 	left_prompt.push(create_top_left_connector_component());
 	left_prompt.push(create_local_ip_address_component());
@@ -351,8 +351,8 @@ fn main()
 	left_prompt.push(create_root_component());
 	left_prompt.push(create_arrow_component());
 	left_prompt.push(create_virtual_env_component());
-	left_prompt.push(create_directory_component());
-	left_prompt.push(create_git_component());
+	left_prompt.push(create_directory_component(&repository));
+	left_prompt.push(create_git_component(&repository));
 	print!(
 		"{}",
 		left_prompt

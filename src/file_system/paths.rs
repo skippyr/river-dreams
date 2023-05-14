@@ -1,13 +1,27 @@
 use std::path::PathBuf;
-use crate::environment::EnvironmentVariables;
+use crate::
+{
+	environment::EnvironmentVariables,
+	git::GitRepository
+};
 
 pub trait PathAbbreviation
 {
 	fn file_name_as_string(&self) -> Option<String>;
 	fn as_string(&self) -> String;
-	fn as_string_with_home_alias(&self) -> String;
-	fn split_by_slash_using_home_alias(&self) -> Vec<String>;
-	fn as_abbreviated_string(&self) -> String;
+	fn get_parent_as_string(&self) -> String;
+	fn get_path_with_aliases(
+		&self,
+		repository: &Option<GitRepository>
+	) -> String;
+	fn split_by_slash_using_aliases(
+		&self,
+		path_with_aliases: String
+	) -> Vec<String>;
+	fn as_abbreviated_string(
+		&self,
+		repository: &Option<GitRepository>
+	) -> String;
 }
 
 impl PathAbbreviation for PathBuf
@@ -33,30 +47,64 @@ impl PathAbbreviation for PathBuf
 
 	fn as_string(&self) -> String
 	{
-		match self.to_str()
+		format!(
+			"{}",
+			self.display()
+		)
+	}
+
+	fn get_parent_as_string(&self) -> String
+	{
+		match self.parent()
 		{
-			Some(path_as_str) =>
-			{ String::from(path_as_str) }
+			Some(parent) =>
+			{
+				format!(
+					"{}",
+					parent.display()
+				)
+			}
 			None =>
-			{ String::new() }
+			{ self.as_string() }
 		}
 	}
 
-	fn as_string_with_home_alias(&self) -> String
+	fn get_path_with_aliases(
+		&self,
+		repository: &Option<GitRepository>
+	) -> String
 	{
-		self
-			.as_string()
-			.replacen(
-			&EnvironmentVariables::get_home(),
-			"~",
-			1
-			)
+		match repository
+		{
+			Some(repository) =>
+			{
+				self
+					.as_string()
+					.replacen(
+						&repository.get_path().get_parent_as_string(),
+						"@",
+						1
+					)
+			}
+			None =>
+			{
+				self
+					.as_string()
+					.replacen(
+						&EnvironmentVariables::get_home(),
+						"~",
+						1
+					)
+			}
+		}
 	}
 
-	fn split_by_slash_using_home_alias(&self) -> Vec<String>
+	fn split_by_slash_using_aliases(
+		&self,
+		path_with_aliases: String
+	) -> Vec<String>
 	{
-		let path_with_home_alias: String = self.as_string_with_home_alias();
-		let raw_splits: Vec<&str> = path_with_home_alias.split("/").collect::<Vec<&str>>();
+		let raw_splits: Vec<&str> = path_with_aliases.split("/").collect::<Vec<&str>>();
 		let mut splits: Vec<String> = Vec::new();
 		for raw_split in raw_splits
 		{
@@ -66,11 +114,15 @@ impl PathAbbreviation for PathBuf
 		splits
 	}
 
-	fn as_abbreviated_string(&self) -> String
+	fn as_abbreviated_string(
+		&self,
+		repository: &Option<GitRepository>
+	) -> String
 	{
 		let mut path_abbreviated: String = String::new();
-		let splits: Vec<String> = self.split_by_slash_using_home_alias();
-		if self.as_string_with_home_alias().chars().collect::<Vec<char>>()[0] == '/'
+		let path_with_aliases: String = self.get_path_with_aliases(repository);
+		let splits: Vec<String> = self.split_by_slash_using_aliases(path_with_aliases.clone());
+		if path_with_aliases.chars().collect::<Vec<char>>()[0] == '/'
 		{ path_abbreviated.push('/'); }
 		for split_iterator in 0..splits.len()
 		{
