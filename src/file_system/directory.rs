@@ -20,8 +20,23 @@ use crate::
 			Paths
 		},
 		permissions::UnixPermissions
-	}
+	},
+	users::Users
 };
+use users::get_current_uid;
+
+
+pub struct DirectoryPermissions;
+
+impl DirectoryPermissions
+{
+	pub fn does_user_owns_pwd() -> bool
+	{
+		return
+			Users::is_user_root() ||
+			Users::get_pwd_owner_uid() == get_current_uid()
+	}
+}
 
 pub struct DirectoryEntryTypes
 {

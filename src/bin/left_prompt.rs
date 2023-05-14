@@ -20,7 +20,12 @@ use river_dreams::
 	file_system::
 	{
 		disks::MainDisk,
-		paths::{Paths, PathAbbreviation},
+		paths::
+		{
+			Paths,
+			PathAbbreviation
+		},
+		directory::DirectoryPermissions
 	},
 	git::GitRepository
 };
@@ -333,6 +338,24 @@ pub fn create_git_component(repository: &Option<GitRepository>) -> PromptCompone
 	component
 }
 
+pub fn create_directory_ownership_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	if !DirectoryPermissions::does_user_owns_pwd()
+	{
+		let symbol: PromptString = PromptString::new(
+			String::from(" 󰌾"),
+			Some(String::from(" #")),
+			Color::Magenta
+		);
+		component.push(format!(
+			"{}",
+			symbol
+		));
+	}
+	component
+}
+
 fn main()
 {
 	let mut left_prompt: Prompt = Prompt::new();
@@ -353,6 +376,7 @@ fn main()
 	left_prompt.push(create_virtual_env_component());
 	left_prompt.push(create_directory_component(&repository));
 	left_prompt.push(create_git_component(&repository));
+	left_prompt.push(create_directory_ownership_component());
 	print!(
 		"{}",
 		left_prompt

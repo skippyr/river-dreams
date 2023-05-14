@@ -18,6 +18,7 @@
 		<p>Path abbreviations take in consideration if you are inside a <code>git</code> repository or not and will shrink paths accordingly. The name of your <code>git</code> repositories will not be abbreviated so you will know what project you are working on.</p>
 		<p>This feature is specially useful if you have to manage a repository with many directories, like Java projects naturally do.</p>
 		<li>The name of the branch if you are inside of a <code>git</code> repository.</li>
+		<li>A decorator if you are not the owner of the current directory.</li>
 	</ul>
 	<p>In the right prompt you will find:</p>
 	<ul>
