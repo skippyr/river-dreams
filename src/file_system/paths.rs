@@ -135,22 +135,24 @@ impl PathAbbreviation for PathBuf
 				else
 				{ String::new() }
 			));
-			if split_iterator == splits.len() - 1
+			let is_git_repository: bool = match repository
+			{
+				Some(_repository) =>
+				{ true }
+				None =>
+				{ false }
+			};
+			if
+				split_iterator == splits.len() - 1 ||
+				(
+					split_iterator == 1 &&
+					is_git_repository
+				)
 			{
 				path_abbreviated.push_str(&format!(
 					"{}",
 					split
 				));
-			}
-			else if split_iterator == 1
-			{
-				if let Some(_repository) = repository
-				{
-					path_abbreviated.push_str(&format!(
-						"{}",
-						split
-					));
-				}
 			}
 			else if split_characters[0] == '.'
 			{
