@@ -14,8 +14,9 @@
 		<li>A clock that shows the hour and minute in 24 hours format.</li>
 		<li>A decorator to show if you are root or not.</li>
 		<li>The name of sourced virtual environments.</li>
-		<li>Your current directory path abbreviated like what the <code>fish</code> shell does, but one special touch: abbreviation will take in account if you are inside a <code>git</code> repository or not, and will shrink any parent path.</li>
-		<p>This feature is specially useful if you have to manage a repository with many directories, like Java projects do naturally.</p>
+		<li>Your current directory path abbreviated some what like the <code>fish</code> shell does.</li>
+		<p>Path abbreviations take in consideration if you are inside a <code>git</code> repository or not and will shrink paths accordingly. The name of your <code>git</code> repositories will not be abbreviated so you will know what project you are working on.</p>
+		<p>This feature is specially useful if you have to manage a repository with many directories, like Java projects naturally do.</p>
 		<li>The name of the branch if you are inside of a <code>git</code> repository.</li>
 	</ul>
 	<p>In the right prompt you will find:</p>
