@@ -14,7 +14,7 @@ pub trait PathAbbreviation
 		&self,
 		repository: &Option<GitRepository>
 	) -> String;
-	fn split_by_slash_using_aliases(
+	fn split_by_slash(
 		&self,
 		path_with_aliases: String
 	) -> Vec<String>;
@@ -99,12 +99,12 @@ impl PathAbbreviation for PathBuf
 		}
 	}
 
-	fn split_by_slash_using_aliases(
+	fn split_by_slash(
 		&self,
-		path_with_aliases: String
+		path: String
 	) -> Vec<String>
 	{
-		let raw_splits: Vec<&str> = path_with_aliases.split("/").collect::<Vec<&str>>();
+		let raw_splits: Vec<&str> = path.split("/").collect::<Vec<&str>>();
 		let mut splits: Vec<String> = Vec::new();
 		for raw_split in raw_splits
 		{
@@ -121,7 +121,7 @@ impl PathAbbreviation for PathBuf
 	{
 		let mut path_abbreviated: String = String::new();
 		let path_with_aliases: String = self.get_path_with_aliases(repository);
-		let splits: Vec<String> = self.split_by_slash_using_aliases(path_with_aliases.clone());
+		let splits: Vec<String> = self.split_by_slash(path_with_aliases.clone());
 		if path_with_aliases.chars().collect::<Vec<char>>()[0] == '/'
 		{ path_abbreviated.push('/'); }
 		for split_iterator in 0..splits.len()
@@ -141,6 +141,16 @@ impl PathAbbreviation for PathBuf
 					"{}",
 					split
 				));
+			}
+			else if split_iterator == 1
+			{
+				if let Some(_repository) = repository
+				{
+					path_abbreviated.push_str(&format!(
+						"{}",
+						split
+					));
+				}
 			}
 			else if split_characters[0] == '.'
 			{
