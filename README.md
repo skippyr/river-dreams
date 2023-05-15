@@ -53,13 +53,13 @@
 			<pre><code>chsh -s /bin/zsh</code></pre>
 			<p>Normally, this is enough to make your terminal emulators to use ZSH instead of Bash. You probably just have to restart them. However, there are some terminal emulators that will have a special settings to configure it inside them, which will overwrite your system's default: like Gnome Terminal and Konsole do.</p>
 			<p>If that is your case, you can go to their settings, and search for a section where you can choose the command to run as the startup shell. Use <code>/bin/zsh</code> to initiate ZSH.</p>
-			<p>If you are asking, you can always revert those changes back to Bash, if it was the default one by using the same command if you need:</p>
+			<p>If you are asking, you can always revert those changes back to Bash, if it was the default one by using basically the same command if you need:</p>
 			<pre><code>chsh -s /bin/bash</code></pre>
 		<h3>Installing River Dreams</h3>
 			<p>Now that you have ZSH running as your shell, it is time to install River Dreams.</p>
 			<p>First, we need to install some dependencies and see some recomendations for a better experience. If you are using MacOS, you can install these dependencies from their official websites (hyperlinks will be available in the text) or even using <a>Homebrew</a>. On Linux, you can do it too, but you will also find some of them using your distribution's package manager.</p>
 			<ul>
-				<li>Install <code>gcc</code> and Rust</li>
+				<li>Install <code>gcc</code> and Rust.</li>
 				<p>These are the tools to compile the source code of River Dreams.</p>
 				<p>Even that <code>gcc</code> is not used to compile River Dreams directly, it is needed by Rust to do any compilation.</p>
 				<p>You can find more information about how to install Rust in its <a href="https://www.rust-lang.org">official website</a>.</p>
@@ -71,10 +71,36 @@
 				<p>If you are using Ubuntu or a distribution based on it, you can download it using the following command (sudo priveleges are required to do it) if you do not have it installed:</p>
 				<pre><code>sudo apt install -y fonts-noto</code></pre>
 				<p>Fonts patched by Nerd Fonts are usually distributed in a widely range of Linux distribution's package managers. However, you can always download one from the <a href="https://github.com/ryanoasis/nerd-fonts/releases">Releases</a> page of the Nerd Fonts project on GitHub.</p>
-				<li>Install a good terminal emulator</li>
-				<p>This is a completly optional dependency, but a fair recommendation: using a terminal that is fast and that can render unicode characters pretty well will give you a smoother experience. For MacOS and Linux, Kitty is a good choice. If you are using Windows, try using Windows Terminal, it alsos will allow you to easily use WSL.</p>
+				<li>Install <code>git</code>.</li>
+				<p>This is an optional dependency, however installing <code>git</code> will ease further installation steps where you would have to clone this repository. If you prefer not to do it, you will have to do it manually.</p>
+				<p>If you are using Ubuntu or a distribution based on it, you can download it using the following command (sudo priveleges are required to do it):</p>
+				<pre><code>sudo apt install -y git</code></pre>
+				<li>Install a good terminal emulator.</li>
+				<p>This is a completly optional dependency, but a fair recommendation: using a terminal that is fast and that can render unicode characters pretty well will give you a smoother experience. For MacOS and Linux, Kitty is a good choice. If you are using Windows, try using Windows Terminal, it will also allow you to easily use WSL and PowerShell.</p>
 				<p>If you are using Ubuntu or a distribution based on it, you can download Kitty using the following command (sudo priveleges are required to do it):</p>
 				<pre><code>sudo apt install -y kitty</code></pre>
 				<p>However, you can find more information about how to install Kitty in its <a href="https://github.com/kovidgoyal/kitty">repository</a> on GitHub.</p>
 				<p>Kitty uses your user's default shell, which is pretty convenient as the in last section you have learned how to configure it.</p>
 			</ul>
+		<p>Now that you have installed all the dependencies, to build River Dreams, it is finally the time to compile and run it. As River Dreams is a stand-alone theme, it does not required any framework to work, but some people will probably like to use it within the OhMyZSH framework. To satisfact both, here are instructions to do such:</p>
+			<h4>Stand-Alone Installation (recommended)</h4>
+				<p>This is the recommended installation for most users, as you will not have to install any other dependency.</p>
+				<ul>
+					<li>Download this repository to a directory in your machine.</li>
+					<p>If you installed <code>git</code>, you can download it with the following command:</p>
+					<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ${HOME}/.config/zsh/themes/river_dreams</code></pre>
+					<p>This command will clone this repository to the directory <code>${HOME}/.config/zsh/themes/river_dreams</code>, however feel free to change it to whatever directory seems formidable for you when you use the command. Just remember its path you have because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
+					<p>If you did not install <code>git</code>, you can download the repository from its page on GitHub. Just access the page of the project there, then click on the button labeled <code>Code</code> on the top of the page, then click on the button labeled <code>Download ZIP</code> that will be in the floating menu that appears. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
+					<li>Add a source rule in your ZSH configuration file at <code>${HOME}/.zshrc</code> to source the theme file <code>river_dreams.zsh-theme</code> that is in the repository's root directory that you have just downloaded. Here is the rule to use:</li>
+					<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
+					<p>If you have chosen other directory in the last step, you have to change the path in the source rule to point to the directory you chose. Pay attention to use <code>/river_dreams.zsh-theme</code> in the end of the path to include the theme file instead of the directory itself.</p>
+					<li>Restart your ZSH session.</li>
+					<p>At this point, the source code will be automatically compiled and, when it finishes, the prompt will be ready for you to use.</p>
+				</ul>
+				<p>If you want to uninstall River Dreams, follow these steps:</p>
+				<ul>
+					<li>Remove the repository that you have cloned.</li>
+					<pre><code>rm -rf  ${HOME}/.config/zsh/themes/river_dreams</code></pre>
+					<p>This command will remove the directory used in the examples. If you have used other directory, you will have to change it in the command when you use it.</p>
+					<li>Remove the source rule you have included in the <code>${HOME}/.zshrc</code> file.</li>
+				</ul>
