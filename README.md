@@ -51,6 +51,30 @@
 			<p>After installing ZSH, it is time to make it the default one.</p>
 			<p>Your user has a default shell set in the system. To change it to use ZSH, you can use the following command (your password will be required to do it):</p>
 			<pre><code>chsh -s /bin/zsh</code></pre>
-			<p>Normally, this is enough to make your terminal emulators to use ZSH instead of Bash. However, there are some terminal emulators that will have a special settings to configure it inside them, which will overwrite your system's default: like Gnome Terminal and Konsole do.</p>
+			<p>Normally, this is enough to make your terminal emulators to use ZSH instead of Bash. You probably just have to restart them. However, there are some terminal emulators that will have a special settings to configure it inside them, which will overwrite your system's default: like Gnome Terminal and Konsole do.</p>
 			<p>If that is your case, you can go to their settings, and search for a section where you can choose the command to run as the startup shell. Use <code>/bin/zsh</code> to initiate ZSH.</p>
-
+			<p>If you are asking, you can always revert those changes back to Bash, if it was the default one by using the same command if you need:</p>
+			<pre><code>chsh -s /bin/bash</code></pre>
+		<h3>Installing River Dreams</h3>
+			<p>Now that you have ZSH running as your shell, it is time to install River Dreams.</p>
+			<p>First, we need to install some dependencies and see some recomendations for a better experience. If you are using MacOS, you can install these dependencies from their official websites (hyperlinks will be available in the text) or even using <a>Homebrew</a>. On Linux, you can do it too, but you will also find some of them using your distribution's package manager.</p>
+			<ul>
+				<li>Install <code>gcc</code> and Rust</li>
+				<p>These are the tools to compile the source code of River Dreams.</p>
+				<p>Even that <code>gcc</code> is not used to compile River Dreams directly, it is needed by Rust to do any compilation.</p>
+				<p>You can find more information about how to install Rust in its <a href="https://www.rust-lang.org">official website</a>.</p>
+				<p>About the <code>gcc</code>, for example, if you are using Ubuntu or a distribution based on it, you can download it using the following command (sudo priveleges are required to do it):</p>
+				<pre><code>sudo apt install -y build-essential</code></pre>
+				<li>Install the Noto Sans font family and a monospaced font patched by the Nerd Fonts project.</li>
+				<p>These are the fonts that will give access to all the symbols shown in the prompt. As you can run River Dreams using its fallback text feature, installing them is kinda optional, but you will probably want to use them for a better experience.</p>
+				<p>The Noto Sans font has a wide range of character for many languages, for that reason you will probably have it installed in your operating system already. If not, you can always download it from its page on the <a href="https://fonts.google.com/noto/specimen/Noto+Sans">Google Fonts website</a>.</p>
+				<p>If you are using Ubuntu or a distribution based on it, you can download it using the following command (sudo priveleges are required to do it) if you do not have it installed:</p>
+				<pre><code>sudo apt install -y fonts-noto</code></pre>
+				<p>Fonts patched by Nerd Fonts are usually distributed in a widely range of Linux distribution's package managers. However, you can always download one from the <a href="https://github.com/ryanoasis/nerd-fonts/releases">Releases</a> page of the Nerd Fonts project on GitHub.</p>
+				<li>Install a good terminal emulator</li>
+				<p>This is a completly optional dependency, but a fair recommendation: using a terminal that is fast and that can render unicode characters pretty well will give you a smoother experience. For MacOS and Linux, Kitty is a good choice. If you are using Windows, try using Windows Terminal, it alsos will allow you to easily use WSL.</p>
+				<p>If you are using Ubuntu or a distribution based on it, you can download Kitty using the following command (sudo priveleges are required to do it):</p>
+				<pre><code>sudo apt install -y kitty</code></pre>
+				<p>However, you can find more information about how to install Kitty in its <a href="https://github.com/kovidgoyal/kitty">repository</a> on GitHub.</p>
+				<p>Kitty uses your user's default shell, which is pretty convenient as the in last section you have learned how to configure it.</p>
+			</ul>
