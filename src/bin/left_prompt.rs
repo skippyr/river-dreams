@@ -86,12 +86,12 @@ fn create_top_left_connector_component() -> PromptComponent
 		Color::Yellow
 	);
 	let compass_rose: PromptString = PromptString::new(
-		String::from("󱎂 "),
+		String::from("󱎂  "),
 		Some(String::from("X ")),
 		Color::Red
 	);
 	component.push(format!(
-		"{} {}",
+		"{}{}",
 		connector,
 		compass_rose
 	));
@@ -201,7 +201,7 @@ fn create_top_right_connector_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let connector: PromptString = PromptString::new(
-		String::from("»:"),
+		String::from(" »:"),
 		None,
 		Color::Yellow
 	);
@@ -211,7 +211,7 @@ fn create_top_right_connector_component() -> PromptComponent
 		Color::Red
 	);
 	component.push(format!(
-		"{} {}",
+		"{}{}",
 		compass_rose,
 		connector
 	));
