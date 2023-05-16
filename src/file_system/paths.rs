@@ -190,14 +190,6 @@ impl Paths
 	}
 
 	pub fn get_pwd() -> PathBuf
-	{
-		match PathBuf::from(".").canonicalize()
-		{
-			Ok(pwd) =>
-			{ pwd }
-			Err(_error) =>
-			{ PathBuf::from("/") }
-		}
-	}
+	{ PathBuf::from(EnvironmentVariables::get_pwd()) }
 }
 
