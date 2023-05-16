@@ -5,7 +5,7 @@
 		<p>River Dreams takes minimal aesthetics and features into account to bring you a graceful experience when using a terminal emulator.</p>
 		<p>In the preview, below, you can see a demo of River Dreams with its default look.</p>
 		<img src="./images/preview.gif"/>
-		<p>For those moments where you can not have access to a rich terminal and have to use bitmap fonts, River Dreams will still be there with you: it includes a fallback text feature that is automatically activated based in your terminal emulator's color support. Or you can manually activate it too.</p>
+		<p>For those moments where you can not have access to a rich terminal and have to use bitmap fonts, River Dreams will still be there with you: it includes a fallback text feature that is automatically activated based on your terminal emulator's color support. Or you can manually activate it too.</p>
 		<img src="./images/preview_fallback.gif"/>
 	<h2>Aesthetics</h2>
 		<p>River Dreams is heavily inspired by tribal patterns, which you will see throughout the whole set of symbols I have chosen for it.</p>
@@ -14,6 +14,7 @@
 			<li><code>robbyrussel</code> from the <a href="https://github.com/ohmyzsh/ohmyzsh">OhMyZSH</a> framework.</li>
 			<li><a href="https://github.com/romkatv/powerlevel10k">Powerlevel10k</a>.</li>
 			<li><a href="https://github.com/spaceship-prompt/spaceship-prompt">Spaceship Prompt</a>.</li>
+			<li><a href="https://github.com/sindresorhus/pure">Pure</a>.</li>
 			<li>The default theme for the <a href="https://fishshell.com/">Fish shell</a>.</li>
 		</ul>
 		<p>So, you will probably find some similarities with those themes too.</p>
@@ -93,7 +94,7 @@
 					<p>The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
 					<p>If you did not install <code>git</code>, you can download the repository from its page on GitHub. Just access the page of the project there, then click on the button labeled <code>Code</code> on the top of the page, then click on the button labeled <code>Download ZIP</code> that will be in the floating menu that appears. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
 					<li>Add a source rule in your ZSH configuration file at <code>${HOME}/.zshrc</code> to source the theme file <code>river_dreams.zsh-theme</code> that is in the repository's root directory that you have just downloaded. Here is the rule to use:</li>
-					<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
+					<pre><code>source ${HOME}/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
 					<p>If you have chosen other directory in the last step, you have to change the path in the source rule to point to the directory you chose. Pay attention to use <code>/river_dreams.zsh-theme</code> in the end of the path to include the theme file instead of the directory itself.</p>
 					<li>Restart your ZSH session.</li>
 					<p>At this point, the source code will be automatically compiled and, when it finishes, the prompt will be ready for you to use.</p>
@@ -112,7 +113,7 @@
 					<p>If you installed <code>git</code>, this command will do the trick:</p>
 					<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/river_dreams</code></pre>
 					<p>This command will clone this repository to the required directory. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
-					<p>If you did not install <code>git</code>, you can download the repository from its page on GitHub. Just access the page of the project there, then click on the button labeled <code>Code</code> on the top of the page, then click on the button labeled <code>Download ZIP</code> that will be in the floating menu that appears. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
+					<p>If you did not install <code>git</code>, you can download the repository from its page on GitHub. Just access the page of the project there, then click on the button labeled <code>Code</code> on the top of the page, then click on the button labeled <code>Download ZIP</code> that will be in the floating menu that appears. This will download a ZIP file, you just have to unzip it in the same directory shown in the command.</p>
 					<li>Change the value of the variable <code>ZSH_THEME</code> in the <code>${HOME}/.zshrc</code> file to start River Dreams:</li>
 					<pre><code>ZSH_THEME="river_dreams/river_dreams"</code></pre>
 					<li>Restart your ZSH session.</li>
