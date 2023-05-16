@@ -72,7 +72,7 @@
 				<pre><code>sudo apt install -y fonts-noto</code></pre>
 				<p>Fonts patched by Nerd Fonts are usually distributed in a widely range of Linux distribution's package managers. However, you can always download one from the <a href="https://github.com/ryanoasis/nerd-fonts/releases">Releases</a> page of the Nerd Fonts project on GitHub.</p>
 				<li>Install <code>git</code>.</li>
-				<p>This is an optional dependency, however installing <code>git</code> will ease further installation steps where you would have to clone this repository. If you prefer not to do it, you will have to do it manually.</p>
+				<p>This is an optional dependency, however installing <code>git</code> will ease further installation steps and updating this software. If you prefer not to do it, you will have to do those manually.</p>
 				<p>If you are using Ubuntu or a distribution based on it, you can download it using the following command (sudo priveleges are required to do it):</p>
 				<pre><code>sudo apt install -y git</code></pre>
 				<li>Install a good terminal emulator.</li>
@@ -125,3 +125,29 @@
 					<li>Change the value of the variable <code>ZSH_THEME</code> in the <code>${HOME}/.zshrc</code> file for a valid theme from OhMyZSH. Its default value is:</li>
 					<pre><code>ZSH_THEME="robbyrussell"</code></pre>
 				</ul>
+		<h2>Customization</h2>
+			<p>You can enable the fallback feature of River Dreams by using an environment variable called <code>RIVER_DREAMS_USE_FALLBACK_TEXT</code>. That variable expects an integer value that represents a boolean:</p>
+			<ul>
+				<li><code>0</code> means <code>false</code>, which will deativate the feature.</li>
+				<pre><code>export RIVER_DREAMS_USE_FALLBACK_TEXT="0"</code></pre>
+				<li><code>1</code> means <code>true</code>, which will enable the feature.</li>
+				<pre><code>export RIVER_DREAMS_USE_FALLBACK_TEXT="1"</code></pre>
+			</ul>
+			<p>If not set, River Dreams will automatically set it a value based on your terminal emulator's color support. I know that it may sound weird, but knowing if your terminal emulator's can support the 8-bits palette or not really does the tricky as there is not better way to check if your terminal can render pretty symbols.</p>
+			<p>Further more, River Dreams does not offers another user-friendly way of changing its look. If you need to tweak it, you will need to change its source code, then recompile it again. If that is your case, the shell script that you source to start it exposes a function to compile the code easily, which you can use:</p>
+			<pre><code>river_dreams::compile</code></pre>
+		<h2>Updates</h2>
+			<p>This project receives updates frequently to fix bugs, add new features and more. Keeping your local copy of it up-to-date is a good idea.</p>
+			<p>If you installed <code>git</code>, to update it, you will need to go back to the directory where you have stored it in your machine and run the following command:</p>
+			<pre><code>git pull origin main</code></pre>
+			<p>If you did not installed <code>git</code>, you will have to download the repository again and replace the directory that you have.</p>
+			<p>After pulling the new updates, use the following function in your shell to compile the source code again.</p>
+			<pre><code>river_dreams::compile</code></pre>
+		<h2>See Also</h2>
+			<p>Thanks to <a href="https://github.com/unixorn">unixorn</a>, River Dreams is now available in the <a href="https://github.com/unixorn/awesome-zsh-plugins">awesome-zsh-plugins</a> repository. It hosts a lot of other cool ZSH themes, plugins, frameworks and more. So what about going there to see what else you like?</p>
+		<h2>Issues And Contributions</h2>
+			<p>Learn how to report issues, questions and ideas and how to contribute to this project by reading its <a href="https://skippyr.github.io/materials/pages/contributions_guideline.html">contributions guideline</a>.</p>
+		<h2>License</h2>
+			<p>River Dreams is released under the terms of the MIT License. You can refer to the license as the file <code><a href="https://github.com/skippyr/river_dreams/blob/main/LICENSE">LICENSE</a></code> in the root directory of this repository.</p>
+			<p>Copyright (c) 2023, Sherman Rofeman. MIT License.</p>
+
