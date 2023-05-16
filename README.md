@@ -57,7 +57,7 @@
 			<pre><code>chsh -s /bin/bash</code></pre>
 		<h3>Installing River Dreams</h3>
 			<p>Now that you have ZSH running as your shell, it is time to install River Dreams.</p>
-			<p>First, we need to install some dependencies and see some recomendations for a better experience. If you are using MacOS, you can install these dependencies from their official websites (hyperlinks will be available in the text) or even using <a>Homebrew</a>. On Linux, you can do it too, but you will also find some of them using your distribution's package manager.</p>
+			<p>First, we need to install some dependencies and see some recomendations for a better experience. If you are using MacOS, you can install these dependencies from their official websites (hyperlinks will be available in the text) or even using <a href="https://brew.sh">Homebrew</a>. On Linux, you can do it too, but you will also find some of them using your distribution's package manager.</p>
 			<ul>
 				<li>Install <code>gcc</code> and Rust.</li>
 				<p>These are the tools to compile the source code of River Dreams.</p>
@@ -80,7 +80,7 @@
 				<p>If you are using Ubuntu or a distribution based on it, you can download Kitty using the following command (sudo priveleges are required to do it):</p>
 				<pre><code>sudo apt install -y kitty</code></pre>
 				<p>However, you can find more information about how to install Kitty in its <a href="https://github.com/kovidgoyal/kitty">repository</a> on GitHub.</p>
-				<p>Kitty uses your user's default shell, which is pretty convenient as the in last section you have learned how to configure it.</p>
+				<p>Kitty uses your user's default shell, which is pretty convenient as in last section you have learned how to configure it.</p>
 			</ul>
 		<p>Now that you have installed all the dependencies, to build River Dreams, it is finally the time to compile and run it. As River Dreams is a stand-alone theme, it does not required any framework to work, but some people will probably like to use it within the OhMyZSH framework. To satisfact both, here are instructions to do such:</p>
 			<h4>Stand-Alone Installation (recommended)</h4>
@@ -89,7 +89,8 @@
 					<li>Download this repository to a directory in your machine.</li>
 					<p>If you installed <code>git</code>, you can download it with the following command:</p>
 					<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ${HOME}/.config/zsh/themes/river_dreams</code></pre>
-					<p>This command will clone this repository to the directory <code>${HOME}/.config/zsh/themes/river_dreams</code>, however feel free to change it to whatever directory seems formidable for you when you use the command. Just remember its path you have because you will need it for the next step. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
+					<p>This command will clone this repository to the directory <code>${HOME}/.config/zsh/themes/river_dreams</code>, however feel free to change it to whatever directory seems formidable for you when you use the command. Just remember its path you have because you will need it for the next step.</p>
+					<p>The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
 					<p>If you did not install <code>git</code>, you can download the repository from its page on GitHub. Just access the page of the project there, then click on the button labeled <code>Code</code> on the top of the page, then click on the button labeled <code>Download ZIP</code> that will be in the floating menu that appears. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
 					<li>Add a source rule in your ZSH configuration file at <code>${HOME}/.zshrc</code> to source the theme file <code>river_dreams.zsh-theme</code> that is in the repository's root directory that you have just downloaded. Here is the rule to use:</li>
 					<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
@@ -103,4 +104,24 @@
 					<pre><code>rm -rf  ${HOME}/.config/zsh/themes/river_dreams</code></pre>
 					<p>This command will remove the directory used in the examples. If you have used other directory, you will have to change it in the command when you use it.</p>
 					<li>Remove the source rule you have included in the <code>${HOME}/.zshrc</code> file.</li>
+				</ul>
+			<h4>Installation Within OhMyZSH</h4>
+				<p>For these instructions to work, as expected, you must install OhMyZSH first. Installation instructions to do such can be found in the <a href="https://github.com/ohmyzsh/ohmyzsh">repository</a> of the project on GitHub.</p>
+				<ul>
+					<li>Download this repository to the directory where OhMyZSH looks for custom themes.</li>
+					<p>If you installed <code>git</code>, this command will do the trick:</p>
+					<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/river_dreams</code></pre>
+					<p>This command will clone this repository to the required directory. The flag <code>--depth</code> with value <code>1</code> specifies to <code>git</code> that you only want to download the last commit, instead of the whole commit tree as it does by default.</p>
+					<p>If you did not install <code>git</code>, you can download the repository from its page on GitHub. Just access the page of the project there, then click on the button labeled <code>Code</code> on the top of the page, then click on the button labeled <code>Download ZIP</code> that will be in the floating menu that appears. This will download a ZIP file, you just have to unzip it in the directory you want it to be.</p>
+					<li>Change the value of the variable <code>ZSH_THEME</code> in the <code>${HOME}/.zshrc</code> file to start River Dreams:</li>
+					<pre><code>ZSH_THEME="river_dreams/river_dreams"</code></pre>
+					<li>Restart your ZSH session.</li>
+					<p>At this point, the source code will be automatically compiled and, when it finishes, the prompt will be ready for you to use.</p>
+				</ul>
+				<p>If you want to uninstall River Dreams, follow these steps:</p>
+				<ul>
+					<li>Remove the repository that you have cloned.</li>
+					<pre><code>rm -rf ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/river_dreams</code></pre>
+					<li>Change the value of the variable <code>ZSH_THEME</code> in the <code>${HOME}/.zshrc</code> file for a valid theme from OhMyZSH. Its default value is:</li>
+					<pre><code>ZSH_THEME="robbyrussell"</code></pre>
 				</ul>
