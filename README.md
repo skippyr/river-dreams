@@ -7,7 +7,7 @@
 		<img src="./images/preview.gif"/>
 		<p>For those moments where you can not have access to a rich terminal and have to use bitmap fonts, River Dreams will still be there with you: it includes a fallback text feature that is automatically activated based on your terminal emulator's color support. Or you can manually activate it too.</p>
 		<img src="./images/preview_fallback.gif"/>
-		<p>* In both previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator, with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/source-foundry/Hack">Hack</a> font.</p>
+		<p>* In both previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator, with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/source-foundry/Hack">Hack</a> font. Program used to list directory entries is <a href="https://github.com/skippyr/reveal">reveal</a>.</p>
 	<h2>Aesthetics</h2>
 		<p>River Dreams is heavily inspired by tribal patterns, which you will see throughout the whole set of symbols I have chosen for it.</p>
 		<p>It is also inspired in the look of other popular ZSH and Fish themes:</p>
