@@ -36,7 +36,7 @@
 		</ul>
 		<p>In its right prompt, you will find:</p>
 			<ul>
-				<li>The quantity of executable files, hidden files and symbolic links in your current directory.</li>
+				<li>The quantity of executable files, hidden files, symbolic links and broken files (like dangling symbolic links) in your current directory.</li>
 				<li>The quantity of jobs running in the background for the current shell session.</li>
 			</ul>
 	<h2>Speed</h2>

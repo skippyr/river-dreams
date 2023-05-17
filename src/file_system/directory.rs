@@ -42,6 +42,7 @@ pub struct DirectoryEntryTypes
 {
 	quantity_of_executable_files: u32,
 	quantity_of_symlinks: u32,
+	quantity_of_broken_files: u32,
 	quantity_of_hidden_files: u32
 }
 
@@ -49,61 +50,66 @@ impl DirectoryEntryTypes
 {
 	pub fn from_pwd() -> DirectoryEntryTypes
 	{
-		let mut directory_entry_types: DirectoryEntryTypes = DirectoryEntryTypes
+		let mut entry_types: DirectoryEntryTypes = DirectoryEntryTypes
 		{
 			quantity_of_executable_files: 0,
 			quantity_of_symlinks: 0,
+			quantity_of_broken_files: 0,
 			quantity_of_hidden_files: 0
 		};
-		let directory_stream: ReadDir = match read_dir(Paths::get_pwd())
+		let stream: ReadDir = match read_dir(Paths::get_pwd())
 		{
-			Ok(directory_stream) =>
-			{ directory_stream }
+			Ok(stream) =>
+			{ stream }
 			Err(_error) =>
-			{ return directory_entry_types; }
+			{ return entry_types; }
 		};
-		for directory_entry in directory_stream
+		for entry in stream
 		{
-			let directory_entry: DirEntry = match directory_entry
+			let entry: DirEntry = match entry
 			{
-				Ok(directory_entry) =>
-				{ directory_entry }
+				Ok(entry) =>
+				{ entry }
 				Err(_error) =>
 				{ continue; }
 			};
-			let directory_entry_path: PathBuf = directory_entry.path();
-			let directory_entry_file_name = match directory_entry_path.file_name_as_string()
+			let path: PathBuf = entry.path();
+			let file_name = match path.file_name_as_string()
 			{
-				Some(directory_entry_file_name) =>
-				{ directory_entry_file_name }
+				Some(file_name) =>
+				{ file_name }
 				None =>
 				{ continue; }
 			};
-			let directory_entry_symlink_metadata: Metadata = match symlink_metadata(directory_entry_path)
+			let mut permissions: UnixPermissions = UnixPermissions::from(0);
+			let mut is_file: bool = false;
+			match path.metadata()
 			{
-				Ok(directory_entry_symlink_metadata) =>
-				{ directory_entry_symlink_metadata }
+				Ok(metadata) =>
+				{
+					permissions = UnixPermissions::from(metadata.permissions().mode());
+					is_file = metadata.is_file();
+				}
+				Err(_error) =>
+				{ entry_types.quantity_of_broken_files += 1; }
+			}
+			let symlink_metadata: Metadata = match symlink_metadata(path)
+			{
+				Ok(symlink_metadata) =>
+				{ symlink_metadata }
 				Err(_error) =>
 				{ continue; }
 			};
-			let directory_entry_metadata: Metadata = match directory_entry.metadata()
-			{
-				Ok(directory_entry_metadata) =>
-				{ directory_entry_metadata }
-				Err(_error) =>
-				{ continue; }
-			};
-			let directory_entry_permissions_mode: u32 = directory_entry_metadata.permissions().mode();
 			if
-				UnixPermissions::from(directory_entry_permissions_mode).does_owner_can_execute() &&
-				directory_entry_metadata.is_file()
-			{ directory_entry_types.quantity_of_executable_files += 1; }
-			if directory_entry_file_name.chars().collect::<Vec<char>>()[0] == '.'
-			{ directory_entry_types.quantity_of_hidden_files += 1; }
-			if directory_entry_symlink_metadata.is_symlink()
-			{ directory_entry_types.quantity_of_symlinks += 1; }
+				permissions.does_owner_can_execute() &&
+				is_file
+			{ entry_types.quantity_of_executable_files += 1; }
+			if file_name.chars().collect::<Vec<char>>()[0] == '.'
+			{ entry_types.quantity_of_hidden_files += 1; }
+			if symlink_metadata.is_symlink()
+			{ entry_types.quantity_of_symlinks += 1; }
 		}
-		directory_entry_types
+		entry_types
 	}
 
 	pub fn get_quantity_of_executable_files(&self) -> u32
@@ -114,5 +120,8 @@ impl DirectoryEntryTypes
 
 	pub fn get_quantity_of_symlinks(&self) -> u32
 	{ self.quantity_of_symlinks }
+
+	pub fn get_quantity_of_broken_files(&self) -> u32
+	{ self.quantity_of_broken_files }
 }
 

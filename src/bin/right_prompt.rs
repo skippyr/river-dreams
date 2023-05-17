@@ -46,7 +46,7 @@ fn create_directory_entry_types_component() -> PromptComponent
 	if entry_types.get_quantity_of_symlinks() > 0
 	{
 		let symbol: PromptString = PromptString::new(
-			String::from(" "),
+			String::from(" "),
 			Some(String::from("Symlink ")),
 			Color::Blue
 		);
@@ -54,6 +54,19 @@ fn create_directory_entry_types_component() -> PromptComponent
 			"{}{}",
 			symbol,
 			NumberFormatter::format_u32(entry_types.get_quantity_of_symlinks())
+		));
+	}
+	if entry_types.get_quantity_of_broken_files() > 0
+	{
+		let symbol: PromptString = PromptString::new(
+			String::from(" "),
+			Some(String::from("Broken ")),
+			Color::Cyan
+		);
+		structure.push(format!(
+			"{}{}",
+			symbol,
+			NumberFormatter::format_u32(entry_types.get_quantity_of_broken_files())
 		));
 	}
 	component.push(structure.join("  "));
