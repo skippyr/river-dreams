@@ -36,11 +36,9 @@
 		</ul>
 		<p>In its right prompt, you will find:</p>
 			<ul>
-				<li>The quantity of executable files, hidden files, symbolic links and broken files (like dangling symbolic links) in your current directory.</li>
+				<li>The quantity of executable files, hidden entries, symlinks and broken entries (like dangling symlinks) in your current directory.</li>
 				<li>The quantity of jobs running in the background for the current shell session.</li>
 			</ul>
-	<h2>Speed</h2>
-		<p>I knew that you would ask. River Dreams is built using Rust, a modern compiled programming language, that will take the best effort to make it fast for your daily usage.</p>
 	<h2>Installation And Usage</h2>
 		<p>Want to try out River Dreams? Awesome. In this section, let's talk about how to configure ZSH for your terminal emulator and how to install the River Dreams theme on top of it.</p>
 		<p>Installation instructions are intended for Linux and MacOS operating systems, but if you are using Windows, you can still follow along by running a Linux virtual machine inside of WSL (Windows Subsystem for Linux).</p>
