@@ -137,7 +137,7 @@ fn create_calendar_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let symbol: PromptString = PromptString::new(
-		String::from("󰨲 "),
+		String::from("󰸗 "),
 		Some(String::from("Calendar ")),
 		Color::Red
 	);
