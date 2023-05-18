@@ -42,14 +42,17 @@ impl Paths
 		);
 		if let Some(repository) = repository
 		{
-			aliases = aliases.replacen(
-				&format!(
-					"{}",
-					repository.get_path().display()
-				),
-				"@",
-				1
-			);
+			if let Some(parent) = repository.get_path().parent()
+			{
+				aliases = aliases.replacen(
+					&format!(
+						"{}",
+						parent.display()
+					),
+					"@",
+					1
+				);
+			}
 		}
 		else
 		{
@@ -106,6 +109,36 @@ impl PathAbbreviations for PathBuf
 		if characters[0] == '/'
 		{ abbreviation.push('/'); }
 		let splits: Vec<String> = Paths::split(&aliases);
+		for split_iterator in 0..splits.len()
+		{
+			if split_iterator > 0
+			{ abbreviation.push('/'); }
+			let split: String = splits[split_iterator].clone();
+			let characters: Vec<char> = split.chars().collect();
+			let is_git_repository: bool = match repository
+			{
+				Some(_repository) =>
+				{ true }
+				None =>
+				{ false }
+			};
+			if
+				split_iterator == splits.len() - 1 ||
+				(
+					split_iterator == 1 &&
+					is_git_repository
+				)
+			{ abbreviation.push_str(&split); }
+			else if characters[0] == '.'
+			{
+				abbreviation.push_str(&format!(
+					".{}",
+					characters[1]
+				));
+			}
+			else
+			{ abbreviation.push(characters[0]); }
+		}
 		PathBuf::from(abbreviation)
 	}
 }

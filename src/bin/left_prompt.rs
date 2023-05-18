@@ -314,6 +314,22 @@ fn create_arrow_component() -> PromptComponent
 	))
 }
 
+fn create_directory_component(repository: &Option<Repository>) -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let directory: PromptString = PromptString::new(
+		format!(
+			"{}",
+			Paths::get_current_directory().abbreviate(repository).display()
+		),
+		None::<String>,
+		AppearingCondition::Default,
+		Color::Red
+	);
+	component.push(directory);
+	component
+}
+
 fn create_git_component(repository: &Option<Repository>) -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
@@ -357,6 +373,7 @@ fn main()
 	prompt.push(create_virtual_environment_component());
 	prompt.push(create_root_component());
 	prompt.push(create_arrow_component());
+	prompt.push(create_directory_component(&repository));
 	prompt.push(create_git_component(&repository));
 	prompt.push(create_horizontal_separator_component());
 	println!(
