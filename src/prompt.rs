@@ -29,11 +29,11 @@ pub struct PromptString
 impl PromptString
 {
 	pub fn new<
-		A: Display,
-		B: Display
+		GenericType0: Display,
+		GenericType1: Display
 	>(
-		default_text: A,
-		fallback_text: Option<B>,
+		default_text: GenericType0,
+		fallback_text: Option<GenericType1>,
 		appearing_condition: AppearingCondition,
 		color: Color
 	) -> Self
@@ -135,7 +135,7 @@ impl PromptComponent
 	pub fn new() -> Self
 	{ Self { structure: String::new() } }
 
-	pub fn from<A: Display>(part: A) -> Self
+	pub fn from<GenericType0: Display>(part: GenericType0) -> Self
 	{
 		let part: String = format!(
 			"{}",
@@ -144,9 +144,9 @@ impl PromptComponent
 		Self { structure: part }
 	}
 
-	pub fn push<A: Display>(
+	pub fn push<GenericType0: Display>(
 		&mut self,
-		part: A
+		part: GenericType0
 	)
 	{
 		let part: String = format!(
