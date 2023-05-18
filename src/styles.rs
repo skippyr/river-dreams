@@ -17,23 +17,23 @@ impl Color
 	{
 		match self
 		{
-			Color::Default =>
+			Self::Default =>
 			{ String::from("%f") }
-			Color::Black =>
+			Self::Black =>
 			{ String::from("%F{black}") }
-			Color::Red =>
+			Self::Red =>
 			{ String::from("%F{red}") }
-			Color::Green =>
+			Self::Green =>
 			{ String::from("%F{green}") }
-			Color::Yellow =>
+			Self::Yellow =>
 			{ String::from("%F{yellow}") }
-			Color::Blue =>
+			Self::Blue =>
 			{ String::from("%F{blue}") }
-			Color::Magenta =>
+			Self::Magenta =>
 			{ String::from("%F{magenta}") }
-			Color::Cyan =>
+			Self::Cyan =>
 			{ String::from("%F{cyan}") }
-			Color::White =>
+			Self::White =>
 			{ String::from("%F{white}") }
 		}
 	}
