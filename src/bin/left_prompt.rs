@@ -393,7 +393,7 @@ fn main()
 	prompt.push(create_git_component(&repository));
 	prompt.push(create_directory_ownership_component());
 	prompt.push(create_horizontal_separator_component());
-	println!(
+	print!(
 		"{}",
 		prompt
 	);

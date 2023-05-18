@@ -171,3 +171,14 @@ impl PathsPermissions
 	}
 }
 
+pub struct PathEntryType
+{
+	quantity_of_symlinks: u32,
+	quantity_of_broken_files: u32,
+	quantity_of_executable_files: u32,
+	quantity_of_hidden_files: u32
+}
+
+impl PathEntryType
+{}
+
