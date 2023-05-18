@@ -117,3 +117,60 @@ impl Display for PromptString
 	}
 }
 
+pub struct PromptComponent
+{ structure: String }
+
+impl PromptComponent
+{
+	pub fn new() -> PromptComponent
+	{ PromptComponent { structure: String::new() } }
+
+	pub fn push<A: Display>(
+		&mut self,
+		part: A
+	)
+	{
+		let part: String = format!(
+			"{}",
+			part
+		);
+		self.structure.push_str(&part);
+	}
+
+	pub fn get_structure(&self) -> String
+	{ self.structure.clone() }
+}
+
+pub struct Prompt
+{ components: Vec<PromptComponent> }
+
+impl Prompt
+{
+	pub fn new() -> Prompt
+	{ Prompt { components: Vec::new() } }
+
+	pub fn push(
+		&mut self,
+		component: PromptComponent
+	)
+	{ self.components.push(component); }
+}
+
+impl Display for Prompt
+{
+	fn fmt(
+		&self,
+		formatter: &mut Formatter
+	) -> Result
+	{
+		let mut format: String = String::new();
+		for component in &self.components
+		{ format.push_str(&component.get_structure()); }
+		write!(
+			formatter,
+			"{}",
+			format
+		)
+	}
+}
+
