@@ -12,7 +12,7 @@ use std::fmt::
 
 pub enum AppearingCondition
 {
-	None,
+	Default,
 	OnRootUser,
 	OnJob
 }
@@ -92,7 +92,7 @@ impl Display for PromptString
 		);
 		let format: String = match self.appearing_condition
 		{
-			AppearingCondition::None =>
+			AppearingCondition::Default =>
 			{ colored_text }
 			AppearingCondition::OnRootUser =>
 			{
@@ -124,6 +124,15 @@ impl PromptComponent
 {
 	pub fn new() -> PromptComponent
 	{ PromptComponent { structure: String::new() } }
+
+	pub fn from<A: Display>(part: A) -> PromptComponent
+	{
+		let part: String = format!(
+			"{}",
+			part
+		);
+		PromptComponent { structure: part }
+	}
 
 	pub fn push<A: Display>(
 		&mut self,
