@@ -1,5 +1,6 @@
 use chrono::
 {
+	self,
 	DateTime,
 	Local,
 	Datelike
@@ -16,7 +17,7 @@ struct Month;
 
 impl Month
 {
-	pub fn from(moment: DateTime<Local>) -> String
+	fn from(moment: DateTime<Local>) -> String
 	{
 		match moment.month0()
 		{
@@ -62,7 +63,7 @@ impl Day
 		{ String::from("th") }
 	}
 
-	pub fn from(moment: DateTime<Local>) -> String
+	fn from(moment: DateTime<Local>) -> String
 	{
 		let day: u8 = moment.day() as u8;
 		let ordinal: String = Self::get_ordinal_string(day);
@@ -74,10 +75,37 @@ impl Day
 	}
 }
 
+struct WeekDay;
+
+impl WeekDay
+{
+	pub fn from(moment: DateTime<Local>) -> String
+	{
+		match moment.weekday()
+		{
+			chrono::Weekday::Sun =>
+			{ String::from("Sun") }
+			chrono::Weekday::Mon =>
+			{ String::from("Mon") }
+			chrono::Weekday::Tue =>
+			{ String::from("Tue") }
+			chrono::Weekday::Wed =>
+			{ String::from("Wed") }
+			chrono::Weekday::Thu =>
+			{ String::from("Thu") }
+			chrono::Weekday::Fri =>
+			{ String::from("Fri") }
+			chrono::Weekday::Sat =>
+			{ String::from("Sat") }
+		}
+	}
+}
+
 pub struct Calendar
 {
 	month: String,
-	day: String
+	day: String,
+	week_day: String
 }
 
 impl Calendar
@@ -87,10 +115,12 @@ impl Calendar
 		let current_moment: DateTime<Local> = Local::now();
 		let month: String = Month::from(current_moment);
 		let day: String = Day::from(current_moment);
+		let week_day: String = WeekDay::from(current_moment);
 		Calendar
 		{
 			month,
-			day
+			day,
+			week_day
 		}
 	}
 }
@@ -104,7 +134,8 @@ impl Display for Calendar
 	{
 		write!(
 			formatter,
-			"{} {}",
+			"({}) {} {}",
+			self.week_day,
 			self.month,
 			self.day
 		)
