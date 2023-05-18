@@ -3,7 +3,8 @@ use chrono::
 	self,
 	DateTime,
 	Local,
-	Datelike, Timelike
+	Datelike,
+	Timelike
 };
 use std::fmt::
 {

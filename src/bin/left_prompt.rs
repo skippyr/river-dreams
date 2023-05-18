@@ -195,6 +195,47 @@ fn create_clock_component() -> PromptComponent
 	component
 }
 
+fn create_exit_code_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let curly_brackets_color: Color = Color::Yellow;
+	let left_curly_bracket: PromptString = PromptString::new(
+		"{",
+		None::<String>,
+		AppearingCondition::Default,
+		curly_brackets_color
+	);
+	let right_curly_bracket: PromptString = PromptString::new(
+		"}",
+		None::<String>,
+		AppearingCondition::Default,
+		curly_brackets_color
+	);
+	let exit_code: PromptString = PromptString::new(
+		format!(
+			"{}{}{}",
+			left_curly_bracket,
+			"%?",
+			right_curly_bracket
+		),
+		None::<String>,
+		AppearingCondition::OnError,
+		Color::Default
+	);
+	component.push(exit_code);
+	component
+}
+
+fn create_arrow_component() -> PromptComponent
+{
+	PromptComponent::from(PromptString::new(
+		"⤐  ",
+		Some("> "),
+		AppearingCondition::Default,
+		Color::Yellow
+	))
+}
+
 fn main()
 {
 	let mut prompt: Prompt = Prompt::new();
@@ -208,6 +249,9 @@ fn main()
 	prompt.push(create_horizontal_separator_component());
 	prompt.push(create_clock_component());
 	prompt.push(create_top_right_connector_component());
+	prompt.push(create_exit_code_component());
+	prompt.push(create_arrow_component());
+	prompt.push(create_horizontal_separator_component());
 	println!(
 		"{}",
 		prompt
