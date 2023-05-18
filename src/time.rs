@@ -10,6 +10,7 @@ use std::fmt::
 	Formatter,
 	Result
 };
+use crate::math::Math;
 
 struct Month;
 
@@ -45,10 +46,38 @@ impl Month
 	}
 }
 
+struct Day;
+
+impl Day
+{
+	fn get_ordinal_string(day: u8) -> String
+	{
+		if Math::is_first(day)
+		{ String::from("st") }
+		else if Math::is_second(day)
+		{ String::from("nd") }
+		else if Math::is_third(day)
+		{ String::from("rd") }
+		else
+		{ String::from("th") }
+	}
+
+	pub fn from(moment: DateTime<Local>) -> String
+	{
+		let day: u8 = moment.day() as u8;
+		let ordinal: String = Self::get_ordinal_string(day);
+		format!(
+			"{}{}",
+			day,
+			ordinal
+		)
+	}
+}
+
 pub struct Calendar
 {
 	month: String,
-	day: u8
+	day: String
 }
 
 impl Calendar
@@ -57,7 +86,7 @@ impl Calendar
 	{
 		let current_moment: DateTime<Local> = Local::now();
 		let month: String = Month::from(current_moment);
-		let day: u8 = current_moment.day() as u8;
+		let day: String = Day::from(current_moment);
 		Calendar
 		{
 			month,
