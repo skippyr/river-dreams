@@ -8,7 +8,8 @@ use river_dreams::
 		PromptString,
 		AppearingCondition
 	},
-	file_system::paths::PathEntryTypes, locale::NumberFormatter,
+	file_system::paths::PathEntryTypes,
+	locale::NumberFormatter
 };
 
 fn create_entry_types_component() -> PromptComponent

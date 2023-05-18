@@ -18,7 +18,8 @@ use river_dreams::
 		paths::
 		{
 			Paths,
-			PathAbbreviations, PathsPermissions
+			PathAbbreviations,
+			PathsPermissions
 		}
 	},
 	time::
