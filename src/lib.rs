@@ -6,5 +6,4 @@ pub mod terminal;
 pub mod network;
 pub mod file_system;
 pub mod time;
-pub mod git;
 

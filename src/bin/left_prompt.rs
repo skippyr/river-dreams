@@ -11,7 +11,7 @@ use river_dreams::
 	terminal::TerminalEmulator,
 	math::Math,
 	network::Network,
-	file_system::disk::MainDisk,
+	file_system::{disk::MainDisk, git::Repository},
 	time::
 	{
 		Calendar,
@@ -280,8 +280,34 @@ fn create_arrow_component() -> PromptComponent
 	))
 }
 
+fn create_git_component(repository: &Option<Repository>) -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	if let Some(repository) = repository
+	{
+		let left_connector: PromptString = PromptString::new(
+			":«",
+			None::<String>,
+			AppearingCondition::Default,
+			Color::Green
+		);
+		let right_connector: PromptString = PromptString::new(
+			"»",
+			None::<String>,
+			AppearingCondition::Default,
+			Color::Green
+		);
+		let branch: String = repository.get_branch().get_name();
+		component.push(left_connector);
+		component.push(branch);
+		component.push(right_connector);
+	}
+	component
+}
+
 fn main()
 {
+	let repository: Option<Repository> = Repository::from_current_directory();
 	let mut prompt: Prompt = Prompt::new();
 	prompt.push(create_vertical_separator_component());
 	prompt.push(create_top_left_connector_component());
@@ -296,6 +322,7 @@ fn main()
 	prompt.push(create_exit_code_component());
 	prompt.push(create_root_component());
 	prompt.push(create_arrow_component());
+	prompt.push(create_git_component(&repository));
 	prompt.push(create_horizontal_separator_component());
 	println!(
 		"{}",

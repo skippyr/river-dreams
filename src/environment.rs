@@ -14,5 +14,16 @@ impl EnvironmentVariables
 			{ false }
 		}
 	}
+
+	pub fn get_pwd() -> String
+	{
+		match var("PWD")
+		{
+			Ok(value) =>
+			{ value }
+			Err(_error) =>
+			{ String::from("/") }
+		}
+	}
 }
 
