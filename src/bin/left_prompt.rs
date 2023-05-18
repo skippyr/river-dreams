@@ -18,7 +18,7 @@ use river_dreams::
 		paths::
 		{
 			Paths,
-			PathAbbreviations
+			PathAbbreviations, PathsPermissions
 		}
 	},
 	time::
@@ -355,6 +355,22 @@ fn create_git_component(repository: &Option<Repository>) -> PromptComponent
 	component
 }
 
+fn create_directory_ownership_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	if !PathsPermissions::does_user_owns_current_directory()
+	{
+		let symbol: PromptString = PromptString::new(
+			" 󰌾",
+			Some(" #"),
+			AppearingCondition::Default,
+			Color::Magenta
+		);
+		component.push(symbol);
+	}
+	component
+}
+
 fn main()
 {
 	let repository: Option<Repository> = Repository::from_current_directory();
@@ -375,6 +391,7 @@ fn main()
 	prompt.push(create_arrow_component());
 	prompt.push(create_directory_component(&repository));
 	prompt.push(create_git_component(&repository));
+	prompt.push(create_directory_ownership_component());
 	prompt.push(create_horizontal_separator_component());
 	println!(
 		"{}",

@@ -2,7 +2,12 @@ use crate::{
 	environment::EnvironmentVariables,
 	file_system::git::Repository
 };
-use std::path::PathBuf;
+use std::
+{
+	path::PathBuf,
+	os::unix::fs::MetadataExt
+};
+use users::get_current_uid;
 
 pub trait PathAbbreviations
 {
@@ -30,7 +35,12 @@ impl Paths
 			{ None }
 		}
 	}
+}
 
+struct PathsTreater;
+
+impl PathsTreater
+{
 	fn shrink_aliases(
 		path: &PathBuf,
 		repository: &Option<Repository>
@@ -98,7 +108,7 @@ impl PathAbbreviations for PathBuf
 	) -> PathBuf
 	{
 		let mut abbreviation: String = String::new();
-		let aliases: PathBuf = Paths::shrink_aliases(
+		let aliases: PathBuf = PathsTreater::shrink_aliases(
 			self,
 			repository
 		);
@@ -108,7 +118,7 @@ impl PathAbbreviations for PathBuf
 		).chars().collect();
 		if characters[0] == '/'
 		{ abbreviation.push('/'); }
-		let splits: Vec<String> = Paths::split(&aliases);
+		let splits: Vec<String> = PathsTreater::split(&aliases);
 		for split_iterator in 0..splits.len()
 		{
 			if split_iterator > 0
@@ -140,6 +150,24 @@ impl PathAbbreviations for PathBuf
 			{ abbreviation.push(characters[0]); }
 		}
 		PathBuf::from(abbreviation)
+	}
+}
+
+pub struct PathsPermissions;
+
+impl PathsPermissions
+{
+	pub fn does_user_owns_current_directory() -> bool
+	{
+		const ROOT_UID: u32 = 0;
+		let user_uid: u32 = get_current_uid();
+		user_uid == ROOT_UID || match Paths::get_current_directory().metadata()
+		{
+			Ok(metadata) =>
+			{ metadata.uid() == user_uid }
+			Err(_error) =>
+			{ false }
+		}
 	}
 }
 
