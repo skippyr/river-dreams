@@ -56,7 +56,10 @@ impl Branch
 }
 
 pub struct Repository
-{ branch: Branch }
+{
+	path: PathBuf,
+	branch: Branch
+}
 
 impl Repository
 {
@@ -122,10 +125,16 @@ impl Repository
 			None =>
 			{ return None; }
 		};
-		Some(Self { branch })
+		Some(Self {
+			path,
+			branch
+		})
 	}
 
 	pub fn get_branch(&self) -> Branch
 	{ self.branch.clone() }
+
+	pub fn get_path(&self) -> PathBuf
+	{ self.path.clone() }
 }
 

@@ -25,5 +25,27 @@ impl EnvironmentVariables
 			{ String::from("/") }
 		}
 	}
+
+	pub fn get_virtual_env() -> Option<String>
+	{
+		match var("VIRTUAL_ENV")
+		{
+			Ok(value) =>
+			{ Some(value) }
+			Err(_error) =>
+			{ None }
+		}
+	}
+
+	pub fn get_home() -> String
+	{
+		match var("HOME")
+		{
+			Ok(value) =>
+			{ value }
+			Err(_error) =>
+			{ String::new() }
+		}
+	}
 }
 

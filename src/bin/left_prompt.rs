@@ -11,7 +11,16 @@ use river_dreams::
 	terminal::TerminalEmulator,
 	math::Math,
 	network::Network,
-	file_system::{disk::MainDisk, git::Repository},
+	file_system::
+	{
+		disk::MainDisk,
+		git::Repository,
+		paths::
+		{
+			Paths,
+			PathAbbreviations
+		}
+	},
 	time::
 	{
 		Calendar,
@@ -233,6 +242,31 @@ fn create_exit_code_component() -> PromptComponent
 	component
 }
 
+fn create_virtual_environment_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	if let Some(virtual_environment) = Paths::get_virtual_environment()
+	{
+		let curly_brackets_color: Color = Color::Yellow;
+		let left_curly_bracket: PromptString = PromptString::new(
+			"{",
+			None::<String>,
+			AppearingCondition::Default,
+			curly_brackets_color
+		);
+		let right_curly_bracket: PromptString = PromptString::new(
+			"}",
+			None::<String>,
+			AppearingCondition::Default,
+			curly_brackets_color
+		);
+		component.push(left_curly_bracket);
+		component.push(virtual_environment.get_base_name().display());
+		component.push(right_curly_bracket);
+	}
+	component
+}
+
 fn create_root_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
@@ -320,6 +354,7 @@ fn main()
 	prompt.push(create_clock_component());
 	prompt.push(create_top_right_connector_component());
 	prompt.push(create_exit_code_component());
+	prompt.push(create_virtual_environment_component());
 	prompt.push(create_root_component());
 	prompt.push(create_arrow_component());
 	prompt.push(create_git_component(&repository));
