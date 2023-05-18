@@ -11,7 +11,8 @@ use river_dreams::
 	terminal::TerminalEmulator,
 	math::Math,
 	network::Network,
-	file_system::disk::MainDisk
+	file_system::disk::MainDisk,
+	time::Calendar
 };
 
 pub fn create_vertical_separator_component() -> PromptComponent
@@ -126,6 +127,20 @@ fn create_disk_usage_percentage_component() -> PromptComponent
 	component
 }
 
+fn create_calendar_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let symbol: PromptString = PromptString::new(
+		"󰸗 ",
+		Some("Calendar "),
+		AppearingCondition::Default,
+		Color::Red
+	);
+	component.push(symbol);
+	component.push(Calendar::from_current_moment());
+	component
+}
+
 fn main()
 {
 	let mut prompt: Prompt = Prompt::new();
@@ -135,10 +150,12 @@ fn main()
 	prompt.push(create_horizontal_separator_component());
 	prompt.push(create_disk_usage_percentage_component());
 	prompt.push(create_horizontal_separator_component());
+	prompt.push(create_calendar_component());
+	prompt.push(create_horizontal_separator_component());
 	prompt.push(create_top_right_connector_component());
 	println!(
 		"{}",
 		prompt
-	)
+	);
 }
 

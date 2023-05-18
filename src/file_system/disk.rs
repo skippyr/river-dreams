@@ -34,6 +34,7 @@ impl MainDisk
 		}
 		None
 	}
+
 	pub fn get_usage_percentage() -> u8
 	{
 		let mut system: System = System::new();
