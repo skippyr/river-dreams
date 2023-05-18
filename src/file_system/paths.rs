@@ -5,7 +5,19 @@ use crate::{
 use std::
 {
 	path::PathBuf,
-	os::unix::fs::MetadataExt
+	os::unix::fs::
+	{
+		MetadataExt,
+		PermissionsExt
+	},
+	fs::
+	{
+		ReadDir,
+		read_dir,
+		DirEntry,
+		Metadata,
+		symlink_metadata
+	}
 };
 use users::get_current_uid;
 
@@ -169,9 +181,15 @@ impl PathsPermissions
 			{ false }
 		}
 	}
+
+	pub fn does_user_can_execute(mode: u32) -> bool
+	{
+		const UNIX_OWNER_EXECUTION_PERMISSIONS_BIT: u32 = 0o100;
+		mode & UNIX_OWNER_EXECUTION_PERMISSIONS_BIT != 0
+	}
 }
 
-pub struct PathEntryType
+pub struct PathEntryTypes
 {
 	quantity_of_symlinks: u32,
 	quantity_of_broken_files: u32,
@@ -179,6 +197,89 @@ pub struct PathEntryType
 	quantity_of_hidden_files: u32
 }
 
-impl PathEntryType
-{}
+impl PathEntryTypes
+{
+	fn new() -> Self
+	{
+		Self
+		{
+			quantity_of_symlinks: 0,
+			quantity_of_broken_files: 0,
+			quantity_of_executable_files: 0,
+			quantity_of_hidden_files: 0
+		}
+	}
+
+	pub fn from_current_directory() -> Self
+	{
+		let mut entry_types: PathEntryTypes = PathEntryTypes::new();
+		let stream: ReadDir = match read_dir(Paths::get_current_directory())
+		{
+			Ok(stream) =>
+			{ stream }
+			Err(_error) =>
+			{ return entry_types; }
+		};
+		for entry in stream
+		{
+			let entry: DirEntry = match entry
+			{
+				Ok(entry) =>
+				{ entry }
+				Err(_error) =>
+				{
+					entry_types.quantity_of_broken_files += 1;
+					continue;
+				}
+			};
+			let name: String = format!(
+				"{}",
+				entry.path().get_base_name().display()
+			);
+			let characters: Vec<char> = name.chars().collect();
+			let metadata: Metadata = match entry.path().metadata()
+			{
+				Ok(metadata) =>
+				{ metadata }
+				Err(_error) =>
+				{
+					entry_types.quantity_of_broken_files += 1;
+					continue;
+				}
+			};
+			let symlink_metadata: Metadata = match symlink_metadata(entry.path())
+			{
+				Ok(metadata) =>
+				{ metadata }
+				Err(_error) =>
+				{
+					entry_types.quantity_of_broken_files += 1;
+					continue;
+				}
+			};
+			let mode: u32 = metadata.permissions().mode();
+			if
+				PathsPermissions::does_user_can_execute(mode) &&
+				metadata.is_file()
+			{ entry_types.quantity_of_executable_files += 1; }
+			if characters[0] == '.'
+			{ entry_types.quantity_of_hidden_files += 1; }
+			if symlink_metadata.is_symlink()
+			{ entry_types.quantity_of_symlinks += 1; }
+		}
+		entry_types
+	}
+
+	pub fn get_quantity_of_symlinks(&self) -> u32
+	{ self.quantity_of_symlinks }
+
+	pub fn get_quantity_of_broken_files(&self) -> u32
+	{ self.quantity_of_broken_files }
+
+	pub fn get_quantity_of_executable_files(&self) -> u32
+	{ self.quantity_of_executable_files }
+
+	pub fn get_quantity_of_hidden_files(&self) -> u32
+	{ self.quantity_of_hidden_files }
+}
 
