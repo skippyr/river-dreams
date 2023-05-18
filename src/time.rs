@@ -17,7 +17,7 @@ struct Month;
 
 impl Month
 {
-	fn from(moment: DateTime<Local>) -> String
+	fn as_string(moment: DateTime<Local>) -> String
 	{
 		match moment.month0()
 		{
@@ -63,7 +63,7 @@ impl Day
 		{ String::from("th") }
 	}
 
-	fn from(moment: DateTime<Local>) -> String
+	fn as_string(moment: DateTime<Local>) -> String
 	{
 		let day: u8 = moment.day() as u8;
 		let ordinal: String = Self::get_ordinal_string(day);
@@ -79,7 +79,7 @@ struct WeekDay;
 
 impl WeekDay
 {
-	pub fn from(moment: DateTime<Local>) -> String
+	pub fn as_string(moment: DateTime<Local>) -> String
 	{
 		match moment.weekday()
 		{
@@ -113,9 +113,9 @@ impl Calendar
 	pub fn from_current_moment() -> Calendar
 	{
 		let current_moment: DateTime<Local> = Local::now();
-		let month: String = Month::from(current_moment);
-		let day: String = Day::from(current_moment);
-		let week_day: String = WeekDay::from(current_moment);
+		let month: String = Month::as_string(current_moment);
+		let day: String = Day::as_string(current_moment);
+		let week_day: String = WeekDay::as_string(current_moment);
 		Calendar
 		{
 			month,
