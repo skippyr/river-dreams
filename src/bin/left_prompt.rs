@@ -10,7 +10,8 @@ use river_dreams::
 	},
 	terminal::TerminalEmulator,
 	math::Math,
-	network::Network
+	network::Network,
+	file_system::disk::MainDisk
 };
 
 pub fn create_vertical_separator_component() -> PromptComponent
@@ -107,12 +108,32 @@ fn create_local_ip_address_component() -> PromptComponent
 	component
 }
 
+fn create_disk_usage_percentage_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let symbol: PromptString = PromptString::new(
+		"󰋊 ",
+		Some("Disk "),
+		AppearingCondition::Default,
+		Color::Yellow
+	);
+	let usage_percentage: String = format!(
+		"{}%%",
+		MainDisk::get_usage_percentage()
+	);
+	component.push(symbol);
+	component.push(usage_percentage);
+	component
+}
+
 fn main()
 {
 	let mut prompt: Prompt = Prompt::new();
 	prompt.push(create_vertical_separator_component());
 	prompt.push(create_top_left_connector_component());
 	prompt.push(create_local_ip_address_component());
+	prompt.push(create_horizontal_separator_component());
+	prompt.push(create_disk_usage_percentage_component());
 	prompt.push(create_horizontal_separator_component());
 	prompt.push(create_top_right_connector_component());
 	println!(
