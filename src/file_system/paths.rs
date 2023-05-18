@@ -42,22 +42,38 @@ impl Paths
 		);
 		if let Some(repository) = repository
 		{
-			aliases = aliases.replace(
+			aliases = aliases.replacen(
 				&format!(
 					"{}",
 					repository.get_path().display()
 				),
-				"@"
+				"@",
+				1
 			);
 		}
 		else
 		{
-			aliases = aliases.replace(
+			aliases = aliases.replacen(
 				&EnvironmentVariables::get_home(),
-				"~"
-			)
+				"~",
+				1
+			);
 		}
 		PathBuf::from(aliases)
+	}
+
+	fn split(path: &PathBuf) -> Vec<String>
+	{
+		let mut splits: Vec<String> = Vec::new();
+		for split in format!(
+			"{}",
+			path.display()
+		).split("/").collect::<Vec<&str>>()
+		{
+			if split != ""
+			{ splits.push(String::from(split)) }
+		}
+		splits
 	}
 }
 
@@ -78,11 +94,19 @@ impl PathAbbreviations for PathBuf
 		repository: &Option<Repository>
 	) -> PathBuf
 	{
+		let mut abbreviation: String = String::new();
 		let aliases: PathBuf = Paths::shrink_aliases(
 			self,
 			repository
 		);
-		aliases
+		let characters: Vec<char> = format!(
+			"{}",
+			aliases.display()
+		).chars().collect();
+		if characters[0] == '/'
+		{ abbreviation.push('/'); }
+		let splits: Vec<String> = Paths::split(&aliases);
+		PathBuf::from(abbreviation)
 	}
 }
 
