@@ -12,7 +12,12 @@ use river_dreams::
 	math::Math,
 	network::Network,
 	file_system::disk::MainDisk,
-	time::Calendar
+	time::
+	{
+		Calendar,
+		Clock,
+		DayMoment
+	}
 };
 
 pub fn create_vertical_separator_component() -> PromptComponent
@@ -78,7 +83,7 @@ fn create_top_right_connector_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let connector: PromptString = PromptString::new(
-		"»:",
+		"»:\n",
 		None::<String>,
 		AppearingCondition::Default,
 		Color::Yellow
@@ -141,6 +146,55 @@ fn create_calendar_component() -> PromptComponent
 	component
 }
 
+fn create_clock_component() -> PromptComponent
+{
+	let mut component: PromptComponent = PromptComponent::new();
+	let clock: Clock = Clock::from_current_moment();
+	let symbol: PromptString =
+		match clock.get_day_moment()
+		{
+			DayMoment::Dawn =>
+			{
+				PromptString::new(
+					" ",
+					Some("Dawn "),
+					AppearingCondition::Default,
+					Color::Cyan
+				)
+			}
+			DayMoment::Morning =>
+			{
+				PromptString::new(
+					"󰖨 ",
+					Some("Morning "),
+					AppearingCondition::Default,
+					Color::Red
+				)
+			}
+			DayMoment::Afternoon =>
+			{
+				PromptString::new(
+					" ",
+					Some("Afternoon "),
+					AppearingCondition::Default,
+					Color::Blue
+				)
+			}
+			DayMoment::Night =>
+			{
+				PromptString::new(
+					"󰽥 ",
+					Some("Night "),
+					AppearingCondition::Default,
+					Color::Yellow
+				)
+			}
+		};
+	component.push(symbol);
+	component.push(clock);
+	component
+}
+
 fn main()
 {
 	let mut prompt: Prompt = Prompt::new();
@@ -152,6 +206,7 @@ fn main()
 	prompt.push(create_horizontal_separator_component());
 	prompt.push(create_calendar_component());
 	prompt.push(create_horizontal_separator_component());
+	prompt.push(create_clock_component());
 	prompt.push(create_top_right_connector_component());
 	println!(
 		"{}",

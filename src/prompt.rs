@@ -35,27 +35,28 @@ impl PromptString
 		fallback_text: Option<B>,
 		appearing_condition: AppearingCondition,
 		color: Color
-	) -> PromptString
+	) -> Self
 	{
 		let default_text: String = format!(
 			"{}",
 			default_text
 		);
-		let fallback_text: Option<String> = match fallback_text
-		{
-			Some(fallback_text) =>
+		let fallback_text: Option<String> =
+			match fallback_text
 			{
-				Some(
-					format!(
-						"{}",
-						fallback_text
+				Some(fallback_text) =>
+				{
+					Some(
+						format!(
+							"{}",
+							fallback_text
+						)
 					)
-				)
-			}
-			None =>
-			{ None }
-		};
-		PromptString
+				}
+				None =>
+				{ None }
+			};
+		Self
 		{
 			default_text,
 			fallback_text,
@@ -90,25 +91,26 @@ impl Display for PromptString
 			self.color.get_style_sequence(),
 			text
 		);
-		let format: String = match self.appearing_condition
-		{
-			AppearingCondition::Default =>
-			{ colored_text }
-			AppearingCondition::OnRootUser =>
+		let format: String =
+			match self.appearing_condition
 			{
-				format!(
-					"%(#.{}.)",
-					colored_text
-				)
-			}
-			AppearingCondition::OnJob =>
-			{
-				format!(
-					"%(1j.{}.)",
-					colored_text
-				)
-			}
-		};
+				AppearingCondition::Default =>
+				{ colored_text }
+				AppearingCondition::OnRootUser =>
+				{
+					format!(
+						"%(#.{}.)",
+						colored_text
+					)
+				}
+				AppearingCondition::OnJob =>
+				{
+					format!(
+						"%(1j.{}.)",
+						colored_text
+					)
+				}
+			};
 		write!(
 			formatter,
 			"{}",
@@ -122,16 +124,16 @@ pub struct PromptComponent
 
 impl PromptComponent
 {
-	pub fn new() -> PromptComponent
-	{ PromptComponent { structure: String::new() } }
+	pub fn new() -> Self
+	{ Self { structure: String::new() } }
 
-	pub fn from<A: Display>(part: A) -> PromptComponent
+	pub fn from<A: Display>(part: A) -> Self
 	{
 		let part: String = format!(
 			"{}",
 			part
 		);
-		PromptComponent { structure: part }
+		Self { structure: part }
 	}
 
 	pub fn push<A: Display>(
@@ -155,8 +157,8 @@ pub struct Prompt
 
 impl Prompt
 {
-	pub fn new() -> Prompt
-	{ Prompt { components: Vec::new() } }
+	pub fn new() -> Self
+	{ Self { components: Vec::new() } }
 
 	pub fn push(
 		&mut self,

@@ -3,7 +3,7 @@ use chrono::
 	self,
 	DateTime,
 	Local,
-	Datelike
+	Datelike, Timelike
 };
 use std::fmt::
 {
@@ -110,13 +110,13 @@ pub struct Calendar
 
 impl Calendar
 {
-	pub fn from_current_moment() -> Calendar
+	pub fn from_current_moment() -> Self
 	{
 		let current_moment: DateTime<Local> = Local::now();
 		let month: String = Month::as_string(current_moment);
 		let day: String = Day::as_string(current_moment);
 		let week_day: String = WeekDay::as_string(current_moment);
-		Calendar
+		Self
 		{
 			month,
 			day,
@@ -138,6 +138,93 @@ impl Display for Calendar
 			self.week_day,
 			self.month,
 			self.day
+		)
+	}
+}
+
+pub enum DayMoment
+{
+	Morning,
+	Afternoon,
+	Night,
+	Dawn
+}
+
+pub struct Clock
+{
+	hours: i8,
+	minutes: i8
+}
+
+impl Clock
+{
+	fn format_time(time: i8) -> String
+	{
+		format!(
+			"{}{}",
+			if time < 10
+			{ String::from("0") }
+			else
+			{ String::new() },
+			time
+		)
+	}
+
+	pub fn from_current_moment() -> Self
+	{
+		let current_moment: DateTime<Local> = Local::now();
+		let hours: i8 = current_moment.hour() as i8;
+		let minutes: i8 = current_moment.minute() as i8;
+		Self
+		{
+			hours,
+			minutes
+		}
+	}
+
+	fn is_dawn(&self) -> bool
+	{
+		self.hours >= 0 &&
+		self.hours < 6
+	}
+	
+	fn is_morning(&self) -> bool
+	{
+		self.hours >= 6 &&
+		self.hours < 12
+	}
+
+	fn is_afternoon(&self) -> bool
+	{
+		self.hours >= 12 &&
+		self.hours < 18
+	}
+
+	pub fn get_day_moment(&self) -> DayMoment
+	{
+		if self.is_dawn()
+		{ DayMoment::Dawn }
+		else if self.is_morning()
+		{ DayMoment::Morning }
+		else if self.is_afternoon()
+		{ DayMoment::Afternoon }
+		else
+		{ DayMoment::Night }
+	}
+}
+
+impl Display for Clock
+{
+	fn fmt(
+		&self,
+		formatter: &mut Formatter
+	) -> Result
+	{
+		write!(
+			formatter,
+			"{}h{}m",
+			Self::format_time(self.hours),
+			Self::format_time(self.minutes)
 		)
 	}
 }

@@ -39,13 +39,14 @@ impl MainDisk
 	{
 		let mut system: System = System::new();
 		system.refresh_disks_list();
-		let main_disk_name: String = match MainDisk::get_main_disk_name(system.disks())
-		{
-			Some(name) =>
-			{ name }
-			None =>
-			{ return 0; }
-		};
+		let main_disk_name: String =
+			match MainDisk::get_main_disk_name(system.disks())
+			{
+				Some(name) =>
+				{ name }
+				None =>
+				{ return 0; }
+			};
 		let mut total_size_in_bytes: u64 = 0;
 		let mut available_size_in_bytes: u64 = 0;
 		for partition in system.disks()
