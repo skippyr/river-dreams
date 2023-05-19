@@ -13,7 +13,6 @@ use std::fmt::
 pub enum AppearingCondition
 {
 	Default,
-	OnError,
 	OnRootUser,
 	OnJob
 }
@@ -97,13 +96,6 @@ impl Display for PromptString
 			{
 				AppearingCondition::Default =>
 				{ colored_text }
-				AppearingCondition::OnError =>
-				{
-					format!(
-						"%(?..{})",
-						colored_text
-					)
-				}
 				AppearingCondition::OnRootUser =>
 				{
 					format!(
