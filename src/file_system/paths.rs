@@ -246,11 +246,15 @@ impl PathTreater
 		}
 		if quantity_of_characters_to_include != 0
 		{
-			return format!(
-				"[{}] {}",
-				quantity_of_characters_to_include,
-				path_base_name
-			);
+			let mut characters: Vec<char> = Vec::new();
+			for character_iterator in 0..path_characters.len()
+			{
+				if character_iterator == quantity_of_characters_to_include
+				{ break; }
+				let path_character: char = path_characters[character_iterator];
+				characters.push(path_character);
+			}
+			return characters.iter().collect();
 		}
 		String::new()
 	}
