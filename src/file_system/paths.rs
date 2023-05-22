@@ -52,7 +52,7 @@ impl PathAbbreviated
 	fn as_string(&self) -> String
 	{
 		format!(
-			"{}/{}/{}",
+			"[i]{} [m]{} [e]{}",
 			self.initial,
 			self.intermediate_paths.join("/"),
 			self.base_name
@@ -88,17 +88,40 @@ impl PathTreater
 	) -> String
 	{
 		let initial: String =
-			if let Some(_repository) = repository
-			{ String::from("@") }
+			if let Some(repository) = repository
+			{
+				String::from(format!(
+					"@/{}",
+					PathTreater::get_base_name(&repository.get_path())
+				))
+			}
 			else if Self::to_string(path).contains(&EnvironmentVariables::get_home())
 			{ String::from("~") }
 			else
-			{ String::new() };
-		let base_name: String = Self::get_base_name(&PathBuf::from(Self::to_string(path).replacen(
-			&EnvironmentVariables::get_home(),
-			"",
-			1
-		)));
+			{ String::from("/") };
+		let base_name: String = Self::get_base_name(&PathBuf::from(
+			if let Some(repository) = repository
+			{
+				Self::to_string(path).replacen(
+					&PathTreater::to_string(&repository.get_path()),
+					"",
+					1
+				)
+			}
+			else
+			{
+				Self::to_string(path).replacen(
+					&EnvironmentVariables::get_home(),
+					"",
+					1
+				)
+			}
+		));
+		let base_name: String = 
+			if base_name == "/"
+			{ String::new() }
+			else
+			{ base_name };
 		let mut intermediate_paths: Vec<String> = Vec::new();
 		let short_path: PathBuf =
 			if let Some(repository) = repository
