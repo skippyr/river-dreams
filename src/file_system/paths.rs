@@ -244,7 +244,12 @@ impl PathTreater
 				entry_characters
 			);
 		}
-		if quantity_of_characters_to_include != 0
+		if
+			(
+				path_characters[0] == '.' &&
+				quantity_of_characters_to_include > 1
+			) ||
+			quantity_of_characters_to_include != 0
 		{
 			let mut characters: Vec<char> = Vec::new();
 			for character_iterator in 0..path_characters.len()
@@ -256,7 +261,20 @@ impl PathTreater
 			}
 			return characters.iter().collect();
 		}
-		String::new()
+		if path_characters[0] == '.'
+		{
+			format!(
+				".{}",
+				path_characters[1]
+			)
+		}
+		else
+		{
+			format!(
+				"{}",
+				path_characters[0]
+			)
+		}
 	}
 
 	pub fn abbreviate(
