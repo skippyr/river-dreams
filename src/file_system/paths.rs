@@ -56,10 +56,7 @@ impl PathAbbreviated
 			self.initial,
 			if
 				self.initial != "/" &&
-				(
-					self.intermediate_paths.len() > 0 ||
-					self.base_name != ""
-				)
+				self.base_name != ""
 			{ String::from("/") }
 			else
 			{ String::new() },
