@@ -191,6 +191,61 @@ impl PathTreater
 		intermediate_paths
 	}
 
+	fn abbreviate_base_name_using_entries(path: String) -> String
+	{
+		let parent: String = match PathBuf::from(&path).parent()
+		{
+			Some(parent) =>
+			{
+				format!(
+					"{}",
+					parent.display()
+				)
+			}
+			None =>
+			{ return path.clone(); }
+		};
+		let stream: ReadDir = match read_dir(parent)
+		{
+			Ok(stream) =>
+			{ stream }
+			Err(_error) =>
+			{ return path.clone(); }
+		};
+		let mut quantity_of_characters_to_include: usize = 0;
+		let path_characters: Vec<char> = Self::get_base_name(&PathBuf::from(&path)).chars().collect();
+		for entry in stream
+		{
+			let entry: DirEntry = match entry
+			{
+				Ok(entry) =>
+				{ entry }
+				Err(_error) =>
+				{ continue; }
+			};
+			let name: String = PathTreater::get_base_name(&entry.path());
+			if name == path
+			{ continue; }
+			let name_characters: Vec<char> = Self::get_base_name(&entry.path()).chars().collect();
+			for character_index in 0..path_characters.len()
+			{
+				if character_index >= name_characters.len()
+				{ break; }
+				let name_character: char = name_characters[character_index];
+				let path_character: char = path_characters[character_index];
+				if name_character != path_character
+				{ break; }
+				let real_index = character_index + 1;
+				if real_index > quantity_of_characters_to_include
+				{ quantity_of_characters_to_include = real_index; }
+			}
+			eprintln!("{:?}", name_characters);
+		}
+		if quantity_of_characters_to_include == 0
+		{}
+		String::new()
+	}
+
 	pub fn abbreviate(
 		path: &PathBuf,
 		repository: &Option<Repository>
