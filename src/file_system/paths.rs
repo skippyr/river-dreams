@@ -23,11 +23,16 @@ use users::get_current_uid;
 
 pub trait PathAbbreviations
 {
+	fn as_string(&self) -> String;
 	fn get_base_name(&self) -> String;
+	fn get_intermediate_paths(
+		&self,
+		repository: &Option<Repository>
+	) -> Vec<String>;
 	fn abbreviate(
 		&self,
 		repository: &Option<Repository>
-	) -> PathBuf;
+	) -> String;
 }
 
 pub struct Paths;
@@ -49,61 +54,58 @@ impl Paths
 	}
 }
 
-struct PathsTreater;
-
-impl PathsTreater
+struct PathAbbreviated
 {
-	fn shrink_aliases(
+	initial: String,
+	intermediate_paths: Vec<String>,
+	base_name: String
+}
+
+impl PathAbbreviated
+{
+	fn from(
 		path: &PathBuf,
 		repository: &Option<Repository>
-	) -> PathBuf
+	) -> Self
 	{
-		let mut aliases: String = format!(
-			"{}",
-			path.display()
-		);
-		if let Some(repository) = repository
+		let mut initial: String =
+			if let Some(repository) = repository
+			{ String::from("@") }
+			else if path.as_string().contains(&EnvironmentVariables::get_home())
+			{ String::from("~") }
+			else
+			{ String::new() };
+		let intermediate_paths: Vec<String> = path.get_intermediate_paths(repository);
+		let base_name: String = path.get_base_name();
+		Self
 		{
-			if let Some(parent) = repository.get_path().parent()
-			{
-				aliases = aliases.replacen(
-					&format!(
-						"{}",
-						parent.display()
-					),
-					"@",
-					1
-				);
-			}
+			initial,
+			intermediate_paths,
+			base_name
 		}
-		else
-		{
-			aliases = aliases.replacen(
-				&EnvironmentVariables::get_home(),
-				"~",
-				1
-			);
-		}
-		PathBuf::from(aliases)
 	}
 
-	fn split(path: &PathBuf) -> Vec<String>
+	fn as_string(&self) -> String
 	{
-		let mut splits: Vec<String> = Vec::new();
-		for split in format!(
-			"{}",
-			path.display()
-		).split("/").collect::<Vec<&str>>()
-		{
-			if split != ""
-			{ splits.push(String::from(split)) }
-		}
-		splits
+		format!(
+			"{}/{}/{}",
+			self.initial,
+			self.intermediate_paths.join("/"),
+			self.base_name
+		)
 	}
 }
 
 impl PathAbbreviations for PathBuf
 {
+	fn as_string(&self) -> String
+	{
+		format!(
+			"{}",
+			self.display()
+		)
+	}
+
 	fn get_base_name(&self) -> String
 	{
 		if let Some(name) = self.file_name()
@@ -116,55 +118,43 @@ impl PathAbbreviations for PathBuf
 			self.display()
 		)
 	}
+	
+	fn get_intermediate_paths(
+		&self,
+		repository: &Option<Repository>
+	) -> Vec<String>
+	{
+		let mut intermediate_paths: Vec<String> = Vec::new();
+		let path: String =
+			if let Some(repository) = repository
+			{
+				self.as_string().replacen(
+					&repository.get_path().as_string(),
+					"",
+					1
+				)
+			}
+			else
+			{ self.as_string() };
+		for split in path.split("/").collect::<Vec<&str>>()
+		{
+			if split != ""
+			{ intermediate_paths.push(String::from(split)); }
+		}
+		intermediate_paths.pop();
+		intermediate_paths
+	}
 
 	fn abbreviate(
 		&self,
 		repository: &Option<Repository>
-	) -> PathBuf
+	) -> String
 	{
-		let mut abbreviation: String = String::new();
-		let aliases: PathBuf = PathsTreater::shrink_aliases(
-			self,
+		let abbreviation: PathAbbreviated = PathAbbreviated::from(
+			&self,
 			repository
 		);
-		let characters: Vec<char> = format!(
-			"{}",
-			aliases.display()
-		).chars().collect();
-		if characters[0] == '/'
-		{ abbreviation.push('/'); }
-		let splits: Vec<String> = PathsTreater::split(&aliases);
-		for split_iterator in 0..splits.len()
-		{
-			if split_iterator > 0
-			{ abbreviation.push('/'); }
-			let split: String = splits[split_iterator].clone();
-			let characters: Vec<char> = split.chars().collect();
-			let is_git_repository: bool = match repository
-			{
-				Some(_repository) =>
-				{ true }
-				None =>
-				{ false }
-			};
-			if
-				split_iterator == splits.len() - 1 ||
-				(
-					split_iterator == 1 &&
-					is_git_repository
-				)
-			{ abbreviation.push_str(&split); }
-			else if characters[0] == '.'
-			{
-				abbreviation.push_str(&format!(
-					".{}",
-					characters[1]
-				));
-			}
-			else
-			{ abbreviation.push(characters[0]); }
-		}
-		PathBuf::from(abbreviation)
+		abbreviation.as_string()
 	}
 }
 

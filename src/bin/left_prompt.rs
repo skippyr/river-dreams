@@ -281,10 +281,7 @@ fn create_directory_component(repository: &Option<Repository>) -> PromptComponen
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let directory: PromptString = PromptString::new(
-		format!(
-			"{}",
-			Paths::get_current_directory().abbreviate(repository).display()
-		),
+		Paths::get_current_directory().abbreviate(repository),
 		None::<String>,
 		AppearingCondition::Default,
 		Color::Red
