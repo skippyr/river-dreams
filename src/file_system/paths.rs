@@ -375,7 +375,7 @@ impl PathEntryTypes
 					continue;
 				}
 			};
-			let name: String = PathTreater::to_string(&entry.path());
+			let name: String = PathTreater::to_string(&PathBuf::from(PathTreater::get_base_name(&entry.path())));
 			let characters: Vec<char> = name.chars().collect();
 			let metadata: Metadata = match entry.path().metadata()
 			{
