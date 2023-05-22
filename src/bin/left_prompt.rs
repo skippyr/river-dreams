@@ -271,7 +271,7 @@ fn create_virtual_environment_component() -> PromptComponent
 			curly_brackets_color
 		);
 		component.push(left_curly_bracket);
-		component.push(virtual_environment.get_base_name().display());
+		component.push(virtual_environment.get_base_name());
 		component.push(right_curly_bracket);
 	}
 	component

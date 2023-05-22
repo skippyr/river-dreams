@@ -23,7 +23,7 @@ use users::get_current_uid;
 
 pub trait PathAbbreviations
 {
-	fn get_base_name(&self) -> PathBuf;
+	fn get_base_name(&self) -> String;
 	fn abbreviate(
 		&self,
 		repository: &Option<Repository>
@@ -104,14 +104,17 @@ impl PathsTreater
 
 impl PathAbbreviations for PathBuf
 {
-	fn get_base_name(&self) -> PathBuf
+	fn get_base_name(&self) -> String
 	{
 		if let Some(name) = self.file_name()
 		{
 			if let Some(name) = name.to_str()
-			{ return PathBuf::from(name); }
+			{ return String::from(name); }
 		}
-		self.to_owned()
+		format!(
+			"{}",
+			self.display()
+		)
 	}
 
 	fn abbreviate(
@@ -232,10 +235,7 @@ impl PathEntryTypes
 					continue;
 				}
 			};
-			let name: String = format!(
-				"{}",
-				entry.path().get_base_name().display()
-			);
+			let name: String = entry.path().get_base_name();
 			let characters: Vec<char> = name.chars().collect();
 			let metadata: Metadata = match entry.path().metadata()
 			{
