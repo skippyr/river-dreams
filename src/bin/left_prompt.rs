@@ -112,14 +112,24 @@ fn create_top_right_connector_component() -> PromptComponent
 fn create_local_ip_address_component() -> PromptComponent
 {
 	let mut component: PromptComponent = PromptComponent::new();
+	let color: Color = Color::Blue;
 	let symbol: PromptString = PromptString::new(
 		" ",
 		Some("IP "),
 		AppearingCondition::Default,
-		Color::Blue
+		color
+	);
+	let host: String = String::from("%m");
+	let separator: PromptString = PromptString::new(
+		"@",
+		None::<String>,
+		AppearingCondition::Default,
+		color
 	);
 	let local_ip_address: String = Network::get_local_ip_address();
 	component.push(symbol);
+	component.push(host);
+	component.push(separator);
 	component.push(local_ip_address);
 	component
 }
