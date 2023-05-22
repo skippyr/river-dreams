@@ -196,12 +196,7 @@ impl PathTreater
 		let parent: String = match PathBuf::from(&path).parent()
 		{
 			Some(parent) =>
-			{
-				format!(
-					"{}",
-					parent.display()
-				)
-			}
+			{ Self::to_string(&parent.to_path_buf()) }
 			None =>
 			{ return path.clone(); }
 		};
@@ -213,7 +208,9 @@ impl PathTreater
 			{ return path.clone(); }
 		};
 		let mut quantity_of_characters_to_include: usize = 0;
-		let path_characters: Vec<char> = Self::get_base_name(&PathBuf::from(&path)).chars().collect();
+		let path_base_name: String = Self::get_base_name(&PathBuf::from(&path));
+		let path_characters: Vec<char> = path_base_name.chars().collect();
+		eprintln!("{:?}", path_characters);
 		for entry in stream
 		{
 			let entry: DirEntry = match entry
@@ -223,26 +220,38 @@ impl PathTreater
 				Err(_error) =>
 				{ continue; }
 			};
-			let name: String = PathTreater::get_base_name(&entry.path());
-			if name == path
+			let entry_name: String = PathTreater::get_base_name(&entry.path());
+			if entry_name == path_base_name
 			{ continue; }
-			let name_characters: Vec<char> = Self::get_base_name(&entry.path()).chars().collect();
+			let entry_characters: Vec<char> = Self::get_base_name(&entry.path()).chars().collect();
 			for character_index in 0..path_characters.len()
 			{
-				if character_index >= name_characters.len()
+				if character_index == entry_characters.len()
 				{ break; }
-				let name_character: char = name_characters[character_index];
+				let entry_character: char = entry_characters[character_index];
 				let path_character: char = path_characters[character_index];
-				if name_character != path_character
-				{ break; }
-				let real_index = character_index + 1;
-				if real_index > quantity_of_characters_to_include
-				{ quantity_of_characters_to_include = real_index; }
+				if entry_character != path_character || character_index == path_characters.len() - 1
+				{
+					let real_index = character_index + 1;
+					if real_index > quantity_of_characters_to_include
+					{ quantity_of_characters_to_include = real_index; }
+					eprintln!("{}", real_index);
+					break;
+				}
 			}
-			eprintln!("{:?}", name_characters);
+			eprintln!(
+				"{:?}",
+				entry_characters
+			);
 		}
-		if quantity_of_characters_to_include == 0
-		{}
+		if quantity_of_characters_to_include != 0
+		{
+			return format!(
+				"[{}] {}",
+				quantity_of_characters_to_include,
+				path_base_name
+			);
+		}
 		String::new()
 	}
 
