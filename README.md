@@ -36,7 +36,7 @@
 		<h3>Stand Alone Installation (recommended)</h3>
 			<ul>
 				<li>Clone this repository.</li>
-					<pre><code>git clone https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams</code></pre>
+					<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams</code></pre>
 				<li>Add a source rule in the file <code>~/.zshrc</code> to include the theme file <code>river_dreams.zsh-theme</code> that is inside the repository cloned.</li>
 					<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
 				<li>Restart your ZSH session.</li>
