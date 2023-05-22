@@ -344,6 +344,16 @@ fn create_directory_ownership_component() -> PromptComponent
 	component
 }
 
+fn create_cursor_component() -> PromptComponent
+{
+	PromptComponent::from(PromptString::new(
+		" ✗ ",
+		Some(" X "),
+		AppearingCondition::Default,
+		Color::Cyan
+	))
+}
+
 fn main()
 {
 	let repository: Option<Repository> = Repository::from_current_directory();
@@ -364,6 +374,7 @@ fn main()
 	prompt.push(create_directory_component(&repository));
 	prompt.push(create_git_component(&repository));
 	prompt.push(create_directory_ownership_component());
+	prompt.push(create_cursor_component());
 	prompt.push(create_horizontal_separator_component());
 	print!(
 		"{}",
