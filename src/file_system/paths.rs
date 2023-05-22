@@ -54,7 +54,7 @@ impl PathAbbreviated
 		format!(
 			"[i]{} [m]{} [e]{}",
 			self.initial,
-			self.intermediate_paths.join("/"),
+			self.intermediate_paths.join(" "),
 			self.base_name
 		)
 	}
@@ -82,23 +82,29 @@ impl PathTreater
 		Self::to_string(path)
 	}
 
-	pub fn abbreviate(
+	fn abbreviate_initial(
 		path: &PathBuf,
 		repository: &Option<Repository>
 	) -> String
 	{
-		let initial: String =
-			if let Some(repository) = repository
-			{
-				String::from(format!(
-					"@/{}",
-					PathTreater::get_base_name(&repository.get_path())
-				))
-			}
-			else if Self::to_string(path).contains(&EnvironmentVariables::get_home())
-			{ String::from("~") }
-			else
-			{ String::from("/") };
+		if let Some(repository) = repository
+		{
+			String::from(format!(
+				"@/{}",
+				PathTreater::get_base_name(&repository.get_path())
+			))
+		}
+		else if Self::to_string(path).contains(&EnvironmentVariables::get_home())
+		{ String::from("~") }
+		else
+		{ String::from("/") }
+	}
+
+	fn abbreviate_base_name(
+		path: &PathBuf,
+		repository: &Option<Repository>
+	) -> String
+	{
 		let base_name: String = Self::get_base_name(&PathBuf::from(
 			if let Some(repository) = repository
 			{
@@ -117,11 +123,17 @@ impl PathTreater
 				)
 			}
 		));
-		let base_name: String = 
-			if base_name == "/"
-			{ String::new() }
-			else
-			{ base_name };
+		if base_name == "/"
+		{ String::new() }
+		else
+		{ base_name }
+	}
+
+	fn abbreviate_intermediate_paths(
+		path: &PathBuf,
+		repository: &Option<Repository>
+	) -> Vec<String>
+	{
 		let mut intermediate_paths: Vec<String> = Vec::new();
 		let short_path: PathBuf =
 			if let Some(repository) = repository
@@ -142,20 +154,66 @@ impl PathTreater
 			}
 			else
 			{ path.clone() };
-		for split in Self::to_string(&short_path).split("/")
+		for split in Self::to_string(&short_path).split("/").collect::<Vec<&str>>()
 		{
 			if split != ""
-			{ intermediate_paths.push(String::from(split)); }
+			{
+				intermediate_paths.push(
+					if intermediate_paths.len() > 0
+					{
+						let last_index: usize = intermediate_paths.len() - 1;
+						let last_path: String = intermediate_paths[last_index].clone();
+						format!(
+							"{}/{}",
+							last_path,
+							split
+						)
+					}
+					else
+					{
+						let path: String =
+							if let Some(repository) = repository
+							{ Self::to_string(&repository.get_path()) }
+							else if Self::to_string(path).contains(&EnvironmentVariables::get_home())
+							{ EnvironmentVariables::get_home() }
+							else
+							{ String::new() };
+						format!(
+							"{}/{}",
+							path,
+							split
+						)
+					}
+				);
+			}
 		}
 		intermediate_paths.pop();
-		let abbreviation: PathAbbreviated =
-			PathAbbreviated
-			{
-				initial,
-				intermediate_paths,
-				base_name
-			};
-		abbreviation.as_string()
+		intermediate_paths
+	}
+
+	pub fn abbreviate(
+		path: &PathBuf,
+		repository: &Option<Repository>
+	) -> String
+	{
+		let initial: String = Self::abbreviate_initial(
+			path,
+			repository
+		);
+		let base_name: String = Self::abbreviate_base_name(
+			path,
+			repository
+		);
+		let intermediate_paths: Vec<String> = Self::abbreviate_intermediate_paths(
+			path,
+			repository
+		);
+		PathAbbreviated
+		{
+			initial,
+			intermediate_paths,
+			base_name
+		}.as_string()
 	}
 }
 
