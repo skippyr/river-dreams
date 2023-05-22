@@ -18,7 +18,7 @@ use river_dreams::
 		paths::
 		{
 			Paths,
-			PathAbbreviations,
+			PathTreater,
 			PathsPermissions
 		}
 	},
@@ -271,7 +271,7 @@ fn create_virtual_environment_component() -> PromptComponent
 			curly_brackets_color
 		);
 		component.push(left_curly_bracket);
-		component.push(virtual_environment.get_base_name());
+		component.push(PathTreater::get_base_name(&virtual_environment));
 		component.push(right_curly_bracket);
 	}
 	component
@@ -281,7 +281,10 @@ fn create_directory_component(repository: &Option<Repository>) -> PromptComponen
 {
 	let mut component: PromptComponent = PromptComponent::new();
 	let directory: PromptString = PromptString::new(
-		Paths::get_current_directory().abbreviate(repository),
+	PathTreater::abbreviate(
+			&Paths::get_current_directory(),
+			repository
+		),
 		None::<String>,
 		AppearingCondition::Default,
 		Color::Red

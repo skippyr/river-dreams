@@ -21,20 +21,6 @@ use std::
 };
 use users::get_current_uid;
 
-pub trait PathAbbreviations
-{
-	fn as_string(&self) -> String;
-	fn get_base_name(&self) -> String;
-	fn get_intermediate_paths(
-		&self,
-		repository: &Option<Repository>
-	) -> Vec<String>;
-	fn abbreviate(
-		&self,
-		repository: &Option<Repository>
-	) -> String;
-}
-
 pub struct Paths;
 
 impl Paths
@@ -63,28 +49,6 @@ struct PathAbbreviated
 
 impl PathAbbreviated
 {
-	fn from(
-		path: &PathBuf,
-		repository: &Option<Repository>
-	) -> Self
-	{
-		let mut initial: String =
-			if let Some(repository) = repository
-			{ String::from("@") }
-			else if path.as_string().contains(&EnvironmentVariables::get_home())
-			{ String::from("~") }
-			else
-			{ String::new() };
-		let intermediate_paths: Vec<String> = path.get_intermediate_paths(repository);
-		let base_name: String = path.get_base_name();
-		Self
-		{
-			initial,
-			intermediate_paths,
-			base_name
-		}
-	}
-
 	fn as_string(&self) -> String
 	{
 		format!(
@@ -96,64 +60,78 @@ impl PathAbbreviated
 	}
 }
 
-impl PathAbbreviations for PathBuf
+pub struct PathTreater;
+
+impl PathTreater
 {
-	fn as_string(&self) -> String
+	pub fn to_string(path: &PathBuf) -> String
 	{
 		format!(
 			"{}",
-			self.display()
+			path.display()
 		)
 	}
 
-	fn get_base_name(&self) -> String
+	pub fn get_base_name(path: &PathBuf) -> String
 	{
-		if let Some(name) = self.file_name()
+		if let Some(base_name) = path.file_name()
 		{
-			if let Some(name) = name.to_str()
-			{ return String::from(name); }
+			if let Some(base_name) = base_name.to_str()
+			{ return String::from(base_name); }
 		}
-		format!(
-			"{}",
-			self.display()
-		)
+		Self::to_string(path)
 	}
-	
-	fn get_intermediate_paths(
-		&self,
+
+	pub fn abbreviate(
+		path: &PathBuf,
 		repository: &Option<Repository>
-	) -> Vec<String>
+	) -> String
 	{
+		let initial: String =
+			if let Some(_repository) = repository
+			{ String::from("@") }
+			else if Self::to_string(path).contains(&EnvironmentVariables::get_home())
+			{ String::from("~") }
+			else
+			{ String::new() };
+		let base_name: String = Self::get_base_name(&PathBuf::from(Self::to_string(path).replacen(
+			&EnvironmentVariables::get_home(),
+			"",
+			1
+		)));
 		let mut intermediate_paths: Vec<String> = Vec::new();
-		let path: String =
+		let short_path: PathBuf =
 			if let Some(repository) = repository
 			{
-				self.as_string().replacen(
-					&repository.get_path().as_string(),
+				PathBuf::from(Self::to_string(path).replacen(
+					&Self::to_string(&repository.get_path()),
 					"",
 					1
-				)
+				))
+			}
+			else if Self::to_string(path).contains(&EnvironmentVariables::get_home())
+			{
+				PathBuf::from(Self::to_string(path).replacen(
+					&EnvironmentVariables::get_home(),
+					"",
+					1
+				))
 			}
 			else
-			{ self.as_string() };
-		for split in path.split("/").collect::<Vec<&str>>()
+			{ path.clone() };
+		for split in Self::to_string(&short_path).split("/")
 		{
 			if split != ""
 			{ intermediate_paths.push(String::from(split)); }
 		}
 		intermediate_paths.pop();
-		intermediate_paths
-	}
-
-	fn abbreviate(
-		&self,
-		repository: &Option<Repository>
-	) -> String
-	{
-		let abbreviation: PathAbbreviated = PathAbbreviated::from(
-			&self,
-			repository
-		);
+		let abbreviation: PathAbbreviated =
+			PathAbbreviated
+			{
+				initial,
+				intermediate_paths,
+				base_name
+			};
 		abbreviation.as_string()
 	}
 }
@@ -225,7 +203,7 @@ impl PathEntryTypes
 					continue;
 				}
 			};
-			let name: String = entry.path().get_base_name();
+			let name: String = PathTreater::to_string(&entry.path());
 			let characters: Vec<char> = name.chars().collect();
 			let metadata: Metadata = match entry.path().metadata()
 			{
