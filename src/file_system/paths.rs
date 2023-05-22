@@ -249,7 +249,7 @@ impl PathTreater
 				path_characters[0] == '.' &&
 				quantity_of_characters_to_include > 1
 			) ||
-			quantity_of_characters_to_include != 0
+			quantity_of_characters_to_include > 1
 		{
 			let mut characters: Vec<char> = Vec::new();
 			for character_iterator in 0..path_characters.len()
