@@ -2,10 +2,10 @@
 	<p>A tribal inspired ZSH theme that includes a fallback text feature.</p>
 	<img src="./images/preview.gif"/>
 	<img src="./images/preview_fallback.gif"/>
-	<p>In both previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator, with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://fonts.google.com/specimen/Inconsolata">Inconsolata</a> font. Program used to list directory entries is <a href="https://github.com/skippyr/reveal">reveal</a>.</p>
+	<p>In both previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator, with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/source-foundry/Hack">Hack</a> font. Program used to list directory entries is <a href="https://github.com/skippyr/reveal">reveal</a>.</p>
 	<p>In its left prompt you will find:</p>
 	<ul>
-		<li>Your local IPV4 address.</li>
+		<li>Your host name and local IPV4 address.</li>
 		<li>The usage percentage of your disk.</li>
 		<li>A calendar that shows week day, month and day.</li>
 		<li>A clock that shows the hour and minute in 24 hours format.</li>
