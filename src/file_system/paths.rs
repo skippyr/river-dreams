@@ -52,9 +52,22 @@ impl PathAbbreviated
 	fn as_string(&self) -> String
 	{
 		format!(
-			"[i]{} [m]{} [e]{}",
+			"{}{}{}{}{}",
 			self.initial,
-			self.intermediate_paths.join(" "),
+			if
+				self.initial != "/" &&
+				(
+					self.intermediate_paths.len() > 0 ||
+					self.base_name != ""
+				)
+			{ String::from("/") }
+			else
+			{ String::new() },
+			self.intermediate_paths.join("/"),
+			if self.intermediate_paths.len() > 0
+			{ String::from("/") }
+			else
+			{ String::new() },
 			self.base_name
 		)
 	}
@@ -188,6 +201,7 @@ impl PathTreater
 			}
 		}
 		intermediate_paths.pop();
+		let intermediate_paths: Vec<String> = intermediate_paths.iter().map(|intermediate_path| Self::abbreviate_base_name_using_entries(intermediate_path.clone())).collect();
 		intermediate_paths
 	}
 
@@ -210,7 +224,6 @@ impl PathTreater
 		let mut quantity_of_characters_to_include: usize = 0;
 		let path_base_name: String = Self::get_base_name(&PathBuf::from(&path));
 		let path_characters: Vec<char> = path_base_name.chars().collect();
-		eprintln!("{:?}", path_characters);
 		for entry in stream
 		{
 			let entry: DirEntry = match entry
@@ -235,14 +248,9 @@ impl PathTreater
 					let real_index = character_index + 1;
 					if real_index > quantity_of_characters_to_include
 					{ quantity_of_characters_to_include = real_index; }
-					eprintln!("{}", real_index);
 					break;
 				}
 			}
-			eprintln!(
-				"{:?}",
-				entry_characters
-			);
 		}
 		if
 			(
