@@ -20,7 +20,7 @@ fn create_entry_types_component() -> PromptComponent
 	if entry_types.get_quantity_of_executable_files() > 0
 	{
 		let symbol: PromptString = PromptString::new(
-			"󰐌 ",
+			"󱖏 ",
 			Some("Executable "),
 			AppearingCondition::Default,
 			Color::Green
@@ -50,7 +50,7 @@ fn create_entry_types_component() -> PromptComponent
 	if entry_types.get_quantity_of_hidden_files() > 0
 	{
 		let symbol: PromptString = PromptString::new(
-			"󰈉 ",
+			" ",
 			Some("Hidden "),
 			AppearingCondition::Default,
 			Color::Red
@@ -65,7 +65,7 @@ fn create_entry_types_component() -> PromptComponent
 	if entry_types.get_quantity_of_broken_files() > 0
 	{
 		let symbol: PromptString = PromptString::new(
-			"󱗗 ",
+			"󰻝 ",
 			Some("Broken "),
 			AppearingCondition::Default,
 			Color::Yellow

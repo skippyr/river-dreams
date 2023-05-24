@@ -114,7 +114,7 @@ fn create_local_ip_address_component() -> PromptComponent
 	let mut component: PromptComponent = PromptComponent::new();
 	let color: Color = Color::Blue;
 	let symbol: PromptString = PromptString::new(
-		" ",
+		" ",
 		Some("IP "),
 		AppearingCondition::Default,
 		color
