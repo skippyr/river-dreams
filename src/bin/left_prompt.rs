@@ -334,7 +334,7 @@ fn create_directory_ownership_component() -> PromptComponent
 	if !PathsPermissions::does_user_owns_current_directory()
 	{
 		let symbol: PromptString = PromptString::new(
-			" 󰌾",
+			" ",
 			Some(" #"),
 			AppearingCondition::Default,
 			Color::Magenta
