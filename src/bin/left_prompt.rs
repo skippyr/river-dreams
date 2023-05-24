@@ -39,19 +39,19 @@ pub fn create_vertical_separator_component() -> PromptComponent
 			if Math::is_even(column)
 			{
 				PromptString::new(
-					"⟐",
-					Some("*"),
+					"≎",
+					None::<String>,
 					AppearingCondition::Default,
-					Color::Red
+					Color::Yellow
 				)
 			}
 			else
 			{
 				PromptString::new(
-					"",
-					Some("X"),
+					"⋗",
+					None::<String>,
 					AppearingCondition::Default,
-					Color::Default
+					Color::Red
 				)
 			};
 		component.push(symbol);
