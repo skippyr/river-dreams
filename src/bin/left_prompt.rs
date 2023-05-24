@@ -327,8 +327,8 @@ fn create_directory_ownership_component() -> PromptComponent
 fn create_cursor_component() -> PromptComponent
 {
 	PromptComponent::from(PromptString::new(
-		" ✗",
-		Some(" X"),
+		" ✘",
+		None::<String>,
 		AppearingCondition::Default,
 		Color::Cyan
 	))
