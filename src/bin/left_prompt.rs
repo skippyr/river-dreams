@@ -71,42 +71,22 @@ fn create_horizontal_separator_component() -> PromptComponent
 
 fn create_top_left_connector_component() -> PromptComponent
 {
-	let mut component: PromptComponent = PromptComponent::new();
-	let connector: PromptString = PromptString::new(
+	PromptComponent::from(PromptString::new(
 		":«",
 		None::<String>,
 		AppearingCondition::Default,
 		Color::Yellow
-	);
-	let compass_rose: PromptString = PromptString::new(
-		"󱎂  ",
-		Some("X "),
-		AppearingCondition::Default,
-		Color::Red
-	);
-	component.push(connector);
-	component.push(compass_rose);
-	component
+	))
 }
 
 fn create_top_right_connector_component() -> PromptComponent
 {
-	let mut component: PromptComponent = PromptComponent::new();
-	let connector: PromptString = PromptString::new(
+	PromptComponent::from(PromptString::new(
 		"»:\n",
 		None::<String>,
 		AppearingCondition::Default,
 		Color::Yellow
-	);
-	let compass_rose: PromptString = PromptString::new(
-		" 󱎂 ",
-		Some(" X"),
-		AppearingCondition::Default,
-		Color::Red
-	);
-	component.push(compass_rose);
-	component.push(connector);
-	component
+	))
 }
 
 fn create_local_ip_address_component() -> PromptComponent
@@ -176,7 +156,7 @@ fn create_clock_component() -> PromptComponent
 			DayMoment::Dawn =>
 			{
 				PromptString::new(
-					" ",
+					"󰭎 ",
 					Some("Dawn "),
 					AppearingCondition::Default,
 					Color::Cyan
