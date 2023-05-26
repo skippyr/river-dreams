@@ -39,7 +39,7 @@ pub fn create_vertical_separator_component() -> PromptComponent
 			if Math::is_even(column)
 			{
 				PromptString::new(
-					"≎",
+					"⋖",
 					None::<String>,
 					AppearingCondition::Default,
 					Color::Yellow
