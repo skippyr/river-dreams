@@ -14,7 +14,9 @@ pub enum AppearingCondition
 {
 	Default,
 	OnRootUser,
-	OnJob
+	OnJob,
+	OnError,
+	OnSuccess
 }
 
 pub struct PromptString
@@ -107,6 +109,20 @@ impl Display for PromptString
 				{
 					format!(
 						"%(1j.{}.)",
+						colored_text
+					)
+				},
+				AppearingCondition::OnError =>
+				{
+					format!(
+						"%(?..{})",
+						colored_text
+					)
+				},
+				AppearingCondition::OnSuccess =>
+				{
+					format!(
+						"%(?.{}.)",
 						colored_text
 					)
 				}
