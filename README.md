@@ -10,6 +10,7 @@
 		<li>A calendar that shows week day, month and day.</li>
 		<li>A clock that shows the hour and minute in 24 hours format.</li>
 		<li>A hash decorator to show if you are root or not.</li>
+		<li>A diamond decorator that gets filled if your last command failed.</li>
 		<li>The name of sourced virtual environments.</li>
 		<li>Your current directory path abbreviated.</li>
 		<li>The name of the branch if you are inside a <code>git</code> repository.</li>
