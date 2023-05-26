@@ -257,7 +257,7 @@ fn create_error_component() -> PromptComponent
 		"◆",
 		None::<String>,
 		AppearingCondition::OnError,
-		Color::Default
+		Color::Red
 	);
 	PromptComponent::from(format!(
 		"{}{}{}{}",
