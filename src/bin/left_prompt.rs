@@ -40,7 +40,7 @@ pub fn create_vertical_separator_component() -> PromptComponent
 			{
 				PromptString::new(
 					"⨰",
-					None::<String>,
+					Some("%%"),
 					AppearingCondition::Default,
 					Color::Yellow
 				)
@@ -49,7 +49,7 @@ pub fn create_vertical_separator_component() -> PromptComponent
 			{
 				PromptString::new(
 					"⧈",
-					None::<String>,
+					Some(":"),
 					AppearingCondition::Default,
 					Color::Red
 				)
@@ -248,13 +248,13 @@ fn create_error_component() -> PromptComponent
 		curly_brackets_color
 	);
 	let success_symbol: PromptString = PromptString::new(
-		"",
+		"◇",
 		None::<String>,
 		AppearingCondition::OnSuccess,
 		Color::Yellow
 	);
 	let error_symbol: PromptString = PromptString::new(
-		"",
+		"◆",
 		None::<String>,
 		AppearingCondition::OnError,
 		Color::Default
