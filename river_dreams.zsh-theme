@@ -13,8 +13,17 @@ typeset -gr RIVER_DREAMS_DIRECTORY_PATH="$(dirname "$(realpath "$0")")"
 typeset -gr RIVER_DREAMS_MANIFEST_FILE_PATH="${RIVER_DREAMS_DIRECTORY_PATH}/Cargo.toml"
 typeset -gr RIVER_DREAMS_RELEASE_DIRECTORY_PATH="${RIVER_DREAMS_DIRECTORY_PATH}/target/release"
 
-river_dreams::compile()
+function river_dreams::compile
 { cargo build --release --manifest-path "${RIVER_DREAMS_MANIFEST_FILE_PATH}" }
+
+function river_dreams::toggle_fallback_text
+{
+	if [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} -eq "0" ]]; then
+		export RIVER_DREAMS_USE_FALLBACK_TEXT="1"
+	else
+		export RIVER_DREAMS_USE_FALLBACK_TEXT="0"
+	fi
+}
 
 if [[ ! -d "${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}" ]]; then
 	river_dreams::compile ||
