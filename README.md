@@ -1,26 +1,27 @@
 <h1>River Dreams</h1>
-	<p>A tribal inspired ZSH theme that includes a fallback text feature.</p>
-	<img src="./images/preview.gif"/>
-	<img src="./images/preview_fallback.gif"/>
-	<p>In both previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator, with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/source-foundry/Hack">Hack</a> font. Program used to list directory entries is <a href="https://github.com/skippyr/reveal">reveal</a>.</p>
-	<p>In its left prompt you will find:</p>
-	<ul>
-		<li>Your host name and local IPV4 address.</li>
-		<li>The usage percentage of your disk.</li>
-		<li>A calendar that shows week day, month and day.</li>
-		<li>A clock that shows the hour and minute in 24 hours format.</li>
-		<li>A hash decorator to show if you are root or not.</li>
-		<li>A diamond decorator that gets filled if your last command failed.</li>
-		<li>The name of sourced virtual environments.</li>
-		<li>Your current directory path abbreviated.</li>
-		<li>The name of the branch if you are inside a <code>git</code> repository.</li>
-		<li>A lock decorator if you are not the user owner of the current directory.</li>
-	</ul>
-	<p>In its right prompt, you will find:</p>
-	<ul>
-		<li>The quantity of executable files, hidden entries, symlinks and broken entries (like dangling symlinks) in your current directory.</li>
-		<li>The quantity of jobs running in the background for the current shell session.</li>
-	</ul>
+	<h2>Starting Point</h2>
+		<p>A tribal inspired ZSH theme that includes a fallback text feature.</p>
+		<img src="./images/preview.gif"/>
+		<img src="./images/preview_fallback.gif"/>
+		<p>In both previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator, with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/source-foundry/Hack">Hack</a> font. Program used to list directory entries is <a href="https://github.com/skippyr/reveal">reveal</a>.</p>
+		<p>In its left prompt you will find:</p>
+		<ul>
+			<li>Your host name and local IPV4 address.</li>
+			<li>The usage percentage of your disk.</li>
+			<li>A calendar that shows week day, month and day.</li>
+			<li>A clock that shows the hour and minute in 24 hours format.</li>
+			<li>A hash decorator to show if you are root or not.</li>
+			<li>A diamond decorator that gets filled if your last command failed.</li>
+			<li>The name of sourced virtual environments.</li>
+			<li>Your current directory path abbreviated.</li>
+			<li>The name of the branch if you are inside a <code>git</code> repository.</li>
+			<li>A lock decorator if you are not the user owner of the current directory.</li>
+		</ul>
+		<p>In its right prompt, you will find:</p>
+		<ul>
+			<li>The quantity of executable files, hidden entries, symlinks and broken entries (like dangling symlinks) in your current directory.</li>
+			<li>The quantity of jobs running in the background for the current shell session.</li>
+		</ul>
 	<h2>Installation And Usage</h2>
 		<p>There are some dependencies you need to install before installing River Dreams:</p>
 		<ul>
