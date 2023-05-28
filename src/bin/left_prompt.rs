@@ -249,13 +249,13 @@ fn create_error_component() -> PromptComponent
 	);
 	let success_symbol: PromptString = PromptString::new(
 		"◇",
-		None::<String>,
+		Some("o"),
 		AppearingCondition::OnSuccess,
 		Color::Yellow
 	);
 	let error_symbol: PromptString = PromptString::new(
 		"◆",
-		None::<String>,
+		Some("*"),
 		AppearingCondition::OnError,
 		Color::Red
 	);
@@ -364,7 +364,7 @@ fn create_cursor_component() -> PromptComponent
 {
 	PromptComponent::from(PromptString::new(
 		" ✘",
-		None::<String>,
+		Some(" %%"),
 		AppearingCondition::Default,
 		Color::Cyan
 	))
