@@ -2,7 +2,7 @@
 
 setopt promptsubst
 
-function river_dreams::_get_git_branch()
+function _river_dreams::get_git_branch()
 {
 	typeset -r branch="$(git branch --show-current 2>/dev/null)"
 	if [[ -n "${branch}" ]]; then
@@ -10,5 +10,5 @@ function river_dreams::_get_git_branch()
 	fi
 }
 
-PROMPT='%F{yellow}~> %F{red}%~%f$(river_dreams::_get_git_branch)  '
+PROMPT='%F{yellow}~> %F{red}%~%f$(_river_dreams::get_git_branch)  '
 

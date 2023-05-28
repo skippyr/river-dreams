@@ -66,14 +66,14 @@
 					<pre><code>ZSH_THEME="robbyrussell"</code></pre>
 			</ul>
 	<h2>Customization</h2>
-		<p>You can enable the fallback feature of River Dreams by using an environment variable called <code>RIVER_DREAMS_USE_FALLBACK_TEXT</code>. That variable expects an integer value that represents a boolean:</p>
+		<p>You can toggle the fallback feature of River Dreams by using the function <code>river_dreams::toggle_fallback_text</code>. If you need more control of it, you can use an environment variable called <code>RIVER_DREAMS_USE_FALLBACK_TEXT</code>. That variable expects an integer value that represents a boolean:</p>
 		<ul>
 			<li><code>0</code> means <code>false</code>, which will deativate the feature.</li>
 			<pre><code>export RIVER_DREAMS_USE_FALLBACK_TEXT="0"</code></pre>
 			<li><code>1</code> means <code>true</code>, which will enable the feature.</li>
 			<pre><code>export RIVER_DREAMS_USE_FALLBACK_TEXT="1"</code></pre>
 		</ul>
-		<p>If not set, River Dreams will automatically set it a value based on your terminal emulator's color support.</p>
+		<p>If it is not set, River Dreams will automatically set it a value based on your terminal emulator's color support.</p>
 		<p>Further more, River Dreams does not offers another user-friendly way of changing its look. If you need to tweak it, you will need to change its source code, then recompile it again. If that is your case, the shell script that you source to start it exposes a function to compile the code easily, which you can use:</p>
 		<pre><code>river_dreams::compile</code></pre>
 	<h2>See Also</h2>

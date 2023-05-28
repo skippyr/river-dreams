@@ -27,9 +27,14 @@ function river_dreams::compile
 		echo "\tsuggestion:"
 		echo "\t\t* Ensure that you have installed all the required dependencies to compile them."
 		echo "\t\tYou can find more information about it in the README.md file."
-		echo "\t\t* Ensure that you are connected to the internet when downloading the dependencies crates."
+		echo "\t\t* Ensure that you are connected to the internet when downloading the dependencies using cargo."
 		echo "\t\t* If you have modified the source code, ensure that it does not contain any syntax error."
-		echo "\t\tRead the instructions given above by Cargo to track the issue easily."
+		echo "\t\tRead the instructions given above by cargo to track the issue easily."
+		echo ""
+		echo "\tAfter solving this issue, use the fuction \"river_dreams::compile\" to try to compile them again."
+		echo ""
+		echo "\tIf you need more help you can report an issue at:"
+		echo "\t\thttps://github.com/skippyr/river_dreams/issues"
 	)
 }
 
@@ -37,8 +42,10 @@ function river_dreams::toggle_fallback_text
 {
 	if [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} -eq "0" ]]; then
 		export RIVER_DREAMS_USE_FALLBACK_TEXT="1"
+		echo "Fallback text feature has been enabled."
 	else
 		export RIVER_DREAMS_USE_FALLBACK_TEXT="0"
+		echo "Fallback text feature has been disabled."
 	fi
 }
 
@@ -46,9 +53,7 @@ if [[
 	! -f "${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}/left_prompt" ||
 	! -f "${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}/right_prompt"
 ]]; then
-	echo "Were not possible to find the required binaries files for River Dreams."
 	echo "Trying to automatically compile the source files using cargo."
-	echo ""
 	echo "This process may take some time depending of your internet connection."
 	echo ""
 	river_dreams::compile
@@ -62,6 +67,6 @@ if [[
 else
 	echo ""
 	echo "Attention: you are running River Dreams using a fallback prompt with limited functionalities."
-	echo "Solve previous related errors to use the main prompt."
+	echo "Solve previous reported errors to use the main prompt."
 fi
 
