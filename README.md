@@ -25,21 +25,26 @@
 			<li>The quantity of jobs running in the background for the current shell session.</li>
 		</ul>
 	<h2>Installation And Usage</h2>
-		<p>There are some dependencies you need to install before installing River Dreams:</p>
+		<p>River Dreams works on top of the ZSH shell, that you can find in any UNIX-like operating system like MacOS or Linux. If you are using Windows, you can take a look into setting it up on WSL (Windows Subsystem for Linux) or a virtual machine.</p>
+		<p>First, install all the required dependencies to build and run it:</p>
 		<ul>
-			<li>Rust.</li>
-				<p>These are the tools to compile the source code. You can find more information in the <a href="https://www.rust-lang.org/">official website</a>.</p>
-			<li>A font patched by the Nerd Fonts project and the Noto Family.</li>
-				<p>These are the fonts that will give you access to the symbols used in the theme. Without them, you still can prefer to use River Dreams with its fallback feature.</p>
-				<p>You can download Nerd Font from their <a href="https://github.com/ryanoasis/nerd-fonts/releases">releases page</a> on GitHub.</p>
-				<p>The Noto Family can be downloaded from <a href="https://fonts.google.com/noto">Google Fonts</a>, but you might also find it in package managers for Linux too. Usually it come pre installed in operating systems.</p>
-			<li>Git.</li>
-				<p>This tool will be used to download this repository.</p>
+			<li>The ZSH shell:</li>
+				<p>This is the shell this theme applies on.</p>
+			<li>The git version control software:</li>
+				<p>This tool will be used to clone this project easily.</p>
+			<li>The Rust Toolchain:</li>
+				<p>This is the bundle with all the tools required to compile and run projects using the Rust programming language.</p>
+				<p>You will find all the information you need to install the latest release from their <a href="https://www.rust-lang.org/">official website</a>.</p>
+			<li>The Noto Sans font and font patched by the Nerd Fonts project.</li>
+				<p>These fonts will provide you with all the cool symbols used in the theme. They are optional, as you can run River Dreams using its fallback feature, however they can improve your experience.</p>
+				<p>The Noto Sans font can be downloaded from the <a href="https://fonts.google.com/noto/specimen/Noto+Sans">Google Fonts website</a>.</p>
+				<p>You can download one font from the Nerd Font project from their <a href="https://github.com/ryanoasis/nerd-fonts/releases">Releases page</a> on GitHub.</p>
 		</ul>
 		<p>After installing the dependencies, choose one of the following ways to install River Dreams:</p>
 		<h3>Stand Alone Installation (recommended)</h3>
+			<p>By following this installation, you will be able to install River Dreams by directly running its entry point script, so you do not need to install any other dependency.</p>
 			<ul>
-				<li>Clone this repository.</li>
+				<li>Use git to clone this repository to a directory in your machine.</li>
 					<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ~/.config/zsh/themes/river_dreams</code></pre>
 				<li>Add a source rule in the file <code>~/.zshrc</code> to include the theme file <code>river_dreams.zsh-theme</code> that is inside the repository cloned.</li>
 					<pre><code>source ~/.config/zsh/themes/river_dreams/river_dreams.zsh-theme</code></pre>
@@ -53,19 +58,22 @@
 				<li>Remove the source rule used in the file <code>~/.zshrc</code>.</li>
 			</ul>
 		<h3>Installation Within OhMyZSH</h3>
+			<p>By following this installation, you will be able to install River Dreams by using the OhMyZSH framework.</p>
 			<ul>
 				<li>Install OhMyZSH.</li>
 					<p>You can find more information about it in its <a href="https://github.com/ohmyzsh/ohmyzsh">page on GitHub</a>.</p>
-				<li>Clone this repository to OhMyZSH custom themes's directory.</li>
+				<li>Clone this repository to the OhMyZSH custom themes's directory.</li>
 					<pre><code>git clone --depth=1 https://github.com/skippyr/river_dreams ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/river_dreams</code></pre>
-				<li>Change the value of the variable <code>ZSH_THEME</code> in the file <code>~/.zshrc</code>.</li>
+				<li>Change the value of the variable <code>ZSH_THEME</code> in the file <code>~/.zshrc</code> to use the River Dreams theme.</li>
 					<pre><code>ZSH_THEME="river_dreams/river_dreams"</code></pre>
+				<li>Restart your ZSH session.</li>
+				<li>Wait for the code to compile and the theme to start running.</li>
 			</ul>
 			To uninstall it:
 			<ul>
 				<li>Remove the repository clone.</li>
 					<pre><code>rm -rf ${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/river_dreams</code></pre>
-				<li>Change the value of the variable <code>ZSH_THEME</code> in the file <code>~/.zshrc</code> to a valid ZSH theme.</li>
+				<li>Change the value of the variable <code>ZSH_THEME</code> in the file <code>~/.zshrc</code> to a valid OhMyZSH theme.</li>
 					<pre><code>ZSH_THEME="robbyrussell"</code></pre>
 			</ul>
 	<h2>Customization</h2>
