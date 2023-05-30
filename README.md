@@ -1,9 +1,11 @@
 <h1>River Dreams</h1>
 	<h2>Starting Point</h2>
-		<p>A tribal inspired ZSH theme that includes a fallback text feature.</p>
+		<p>River Dreams is a ZSH theme written in Rust that will bring up a new aesthetics inspired by tribal patterns to the ZSH shell. By providing a curated set of components that show information about your system and also containing a fallback text feature, it becomes a really good addition to the set of tools of nerds out there.</p>
+		<p>Right below, there are some previews that you can check out.</p>
 		<img src="./images/preview.gif"/>
 		<img src="./images/preview_fallback.gif"/>
-		<p>In both previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator, with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/source-foundry/Hack">Hack</a> font. Program used to list directory entries is <a href="https://github.com/skippyr/reveal">reveal</a>.</p>
+		<p>In both previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator, with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/source-foundry/Hack">Hack</a> font. The program used to list directory entries is <a href="https://github.com/skippyr/reveal">reveal</a>.</p>
+	<h2>Features</h2>
 		<p>In its left prompt you will find:</p>
 		<ul>
 			<li>Your host name and local IPV4 address.</li>
