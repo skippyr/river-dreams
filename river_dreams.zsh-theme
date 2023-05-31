@@ -32,7 +32,7 @@ function river_dreams::compile
 		echo "\t\t* If you have modified the source code, ensure that it does not contain any syntax error."
 		echo "\t\t  Read the instructions given above by cargo to track the issue easily."
 		echo ""
-		echo "\tAfter solving this issue, restart your ZSH session to try to compile them again."
+		echo "\tAfter following the suggestions, restart your ZSH session to try to compile them again."
 		echo ""
 		echo "\tIf you need more help you can report an issue at:"
 		echo "\t\thttps://github.com/skippyr/river_dreams/issues"
