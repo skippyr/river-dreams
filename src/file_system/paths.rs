@@ -26,16 +26,22 @@ pub struct Paths;
 impl Paths
 {
 	pub fn get_current_directory() -> PathBuf
-	{ PathBuf::from(EnvironmentVariables::get_pwd()) }
+	{
+		PathBuf::from(EnvironmentVariables::get_pwd())
+	}
 
 	pub fn get_virtual_environment() -> Option<PathBuf>
 	{
 		match EnvironmentVariables::get_virtual_env()
 		{
 			Some(virtual_environment) =>
-			{ Some(PathBuf::from(virtual_environment)) }
+			{
+				Some(PathBuf::from(virtual_environment))
+			}
 			None =>
-			{ None }
+			{
+				None
+			}
 		}
 	}
 }
@@ -57,14 +63,22 @@ impl PathAbbreviated
 			if
 				self.initial != "/" &&
 				self.base_name != ""
-			{ String::from("/") }
+			{
+				String::from("/")
+			}
 			else
-			{ String::new() },
+			{
+				String::new()
+			},
 			self.intermediate_paths.join("/"),
 			if self.intermediate_paths.len() > 0
-			{ String::from("/") }
+			{
+				String::from("/")
+			}
 			else
-			{ String::new() },
+			{
+				String::new()
+			},
 			self.base_name
 		)
 	}
@@ -87,7 +101,9 @@ impl PathTreater
 		if let Some(base_name) = path.file_name()
 		{
 			if let Some(base_name) = base_name.to_str()
-			{ return String::from(base_name); }
+			{
+				return String::from(base_name);
+			}
 		}
 		Self::to_string(path)
 	}
@@ -105,9 +121,13 @@ impl PathTreater
 			))
 		}
 		else if Self::to_string(path).contains(&EnvironmentVariables::get_home())
-		{ String::from("~") }
+		{
+			String::from("~")
+		}
 		else
-		{ String::from("/") }
+		{
+			String::from("/")
+		}
 	}
 
 	fn abbreviate_base_name(
@@ -134,9 +154,13 @@ impl PathTreater
 			}
 		));
 		if base_name == "/"
-		{ String::new() }
+		{
+			String::new()
+		}
 		else
-		{ base_name }
+		{
+			base_name
+		}
 	}
 
 	fn abbreviate_intermediate_paths(
@@ -145,25 +169,26 @@ impl PathTreater
 	) -> Vec<String>
 	{
 		let mut intermediate_paths: Vec<String> = Vec::new();
-		let short_path: PathBuf =
-			if let Some(repository) = repository
-			{
-				PathBuf::from(Self::to_string(path).replacen(
-					&Self::to_string(&repository.get_path()),
-					"",
-					1
-				))
-			}
-			else if Self::to_string(path).contains(&EnvironmentVariables::get_home())
-			{
-				PathBuf::from(Self::to_string(path).replacen(
-					&EnvironmentVariables::get_home(),
-					"",
-					1
-				))
-			}
-			else
-			{ path.clone() };
+		let short_path: PathBuf = if let Some(repository) = repository
+		{
+			PathBuf::from(Self::to_string(path).replacen(
+				&Self::to_string(&repository.get_path()),
+				"",
+				1
+			))
+		}
+		else if Self::to_string(path).contains(&EnvironmentVariables::get_home())
+		{
+			PathBuf::from(Self::to_string(path).replacen(
+				&EnvironmentVariables::get_home(),
+				"",
+				1
+			))
+		}
+		else
+		{
+			path.clone()
+		};
 		for split in Self::to_string(&short_path).split("/").collect::<Vec<&str>>()
 		{
 			if split != ""
@@ -181,13 +206,18 @@ impl PathTreater
 					}
 					else
 					{
-						let path: String =
-							if let Some(repository) = repository
-							{ Self::to_string(&repository.get_path()) }
-							else if Self::to_string(path).contains(&EnvironmentVariables::get_home())
-							{ EnvironmentVariables::get_home() }
-							else
-							{ String::new() };
+						let path: String = if let Some(repository) = repository
+						{
+							Self::to_string(&repository.get_path())
+						}
+						else if Self::to_string(path).contains(&EnvironmentVariables::get_home())
+						{
+							EnvironmentVariables::get_home()
+						}
+						else
+						{
+							String::new() 
+						};
 						format!(
 							"{}/{}",
 							path,
@@ -198,7 +228,13 @@ impl PathTreater
 			}
 		}
 		intermediate_paths.pop();
-		let intermediate_paths: Vec<String> = intermediate_paths.iter().map(|intermediate_path| Self::abbreviate_base_name_using_entries(intermediate_path.clone())).collect();
+		let intermediate_paths: Vec<String> = intermediate_paths
+			.iter()
+			.map(
+				|intermediate_path|
+				Self::abbreviate_base_name_using_entries(intermediate_path.clone())
+			)
+			.collect();
 		intermediate_paths
 	}
 
@@ -207,16 +243,24 @@ impl PathTreater
 		let parent: String = match PathBuf::from(&path).parent()
 		{
 			Some(parent) =>
-			{ Self::to_string(&parent.to_path_buf()) }
+			{
+				Self::to_string(&parent.to_path_buf())
+			}
 			None =>
-			{ return path.clone(); }
+			{
+				return path.clone();
+			}
 		};
 		let stream: ReadDir = match read_dir(parent)
 		{
 			Ok(stream) =>
-			{ stream }
+			{
+				stream
+			}
 			Err(_error) =>
-			{ return path.clone(); }
+			{
+				return path.clone();
+			}
 		};
 		let mut quantity_of_characters_to_include: usize = 0;
 		let path_base_name: String = Self::get_base_name(&PathBuf::from(&path));
@@ -226,25 +270,35 @@ impl PathTreater
 			let entry: DirEntry = match entry
 			{
 				Ok(entry) =>
-				{ entry }
+				{
+					entry
+				}
 				Err(_error) =>
-				{ continue; }
+				{
+					continue;
+				}
 			};
 			let entry_name: String = PathTreater::get_base_name(&entry.path());
 			if entry_name == path_base_name
-			{ continue; }
+			{
+				continue;
+			}
 			let entry_characters: Vec<char> = Self::get_base_name(&entry.path()).chars().collect();
 			for character_index in 0..path_characters.len()
 			{
 				if character_index == entry_characters.len()
-				{ break; }
+				{
+					break;
+				}
 				let entry_character: char = entry_characters[character_index];
 				let path_character: char = path_characters[character_index];
 				if entry_character != path_character || character_index == path_characters.len() - 1
 				{
 					let real_index = character_index + 1;
 					if real_index > quantity_of_characters_to_include
-					{ quantity_of_characters_to_include = real_index; }
+					{
+						quantity_of_characters_to_include = real_index;
+					}
 					break;
 				}
 			}
@@ -260,7 +314,9 @@ impl PathTreater
 			for character_iterator in 0..path_characters.len()
 			{
 				if character_iterator == quantity_of_characters_to_include
-				{ break; }
+				{
+					break;
+				}
 				let path_character: char = path_characters[character_iterator];
 				characters.push(path_character);
 			}
@@ -299,8 +355,7 @@ impl PathTreater
 			path,
 			repository
 		);
-		PathAbbreviated
-		{
+		PathAbbreviated {
 			initial,
 			intermediate_paths,
 			base_name
@@ -316,12 +371,17 @@ impl PathsPermissions
 	{
 		const ROOT_UID: u32 = 0;
 		let user_uid: u32 = get_current_uid();
-		user_uid == ROOT_UID || match Paths::get_current_directory().metadata()
+		user_uid == ROOT_UID ||
+		match Paths::get_current_directory().metadata()
 		{
 			Ok(metadata) =>
-			{ metadata.uid() == user_uid }
+			{
+				metadata.uid() == user_uid
+			}
 			Err(_error) =>
-			{ false }
+			{
+				false
+			}
 		}
 	}
 
@@ -344,8 +404,7 @@ impl PathEntryTypes
 {
 	fn new() -> Self
 	{
-		Self
-		{
+		Self {
 			quantity_of_symlinks: 0,
 			quantity_of_broken_files: 0,
 			quantity_of_executable_files: 0,
@@ -359,16 +418,22 @@ impl PathEntryTypes
 		let stream: ReadDir = match read_dir(Paths::get_current_directory())
 		{
 			Ok(stream) =>
-			{ stream }
+			{
+				stream
+			}
 			Err(_error) =>
-			{ return entry_types; }
+			{
+				return entry_types;
+			}
 		};
 		for entry in stream
 		{
 			let entry: DirEntry = match entry
 			{
 				Ok(entry) =>
-				{ entry }
+				{
+					entry
+				}
 				Err(_error) =>
 				{
 					entry_types.quantity_of_broken_files += 1;
@@ -380,7 +445,9 @@ impl PathEntryTypes
 			let metadata: Metadata = match entry.path().metadata()
 			{
 				Ok(metadata) =>
-				{ metadata }
+				{
+					metadata
+				}
 				Err(_error) =>
 				{
 					entry_types.quantity_of_broken_files += 1;
@@ -390,7 +457,9 @@ impl PathEntryTypes
 			let symlink_metadata: Metadata = match symlink_metadata(entry.path())
 			{
 				Ok(metadata) =>
-				{ metadata }
+				{
+					metadata
+				}
 				Err(_error) =>
 				{
 					entry_types.quantity_of_broken_files += 1;
@@ -401,25 +470,39 @@ impl PathEntryTypes
 			if
 				PathsPermissions::does_user_can_execute(mode) &&
 				metadata.is_file()
-			{ entry_types.quantity_of_executable_files += 1; }
+			{
+				entry_types.quantity_of_executable_files += 1;
+			}
 			if characters[0] == '.'
-			{ entry_types.quantity_of_hidden_files += 1; }
+			{
+				entry_types.quantity_of_hidden_files += 1;
+			}
 			if symlink_metadata.is_symlink()
-			{ entry_types.quantity_of_symlinks += 1; }
+			{
+				entry_types.quantity_of_symlinks += 1;
+			}
 		}
 		entry_types
 	}
 
 	pub fn get_quantity_of_symlinks(&self) -> u32
-	{ self.quantity_of_symlinks }
+	{
+		self.quantity_of_symlinks
+	}
 
 	pub fn get_quantity_of_broken_files(&self) -> u32
-	{ self.quantity_of_broken_files }
+	{
+		self.quantity_of_broken_files
+	}
 
 	pub fn get_quantity_of_executable_files(&self) -> u32
-	{ self.quantity_of_executable_files }
+	{
+		self.quantity_of_executable_files
+	}
 
 	pub fn get_quantity_of_hidden_files(&self) -> u32
-	{ self.quantity_of_hidden_files }
+	{
+		self.quantity_of_hidden_files
+	}
 }
 

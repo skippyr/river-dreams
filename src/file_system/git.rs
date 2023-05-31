@@ -19,7 +19,9 @@ use crate::file_system::paths::Paths;
 
 #[derive(Clone)]
 pub struct Branch
-{ name: String }
+{
+	name: String
+}
 
 impl Branch
 {
@@ -28,9 +30,13 @@ impl Branch
 		let head_file: File = match File::open(path.join(".git").join("HEAD"))
 		{
 			Ok(file) =>
-			{ file }
+			{
+				file
+			}
 			Err(_error) =>
-			{ return None; }
+			{
+				return None;
+			}
 		};
 		let reader: BufReader<File> = BufReader::new(head_file);
 		for line in reader.lines()
@@ -38,21 +44,29 @@ impl Branch
 			let line: String = match line
 			{
 				Ok(line) =>
-				{ line }
+				{
+					line
+				}
 				Err(_error) =>
-				{ return None; }
+				{
+					return None;
+				}
 			};
 			let splits: Vec<&str> = line.split("/").collect();
 			if splits.len() < 3
-			{ return None; }
+			{
+				return None;
+			}
 			let name: String = String::from(splits[2]);
-			return Some(Branch { name });
+			return Some(Branch {name});
 		}
 		None
 	}
 
 	pub fn get_name(&self) -> String
-	{ self.name.clone() }
+	{
+		self.name.clone()
+	}
 }
 
 pub struct Repository
@@ -68,44 +82,66 @@ impl Repository
 		let stream: ReadDir = match read_dir(&path)
 		{
 			Ok(stream) =>
-			{ stream } 
+			{
+				stream
+			}
 			Err(_error) =>
-			{ return None; }
+			{
+				return None;
+			}
 		};
 		for entry in stream
 		{
 			let entry: DirEntry = match entry
 			{
 				Ok(entry) =>
-				{ entry }
+				{
+					entry
+				}
 				Err(_error) =>
-				{ return None; }
+				{
+					return None;
+				}
 			};
 			let name: String = match entry.file_name().to_str()
 			{
 				Some(name) =>
-				{ String::from(name) }
+				{
+					String::from(name)
+				}
 				None =>
-				{ continue; }
+				{
+					continue;
+				}
 			};
 			let file_type: FileType = match entry.file_type()
 			{
 				Ok(file_type) =>
-				{ file_type }
+				{
+					file_type
+				}
 				Err(_error) =>
-				{ continue; }
+				{
+					continue;
+				}
 			};
 			if
 				name == ".git" &&
 				file_type.is_dir()
-			{ return Some(path.clone()); }
+			{
+				return Some(path.clone());
+			}
 		}
 		match path.parent()
 		{
 			Some(parent) =>
-			{ Self::get_repository_path(&parent.to_path_buf()) }
+			{
+				Self::get_repository_path(&parent.to_path_buf())
+			}
 			None =>
-			{ None }
+			{
+				None
+			}
 		}
 	}
 
@@ -114,16 +150,24 @@ impl Repository
 		let path: PathBuf = match Self::get_repository_path(&Paths::get_current_directory())
 		{
 			Some(path) =>
-			{ path }
+			{
+				path
+			}
 			None =>
-			{ return None; }
+			{
+				return None;
+			}
 		};
 		let branch: Branch = match Branch::from(&path)
 		{
 			Some(branch) =>
-			{ branch }
+			{
+				branch
+			}
 			None =>
-			{ return None; }
+			{
+				return None;
+			}
 		};
 		Some(Self {
 			path,
@@ -132,9 +176,13 @@ impl Repository
 	}
 
 	pub fn get_branch(&self) -> Branch
-	{ self.branch.clone() }
+	{
+		self.branch.clone()
+	}
 
 	pub fn get_path(&self) -> PathBuf
-	{ self.path.clone() }
+	{
+		self.path.clone()
+	}
 }
 

@@ -27,7 +27,9 @@ impl MainDisk
 						return Some(name);
 					}
 					None =>
-					{ continue; }
+					{
+						continue;
+					}
 				};
 			}
 		}
@@ -38,14 +40,17 @@ impl MainDisk
 	{
 		let mut system: System = System::new();
 		system.refresh_disks_list();
-		let main_disk_name: String =
-			match MainDisk::get_main_disk_name(system.disks())
+		let main_disk_name: String = match MainDisk::get_main_disk_name(system.disks())
+		{
+			Some(name) =>
 			{
-				Some(name) =>
-				{ name }
-				None =>
-				{ return 0; }
-			};
+				name
+			}
+			None =>
+			{
+				return 0;
+			}
+		};
 		let mut total_size_in_bytes: u64 = 0;
 		let mut available_size_in_bytes: u64 = 0;
 		for partition in system.disks()
@@ -54,13 +59,17 @@ impl MainDisk
 			{
 				let name: String = String::from(name);
 				if !name.contains(&main_disk_name)
-				{ continue; }
+				{
+					continue;
+				}
 				total_size_in_bytes += partition.total_space();
 				available_size_in_bytes += partition.available_space();
 			}
 		}
 		if total_size_in_bytes == 0
-		{ return 0; }
+		{
+			return 0;
+		}
 		let used_size_in_bytes: u64 = total_size_in_bytes - available_size_in_bytes;
 		let usage_percentage: u8 = ((used_size_in_bytes as f32 / total_size_in_bytes as f32) * 100.0) as u8;
 		usage_percentage
