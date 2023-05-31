@@ -9,9 +9,13 @@ impl EnvironmentVariables
 		match var("RIVER_DREAMS_USE_FALLBACK_TEXT")
 		{
 			Ok(value) =>
-			{ value == "1" }
+			{
+				value == "1"
+			}
 			Err(_error) =>
-			{ false }
+			{
+				false
+			}
 		}
 	}
 
@@ -20,9 +24,13 @@ impl EnvironmentVariables
 		match var("PWD")
 		{
 			Ok(value) =>
-			{ value }
+			{
+				value
+			}
 			Err(_error) =>
-			{ String::from("/") }
+			{
+				String::from("/")
+			}
 		}
 	}
 
@@ -31,9 +39,13 @@ impl EnvironmentVariables
 		match var("VIRTUAL_ENV")
 		{
 			Ok(value) =>
-			{ Some(value) }
+			{
+				Some(value)
+			}
 			Err(_error) =>
-			{ None }
+			{
+				None
+			}
 		}
 	}
 
@@ -42,9 +54,13 @@ impl EnvironmentVariables
 		match var("HOME")
 		{
 			Ok(value) =>
-			{ value }
+			{
+				value
+			}
 			Err(_error) =>
-			{ String::new() }
+			{
+				String::new()
+			}
 		}
 	}
 }

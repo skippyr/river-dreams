@@ -48,18 +48,17 @@ impl PromptString
 			{
 				Some(fallback_text) =>
 				{
-					Some(
-						format!(
-							"{}",
-							fallback_text
-						)
-					)
+					Some(format!(
+						"{}",
+						fallback_text
+					))
 				}
 				None =>
-				{ None }
+				{
+					None
+				}
 			};
-		Self
-		{
+		Self {
 			default_text,
 			fallback_text,
 			appearing_condition,
@@ -75,58 +74,64 @@ impl Display for PromptString
 		formatter: &mut Formatter
 	) -> Result
 	{
-		let text: String =
-			if EnvironmentVariables::is_to_use_fallback_text()
+		let text: String = if EnvironmentVariables::is_to_use_fallback_text()
+		{
+			match &self.fallback_text
 			{
-				match &self.fallback_text
+				Some(fallback_text) =>
 				{
-					Some(fallback_text) =>
-					{ fallback_text.clone() }
-					None =>
-					{ self.default_text.clone() }
+					fallback_text.clone()
+				}
+				None =>
+				{
+					self.default_text.clone()
 				}
 			}
-			else
-			{ self.default_text.clone() };
+		}
+		else
+		{
+			self.default_text.clone()
+		};
 		let colored_text: String = format!(
 			"{}{}%f",
 			self.color.get_style_sequence(),
 			text
 		);
-		let format: String =
-			match self.appearing_condition
+		let format: String = match self.appearing_condition
+		{
+			AppearingCondition::Default =>
 			{
-				AppearingCondition::Default =>
-				{ colored_text }
-				AppearingCondition::OnRootUser =>
-				{
-					format!(
-						"%(#.{}.)",
-						colored_text
-					)
-				}
-				AppearingCondition::OnJob =>
-				{
-					format!(
-						"%(1j.{}.)",
-						colored_text
-					)
-				},
-				AppearingCondition::OnError =>
-				{
-					format!(
-						"%(?..{})",
-						colored_text
-					)
-				},
-				AppearingCondition::OnSuccess =>
-				{
-					format!(
-						"%(?.{}.)",
-						colored_text
-					)
-				}
-			};
+				colored_text
+			}
+			AppearingCondition::OnRootUser =>
+			{
+				format!(
+					"%(#.{}.)",
+					colored_text
+				)
+			}
+			AppearingCondition::OnJob =>
+			{
+				format!(
+					"%(1j.{}.)",
+					colored_text
+				)
+			},
+			AppearingCondition::OnError =>
+			{
+				format!(
+					"%(?..{})",
+					colored_text
+				)
+			},
+			AppearingCondition::OnSuccess =>
+			{
+				format!(
+					"%(?.{}.)",
+					colored_text
+				)
+			}
+		};
 		write!(
 			formatter,
 			"{}",
@@ -136,12 +141,18 @@ impl Display for PromptString
 }
 
 pub struct PromptComponent
-{ structure: String }
+{
+	structure: String
+}
 
 impl PromptComponent
 {
 	pub fn new() -> Self
-	{ Self { structure: String::new() } }
+	{
+		Self {
+			structure: String::new()
+		}
+	}
 
 	pub fn from<GenericType0: Display>(part: GenericType0) -> Self
 	{
@@ -149,7 +160,9 @@ impl PromptComponent
 			"{}",
 			part
 		);
-		Self { structure: part }
+		Self {
+			structure: part
+		}
 	}
 
 	pub fn push<GenericType0: Display>(
@@ -165,22 +178,32 @@ impl PromptComponent
 	}
 
 	pub fn get_structure(&self) -> String
-	{ self.structure.clone() }
+	{
+		self.structure.clone()
+	}
 }
 
 pub struct Prompt
-{ components: Vec<PromptComponent> }
+{
+	components: Vec<PromptComponent>
+}
 
 impl Prompt
 {
 	pub fn new() -> Self
-	{ Self { components: Vec::new() } }
+	{
+		Self {
+			components: Vec::new()
+		}
+	}
 
 	pub fn push(
 		&mut self,
 		component: PromptComponent
 	)
-	{ self.components.push(component); }
+	{
+		self.components.push(component);
+	}
 }
 
 impl Display for Prompt
@@ -192,7 +215,9 @@ impl Display for Prompt
 	{
 		let mut format: String = String::new();
 		for component in &self.components
-		{ format.push_str(&component.get_structure()); }
+		{
+			format.push_str(&component.get_structure());
+		}
 		write!(
 			formatter,
 			"{}",

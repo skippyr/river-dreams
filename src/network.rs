@@ -9,9 +9,13 @@ impl Network
 		match local_ip()
 		{
 			Ok(local_ip_address) =>
-			{ local_ip_address.to_string() }
+			{
+				local_ip_address.to_string()
+			}
 			Err(_error) =>
-			{ String::from("No address found") }
+			{
+				String::from("No address found")
+			}
 		}
 	}
 }

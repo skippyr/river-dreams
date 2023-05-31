@@ -23,27 +23,49 @@ impl Month
 		match moment.month0()
 		{
 			1 =>
-			{ String::from("Feb") }
+			{
+				String::from("Feb")
+			}
 			2 =>
-			{ String::from("Mar") }
+			{
+				String::from("Mar")
+			}
 			3 =>
-			{ String::from("Apr") }
+			{
+				String::from("Apr")
+			}
 			4 =>
-			{ String::from("May") }
+			{
+				String::from("May")
+			}
 			5 =>
-			{ String::from("Jun") }
+			{
+				String::from("Jun")
+			}
 			6 =>
-			{ String::from("Jul") }
+			{
+				String::from("Jul")
+			}
 			7 =>
-			{ String::from("Aug") }
+			{
+				String::from("Aug")
+			}
 			8 =>
-			{ String::from("Sep") }
+			{
+				String::from("Sep")
+			}
 			9 =>
-			{ String::from("Oct") }
+			{
+				String::from("Oct")
+			}
 			10 =>
-			{ String::from("Nov") }
+			{
+				String::from("Nov")
+			}
 			_ =>
-			{ String::from("Jan") }
+			{
+				String::from("Jan")
+			}
 		}
 	}
 }
@@ -55,13 +77,21 @@ impl Day
 	fn get_ordinal_string(day: u8) -> String
 	{
 		if Math::is_first(day)
-		{ String::from("st") }
+		{
+			String::from("st")
+		}
 		else if Math::is_second(day)
-		{ String::from("nd") }
+		{
+			String::from("nd")
+		}
 		else if Math::is_third(day)
-		{ String::from("rd") }
+		{
+			String::from("rd")
+		}
 		else
-		{ String::from("th") }
+		{
+			String::from("th")
+		}
 	}
 
 	fn as_string(moment: DateTime<Local>) -> String
@@ -85,19 +115,33 @@ impl WeekDay
 		match moment.weekday()
 		{
 			chrono::Weekday::Sun =>
-			{ String::from("Sun") }
+			{
+				String::from("Sun")
+			}
 			chrono::Weekday::Mon =>
-			{ String::from("Mon") }
+			{
+				String::from("Mon")
+			}
 			chrono::Weekday::Tue =>
-			{ String::from("Tue") }
+			{
+				String::from("Tue")
+			}
 			chrono::Weekday::Wed =>
-			{ String::from("Wed") }
+			{
+				String::from("Wed")
+			}
 			chrono::Weekday::Thu =>
-			{ String::from("Thu") }
+			{
+				String::from("Thu")
+			}
 			chrono::Weekday::Fri =>
-			{ String::from("Fri") }
+			{
+				String::from("Fri")
+			}
 			chrono::Weekday::Sat =>
-			{ String::from("Sat") }
+			{
+				String::from("Sat")
+			}
 		}
 	}
 }
@@ -117,8 +161,7 @@ impl Calendar
 		let month: String = Month::as_string(current_moment);
 		let day: String = Day::as_string(current_moment);
 		let week_day: String = WeekDay::as_string(current_moment);
-		Self
-		{
+		Self {
 			month,
 			day,
 			week_day
@@ -164,9 +207,13 @@ impl Clock
 		format!(
 			"{}{}",
 			if time < 10
-			{ String::from("0") }
+			{
+				String::from("0")
+			}
 			else
-			{ String::new() },
+			{
+				String::new()
+			},
 			time
 		)
 	}
@@ -176,8 +223,7 @@ impl Clock
 		let current_moment: DateTime<Local> = Local::now();
 		let hours: i8 = current_moment.hour() as i8;
 		let minutes: i8 = current_moment.minute() as i8;
-		Self
-		{
+		Self {
 			hours,
 			minutes
 		}
@@ -204,13 +250,21 @@ impl Clock
 	pub fn get_day_moment(&self) -> DayMoment
 	{
 		if self.is_dawn()
-		{ DayMoment::Dawn }
+		{
+			DayMoment::Dawn
+		}
 		else if self.is_morning()
-		{ DayMoment::Morning }
+		{
+			DayMoment::Morning
+		}
 		else if self.is_afternoon()
-		{ DayMoment::Afternoon }
+		{
+			DayMoment::Afternoon
+		}
 		else
-		{ DayMoment::Night }
+		{
+			DayMoment::Night
+		}
 	}
 }
 

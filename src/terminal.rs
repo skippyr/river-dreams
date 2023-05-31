@@ -9,9 +9,13 @@ impl TerminalEmulator
 		match size()
 		{
 			Ok(size) =>
-			{ size.0 }
+			{
+				size.0
+			}
 			Err(_error) =>
-			{ 0 }
+			{
+				0
+			}
 		}
 	}
 }
