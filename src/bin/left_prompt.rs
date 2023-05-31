@@ -91,7 +91,6 @@ fn create_top_right_connector_component() -> PromptComponent
 
 fn create_local_ip_address_component() -> PromptComponent
 {
-	let mut component: PromptComponent = PromptComponent::new();
 	let color: Color = Color::Blue;
 	let symbol: PromptString = PromptString::new(
 		" ",
@@ -107,16 +106,17 @@ fn create_local_ip_address_component() -> PromptComponent
 		color
 	);
 	let local_ip_address: String = Network::get_local_ip_address();
-	component.push(symbol);
-	component.push(host);
-	component.push(separator);
-	component.push(local_ip_address);
-	component
+	PromptComponent::from(format!(
+		"{}{}{}{}",
+		symbol,
+		host,
+		separator,
+		local_ip_address
+	))
 }
 
 fn create_disk_usage_percentage_component() -> PromptComponent
 {
-	let mut component: PromptComponent = PromptComponent::new();
 	let symbol: PromptString = PromptString::new(
 		"󰋊 ",
 		Some("Disk "),
@@ -127,77 +127,79 @@ fn create_disk_usage_percentage_component() -> PromptComponent
 		"{}%%",
 		MainDisk::get_usage_percentage()
 	);
-	component.push(symbol);
-	component.push(usage_percentage);
-	component
+	PromptComponent::from(format!(
+		"{}{}",
+		symbol,
+		usage_percentage
+	))
 }
 
 fn create_calendar_component() -> PromptComponent
 {
-	let mut component: PromptComponent = PromptComponent::new();
 	let symbol: PromptString = PromptString::new(
 		"󰸗 ",
 		Some("Calendar "),
 		AppearingCondition::Default,
 		Color::Red
 	);
-	component.push(symbol);
-	component.push(Calendar::from_current_moment());
-	component
+	PromptComponent::from(format!(
+		"{}{}",
+		symbol,
+		Calendar::from_current_moment()
+	))
 }
 
 fn create_clock_component() -> PromptComponent
 {
-	let mut component: PromptComponent = PromptComponent::new();
 	let clock: Clock = Clock::from_current_moment();
-	let symbol: PromptString =
-		match clock.get_day_moment()
+	let symbol: PromptString = match clock.get_day_moment()
+	{
+		DayMoment::Dawn =>
 		{
-			DayMoment::Dawn =>
-			{
-				PromptString::new(
-					"󰭎 ",
-					Some("Dawn "),
-					AppearingCondition::Default,
-					Color::Cyan
-				)
-			}
-			DayMoment::Morning =>
-			{
-				PromptString::new(
-					"󰖨 ",
-					Some("Morning "),
-					AppearingCondition::Default,
-					Color::Red
-				)
-			}
-			DayMoment::Afternoon =>
-			{
-				PromptString::new(
-					" ",
-					Some("Afternoon "),
-					AppearingCondition::Default,
-					Color::Blue
-				)
-			}
-			DayMoment::Night =>
-			{
-				PromptString::new(
-					"󰽥 ",
-					Some("Night "),
-					AppearingCondition::Default,
-					Color::Yellow
-				)
-			}
-		};
-	component.push(symbol);
-	component.push(clock);
-	component
+			PromptString::new(
+				"󰭎 ",
+				Some("Dawn "),
+				AppearingCondition::Default,
+				Color::Cyan
+			)
+		}
+		DayMoment::Morning =>
+		{
+			PromptString::new(
+				"󰖨 ",
+				Some("Morning "),
+				AppearingCondition::Default,
+				Color::Red
+			)
+		}
+		DayMoment::Afternoon =>
+		{
+			PromptString::new(
+				" ",
+				Some("Afternoon "),
+				AppearingCondition::Default,
+				Color::Blue
+			)
+		}
+		DayMoment::Night =>
+		{
+			PromptString::new(
+				"󰽥 ",
+				Some("Night "),
+				AppearingCondition::Default,
+				Color::Yellow
+			)
+		}
+	};
+	PromptComponent::from(format!(
+		"{}{}",
+		symbol,
+		clock
+	))
 }
 
 fn create_root_component() -> PromptComponent
 {
-	let mut component: PromptComponent = PromptComponent::new();
 	let curly_brackets_color: Color = Color::Yellow;
 	let left_curly_bracket: PromptString = PromptString::new(
 		"{",
@@ -217,7 +219,7 @@ fn create_root_component() -> PromptComponent
 		AppearingCondition::Default,
 		Color::Red
 	);
-	let root: PromptString = PromptString::new(
+	PromptComponent::from(PromptString::new(
 		format!(
 			"{}{}{}",
 			left_curly_bracket,
@@ -227,9 +229,7 @@ fn create_root_component() -> PromptComponent
 		None::<String>,
 		AppearingCondition::OnRootUser,
 		Color::Default
-	);
-	component.push(root);
-	component
+	))
 }
 
 fn create_error_component() -> PromptComponent
@@ -296,27 +296,27 @@ fn create_virtual_environment_component() -> PromptComponent
 			AppearingCondition::Default,
 			curly_brackets_color
 		);
-		component.push(left_curly_bracket);
-		component.push(PathTreater::get_base_name(&virtual_environment));
-		component.push(right_curly_bracket);
+		component.push(format!(
+			"{}{}{}",
+			left_curly_bracket,
+			PathTreater::get_base_name(&virtual_environment),
+			right_curly_bracket
+		));
 	}
 	component
 }
 
 fn create_directory_component(repository: &Option<Repository>) -> PromptComponent
 {
-	let mut component: PromptComponent = PromptComponent::new();
-	let directory: PromptString = PromptString::new(
-	PathTreater::abbreviate(
+	PromptComponent::from(PromptString::new(
+		PathTreater::abbreviate(
 			&Paths::get_current_directory(),
 			repository
 		),
 		None::<String>,
 		AppearingCondition::Default,
 		Color::Red
-	);
-	component.push(directory);
-	component
+	))
 }
 
 fn create_git_component(repository: &Option<Repository>) -> PromptComponent
@@ -337,9 +337,12 @@ fn create_git_component(repository: &Option<Repository>) -> PromptComponent
 			Color::Green
 		);
 		let branch: String = repository.get_branch().get_name();
-		component.push(left_connector);
-		component.push(branch);
-		component.push(right_connector);
+		component.push(format!(
+			"{}{}{}",
+			left_connector,
+			branch,
+			right_connector
+		));
 	}
 	component
 }
@@ -349,13 +352,12 @@ fn create_directory_ownership_component() -> PromptComponent
 	let mut component: PromptComponent = PromptComponent::new();
 	if !PathsPermissions::does_user_owns_current_directory()
 	{
-		let symbol: PromptString = PromptString::new(
+		component.push(PromptString::new(
 			" ",
 			Some(" #"),
 			AppearingCondition::Default,
 			Color::Magenta
-		);
-		component.push(symbol);
+		));
 	}
 	component
 }
