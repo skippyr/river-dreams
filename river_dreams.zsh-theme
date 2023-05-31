@@ -36,9 +36,6 @@ function river_dreams::compile
 		echo ""
 		echo "\tIf you need more help you can report an issue at:"
 		echo "\t\thttps://github.com/skippyr/river_dreams/issues"
-		echo ""
-		echo "\tYou are now running River Dreams using a fallback prompt with limited functionalities."
-		echo "\tSolve previous reported errors to use the main prompt."
 	)
 }
 
@@ -68,5 +65,9 @@ if [[
 ]]; then
 	PROMPT='$("${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}/left_prompt")'
 	RPROMPT='$("${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}/right_prompt")'
+else
+	echo ""
+	echo "\tYou are now running River Dreams using a fallback prompt with limited functionalities."
+	echo "\tSolve previous reported errors to use the main prompt."
 fi
 
