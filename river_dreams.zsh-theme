@@ -19,22 +19,26 @@ function river_dreams::compile
 {
 	cargo build --release --manifest-path "${RIVER_DREAMS_MANIFEST_FILE_PATH}" ||
 	(
-		rm -rf "${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}"
 		echo ""
-		echo "Opsie!"
-		echo "\tprogram: river_dreams."
-		echo "\tdescription: could not compile the source files."
-		echo "\tsuggestion:"
+		echo "[!] Compilation Error"
+		echo "\tProgram:"
+		echo "\t\tRiver Dreams."
+		echo "\tDescription:"
+		echo "\t\tCould not compile the source files using cargo."
+		echo "\tSuggestion(s):"
+		echo "\t\t* Ensure that you are connected to the internet."
 		echo "\t\t* Ensure that you have installed all the required dependencies to compile them."
-		echo "\t\tYou can find more information about it in the README.md file."
-		echo "\t\t* Ensure that you are connected to the internet when downloading the dependencies using cargo."
+		echo "\t\t  You can find more information about it in the README.md file:"
 		echo "\t\t* If you have modified the source code, ensure that it does not contain any syntax error."
-		echo "\t\tRead the instructions given above by cargo to track the issue easily."
+		echo "\t\t  Read the instructions given above by cargo to track the issue easily."
 		echo ""
 		echo "\tAfter solving this issue, restart your ZSH session to try to compile them again."
 		echo ""
 		echo "\tIf you need more help you can report an issue at:"
 		echo "\t\thttps://github.com/skippyr/river_dreams/issues"
+		echo ""
+		echo "\tYou are now running River Dreams using a fallback prompt with limited functionalities."
+		echo "\tSolve previous reported errors to use the main prompt."
 	)
 }
 
@@ -64,9 +68,5 @@ if [[
 ]]; then
 	PROMPT='$("${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}/left_prompt")'
 	RPROMPT='$("${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}/right_prompt")'
-else
-	echo ""
-	echo "Attention: you are running River Dreams using a fallback prompt with limited functionalities."
-	echo "Solve previous reported errors to use the main prompt."
 fi
 
