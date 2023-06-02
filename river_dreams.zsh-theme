@@ -15,10 +15,8 @@ typeset -gr RIVER_DREAMS_RELEASE_DIRECTORY_PATH="${RIVER_DREAMS_DIRECTORY_PATH}/
 
 source "${RIVER_DREAMS_DIRECTORY_PATH}/river_dreams_fallback.zsh-theme"
 
-function river_dreams::compile
-{
-	cargo build --release --manifest-path "${RIVER_DREAMS_MANIFEST_FILE_PATH}" ||
-	(
+function river_dreams::compile {
+	cargo build --release --manifest-path "${RIVER_DREAMS_MANIFEST_FILE_PATH}" || (
 		echo ""
 		echo "[!] Compilation Error"
 		echo "\tProgram:"
@@ -39,8 +37,7 @@ function river_dreams::compile
 	)
 }
 
-function river_dreams::toggle_fallback_text
-{
+function river_dreams::toggle_fallback_text {
 	if [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} -eq "0" ]]; then
 		export RIVER_DREAMS_USE_FALLBACK_TEXT="1"
 		echo "Fallback text feature has been enabled."
