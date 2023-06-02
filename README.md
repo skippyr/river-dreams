@@ -4,7 +4,7 @@
 		<p>Right below, there are some previews that you can check out.</p>
 		<img src="./images/preview.gif"/>
 		<img src="./images/preview_fallback.gif"/>
-		<p>In both previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator, with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/source-foundry/Hack">Hack</a> font. The program used to list directory entries is <a href="https://github.com/skippyr/reveal">reveal</a>.</p>
+		<p>In both previews, River Dreams was used on the <a href="https://github.com/kovidgoyal/kitty">Kitty</a> terminal emulator, with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> theme and <a href="https://github.com/be5invis/Iosevka">Iosevka</a> font (stylistic set <code>ss08</code>). The program used to list directory entries is <a href="https://github.com/skippyr/reveal">reveal</a>.</p>
 	<h2>Features</h2>
 		<p>In its left prompt you will find:</p>
 		<ul>
@@ -12,8 +12,8 @@
 			<li>The usage percentage of your disk.</li>
 			<li>A calendar that shows week day, month and day.</li>
 			<li>A clock that shows the hour and minute in 24 hours format.</li>
-			<li>A hash decorator to show if you are root or not.</li>
-			<li>A diamond decorator that gets filled if your last command failed.</li>
+			<li>A decorator to show if you are root or not.</li>
+			<li>A decorator if your last command failed.</li>
 			<li>The name of sourced virtual environments.</li>
 			<li>Your current directory path abbreviated.</li>
 			<li>The name of the branch if you are inside a <code>git</code> repository.</li>
@@ -79,7 +79,7 @@
 	<h2>Customization</h2>
 		<p>You can toggle the fallback feature of River Dreams by using the function <code>river_dreams::toggle_fallback_text</code>. If you need more control of it, you can use an environment variable called <code>RIVER_DREAMS_USE_FALLBACK_TEXT</code>. That variable expects an integer value that represents a boolean:</p>
 		<ul>
-			<li><code>0</code> means <code>false</code>, which will deativate the feature.</li>
+			<li><code>0</code> means <code>false</code>, which will disable the feature.</li>
 			<pre><code>export RIVER_DREAMS_USE_FALLBACK_TEXT="0"</code></pre>
 			<li><code>1</code> means <code>true</code>, which will enable the feature.</li>
 			<pre><code>export RIVER_DREAMS_USE_FALLBACK_TEXT="1"</code></pre>
