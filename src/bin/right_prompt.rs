@@ -34,7 +34,7 @@ fn create_entry_types_component() -> PromptComponent
 	{
 		let symbol: PromptString = PromptString::new(
 			"󰌷 ",
-			Some("LIN "),
+			Some("SYL "),
 			AppearingCondition::Default,
 			Color::Blue
 		);
@@ -62,7 +62,7 @@ fn create_entry_types_component() -> PromptComponent
 	{
 		let symbol: PromptString = PromptString::new(
 			"󰻝 ",
-			Some("Broken "),
+			Some("BRK "),
 			AppearingCondition::Default,
 			Color::Yellow
 		);
