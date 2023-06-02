@@ -223,13 +223,13 @@ fn create_error_component() -> PromptComponent {
 		curly_brackets_color
 	);
 	let success_symbol: PromptString = PromptString::new(
-		"◇",
+		"∘",
 		Some("o"),
 		AppearingCondition::OnSuccess,
 		Color::Yellow
 	);
 	let error_symbol: PromptString = PromptString::new(
-		"◆",
+		"⨲",
 		Some("*"),
 		AppearingCondition::OnError,
 		Color::Red
