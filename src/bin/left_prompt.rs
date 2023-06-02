@@ -119,7 +119,7 @@ fn create_disk_usage_percentage_component() -> PromptComponent
 {
 	let symbol: PromptString = PromptString::new(
 		"󰋊 ",
-		Some("Disk "),
+		Some("DIS "),
 		AppearingCondition::Default,
 		Color::Yellow
 	);
@@ -138,7 +138,7 @@ fn create_calendar_component() -> PromptComponent
 {
 	let symbol: PromptString = PromptString::new(
 		"󰸗 ",
-		Some("Calendar "),
+		Some("CAL "),
 		AppearingCondition::Default,
 		Color::Red
 	);
@@ -158,7 +158,7 @@ fn create_clock_component() -> PromptComponent
 		{
 			PromptString::new(
 				"󰭎 ",
-				Some("Dawn "),
+				Some("DAW "),
 				AppearingCondition::Default,
 				Color::Cyan
 			)
@@ -167,7 +167,7 @@ fn create_clock_component() -> PromptComponent
 		{
 			PromptString::new(
 				"󰖨 ",
-				Some("Morning "),
+				Some("MOR "),
 				AppearingCondition::Default,
 				Color::Red
 			)
@@ -176,7 +176,7 @@ fn create_clock_component() -> PromptComponent
 		{
 			PromptString::new(
 				" ",
-				Some("Afternoon "),
+				Some("AFT "),
 				AppearingCondition::Default,
 				Color::Blue
 			)
@@ -185,7 +185,7 @@ fn create_clock_component() -> PromptComponent
 		{
 			PromptString::new(
 				"󰽥 ",
-				Some("Night "),
+				Some("NIG "),
 				AppearingCondition::Default,
 				Color::Yellow
 			)
@@ -272,7 +272,7 @@ fn create_arrow_component() -> PromptComponent
 {
 	PromptComponent::from(PromptString::new(
 		"⤐  ",
-		Some("~> "),
+		Some(">%%> "),
 		AppearingCondition::Default,
 		Color::Yellow
 	))

@@ -20,7 +20,7 @@ fn create_entry_types_component() -> PromptComponent
 	{
 		let symbol: PromptString = PromptString::new(
 			"󱖏 ",
-			Some("Executable "),
+			Some("EXE "),
 			AppearingCondition::Default,
 			Color::Green
 		);
@@ -34,7 +34,7 @@ fn create_entry_types_component() -> PromptComponent
 	{
 		let symbol: PromptString = PromptString::new(
 			"󰌷 ",
-			Some("Symlink "),
+			Some("LIN "),
 			AppearingCondition::Default,
 			Color::Blue
 		);
@@ -48,7 +48,7 @@ fn create_entry_types_component() -> PromptComponent
 	{
 		let symbol: PromptString = PromptString::new(
 			" ",
-			Some("Hidden "),
+			Some("HID "),
 			AppearingCondition::Default,
 			Color::Red
 		);
