@@ -10,5 +10,5 @@ function _river_dreams::get_git_branch()
 	fi
 }
 
-PROMPT='%F{yellow}~> %F{red}%~%f$(_river_dreams::get_git_branch)  '
+PROMPT='%F{yellow}>%> %F{red}%~%f$(_river_dreams::get_git_branch)  '
 

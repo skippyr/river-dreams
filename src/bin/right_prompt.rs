@@ -1,8 +1,6 @@
-use river_dreams::
-{
+use river_dreams::{
 	styles::Color,
-	prompt::
-	{
+	prompt::{
 		Prompt,
 		PromptComponent,
 		PromptString,
@@ -12,12 +10,10 @@ use river_dreams::
 	locale::NumberFormatter
 };
 
-fn create_entry_types_component() -> PromptComponent
-{
+fn create_entry_types_component() -> PromptComponent {
 	let mut formatter: Vec<String> = Vec::new();
 	let entry_types: PathEntryTypes = PathEntryTypes::from_current_directory();
-	if entry_types.get_quantity_of_executable_files() > 0
-	{
+	if entry_types.get_quantity_of_executable_files() > 0 {
 		let symbol: PromptString = PromptString::new(
 			"󱖏 ",
 			Some("EXE "),
@@ -30,8 +26,7 @@ fn create_entry_types_component() -> PromptComponent
 			NumberFormatter::format_u32(entry_types.get_quantity_of_executable_files())
 		));
 	}
-	if entry_types.get_quantity_of_symlinks() > 0
-	{
+	if entry_types.get_quantity_of_symlinks() > 0 {
 		let symbol: PromptString = PromptString::new(
 			"󰌷 ",
 			Some("SYL "),
@@ -44,8 +39,7 @@ fn create_entry_types_component() -> PromptComponent
 			NumberFormatter::format_u32(entry_types.get_quantity_of_symlinks())
 		));
 	}
-	if entry_types.get_quantity_of_hidden_files() > 0
-	{
+	if entry_types.get_quantity_of_hidden_files() > 0 {
 		let symbol: PromptString = PromptString::new(
 			" ",
 			Some("HID "),
@@ -58,8 +52,7 @@ fn create_entry_types_component() -> PromptComponent
 			NumberFormatter::format_u32(entry_types.get_quantity_of_hidden_files())
 		));
 	}
-	if entry_types.get_quantity_of_broken_files() > 0
-	{
+	if entry_types.get_quantity_of_broken_files() > 0 {
 		let symbol: PromptString = PromptString::new(
 			"󰻝 ",
 			Some("BRK "),
@@ -75,8 +68,7 @@ fn create_entry_types_component() -> PromptComponent
 	PromptComponent::from(formatter.join("  "))
 }
 
-fn create_job_component() -> PromptComponent
-{
+fn create_job_component() -> PromptComponent {
 	let symbol: PromptString = PromptString::new(
 		"   ",
 		Some("  Job "),
@@ -95,8 +87,7 @@ fn create_job_component() -> PromptComponent
 	))
 }
 
-fn main()
-{
+fn main() {
 	let mut prompt: Prompt = Prompt::new();
 	prompt.push(create_entry_types_component());
 	prompt.push(create_job_component());

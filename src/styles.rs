@@ -2,8 +2,7 @@
 	Clone,
 	Copy
 )]
-pub enum Color
-{
+pub enum Color {
 	Default,
 	Black,
 	Red,
@@ -15,46 +14,34 @@ pub enum Color
 	White
 }
 
-impl Color
-{
-	pub fn get_style_sequence(&self) -> String
-	{
-		match self
-		{
-			Self::Default =>
-			{
+impl Color {
+	pub fn get_style_sequence(&self) -> String {
+		match self {
+			Self::Default => {
 				String::from("%f")
 			}
-			Self::Black =>
-			{
+			Self::Black => {
 				String::from("%F{black}")
 			}
-			Self::Red =>
-			{
+			Self::Red => {
 				String::from("%F{red}")
 			}
-			Self::Green =>
-			{
+			Self::Green => {
 				String::from("%F{green}")
 			}
-			Self::Yellow =>
-			{
+			Self::Yellow => {
 				String::from("%F{yellow}")
 			}
-			Self::Blue =>
-			{
+			Self::Blue => {
 				String::from("%F{blue}")
 			}
-			Self::Magenta =>
-			{
+			Self::Magenta => {
 				String::from("%F{magenta}")
 			}
-			Self::Cyan =>
-			{
+			Self::Cyan => {
 				String::from("%F{cyan}")
 			}
-			Self::White =>
-			{
+			Self::White => {
 				String::from("%F{white}")
 			}
 		}

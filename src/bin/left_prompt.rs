@@ -1,8 +1,6 @@
-use river_dreams::
-{
+use river_dreams::{
 	styles::Color,
-	prompt::
-	{
+	prompt::{
 		AppearingCondition,
 		Prompt,
 		PromptComponent,
@@ -11,56 +9,46 @@ use river_dreams::
 	terminal::TerminalEmulator,
 	math::Math,
 	network::Network,
-	file_system::
-	{
+	file_system::{
 		disk::MainDisk,
 		git::Repository,
-		paths::
-		{
+		paths::{
 			Paths,
 			PathTreater,
 			PathsPermissions
 		}
 	},
-	time::
-	{
+	time::{
 		Calendar,
 		Clock,
 		DayMoment
 	}
 };
 
-pub fn create_vertical_separator_component() -> PromptComponent
-{
+pub fn create_vertical_separator_component() -> PromptComponent {
 	let mut component: PromptComponent = PromptComponent::new();
-	for column in 0..TerminalEmulator::get_columns()
-	{
-		let symbol: PromptString =
-			if Math::is_even(column)
-			{
-				PromptString::new(
-					"⨰",
-					Some("%%"),
-					AppearingCondition::Default,
-					Color::Yellow
-				)
-			}
-			else
-			{
-				PromptString::new(
-					"⧈",
-					Some(":"),
-					AppearingCondition::Default,
-					Color::Red
-				)
-			};
+	for column in 0..TerminalEmulator::get_columns() {
+		let symbol: PromptString = if Math::is_even(column) {
+			PromptString::new(
+				"⨰",
+				Some("%%"),
+				AppearingCondition::Default,
+				Color::Yellow
+			)
+		} else {
+			PromptString::new(
+				"⧈",
+				Some(":"),
+				AppearingCondition::Default,
+				Color::Red
+			)
+		};
 		component.push(symbol);
 	}
 	component
 }
 
-fn create_horizontal_separator_component() -> PromptComponent
-{
+fn create_horizontal_separator_component() -> PromptComponent {
 	PromptComponent::from(PromptString::new(
 		"  ",
 		None::<String>,
@@ -69,8 +57,7 @@ fn create_horizontal_separator_component() -> PromptComponent
 	))
 }
 
-fn create_top_left_connector_component() -> PromptComponent
-{
+fn create_top_left_connector_component() -> PromptComponent {
 	PromptComponent::from(PromptString::new(
 		":«",
 		None::<String>,
@@ -79,8 +66,7 @@ fn create_top_left_connector_component() -> PromptComponent
 	))
 }
 
-fn create_top_right_connector_component() -> PromptComponent
-{
+fn create_top_right_connector_component() -> PromptComponent {
 	PromptComponent::from(PromptString::new(
 		"»:\n",
 		None::<String>,
@@ -89,8 +75,7 @@ fn create_top_right_connector_component() -> PromptComponent
 	))
 }
 
-fn create_local_ip_address_component() -> PromptComponent
-{
+fn create_local_ip_address_component() -> PromptComponent {
 	let color: Color = Color::Blue;
 	let symbol: PromptString = PromptString::new(
 		" ",
@@ -115,8 +100,7 @@ fn create_local_ip_address_component() -> PromptComponent
 	))
 }
 
-fn create_disk_usage_percentage_component() -> PromptComponent
-{
+fn create_disk_usage_percentage_component() -> PromptComponent {
 	let symbol: PromptString = PromptString::new(
 		"󰋊 ",
 		Some("DIS "),
@@ -134,8 +118,7 @@ fn create_disk_usage_percentage_component() -> PromptComponent
 	))
 }
 
-fn create_calendar_component() -> PromptComponent
-{
+fn create_calendar_component() -> PromptComponent {
 	let symbol: PromptString = PromptString::new(
 		"󰸗 ",
 		Some("CAL "),
@@ -149,13 +132,10 @@ fn create_calendar_component() -> PromptComponent
 	))
 }
 
-fn create_clock_component() -> PromptComponent
-{
+fn create_clock_component() -> PromptComponent {
 	let clock: Clock = Clock::from_current_moment();
-	let symbol: PromptString = match clock.get_day_moment()
-	{
-		DayMoment::Dawn =>
-		{
+	let symbol: PromptString = match clock.get_day_moment() {
+		DayMoment::Dawn => {
 			PromptString::new(
 				"󰭎 ",
 				Some("DAW "),
@@ -163,8 +143,7 @@ fn create_clock_component() -> PromptComponent
 				Color::Cyan
 			)
 		}
-		DayMoment::Morning =>
-		{
+		DayMoment::Morning => {
 			PromptString::new(
 				"󰖨 ",
 				Some("MOR "),
@@ -172,8 +151,7 @@ fn create_clock_component() -> PromptComponent
 				Color::Red
 			)
 		}
-		DayMoment::Afternoon =>
-		{
+		DayMoment::Afternoon => {
 			PromptString::new(
 				" ",
 				Some("AFT "),
@@ -181,8 +159,7 @@ fn create_clock_component() -> PromptComponent
 				Color::Blue
 			)
 		}
-		DayMoment::Night =>
-		{
+		DayMoment::Night => {
 			PromptString::new(
 				"󰽥 ",
 				Some("NIG "),
@@ -198,8 +175,7 @@ fn create_clock_component() -> PromptComponent
 	))
 }
 
-fn create_root_component() -> PromptComponent
-{
+fn create_root_component() -> PromptComponent {
 	let curly_brackets_color: Color = Color::Yellow;
 	let left_curly_bracket: PromptString = PromptString::new(
 		"{",
@@ -232,8 +208,7 @@ fn create_root_component() -> PromptComponent
 	))
 }
 
-fn create_error_component() -> PromptComponent
-{
+fn create_error_component() -> PromptComponent {
 	let curly_brackets_color: Color = Color::Yellow;
 	let left_curly_bracket: PromptString = PromptString::new(
 		"{",
@@ -268,8 +243,7 @@ fn create_error_component() -> PromptComponent
 	))
 }
 
-fn create_arrow_component() -> PromptComponent
-{
+fn create_arrow_component() -> PromptComponent {
 	PromptComponent::from(PromptString::new(
 		"⤐  ",
 		Some(">%%> "),
@@ -278,11 +252,9 @@ fn create_arrow_component() -> PromptComponent
 	))
 }
 
-fn create_virtual_environment_component() -> PromptComponent
-{
+fn create_virtual_environment_component() -> PromptComponent {
 	let mut component: PromptComponent = PromptComponent::new();
-	if let Some(virtual_environment) = Paths::get_virtual_environment()
-	{
+	if let Some(virtual_environment) = Paths::get_virtual_environment() {
 		let curly_brackets_color: Color = Color::Cyan;
 		let left_curly_bracket: PromptString = PromptString::new(
 			"(",
@@ -306,8 +278,7 @@ fn create_virtual_environment_component() -> PromptComponent
 	component
 }
 
-fn create_directory_component(repository: &Option<Repository>) -> PromptComponent
-{
+fn create_directory_component(repository: &Option<Repository>) -> PromptComponent {
 	PromptComponent::from(PromptString::new(
 		PathTreater::abbreviate(
 			&Paths::get_current_directory(),
@@ -319,11 +290,9 @@ fn create_directory_component(repository: &Option<Repository>) -> PromptComponen
 	))
 }
 
-fn create_git_component(repository: &Option<Repository>) -> PromptComponent
-{
+fn create_git_component(repository: &Option<Repository>) -> PromptComponent {
 	let mut component: PromptComponent = PromptComponent::new();
-	if let Some(repository) = repository
-	{
+	if let Some(repository) = repository {
 		let left_connector: PromptString = PromptString::new(
 			":«",
 			None::<String>,
@@ -347,11 +316,9 @@ fn create_git_component(repository: &Option<Repository>) -> PromptComponent
 	component
 }
 
-fn create_directory_ownership_component() -> PromptComponent
-{
+fn create_directory_ownership_component() -> PromptComponent {
 	let mut component: PromptComponent = PromptComponent::new();
-	if !PathsPermissions::does_user_owns_current_directory()
-	{
+	if !PathsPermissions::does_user_owns_current_directory() {
 		component.push(PromptString::new(
 			" ",
 			Some(" #"),
@@ -362,8 +329,7 @@ fn create_directory_ownership_component() -> PromptComponent
 	component
 }
 
-fn create_cursor_component() -> PromptComponent
-{
+fn create_cursor_component() -> PromptComponent {
 	PromptComponent::from(PromptString::new(
 		" ✘",
 		Some(" %%"),
@@ -372,8 +338,7 @@ fn create_cursor_component() -> PromptComponent
 	))
 }
 
-fn main()
-{
+fn main() {
 	let repository: Option<Repository> = Repository::from_current_directory();
 	let mut prompt: Prompt = Prompt::new();
 	prompt.push(create_vertical_separator_component());
