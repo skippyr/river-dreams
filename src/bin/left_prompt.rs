@@ -30,14 +30,14 @@ pub fn create_vertical_separator_component() -> PromptComponent {
 	for column in 0..TerminalEmulator::get_columns() {
 		let symbol: PromptString = if Math::is_even(column) {
 			PromptString::new(
-				"⨰",
+				"⊵",
 				Some("%%"),
 				AppearingCondition::Default,
 				Color::Yellow
 			)
 		} else {
 			PromptString::new(
-				"⧈",
+				"⊼",
 				Some(":"),
 				AppearingCondition::Default,
 				Color::Red
