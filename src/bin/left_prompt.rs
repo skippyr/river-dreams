@@ -223,7 +223,7 @@ fn create_error_component() -> PromptComponent {
 		curly_brackets_color
 	);
 	let success_symbol: PromptString = PromptString::new(
-		"∘",
+		"≗",
 		Some("o"),
 		AppearingCondition::OnSuccess,
 		Color::Yellow
@@ -331,7 +331,7 @@ fn create_directory_ownership_component() -> PromptComponent {
 
 fn create_cursor_component() -> PromptComponent {
 	PromptComponent::from(PromptString::new(
-		" ⩺ ",
+		" ⩺",
 		Some(" %%>"),
 		AppearingCondition::Default,
 		Color::Cyan
