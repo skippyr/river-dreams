@@ -70,10 +70,7 @@ pub struct PathTreater;
 
 impl PathTreater {
 	pub fn to_string(path: &PathBuf) -> String {
-		format!(
-			"{}",
-			path.display()
-		)
+		format!("{}", path.display())
 	}
 
 	pub fn get_base_name(path: &PathBuf) -> String {
@@ -153,11 +150,7 @@ impl PathTreater {
 					if intermediate_paths.len() > 0 {
 						let last_index: usize = intermediate_paths.len() - 1;
 						let last_path: String = intermediate_paths[last_index].clone();
-						format!(
-							"{}/{}",
-							last_path,
-							split
-						)
+						format!("{}/{}", last_path, split)
 					} else {
 						let path: String = if let Some(repository) = repository {
 							Self::to_string(&repository.get_path())
@@ -166,11 +159,7 @@ impl PathTreater {
 						} else {
 							String::new() 
 						};
-						format!(
-							"{}/{}",
-							path,
-							split
-						)
+						format!("{}/{}", path, split)
 					}
 				);
 			}
@@ -254,15 +243,9 @@ impl PathTreater {
 			return characters.iter().collect();
 		}
 		if path_characters[0] == '.' {
-			format!(
-				".{}",
-				path_characters[1]
-			)
+			format!(".{}", path_characters[1])
 		} else {
-			format!(
-				"{}",
-				path_characters[0]
-			)
+			format!("{}", path_characters[0])
 		}
 	}
 
@@ -270,14 +253,8 @@ impl PathTreater {
 		path: &PathBuf,
 		repository: &Option<Repository>
 	) -> String {
-		let initial: String = Self::abbreviate_initial(
-			path,
-			repository
-		);
-		let base_name: String = Self::abbreviate_base_name(
-			path,
-			repository
-		);
+		let initial: String = Self::abbreviate_initial(path, repository);
+		let base_name: String = Self::abbreviate_base_name(path, repository);
 		let intermediate_paths: Vec<String> = Self::abbreviate_intermediate_paths(
 			path,
 			repository

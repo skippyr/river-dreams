@@ -72,11 +72,7 @@ impl Day {
 	fn as_string(moment: DateTime<Local>) -> String {
 		let day: u8 = moment.day() as u8;
 		let ordinal: String = Self::get_ordinal_string(day);
-		format!(
-			"{}{}",
-			day,
-			ordinal
-		)
+		format!("{}{}", day, ordinal)
 	}
 }
 
@@ -131,17 +127,8 @@ impl Calendar {
 }
 
 impl Display for Calendar {
-	fn fmt(
-		&self,
-		formatter: &mut Formatter
-	) -> Result {
-		write!(
-			formatter,
-			"({}) {} {}",
-			self.week_day,
-			self.month,
-			self.day
-		)
+	fn fmt(&self, formatter: &mut Formatter) -> Result {
+		write!(formatter, "({}) {} {}", self.week_day, self.month, self.day)
 	}
 }
 
@@ -181,18 +168,15 @@ impl Clock {
 	}
 
 	fn is_dawn(&self) -> bool {
-		self.hours >= 0 &&
-		self.hours < 6
+		self.hours >= 0 && self.hours < 6
 	}
 	
 	fn is_morning(&self) -> bool {
-		self.hours >= 6 &&
-		self.hours < 12
+		self.hours >= 6 && self.hours < 12
 	}
 
 	fn is_afternoon(&self) -> bool {
-		self.hours >= 12 &&
-		self.hours < 18
+		self.hours >= 12 && self.hours < 18
 	}
 
 	pub fn get_day_moment(&self) -> DayMoment {
@@ -209,10 +193,7 @@ impl Clock {
 }
 
 impl Display for Clock {
-	fn fmt(
-		&self,
-		formatter: &mut Formatter
-	) -> Result {
+	fn fmt(&self, formatter: &mut Formatter) -> Result {
 		write!(
 			formatter,
 			"{}h{}m",
