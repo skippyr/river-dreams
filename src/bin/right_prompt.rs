@@ -71,7 +71,7 @@ fn create_entry_types_component() -> PromptComponent {
 fn create_job_component() -> PromptComponent {
 	let symbol: PromptString = PromptString::new(
 		"   ",
-		Some("  Job "),
+		Some("  JOB "),
 		AppearingCondition::Default,
 		Color::Magenta
 	);
