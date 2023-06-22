@@ -56,7 +56,7 @@ This theme has some dependencies that you need to download before installing it.
     information on how to install it in the [Rust Lang website](https://www.rust-lang.org/).
 
 * A font patched by the [Nerd Fonts project](https://github.com/ryanoasis/nerd-fonts)
-  (optional).
+  and [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans) (optional).
 
     This font provides all pretty symbols used in this theme. If you do not
     install it, you can prefer to use its fallback text feature.
