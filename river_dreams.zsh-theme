@@ -6,6 +6,14 @@ setopt promptsubst
 # Prevents the default changes made to the prompt when sourcing a virtual
 # environment.
 export VIRTUAL_ENV_DISABLE_PROMPT="1"
+
+# To avoid conflicts with possible user defined variables and functions, all
+# resources used in this theme use either the "RIVER_DREAMS" or "river_dreams"
+# prefixes.
+#
+# They might also use an underline character (_) at their start to make them
+# harder to find when using a regular tab completition.
+
 # Sets the environment variable used by the binaries to track if it is to use
 # fallback or not. If not set by the user, it will be set automatically based
 # on the terminal emulator's color support.
