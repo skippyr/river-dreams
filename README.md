@@ -13,11 +13,13 @@ reference to see what it can look like:
 
 ![](./images/preview.png)
 
-> In this preview, the River Dreams theme was used within the [Kitty terminal emulator](https://github.com/kovidgoyal/kitty)
-with the [Flamerial theme](https://github.com/skippyr/flamerial). Font used is
-Iosevka (stylistic set `ss08`) with fallback to Nerd Fonts Symbols. Wallpaper
-is [A close up of a tiled wall with orange and black designs by Patrick Hendry](https://unsplash.com/photos/hezNrE5QEa8)
-from Unsplash.
+> In this preview, the River Dreams theme was used within the [Kitty terminal
+  emulator](https://github.com/kovidgoyal/kitty) with the [Flamerial
+  theme](https://github.com/skippyr/flamerial). Font used is
+  [Iosevka](https://github.com/be5invis/Iosevka) (stylistic set `ss08`) with
+  fallback to Nerd Fonts Symbols. Wallpaper is [A close up of a tiled
+  wall with orange and black designs by Patrick Hendry](https://unsplash.com/photos/hezNrE5QEa8)
+  from Unsplash.
 
 ## Features
 

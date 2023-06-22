@@ -1,20 +1,32 @@
-#!/usr/bin/env zsh
-
+# Enables ZSH prompt substitution.
+#
+# This make it substitute variables and functions in the prompt variables, but
+# they need to be defined using single quotes for it to work.
 setopt promptsubst
-
+# Prevents the default changes made to the prompt when sourcing a virtual
+# environment.
 export VIRTUAL_ENV_DISABLE_PROMPT="1"
+# Sets the environment variable used by the binaries to track if it is to use
+# fallback or not. If not set by the user, it will be set automatically based
+# on the terminal emulator's color support.
 export RIVER_DREAMS_USE_FALLBACK_TEXT=${RIVER_DREAMS_USE_FALLBACK_TEXT:-$(
   [[ $(tput colors) -eq "8" ]] &&
-  echo "1" ||
-  echo "0"
+  echo "1" || # Enables if terminal emulator supports the 8 bits color palette.
+  echo "0"    # Disables otherwise.
 )}
 
+# The directory where River Dreams is stored at.
 typeset -gr RIVER_DREAMS_DIRECTORY_PATH="$(dirname "$(realpath "$0")")"
+# The file containing the instructions Cargo need to use when compiling the
+# source code.
 typeset -gr RIVER_DREAMS_MANIFEST_FILE_PATH="${RIVER_DREAMS_DIRECTORY_PATH}/Cargo.toml"
+# The directory where the binaries will be stored at.
 typeset -gr RIVER_DREAMS_RELEASE_DIRECTORY_PATH="${RIVER_DREAMS_DIRECTORY_PATH}/target/release"
 
+# Sources the fallback theme to be used in case the compilation fails.
 source "${RIVER_DREAMS_DIRECTORY_PATH}/river_dreams_fallback.zsh-theme"
 
+# Compiles the source code using Cargo.
 function river_dreams::compile {
   cargo build --release --manifest-path "${RIVER_DREAMS_MANIFEST_FILE_PATH}" || (
     echo ""
@@ -37,6 +49,7 @@ function river_dreams::compile {
   )
 }
 
+# Toggles the fallback text feature.
 function river_dreams::toggle_fallback_text {
   if [[ ${RIVER_DREAMS_USE_FALLBACK_TEXT} -eq "0" ]]; then
     export RIVER_DREAMS_USE_FALLBACK_TEXT="1"
@@ -47,6 +60,8 @@ function river_dreams::toggle_fallback_text {
   fi
 }
 
+# If the binaries can not be found in the startup, tries to automatically
+# compile them again.
 if [[
   ! -f "${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}/left_prompt" ||
   ! -f "${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}/right_prompt"
@@ -56,6 +71,10 @@ if [[
   echo ""
   river_dreams::compile
 fi
+# After a sucessfull compilation, in which all the binaries will exist, sets
+# their output as the prompt variables.
+#
+# Otherwise, uses the fallback theme sourced previously.
 if [[
   -f "${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}/left_prompt" &&
   -f "${RIVER_DREAMS_RELEASE_DIRECTORY_PATH}/right_prompt"
