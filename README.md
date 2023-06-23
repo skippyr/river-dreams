@@ -131,6 +131,15 @@ it based in your terminal emulator's color support, which, most of the times,
 works perfectly fine to discover your terminal can render pretty symbols or
 not.
 
+### Source Code
+
+If you have decided to modify the source code, you can compile the source code
+easily using the function:
+
+```bash
+river_dreams::compile
+```
+
 ## Issues And Contributions
 
 Learn how to report issues and contribute to this project by reading its
