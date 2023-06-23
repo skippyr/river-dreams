@@ -1,5 +1,4 @@
 ///! A module to work with environment variables.
-
 use std::env::var;
 
 /// An abstraction to work with environment variables.

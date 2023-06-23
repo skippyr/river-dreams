@@ -1,9 +1,9 @@
+pub mod date_time;
 pub mod environment;
 pub mod file_system;
-pub mod locale;
+pub mod format;
 pub mod math;
 pub mod network;
 pub mod prompt;
 pub mod styles;
 pub mod terminal;
-pub mod date_time;

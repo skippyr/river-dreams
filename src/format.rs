@@ -4,6 +4,7 @@ use num_format::{Locale, ToFormattedString};
 
 const LOCALE: Locale = Locale::en;
 
+/// An abstraction to format numbers.
 pub struct NumberFormatter;
 
 impl NumberFormatter {

@@ -2,6 +2,7 @@
 //! ${PROMPT} prompt variable value.
 
 use river_dreams::{
+    date_time::{Calendar, Clock, DayMoment},
     file_system::{
         disk::MainDisk,
         git::Repository,
@@ -12,7 +13,6 @@ use river_dreams::{
     prompt::{AppearingCondition, Prompt, PromptComponent, PromptString},
     styles::Color,
     terminal::TerminalEmulator,
-    date_time::{Calendar, Clock, DayMoment},
 };
 
 /// Returns the prompt component that will be used to separate the prompt from
@@ -147,8 +147,8 @@ fn create_root_component() -> PromptComponent {
     ))
 }
 
-/// Returns the prompt component that prints decorators whenever the last
-/// command succeded or failed.
+/// Returns the prompt component that prints different decorators based if the
+/// last command succeded or failed.
 fn create_error_component() -> PromptComponent {
     let curly_brackets_color: Color = Color::Yellow;
     let left_curly_bracket: PromptString = PromptString::new(

@@ -3,7 +3,7 @@
 
 use river_dreams::{
     file_system::paths::PathEntryTypes,
-    locale::NumberFormatter,
+    format::NumberFormatter,
     prompt::{AppearingCondition, Prompt, PromptComponent, PromptString},
     styles::Color,
 };
