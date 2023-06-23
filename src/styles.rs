@@ -1,5 +1,9 @@
+//! A module to work with styles for the ZSH shell specifically.
+
+/// A set of possible ANSI colors a string can be.
 #[derive(Clone, Copy)]
 pub enum Color {
+    /// The default colors of the terminal emulator's theme.
     Default,
     Black,
     Red,
@@ -12,6 +16,7 @@ pub enum Color {
 }
 
 impl Color {
+    /// Returns a formatter that represents the color for the ZSH shell.
     pub fn get_style_sequence(&self) -> String {
         match self {
             Self::Default => String::from("%f"),
