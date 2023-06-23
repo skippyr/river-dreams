@@ -1,6 +1,8 @@
+//! A module to work with network operations.
+
 use local_ip_address::local_ip;
 
-/// An abstraction to work with the Network.
+/// An abstraction to work with the network.
 pub struct Network;
 
 impl Network {

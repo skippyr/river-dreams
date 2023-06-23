@@ -9,7 +9,7 @@ use river_dreams::{
     prompt::{AppearingCondition, Prompt, PromptComponent, PromptString},
     styles::Color,
     terminal::TerminalEmulator,
-    time::{Calendar, Clock, DayMoment},
+    date_time::{Calendar, Clock, DayMoment},
 };
 
 pub fn create_vertical_separator_component() -> PromptComponent {

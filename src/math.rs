@@ -1,3 +1,5 @@
+//! A module to work with math operations.
+
 pub struct Math;
 
 impl Math {

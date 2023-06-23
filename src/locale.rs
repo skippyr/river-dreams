@@ -1,3 +1,5 @@
+//! A module to work with formatting.
+
 use num_format::{Locale, ToFormattedString};
 
 const LOCALE: Locale = Locale::en;

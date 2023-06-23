@@ -6,4 +6,4 @@ pub mod network;
 pub mod prompt;
 pub mod styles;
 pub mod terminal;
-pub mod time;
+pub mod date_time;
