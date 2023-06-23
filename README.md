@@ -110,7 +110,7 @@ You can toggle the fallback text feature by using the function:
 river_dreams::toggle_fallback_text
 ```
 
-If you want to make a persistent change to every shell section, you can prefer
+If you want to make a persistent change to every shell session, you can prefer
 to set the environment `RIVER_DREAMS_USE_FALLBACK_TEXT` with an integer value
 that represents a boolean value:
 
@@ -128,7 +128,7 @@ export RIVER_DREAMS_USE_FALLBACK_TEXT="1"
 
 If this environment variable is not set, River Dreams will automatically set
 it based in your terminal emulator's color support, which, most of the times,
-works perfectly fine to discover your terminal can render pretty symbols or
+works perfectly fine to deduce your terminal can render pretty symbols or
 not.
 
 ### Source Code
