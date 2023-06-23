@@ -1,3 +1,5 @@
+//! A module to work with terminal emulator operations.
+
 use crossterm::terminal::size;
 
 /// An abstraction to work terminal emulator's properties.

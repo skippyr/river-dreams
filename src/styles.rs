@@ -16,7 +16,7 @@ pub enum Color {
 }
 
 impl Color {
-    /// Returns a formatter that represents the color for the ZSH shell.
+    /// Returns a format specifier that represents the color for the ZSH shell.
     pub fn get_style_sequence(&self) -> String {
         match self {
             Self::Default => String::from("%f"),

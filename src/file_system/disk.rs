@@ -1,9 +1,14 @@
+//! A module to work with disks.
+
 use std::path::PathBuf;
 use sysinfo::{Disk, DiskExt, System, SystemExt};
 
+/// An abstraction of the disk mounted at `/` to work with its properties.
 pub struct MainDisk;
 
 impl MainDisk {
+    /// Returns the possible name of the main disk. If not found, returns
+    /// `None`.
     fn get_main_disk_name(partitions: &[Disk]) -> Option<String> {
         for partition in partitions {
             if partition.mount_point() == PathBuf::from("/") {
@@ -23,6 +28,8 @@ impl MainDisk {
         None
     }
 
+    /// Returns the usage percentage of the main disk. It returns `0` if the
+    /// main disk is not found.
     pub fn get_usage_percentage() -> u8 {
         let mut system: System = System::new();
         system.refresh_disks_list();
