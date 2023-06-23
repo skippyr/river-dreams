@@ -1,3 +1,6 @@
+//! The binary file that will be used as the left prompt. It will set the
+//! ${PROMPT} prompt variable value.
+
 use river_dreams::{
     file_system::{
         disk::MainDisk,
@@ -12,6 +15,8 @@ use river_dreams::{
     date_time::{Calendar, Clock, DayMoment},
 };
 
+/// Returns the prompt component that will be used to separate the prompt from
+/// the output of the previous command.
 pub fn create_vertical_separator_component() -> PromptComponent {
     let mut component: PromptComponent = PromptComponent::new();
     for column in 0..TerminalEmulator::get_columns() {
@@ -25,15 +30,19 @@ pub fn create_vertical_separator_component() -> PromptComponent {
     component
 }
 
+/// Returns a prompt component that will be used to separate other components
+/// of the prompt.
 fn create_horizontal_separator_component() -> PromptComponent {
     PromptComponent::from(PromptString::new(
         "  ",
         None::<String>,
         AppearingCondition::Default,
-        Color::Red,
+        Color::Default,
     ))
 }
 
+/// Returns the prompt component that will be used as the top left connector
+/// decorator of the prompt.
 fn create_top_left_connector_component() -> PromptComponent {
     PromptComponent::from(PromptString::new(
         ":«",
@@ -43,6 +52,9 @@ fn create_top_left_connector_component() -> PromptComponent {
     ))
 }
 
+/// Returns the prompt component that will be used as the top right connector
+/// decorator of the prompt. It contains a new line to break the remaining of the
+/// prompt to the next line.
 fn create_top_right_connector_component() -> PromptComponent {
     PromptComponent::from(PromptString::new(
         "»:\n",
@@ -52,6 +64,8 @@ fn create_top_right_connector_component() -> PromptComponent {
     ))
 }
 
+/// Returns the prompt component that prints the local IPV4 address of the
+/// machine.
 fn create_local_ip_address_component() -> PromptComponent {
     let color: Color = Color::Blue;
     let symbol: PromptString =
@@ -66,6 +80,7 @@ fn create_local_ip_address_component() -> PromptComponent {
     ))
 }
 
+/// Returns the prompt component that prints the disk usage percentage.
 fn create_disk_usage_percentage_component() -> PromptComponent {
     let symbol: PromptString = PromptString::new(
         "󰋊 ",
@@ -77,12 +92,14 @@ fn create_disk_usage_percentage_component() -> PromptComponent {
     PromptComponent::from(format!("{}{}", symbol, usage_percentage))
 }
 
+/// Returns the prompt component that prints the calendar.
 fn create_calendar_component() -> PromptComponent {
     let symbol: PromptString =
         PromptString::new("󰸗 ", Some("CAL "), AppearingCondition::Default, Color::Red);
     PromptComponent::from(format!("{}{}", symbol, Calendar::from_current_moment()))
 }
 
+/// Returns the prompt component that prints the clock.
 fn create_clock_component() -> PromptComponent {
     let clock: Clock = Clock::from_current_moment();
     let symbol: PromptString = match clock.get_day_moment() {
@@ -105,6 +122,7 @@ fn create_clock_component() -> PromptComponent {
     PromptComponent::from(format!("{}{}", symbol, clock))
 }
 
+/// Returns the prompt component that prints a decorator if the user is `root`.
 fn create_root_component() -> PromptComponent {
     let curly_brackets_color: Color = Color::Yellow;
     let left_curly_bracket: PromptString = PromptString::new(
@@ -129,6 +147,8 @@ fn create_root_component() -> PromptComponent {
     ))
 }
 
+/// Returns the prompt component that prints decorators whenever the last
+/// command succeded or failed.
 fn create_error_component() -> PromptComponent {
     let curly_brackets_color: Color = Color::Yellow;
     let left_curly_bracket: PromptString = PromptString::new(
@@ -153,6 +173,7 @@ fn create_error_component() -> PromptComponent {
     ))
 }
 
+/// Returns the prompt component that prints an arrow decorator.
 fn create_arrow_component() -> PromptComponent {
     PromptComponent::from(PromptString::new(
         "⤐  ",
@@ -162,6 +183,7 @@ fn create_arrow_component() -> PromptComponent {
     ))
 }
 
+/// Returns the prompt component that prints sourced virtual environment.
 fn create_virtual_environment_component() -> PromptComponent {
     let mut component: PromptComponent = PromptComponent::new();
     if let Some(virtual_environment) = Paths::get_virtual_environment() {
@@ -188,6 +210,7 @@ fn create_virtual_environment_component() -> PromptComponent {
     component
 }
 
+/// Returns the prompt component that prints the directory path.
 fn create_directory_component(repository: &Option<Repository>) -> PromptComponent {
     PromptComponent::from(PromptString::new(
         PathTreater::abbreviate(&Paths::get_current_directory(), repository),
@@ -197,6 +220,7 @@ fn create_directory_component(repository: &Option<Repository>) -> PromptComponen
     ))
 }
 
+/// Returns the prompt component that prints the Git branch.
 fn create_git_component(repository: &Option<Repository>) -> PromptComponent {
     let mut component: PromptComponent = PromptComponent::new();
     if let Some(repository) = repository {
@@ -218,6 +242,8 @@ fn create_git_component(repository: &Option<Repository>) -> PromptComponent {
     component
 }
 
+/// Returns the prompt component that prints a decorator whenever the user does
+/// not own the current directory.
 fn create_directory_ownership_component() -> PromptComponent {
     let mut component: PromptComponent = PromptComponent::new();
     if !PathsPermissions::does_user_owns_current_directory() {
@@ -231,6 +257,8 @@ fn create_directory_ownership_component() -> PromptComponent {
     component
 }
 
+/// Returns the prompt component that prints a decorator that marks the position
+/// where the user can type commands.
 fn create_cursor_component() -> PromptComponent {
     PromptComponent::from(PromptString::new(
         " ⩺",

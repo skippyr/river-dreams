@@ -1,3 +1,6 @@
+//! The binary file that will be used as the right prompt. It will set the
+//! ${RPROMPT} prompt variable value.
+
 use river_dreams::{
     file_system::paths::PathEntryTypes,
     locale::NumberFormatter,
@@ -5,6 +8,8 @@ use river_dreams::{
     styles::Color,
 };
 
+/// Returns the prompt component that prints the quantity of entry types for
+/// the current directory.
 fn create_entry_types_component() -> PromptComponent {
     let mut formatter: Vec<String> = Vec::new();
     let entry_types: PathEntryTypes = PathEntryTypes::from_current_directory();
@@ -55,6 +60,8 @@ fn create_entry_types_component() -> PromptComponent {
     PromptComponent::from(formatter.join("  "))
 }
 
+/// Returns the prompt component that prints the current of jobs of the current
+/// shell session.
 fn create_job_component() -> PromptComponent {
     let symbol: PromptString = PromptString::new(
         "   ",
