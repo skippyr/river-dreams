@@ -140,10 +140,9 @@ easily using the function:
 river_dreams::compile
 ```
 
-## Issues And Contributions
+## Issues And Suggestions
 
-Learn how to report issues and contribute to this project by reading its
-[contributions guidelines](https://skippyr.github.io/materials/pages/contributions_guidelines.html).
+Report issues and suggestions through the [issues tab](https://github.com/skippyr/river_dreams/issues).
 
 ## License
 
