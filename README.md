@@ -140,9 +140,9 @@ easily using the function:
 river_dreams::compile
 ```
 
-## Issues And Suggestions
+## Issues, Questions And Suggestions
 
-Report issues and suggestions through the [issues tab](https://github.com/skippyr/river_dreams/issues).
+Report issues,questions and suggestions through the [issues tab](https://github.com/skippyr/river_dreams/issues).
 
 ## License
 
@@ -151,3 +151,5 @@ license is bundled with the source code.
 
 Copyright (c) 2023, Sherman Rofeman. MIT license.
 
+However, this project may depend on other open-source projects that may be under
+different licenses. You can view its dependencies through its [dependency graph](https://github.com/skippyr/river_dreams/network/dependencies).
