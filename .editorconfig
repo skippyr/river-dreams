@@ -1,13 +1,8 @@
 root = true
 
 [*]
-charset = utf-8
-trim_trailing_whitespace = true
-
-[*.{rs,md,toml}]
 indent_style = space
 indent_size = 4
 
 [*.zsh*]
-indent_style = space
 indent_size = 2
