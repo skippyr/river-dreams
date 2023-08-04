@@ -25,7 +25,7 @@ source ~/.local/share/zsh/themes/river-dreams/river-dreams.zsh-theme
 
 ## Copyright
 All dependencies used by this software and their copyright noticies can be found
-in the [dependency graph](https://github.com/skippyr/river_dreams/network/dependencies).
+in the [dependency graph](https://github.com/skippyr/river-dreams/network/dependencies).
 
 This software is under the MIT license. A copy of the license is bundled with
 the source code.
