@@ -165,7 +165,7 @@ fn print_virtual_environment() {
 }
 
 fn main() {
-    let moment: chrono::DateTime<chrono::Local> = chrono::Local::now();
+    let moment = chrono::Local::now();
     print_commands_separator();
     print!("%F{{3}}:«");
     print_local_ip();
