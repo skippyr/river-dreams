@@ -1,6 +1,5 @@
-use std::path::PathBuf;
-
 use chrono::{Datelike, Timelike};
+use std::path::PathBuf;
 use sysinfo::{DiskExt, SystemExt};
 
 fn throw_error(description: impl std::fmt::Display) -> ! {
