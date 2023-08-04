@@ -3,6 +3,15 @@
 A theme for the ZSH shell with a design inspired by tribal patterns.
 ![](preview.png)
 
+It can show you:
+-   Your host name.
+-   Your local IPV4 address.
+-   Your disk usage.
+-   A calendar: displaying week day, month and day.
+-   A clock: displaying hour and minute.
+-   If your last command has failed.
+-   Your current directory.
+
 ## Installation
 ### Dependencies
 -   Rust Toolchain
