@@ -1,6 +1,6 @@
 # River Dreams
 ## About
-A theme for the ZSH shell with a designed inspired by tribal patterns.
+A theme for the ZSH shell with a design inspired by tribal patterns.
 ![](preview.png)
 
 ## Installation
