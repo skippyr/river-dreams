@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use chrono::{Datelike, Timelike};
 use sysinfo::{DiskExt, SystemExt};
 
@@ -30,7 +32,7 @@ fn print_local_ip() {
         Ok(local_ip) => local_ip.to_string(),
         Err(_) => "No Address Found".to_string(),
     };
-    print!("%F{{4}}  %f%m%F{{4}}@%f{local_ip}");
+    print!("%F{{4}} %f%m%F{{4}}@%f{local_ip}");
 }
 
 fn get_main_disk_name(partitions: &[sysinfo::Disk]) -> Option<String> {
@@ -138,6 +140,27 @@ fn print_clock(moment: &chrono::DateTime<chrono::Local>) {
     print!("{}h{}m", format_time(hour), format_time(minute));
 }
 
+fn print_status() {
+    print!("%F{{3}}{{%(?.≗.%F{{1}}⨲%F{{3}})}}");
+}
+
+fn print_virtual_environment() {
+    if let Ok(virtual_environment) = std::env::var("VIRTUAL_ENV") {
+        let error_description = "can not get virtual environment";
+        let virtual_environment = PathBuf::from(virtual_environment);
+        let virtual_environment = virtual_environment
+            .file_name()
+            .unwrap_or_else(|| {
+                throw_error(error_description);
+            })
+            .to_str()
+            .unwrap_or_else(|| {
+                throw_error(error_description);
+            });
+        print!("%F{{6}}(%f{virtual_environment}%F{{6}})");
+    }
+}
+
 fn main() {
     let moment: chrono::DateTime<chrono::Local> = chrono::Local::now();
     print_commands_separator();
@@ -150,4 +173,8 @@ fn main() {
     print_spacing();
     print_clock(&moment);
     println!("»:");
+    print_status();
+    print!("⤐  ");
+    print!("%f");
+    print_virtual_environment();
 }
