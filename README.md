@@ -14,7 +14,7 @@ It can show you:
 
 ## Installation
 ### Dependencies
--   Rust Toolchain
+-   Rust Toolchain.
 
 ### Procedures
 -   Clone this repository.

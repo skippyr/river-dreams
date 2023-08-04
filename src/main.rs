@@ -180,6 +180,5 @@ fn main() {
     print_status();
     print!("⤐  ");
     print_virtual_environment();
-    print!("%F{{1}}%1~ %F{{6}}⩺ ");
-    print!("%f");
+    print!("%F{{1}}%1~ %F{{6}}⩺ %f");
 }
