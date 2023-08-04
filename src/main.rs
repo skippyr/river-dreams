@@ -139,6 +139,10 @@ fn print_clock(moment: &chrono::DateTime<chrono::Local>) {
     print!("{}h{}m", format_time(hour), format_time(minute));
 }
 
+fn print_user() {
+    print!("%(#.{{%F{{1}}#%F{{3}}}}.)")
+}
+
 fn print_status() {
     print!("{{%(?.≗.%F{{1}}⨲%F{{3}})}}");
 }
@@ -172,6 +176,7 @@ fn main() {
     print_spacing();
     print_clock(&moment);
     println!("%F{{3}}»:");
+    print_user();
     print_status();
     print!("⤐  ");
     print_virtual_environment();
