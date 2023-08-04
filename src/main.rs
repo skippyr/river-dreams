@@ -157,7 +157,7 @@ fn print_virtual_environment() {
             .unwrap_or_else(|| {
                 throw_error(error_description);
             });
-        print!("%F{{6}}(%f{virtual_environment}%F{{6}})");
+        print!("%F{{6}}(%f{virtual_environment}%F{{6}}) ");
     }
 }
 
@@ -174,7 +174,8 @@ fn main() {
     print_clock(&moment);
     println!("%F{{3}}»:");
     print_status();
-    print!("⤐  %F{{1}}%1~ %F{{6}}⩺ ");
-    print!("%f");
+    print!("⤐  ");
     print_virtual_environment();
+    print!("%F{{1}}%1~ %F{{6}}⩺ ");
+    print!("%f");
 }
