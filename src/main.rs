@@ -1,4 +1,4 @@
-use chrono::Datelike;
+use chrono::{Datelike, Timelike};
 use sysinfo::{DiskExt, SystemExt};
 
 fn throw_error(description: impl std::fmt::Display) -> ! {
@@ -111,8 +111,7 @@ fn get_ordinal(number: u32) -> String {
     }
 }
 
-fn print_calendar() {
-    let moment: chrono::DateTime<chrono::Local> = chrono::Local::now();
+fn print_calendar(moment: &chrono::DateTime<chrono::Local>) {
     let month = get_month(&moment);
     let day = moment.day();
     let ordinal = get_ordinal(day);
@@ -120,13 +119,35 @@ fn print_calendar() {
     print!("%F{{1}}󰸗 %f({week_day}) {month} {day}{ordinal}")
 }
 
+fn format_time(time: u32) -> String {
+    format!("{}{time}", if time < 10 { "0" } else { "" })
+}
+
+fn print_clock(moment: &chrono::DateTime<chrono::Local>) {
+    let hour = moment.hour();
+    let minute = moment.minute();
+    if hour < 6 {
+        print!("%F{{6}}󰭎 %f");
+    } else if hour < 12 {
+        print!("%F{{1}}󰖨  %f");
+    } else if hour < 18 {
+        print!("%F{{4}} %f");
+    } else {
+        print!("%F{{3}}󰽥 %f");
+    }
+    print!("{}h{}m", format_time(hour), format_time(minute));
+}
+
 fn main() {
+    let moment: chrono::DateTime<chrono::Local> = chrono::Local::now();
     print_commands_separator();
     print!("%F{{3}}:«");
     print_local_ip();
     print_spacing();
     print_disk_usage();
     print_spacing();
-    print_calendar();
+    print_calendar(&moment);
+    print_spacing();
+    print_clock(&moment);
     println!("»:");
 }
