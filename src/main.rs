@@ -1,5 +1,4 @@
-use std::path::PathBuf;
-
+use chrono::Datelike;
 use sysinfo::{DiskExt, SystemExt};
 
 fn throw_error(description: impl std::fmt::Display) -> ! {
@@ -36,7 +35,7 @@ fn print_local_ip() {
 
 fn get_main_disk_name(partitions: &[sysinfo::Disk]) -> Option<String> {
     for partition in partitions {
-        if partition.mount_point() == PathBuf::from("/") {
+        if partition.mount_point() == std::path::PathBuf::from("/") {
             if let Some(name) = partition.name().to_str() {
                 let mut characters: Vec<char> = name.chars().collect();
                 characters.pop();
@@ -72,11 +71,62 @@ fn print_disk_usage() {
     print!("%F{{3}}󰋊 %f{usage_percentage}%%");
 }
 
+fn get_month(moment: &chrono::DateTime<chrono::Local>) -> String {
+    match moment.month0() {
+        1 => "Feb".to_string(),
+        2 => "Mar".to_string(),
+        3 => "Apr".to_string(),
+        4 => "May".to_string(),
+        5 => "Jun".to_string(),
+        6 => "Jul".to_string(),
+        7 => "Aug".to_string(),
+        8 => "Sep".to_string(),
+        9 => "Oct".to_string(),
+        10 => "Nov".to_string(),
+        _ => "Jan".to_string(),
+    }
+}
+
+fn get_week_day(moment: &chrono::DateTime<chrono::Local>) -> String {
+    match moment.weekday() {
+        chrono::Weekday::Sun => "Sun".to_string(),
+        chrono::Weekday::Mon => "Mon".to_string(),
+        chrono::Weekday::Tue => "Tue".to_string(),
+        chrono::Weekday::Wed => "Wed".to_string(),
+        chrono::Weekday::Thu => "Thu".to_string(),
+        chrono::Weekday::Fri => "Fri".to_string(),
+        chrono::Weekday::Sat => "Sat".to_string(),
+    }
+}
+
+fn get_ordinal(number: u32) -> String {
+    if number - 1 % 10 == 0 {
+        "st".to_string()
+    } else if number - 2 % 10 == 0 {
+        "nd".to_string()
+    } else if number - 3 % 10 == 0 {
+        "rd".to_string()
+    } else {
+        "th".to_string()
+    }
+}
+
+fn print_calendar() {
+    let moment: chrono::DateTime<chrono::Local> = chrono::Local::now();
+    let month = get_month(&moment);
+    let day = moment.day();
+    let ordinal = get_ordinal(day);
+    let week_day = get_week_day(&moment);
+    print!("%F{{1}}󰸗 %f({week_day}) {month} {day}{ordinal}")
+}
+
 fn main() {
     print_commands_separator();
     print!("%F{{3}}:«");
     print_local_ip();
     print_spacing();
     print_disk_usage();
+    print_spacing();
+    print_calendar();
     println!("»:");
 }
