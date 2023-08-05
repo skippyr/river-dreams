@@ -1,4 +1,5 @@
 #![allow(nonstandard_style)]
+#![allow(unused_parens)]
 
 use chrono::{Datelike, Timelike};
 use std::path::PathBuf;
@@ -53,7 +54,7 @@ fn Get_Main_Disk_Name(partitions: &[sysinfo::Disk]) -> Option<String>
 			}
 		}
 	}
-	None
+	return (None);
 }
 
 fn Print_Disk_Usage()
@@ -83,48 +84,54 @@ fn Print_Disk_Usage()
 
 fn Get_Month(moment: &chrono::DateTime<chrono::Local>) -> String
 {
-	match moment.month0() {
-		1 => "Feb".to_string(),
-		2 => "Mar".to_string(),
-		3 => "Apr".to_string(),
-		4 => "May".to_string(),
-		5 => "Jun".to_string(),
-		6 => "Jul".to_string(),
-		7 => "Aug".to_string(),
-		8 => "Sep".to_string(),
-		9 => "Oct".to_string(),
-		10 => "Nov".to_string(),
-		_ => "Jan".to_string()
-	}
+	return (
+		match moment.month0() {
+			1 => "Feb".to_string(),
+			2 => "Mar".to_string(),
+			3 => "Apr".to_string(),
+			4 => "May".to_string(),
+			5 => "Jun".to_string(),
+			6 => "Jul".to_string(),
+			7 => "Aug".to_string(),
+			8 => "Sep".to_string(),
+			9 => "Oct".to_string(),
+			10 => "Nov".to_string(),
+			_ => "Jan".to_string()
+		}
+	);
 }
 
 fn Get_Week_Day(moment: &chrono::DateTime<chrono::Local>) -> String
 {
-	match moment.weekday() {
-		chrono::Weekday::Sun => "Sun".to_string(),
-		chrono::Weekday::Mon => "Mon".to_string(),
-		chrono::Weekday::Tue => "Tue".to_string(),
-		chrono::Weekday::Wed => "Wed".to_string(),
-		chrono::Weekday::Thu => "Thu".to_string(),
-		chrono::Weekday::Fri => "Fri".to_string(),
-		chrono::Weekday::Sat => "Sat".to_string()
-	}
+	return (
+		match moment.weekday() {
+			chrono::Weekday::Sun => "Sun".to_string(),
+			chrono::Weekday::Mon => "Mon".to_string(),
+			chrono::Weekday::Tue => "Tue".to_string(),
+			chrono::Weekday::Wed => "Wed".to_string(),
+			chrono::Weekday::Thu => "Thu".to_string(),
+			chrono::Weekday::Fri => "Fri".to_string(),
+			chrono::Weekday::Sat => "Sat".to_string()
+		}
+	);
 }
 
 fn Get_Ordinal(number: u32) -> String
 {
-	if number - 1 % 10 == 0 {
-		"st".to_string()
-	}
-	else if number - 2 % 10 == 0 {
-		"nd".to_string()
-	}
-	else if number - 3 % 10 == 0 {
-		"rd".to_string()
-	}
-	else {
-		"th".to_string()
-	}
+	return (
+		if number - 1 % 10 == 0 {
+			"st".to_string()
+		}
+		else if number - 2 % 10 == 0 {
+			"nd".to_string()
+		}
+		else if number - 3 % 10 == 0 {
+			"rd".to_string()
+		}
+		else {
+			"th".to_string()
+		}
+	);
 }
 
 fn Print_Calendar(moment: &chrono::DateTime<chrono::Local>)
@@ -138,7 +145,7 @@ fn Print_Calendar(moment: &chrono::DateTime<chrono::Local>)
 
 fn Format_Time(time: u32) -> String
 {
-	format!("{}{time}", if time < 10 {"0"} else {""})
+	return (format!("{}{time}", if time < 10 {"0"} else {""}));
 }
 
 fn Print_Clock(moment: &chrono::DateTime<chrono::Local>)
