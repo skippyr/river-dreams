@@ -127,7 +127,8 @@ fn Get_Ordinal(number: u32) -> String
 	}
 }
 
-fn Print_Calendar(moment: &chrono::DateTime<chrono::Local>) {
+fn Print_Calendar(moment: &chrono::DateTime<chrono::Local>)
+{
 	let month = Get_Month(&moment);
 	let day = moment.day();
 	let ordinal = Get_Ordinal(day);

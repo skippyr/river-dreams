@@ -1,14 +1,15 @@
 setopt promptsubst
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-typeset -r _river_dreams_root="$(dirname ${0})"
+typeset -gr __RIVER_DREAMS_ROOT="$(dirname ${0})"
 
-_river_dreams() {
-  typeset -r manifest="${_river_dreams_root}/Cargo.toml"
-  typeset -r binary="${_river_dreams_root}/target/release/river-dreams"
-  [[ ! -f "${binary}" ]] &&
-    cargo build -r --manifest-path "${manifest}"
-  "${binary}"
+__River_Dreams()
+{
+	typeset -r manifest="${__RIVER_DREAMS_ROOT}/Cargo.toml"
+	typeset -r binary="${__RIVER_DREAMS_ROOT}/target/release/river-dreams"
+	[[ ! -f "${binary}" ]] &&
+		cargo build -r --manifest-path "${manifest}"
+	"${binary}"
 }
 
-PROMPT='$(_river_dreams)'
+PROMPT='$(__River_Dreams)'
