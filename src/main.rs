@@ -3,18 +3,21 @@
 use chrono::{Datelike, Timelike};
 use sysinfo::{DiskExt, SystemExt};
 
-fn Throw_Error(description: impl std::fmt::Display) -> !
+fn
+Throw_Error(description: impl std::fmt::Display) -> !
 {
     eprintln!("river-dreams: {description}");
     std::process::exit(1);
 }
 
-fn Print_Spacing()
+fn
+Print_Spacing()
 {
     print!("  ");
 }
 
-fn Print_Commands_Separator()
+fn
+Print_Commands_Separator()
 {
     let size = crossterm::terminal::size().unwrap_or_else(|__error| {
         Throw_Error("can not get terminal size.");
@@ -24,7 +27,8 @@ fn Print_Commands_Separator()
     }
 }
 
-fn Print_Local_Ip_Address()
+fn
+Print_Local_Ip_Address()
 {
     let ip = match local_ip_address::local_ip() {
         Ok(ip) => {ip.to_string()}
@@ -33,7 +37,8 @@ fn Print_Local_Ip_Address()
     print!("%F{{4}} %f%m%F{{4}}@%f{ip}");
 }
 
-fn Get_Main_Disk(partitions: &[sysinfo::Disk]) -> String
+fn
+Get_Main_Disk(partitions: &[sysinfo::Disk]) -> String
 {
     for partition in partitions {
         if partition.mount_point() == std::path::PathBuf::from("/") {
@@ -48,7 +53,8 @@ fn Get_Main_Disk(partitions: &[sysinfo::Disk]) -> String
     Throw_Error("can not get disk usage.");
 }
 
-fn Get_Disk_Usage() -> i32
+fn
+Get_Disk_Usage() -> i32
 {
     let mut system = sysinfo::System::new();
     system.refresh_disks_list();
@@ -73,12 +79,14 @@ fn Get_Disk_Usage() -> i32
     usage_percentage
 }
 
-fn Print_Disk_Usage()
+fn
+Print_Disk_Usage()
 {
     print!("%F{{3}}󰋊 %f{}%%", Get_Disk_Usage());
 }
 
-fn Get_Month(moment: &chrono::DateTime<chrono::Local>) -> String
+fn
+Get_Month(moment: &chrono::DateTime<chrono::Local>) -> String
 {
     match moment.month0() {
         1 => {"Feb"}
@@ -95,7 +103,8 @@ fn Get_Month(moment: &chrono::DateTime<chrono::Local>) -> String
     }.to_string()
 }
 
-fn Get_Ordinal(day: u32) -> String
+fn
+Get_Ordinal(day: u32) -> String
 {
     if day - 1 % 10 == 0 {
         "st"
@@ -111,14 +120,16 @@ fn Get_Ordinal(day: u32) -> String
     }.to_string()
 }
 
-fn Print_Calendar(moment: &chrono::DateTime<chrono::Local>)
+fn
+Print_Calendar(moment: &chrono::DateTime<chrono::Local>)
 {
     let day = moment.day();
     print!("%F{{1}}󰸗 %f({}) {} {day}{}", moment.weekday(), Get_Month(moment),
            Get_Ordinal(day));
 }
 
-fn Get_Clock_Symbol(hour: u32) -> String
+fn
+Get_Clock_Symbol(hour: u32) -> String
 {
     if hour < 6 {
         "%F{6}󰭎"
@@ -134,19 +145,22 @@ fn Get_Clock_Symbol(hour: u32) -> String
     }.to_string()
 }
 
-fn Format_Time(time: u32) -> String
+fn
+Format_Time(time: u32) -> String
 {
     format!("{}{time}", if time < 10 {"0"} else {""})
 }
 
-fn Print_Clock(moment: &chrono::DateTime<chrono::Local>)
+fn
+Print_Clock(moment: &chrono::DateTime<chrono::Local>)
 {
     let hour = moment.hour();
     print!("{}%f{}h{}m", Get_Clock_Symbol(hour), Format_Time(hour),
            Format_Time(moment.minute()));
 }
 
-fn Print_Virtual_Environment()
+fn
+Print_Virtual_Environment()
 {
     if let Ok(virtual_environment) = std::env::var("VIRTUAL_ENV") {
         let description = "can not get virtual environment";
@@ -164,7 +178,8 @@ fn Print_Virtual_Environment()
     }
 }
 
-fn main()
+fn
+main()
 {
     let moment = chrono::Local::now();
     Print_Commands_Separator();
