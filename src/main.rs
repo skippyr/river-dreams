@@ -91,19 +91,19 @@ fn Get_Month(moment: &chrono::DateTime<chrono::Local>) -> String
         8 => {"Sep"}
         9 => {"Oct"}
         10 => {"Nov"}
-        _ => "Jan"
+        _ => {"Jan"}
     }.to_string()
 }
 
-fn Get_Ordinal(value: u32) -> String
+fn Get_Ordinal(day: u32) -> String
 {
-    if value - 1 % 10 == 0 {
+    if day - 1 % 10 == 0 {
         "st"
     }
-    else if value - 2 % 10 == 0 {
+    else if day - 2 % 10 == 0 {
         "nd"
     }
-    else if value - 3 % 10 == 0 {
+    else if day - 3 % 10 == 0 {
         "rd"
     }
     else {
