@@ -7,8 +7,7 @@ __River_Dreams()
 {
     typeset -r manifest="${__RIVER_DREAMS_ROOT}/Cargo.toml"
     typeset -r binary="${__RIVER_DREAMS_ROOT}/target/release/river-dreams"
-    [[ ! -f "${binary}" ]] &&
-        cargo build -r --manifest-path "${manifest}"
+    [[ ! -f "${binary}" ]] && cargo build -r --manifest-path "${manifest}"
     "${binary}"
 }
 
