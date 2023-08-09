@@ -20,8 +20,8 @@ It can show you:
 ### Procedures
 -   Clone this repository.
 ```bash
-git\
-    clone --depth=1 https://github.com/skippyr/river-dreams\
+git                                                                            \
+    clone --depth=1 https://github.com/skippyr/river-dreams                    \
     ~/.local/share/zsh/themes/river-dreams
 ```
 
