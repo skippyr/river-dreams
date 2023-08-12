@@ -66,5 +66,8 @@ source ~/.local/share/zsh/themes/river-dreams/river-dreams.zsh-theme
 
 ## Copyright
 
+This software depends on different libraries. To check out what are those and
+their respective copyright notices, visit its [dependency graph](https://github.com/skippyr/river-dreams/network/dependencies).
+
 This software is under the MIT license. A copy of the license is bundled with
 the source code.
