@@ -32,9 +32,10 @@ In order to install and run this software properly, the following dependencies
 must be installed:
 
 -	**`git`**: required to clone this repository.
--	**Rust Toolchain**: required to compile the source code. It includes all the
-	tools to develop in Rust, such as `rustc` and `cargo`. But it might also
-	depend in you having a C compiler installed too: like `clang` or `gcc`.
+-	[**Rust Toolchain**](https://www.rust-lang.org/tools/install): required to
+	compile the source code. It includes all the tools to develop in Rust, such
+	as `rustc` and `cargo`. But it might also depend in you having a C compiler
+	installed too: like `clang` or `gcc`.
 
 -	**[A Nerd Fonts' font](https://www.nerdfonts.com/font-downloads)**: required
 	to provide the pretty symbols used in the prompt.
