@@ -15,8 +15,8 @@ fn Print_Spacing() {
 
 fn Print_Commands_Separator() {
 	let size = crossterm::terminal::size().unwrap_or_else(|__error| {
-			Throw_Error("can not get terminal size.");
-			});
+		Throw_Error("can not get terminal size.");
+	});
 	for column in 0..size.0 {
 		print!("{}%f", if column % 2 == 0 {"%F{3}⊵"} else {"%F{1}⊼"});
 	}
