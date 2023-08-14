@@ -1,4 +1,4 @@
-export VIRTUAL_ENV_DISABLE_PROMPT="1"
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 typeset -gr __RIVER_DREAMS_DIRECTORY=$(dirname "${0}")
 
