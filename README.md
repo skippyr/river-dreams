@@ -57,7 +57,7 @@ source ~/.local/share/zsh/themes/river-dreams/river-dreams.zsh-theme
   running.
 
 ## Support
-Report issues, questions and suggestions through its [issues page](https://github.com/skippyr/river-dreams/river-dreams.zsh-theme).
+Report issues, questions and suggestions through its [issues page](https://github.com/skippyr/river-dreams/issues).
 
 ## Copyright
 This software depends on different libraries. To check out what are those and
