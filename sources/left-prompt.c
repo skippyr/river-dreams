@@ -325,8 +325,8 @@ int
 main(void)
 {
     struct tm *local_time = Get_Local_Time();
-    char *repository = Get_Repository_Directory(Get_Environment_Variable("PWD"),
-                                                0);
+    char      *repository =
+        Get_Repository_Directory(Get_Environment_Variable("PWD"), 0);
     Print_Commands_Separator();
     printf("%%F{3}:«(");
     Print_Local_IPV4_Address();
