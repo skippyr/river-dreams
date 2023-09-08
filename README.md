@@ -25,7 +25,8 @@ In the left prompt, you will find:
 - A clock displaying the hour and minute.
 - A decorator that alerts if you are the root user or not.
 - A decorator that alerts if the last command executed failed or not.
-- A decorator that alerts if you can make changes to the current or not.
+- A decorator that alerts if you can make changes to the current directory or
+  not.
 - The name of sourced virtual environments.
 - The name of the directory you are currently in.
 - If inside a Git repository, the name of the active branch.

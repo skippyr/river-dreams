@@ -101,7 +101,7 @@ Get_Local_IPV4_Address(void)
         }
         char buffer[16];
         if (!inet_ntop(interface->ifa_addr->sa_family,
-                       &(((struct sockaddr_in *)interface->ifa_addr)->sin_addr),
+                       &((struct sockaddr_in *)interface->ifa_addr)->sin_addr,
                        buffer, sizeof(buffer)))
         {
             continue;
