@@ -24,6 +24,7 @@ ${BINARY_OBJECTS_DIRECTORY}/%.o: ${LIBRARY_SOURCES_DIRECTORY}/%.c              \
 	${COMPILER} ${COMPILER_OPTIONS} -c -o ${@} ${<}
 
 ${BINARIES_DIRECTORY}/%: ${SOURCES_DIRECTORY}/%.c                              \
+                         ${LIBRARY_SOURCES_DIRECTORY}/*                        \
                          libraries
 	${COMPILER} ${COMPILER_OPTIONS} -o ${@} ${<}                           \
 	                                        ${BINARY_OBJECTS_DIRECTORY}/*
