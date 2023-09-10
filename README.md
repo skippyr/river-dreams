@@ -34,8 +34,7 @@ In the left prompt, you will find:
 In the right prompt, you will find:
 
 - A status about the entries in your current directory: the total of hidden
-  entries, the total of symlinks and the total of executables (not including
-  directories).
+  entries, symlinks and executables (not including directories).
 - The quantity of jobs running in the background for the current shell session.
 
 ## Installation
@@ -44,9 +43,10 @@ In order to install this software, the following dependencies must be installed:
 
 - `zsh`: this is the shell this theme applies on.
 - `git`: it will be used to clone this repository.
-- A font patched by [Nerd Fonts project](https://www.nerdfonts.com/font-downloads):
-  it provides the pretty symbols used in the theme.
-- `make`, a C compiler (`clang`, for example) and C POSIX headers: they will be
+- A font patched by [Nerd Fonts project](https://www.nerdfonts.com/font-downloads)
+  and [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans): they
+  provide the pretty symbols used in the theme.
+- `make`, a C++ compiler (`g++`, for example) and C POSIX headers: they will be
   used to compile the source code.
 
 ### Procedures
@@ -69,17 +69,16 @@ cd ~/.local/share/zsh/themes/river-dreams
 make
 ```
 
-> [!NOTE]
-  By default, any compilation will use `cc` as the compiler. That is usually a
-  symlink for the operating system's C compiler. However, if you want to use
-  another, you can give it as an argument to `make`. For instance, you can use
-  `clang` instead:
+> [!IMPORTANT]
+> By default, any compilation will use `g++` as the compiler. However, if you
+> want to use another, you can give it as an argument to `make`. For instance,
+> you can use `clang++` instead:
 
 ```bash
-make COMPILER=clang
+make COMPILER=clang++
 ```
 
-- Add the following rule in your `~/.zshrc` file. Ensure to not source any other
+- Add the following rule to your `~/.zshrc` file. Ensure to not source any other
   theme to avoid conflicts.
 
 ```bash
@@ -88,10 +87,14 @@ source ~/.local/share/zsh/themes/river-dreams/river-dreams.zsh-theme
 
 - Open a new ZSH session. Now the theme should be installed and running.
 
-## Support
-If you need any kind of support, for instance: help with troubleshooting, have
-questions about it or want to give improvement suggestions, please report them
-by filing new issues in its [issues page](https://github.com/skippyr/river-dreams/issues).
+## Issues And Contributions
+You can use its [issues page](https://github.com/skippyr/river-dreams/issues) to
+provide your feedback, to report any issue you are facing or to ask for help.
+
+You can also fork it and send pull requests to be reviewed.
+
+All kinds of contributions, from people of any skill level, is always
+appreciated.
 
 ## Copyright
 This software is under the MIT license. A copy of the license is bundled with
