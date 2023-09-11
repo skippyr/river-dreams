@@ -76,8 +76,8 @@ static int Get_Disk_Use_Percentage()
 
 static struct std::tm *Get_Local_Time()
 {
-    time_t system_time = std::time(0);
-    return std::localtime(&system_time);
+    time_t epoch_time = std::time(0);
+    return std::localtime(&epoch_time);
 }
 
 static std::string Get_Calendar_Week_Day(struct std::tm *local_time)
@@ -220,7 +220,7 @@ static std::string Get_Branch()
     std::string repository =
                     Get_Repository_Directory(Get_Environment_Variable("PWD")),
                 head = repository + "/.git/HEAD";
-    FILE *stream = std::fopen(head.c_str(), "r");
+    std::FILE *stream = std::fopen(head.c_str(), "r");
     if (!stream)
     {
         return "";
