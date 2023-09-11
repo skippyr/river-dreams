@@ -21,7 +21,8 @@ static void Get_Directory_Entries_Status(
     }
     for (struct dirent *entry; (entry = readdir(stream));)
     {
-        if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
+        if (!std::strcmp(entry->d_name, ".") ||
+            !std::strcmp(entry->d_name, ".."))
         {
             continue;
         }

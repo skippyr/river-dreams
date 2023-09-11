@@ -205,7 +205,7 @@ static std::string Get_Repository_Directory(std::string path)
     bool is_repository = false;
     for (struct dirent *entry; (entry = readdir(stream));)
     {
-        if (!strcmp(entry->d_name, ".git"))
+        if (!std::strcmp(entry->d_name, ".git"))
         {
             is_repository = true;
             break;
