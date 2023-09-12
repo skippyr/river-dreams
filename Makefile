@@ -1,7 +1,7 @@
 SOURCES_DIRECTORY = sources
 BINARIES_DIRECTORY = binaries
 COMPILER = g++
-COMPILER_OPTIONS = -std=c++11 -Oz -Wall -Wextra -Werror
+COMPILER_OPTIONS = -std=c++11 -O3 -Wall -Wextra -Werror
 
 all: binaries
 
