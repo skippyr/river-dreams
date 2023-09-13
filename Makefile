@@ -1,16 +1,14 @@
 SOURCES_DIRECTORY = sources
-BINARIES_DIRECTORY = binaries
+BUILD_DIRECTORY = build
 COMPILER = g++
 COMPILER_OPTIONS = -std=c++11 -O3 -Wall -Wextra -Werror
 
-all: binaries
+all: ${BUILD_DIRECTORY}/left-prompt                                            \
+     ${BUILD_DIRECTORY}/right-prompt
 
 clean:
-	rm -rf ${BINARIES_DIRECTORY}
+	rm -rf ${BUILD_DIRECTORY}
 
-binaries: ${BINARIES_DIRECTORY}/left-prompt                                    \
-          ${BINARIES_DIRECTORY}/right-prompt
-
-${BINARIES_DIRECTORY}/%: ${SOURCES_DIRECTORY}/%.cpp
-	mkdir -p ${BINARIES_DIRECTORY}
+${BUILD_DIRECTORY}/%: ${SOURCES_DIRECTORY}/%.cpp
+	mkdir -p ${BUILD_DIRECTORY}
 	${COMPILER} ${COMPILER_OPTIONS} -o ${@} ${<}
