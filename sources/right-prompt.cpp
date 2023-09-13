@@ -1,8 +1,7 @@
-#include <dirent.h>
-#include <sys/stat.h>
-
 #include <cstring>
+#include <dirent.h>
 #include <iostream>
+#include <sys/stat.h>
 
 struct DirectoryEntriesStatus {
     size_t totalOfHidden, totalOfSymlinks, totalOfExecutables;

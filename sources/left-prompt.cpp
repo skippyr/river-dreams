@@ -1,15 +1,14 @@
 #include <arpa/inet.h>
+#include <cstring>
+#include <ctime>
 #include <dirent.h>
 #include <ifaddrs.h>
+#include <iostream>
 #include <net/if.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <sys/statvfs.h>
 #include <unistd.h>
-
-#include <cstring>
-#include <ctime>
-#include <iostream>
 
 static void throwError(std::string description) {
     std::cerr << "river-dreams: " << description << std::endl;
