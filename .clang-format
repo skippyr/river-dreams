@@ -1,3 +1,2 @@
 BasedOnStyle: Microsoft
-BreakBeforeBraces: Attach
 ColumnLimit: 80

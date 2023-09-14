@@ -3,33 +3,42 @@
 #include <iostream>
 #include <sys/stat.h>
 
-struct DirectoryEntriesStatus {
+struct DirectoryEntriesStatus
+{
     size_t totalOfHidden, totalOfSymlinks, totalOfExecutables;
 };
 
-static void getDirectoryEntriesStatus(struct DirectoryEntriesStatus *status) {
+static void getDirectoryEntriesStatus(struct DirectoryEntriesStatus *status)
+{
     std::memset(status, 0, sizeof(struct DirectoryEntriesStatus));
     DIR *stream = opendir(".");
-    if (!stream) {
+    if (!stream)
+    {
         return;
     }
-    for (struct dirent *entry; (entry = readdir(stream));) {
+    for (struct dirent *entry; (entry = readdir(stream));)
+    {
         if (!std::strcmp(entry->d_name, ".") ||
-            !std::strcmp(entry->d_name, "..")) {
+            !std::strcmp(entry->d_name, ".."))
+        {
             continue;
         }
         std::string path = "./" + std::string(entry->d_name);
         struct stat metadata;
-        if (lstat(path.c_str(), &metadata)) {
+        if (lstat(path.c_str(), &metadata))
+        {
             continue;
         }
-        if (entry->d_name[0] == '.') {
+        if (entry->d_name[0] == '.')
+        {
             status->totalOfHidden++;
         }
-        if (S_ISLNK(metadata.st_mode)) {
+        if (S_ISLNK(metadata.st_mode))
+        {
             status->totalOfSymlinks++;
         }
-        if (!S_ISDIR(metadata.st_mode) && metadata.st_mode & S_IXUSR) {
+        if (!S_ISDIR(metadata.st_mode) && metadata.st_mode & S_IXUSR)
+        {
             status->totalOfExecutables++;
         }
     }
@@ -37,17 +46,21 @@ static void getDirectoryEntriesStatus(struct DirectoryEntriesStatus *status) {
 }
 
 static void printDirectoryEntryStatus(size_t status, int color,
-                                      std::string symbol) {
-    if (status) {
+                                      std::string symbol)
+{
+    if (status)
+    {
         std::cout << " %F{" << color << "}" << symbol << "%f" << status;
     }
 }
 
-static void printJobsStatus() {
+static void printJobsStatus()
+{
     std::cout << "%(1j. %F{5} %f %j.)";
 }
 
-int main() {
+int main()
+{
     DirectoryEntriesStatus status;
     getDirectoryEntriesStatus(&status);
     printDirectoryEntryStatus(status.totalOfHidden, 1, " ");
