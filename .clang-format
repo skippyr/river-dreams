@@ -1,2 +1,8 @@
-BasedOnStyle: Microsoft
-ColumnLimit: 80
+AlignConsecutiveAssignments : Consecutive
+AlignConsecutiveBitFields   : Consecutive
+AlignConsecutiveDeclarations: Consecutive
+AlignConsecutiveMacros      : Consecutive
+AlwaysBreakAfterReturnType  : AllDefinitions
+JavaScriptQuotes            : Double
+BasedOnStyle                : Microsoft
+ColumnLimit                 : 80
