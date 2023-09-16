@@ -10,15 +10,13 @@
 #include <sys/statvfs.h>
 #include <unistd.h>
 
-static void
-throwError(std::string description)
+static void throwError(std::string description)
 {
     std::cerr << "river-dreams: " << description << std::endl;
     std::exit(EXIT_FAILURE);
 }
 
-static unsigned short
-getTerminalWidth()
+static unsigned short getTerminalWidth()
 {
     struct winsize terminal;
     if (ioctl(2, TIOCGWINSZ, &terminal) < 0)
@@ -28,8 +26,7 @@ getTerminalWidth()
     return terminal.ws_col;
 }
 
-static std::string
-getLocalIPV4Address()
+static std::string getLocalIPV4Address()
 {
     std::string     loopbackIP = "127.0.0.1";
     struct ifaddrs *interfaces;
@@ -60,8 +57,7 @@ getLocalIPV4Address()
     return loopbackIP;
 }
 
-static int
-getDiskUsePercentage()
+static int getDiskUsePercentage()
 {
     struct statvfs metadata;
     if (statvfs("/", &metadata))
@@ -74,15 +70,13 @@ getDiskUsePercentage()
     return ((float)usedSize / totalSize) * 100;
 }
 
-static struct std::tm *
-getLocalTime()
+static struct std::tm *getLocalTime()
 {
     time_t epochTime = std::time(0);
     return std::localtime(&epochTime);
 }
 
-static std::string
-getCalendarWeekDay(struct std::tm *localTime)
+static std::string getCalendarWeekDay(struct std::tm *localTime)
 {
     switch (localTime->tm_wday)
     {
@@ -105,8 +99,7 @@ getCalendarWeekDay(struct std::tm *localTime)
     }
 }
 
-static std::string
-getCalendarMonth(struct std::tm *localTime)
+static std::string getCalendarMonth(struct std::tm *localTime)
 {
     switch (localTime->tm_mon)
     {
@@ -139,8 +132,7 @@ getCalendarMonth(struct std::tm *localTime)
     }
 }
 
-static std::string
-getCalendarOrdinal(struct std::tm *localTime)
+static std::string getCalendarOrdinal(struct std::tm *localTime)
 {
     if (!((localTime->tm_mday - 1) % 10))
     {
@@ -157,8 +149,7 @@ getCalendarOrdinal(struct std::tm *localTime)
     return "th";
 }
 
-static std::string
-getClockSymbol(struct std::tm *localTime)
+static std::string getClockSymbol(struct std::tm *localTime)
 {
     if (localTime->tm_hour < 6)
     {
@@ -175,26 +166,22 @@ getClockSymbol(struct std::tm *localTime)
     return "%F{3}󰽥 ";
 }
 
-static std::string
-getParent(std::string path)
+static std::string getParent(std::string path)
 {
     return path.substr(0, path.find_last_of("/"));
 }
 
-static std::string
-getBaseName(std::string path)
+static std::string getBaseName(std::string path)
 {
     return path.substr(path.find_last_of("/") + 1);
 }
 
-static std::string
-formatTime(int time)
+static std::string formatTime(int time)
 {
     return (time < 10 ? "0" : "") + std::to_string(time);
 }
 
-static std::string
-getEnvironmentVariable(const char *variable)
+static std::string getEnvironmentVariable(const char *variable)
 {
     const char *value = std::getenv(variable);
     if (!value)
@@ -204,8 +191,7 @@ getEnvironmentVariable(const char *variable)
     return value;
 }
 
-static std::string
-getRepository(std::string path)
+static std::string getRepository(std::string path)
 {
     DIR *stream = opendir(path.c_str());
     if (!stream)
@@ -225,8 +211,7 @@ getRepository(std::string path)
     return isRepository ? path : getRepository(getParent(path));
 }
 
-static std::string
-getBranch(std::string repository)
+static std::string getBranch(std::string &repository)
 {
     std::string head   = repository + "/.git/HEAD";
     std::FILE  *stream = std::fopen(head.c_str(), "r");
@@ -250,14 +235,12 @@ getBranch(std::string repository)
     return branch;
 }
 
-static void
-printHorizontalSeparator()
+static void printHorizontalSeparator()
 {
     std::cout << "  ";
 }
 
-static void
-printCommandsSeparator()
+static void printCommandsSeparator()
 {
     for (unsigned short column = 0; column < getTerminalWidth(); column++)
     {
@@ -266,48 +249,41 @@ printCommandsSeparator()
     std::cout << std::endl;
 }
 
-static void
-printLocalIPV4Address()
+static void printLocalIPV4Address()
 {
     std::cout << "%F{4} %f%m%F{4}@%f" << getLocalIPV4Address();
 }
 
-static void
-printDiskUsePercentage()
+static void printDiskUsePercentage()
 {
     std::cout << "%F{3}󰋊 %f" << getDiskUsePercentage() << "%%";
 }
 
-static void
-printCalendar(struct std::tm *local_time)
+static void printCalendar(struct std::tm *local_time)
 {
     std::cout << "%F{1}󰸗 %f(" << getCalendarWeekDay(local_time) << ") "
               << getCalendarMonth(local_time) << " " << local_time->tm_mday
               << getCalendarOrdinal(local_time);
 }
 
-static void
-printClock(struct std::tm *local_time)
+static void printClock(struct std::tm *local_time)
 {
     std::cout << getClockSymbol(local_time) << "%f"
               << formatTime(local_time->tm_hour) << "h"
               << formatTime(local_time->tm_min) << "m";
 }
 
-static void
-printRootStatus()
+static void printRootStatus()
 {
     std::cout << "%(#.{%F{1}#%F{3}}.)";
 }
 
-static void
-printExitCodeStatus()
+static void printExitCodeStatus()
 {
     std::cout << "{%(?.≗.%F{1}⨲%F{3})}";
 }
 
-static void
-printVirtualEnvironment()
+static void printVirtualEnvironment()
 {
     const char *environment = std::getenv("VIRTUAL_ENV");
     if (environment)
@@ -316,8 +292,8 @@ printVirtualEnvironment()
     }
 }
 
-static void
-printCurrentDirectory(std::string currentDirectory, std::string repository)
+static void printCurrentDirectory(std::string &currentDirectory,
+                                  std::string &repository)
 {
     if (repository != "" && currentDirectory != repository)
     {
@@ -326,8 +302,7 @@ printCurrentDirectory(std::string currentDirectory, std::string repository)
     std::cout << "%F{1}%1~";
 }
 
-static void
-printBranch(std::string repository)
+static void printBranch(std::string &repository)
 {
     std::string branch = getBranch(repository);
     if (branch != "")
@@ -336,8 +311,7 @@ printBranch(std::string repository)
     }
 }
 
-static void
-printCurrentDirectoryOwnership()
+static void printCurrentDirectoryOwnership()
 {
     struct stat metadata;
     if (stat(".", &metadata))
@@ -351,8 +325,7 @@ printCurrentDirectoryOwnership()
     }
 }
 
-int
-main()
+int main()
 {
     struct std::tm *local_time       = getLocalTime();
     std::string     currentDirectory = getEnvironmentVariable("PWD");

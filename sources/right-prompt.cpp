@@ -8,8 +8,7 @@ struct DirectoryEntriesStatus
     size_t totalOfHidden, totalOfSymlinks, totalOfExecutables;
 };
 
-static void
-getDirectoryEntriesStatus(struct DirectoryEntriesStatus *status)
+static void getDirectoryEntriesStatus(struct DirectoryEntriesStatus *status)
 {
     std::memset(status, 0, sizeof(struct DirectoryEntriesStatus));
     DIR *stream = opendir(".");
@@ -46,8 +45,8 @@ getDirectoryEntriesStatus(struct DirectoryEntriesStatus *status)
     closedir(stream);
 }
 
-static void
-printDirectoryEntryStatus(size_t status, int color, std::string symbol)
+static void printDirectoryEntryStatus(size_t status, int color,
+                                      std::string symbol)
 {
     if (status)
     {
@@ -55,14 +54,12 @@ printDirectoryEntryStatus(size_t status, int color, std::string symbol)
     }
 }
 
-static void
-printJobsStatus()
+static void printJobsStatus()
 {
     std::cout << "%(1j. %F{5} %f %j.)";
 }
 
-int
-main()
+int main()
 {
     DirectoryEntriesStatus status;
     getDirectoryEntriesStatus(&status);
