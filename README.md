@@ -26,7 +26,8 @@ In the left prompt, you will find:
 - A decorator that alerts if you are the root user or not.
 - A decorator that alerts if the last command executed failed or not.
 - The name of sourced virtual environments.
-- The name of the directory you are currently in.
+- The name of the directory you are currently in. If deep inside a Git
+  repository, it will be prefixed by the repository's root directory name.
 - If inside a Git repository, the name of the active branch.
 - A decorator that alerts if you can make changes to the current directory or
   not.

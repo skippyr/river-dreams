@@ -31,11 +31,11 @@ getTerminalWidth()
 static std::string
 getLocalIPV4Address()
 {
-    std::string     noAddress = "No Address Found";
+    std::string     loopbackIP = "127.0.0.1";
     struct ifaddrs *interfaces;
     if (getifaddrs(&interfaces))
     {
-        return noAddress;
+        return loopbackIP;
     }
     for (struct ifaddrs *interface = interfaces; interface;
          interface                 = interface->ifa_next)
@@ -46,18 +46,18 @@ getLocalIPV4Address()
         {
             continue;
         }
-        char ip[16];
+        char IP[16];
         if (!inet_ntop(interface->ifa_addr->sa_family,
                        &((struct sockaddr_in *)interface->ifa_addr)->sin_addr,
-                       ip, sizeof(ip)))
+                       IP, sizeof(IP)))
         {
             continue;
         }
         freeifaddrs(interfaces);
-        return ip;
+        return IP;
     }
     freeifaddrs(interfaces);
-    return noAddress;
+    return loopbackIP;
 }
 
 static int
@@ -205,7 +205,7 @@ getEnvironmentVariable(const char *variable)
 }
 
 static std::string
-getRepositoryDirectory(std::string path)
+getRepository(std::string path)
 {
     DIR *stream = opendir(path.c_str());
     if (!stream)
@@ -222,16 +222,14 @@ getRepositoryDirectory(std::string path)
         }
     }
     closedir(stream);
-    return isRepository ? path : getRepositoryDirectory(getParent(path));
+    return isRepository ? path : getRepository(getParent(path));
 }
 
 static std::string
-getBranch()
+getBranch(std::string repository)
 {
-    std::string repository =
-                    getRepositoryDirectory(getEnvironmentVariable("PWD")),
-                head  = repository + "/.git/HEAD";
-    std::FILE *stream = std::fopen(head.c_str(), "r");
+    std::string head   = repository + "/.git/HEAD";
+    std::FILE  *stream = std::fopen(head.c_str(), "r");
     if (!stream)
     {
         return "";
@@ -319,15 +317,19 @@ printVirtualEnvironment()
 }
 
 static void
-printDirectory()
+printCurrentDirectory(std::string currentDirectory, std::string repository)
 {
+    if (repository != "" && currentDirectory != repository)
+    {
+        std::cout << "%F{8}" << getBaseName(repository) << "::";
+    }
     std::cout << "%F{1}%1~";
 }
 
 static void
-printBranch()
+printBranch(std::string repository)
 {
-    std::string branch = getBranch();
+    std::string branch = getBranch(repository);
     if (branch != "")
     {
         std::cout << "%F{2}:«(%f" << branch << "%F{2})»:";
@@ -335,7 +337,7 @@ printBranch()
 }
 
 static void
-printDirectoryOwnership()
+printCurrentDirectoryOwnership()
 {
     struct stat metadata;
     if (stat(".", &metadata))
@@ -352,7 +354,9 @@ printDirectoryOwnership()
 int
 main()
 {
-    struct std::tm *local_time = getLocalTime();
+    struct std::tm *local_time       = getLocalTime();
+    std::string     currentDirectory = getEnvironmentVariable("PWD");
+    std::string     repository       = getRepository(currentDirectory);
     printCommandsSeparator();
     std::cout << "%F{3}:«(";
     printLocalIPV4Address();
@@ -367,9 +371,9 @@ main()
     printExitCodeStatus();
     std::cout << "⤐  ";
     printVirtualEnvironment();
-    printDirectory();
-    printBranch();
-    printDirectoryOwnership();
+    printCurrentDirectory(currentDirectory, repository);
+    printBranch(repository);
+    printCurrentDirectoryOwnership();
     std::cout << " %F{6}⩺  %f" << std::endl;
     return EXIT_SUCCESS;
 }
