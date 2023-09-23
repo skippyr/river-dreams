@@ -9,10 +9,10 @@
 
 #include <iostream>
 
-#define CHEVRON_LEFT_DELIMITER      ":«("
-#define CHEVRON_RIGHT_DELIMITER     ")»:"
-#define CURLY_BRACE_LEFT_DELIMITER  "{"
-#define CURLY_BRACE_RIGHT_DELIMITER "}"
+#define CHEVRON_LEFT_DELIMITER       ":«("
+#define CHEVRON_RIGHT_DELIMITER      ")»:"
+#define CURLY_BRACES_LEFT_DELIMITER  "{"
+#define CURLY_BRACES_RIGHT_DELIMITER "}"
 
 static void PrintCommandsSeparator()
 {
@@ -72,10 +72,10 @@ static void PrintExitCodeStatus()
     Color       errorSymbolColor   = Color::RED;
     Color       successSymbolColor = Color::YELLOW;
     Color       delimitersColor    = Color::YELLOW;
-    std::cout << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACE_LEFT_DELIMITER)
+    std::cout << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACES_LEFT_DELIMITER)
               << Shell::WrapOnErrorEvent(Terminal::ApplyForegroundColor(errorSymbolColor, errorSymbol),
                                          Terminal::ApplyForegroundColor(successSymbolColor, successSymbol))
-              << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACE_RIGHT_DELIMITER);
+              << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACES_RIGHT_DELIMITER);
 }
 
 static void PrintRootStatus()
@@ -85,9 +85,9 @@ static void PrintRootStatus()
     Color       rootSymbolColor = Color::RED;
     if (User::IsRootUser())
     {
-        std::cout << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACE_LEFT_DELIMITER)
+        std::cout << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACES_LEFT_DELIMITER)
                   << Terminal::ApplyForegroundColor(rootSymbolColor, rootSymbol)
-                  << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACE_RIGHT_DELIMITER);
+                  << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACES_RIGHT_DELIMITER);
     }
 }
 

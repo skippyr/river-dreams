@@ -5,7 +5,7 @@
 class EnvironmentVariables
 {
 private:
-    static std::string GetEnvironmentVariable(std::string environment_variable);
+    static std::string GetEnvironmentVariable(std::string environmentVariable);
 
 public:
     static std::string GetPWD();
