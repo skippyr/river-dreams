@@ -14,6 +14,8 @@
 #define CURLY_BRACES_LEFT_DELIMITER "{"
 #define CURLY_BRACES_RIGHT_DELIMITER "}"
 
+using namespace RiverDreams;
+
 static void PrintCommandsSeparator()
 {
     for (unsigned short column = 0; column < Terminal::GetWidth(); column++)

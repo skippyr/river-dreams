@@ -1,5 +1,7 @@
 #include "Network.hpp"
 
+using namespace RiverDreams;
+
 std::string Network::GetLocalIPV4Address()
 {
     std::string loopbackAddress = "127.0.0.1";

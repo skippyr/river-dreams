@@ -1,13 +1,16 @@
 #pragma once
 
-enum class Color
+namespace RiverDreams
 {
-    Black,
-    Red,
-    Green,
-    Yellow,
-    Blue,
-    Magenta,
-    Cyan,
-    White
-};
+    enum class Color
+    {
+        Black,
+        Red,
+        Green,
+        Yellow,
+        Blue,
+        Magenta,
+        Cyan,
+        White
+    };
+}

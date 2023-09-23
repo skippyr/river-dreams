@@ -1,5 +1,7 @@
 #include "SystemTime.hpp"
 
+using namespace RiverDreams;
+
 std::string SystemTime::GetCalendarWeekDayAbbreviated()
 {
     switch (this->localTime->tm_wday)

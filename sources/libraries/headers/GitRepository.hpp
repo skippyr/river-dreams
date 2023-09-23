@@ -6,15 +6,18 @@
 
 #include <dirent.h>
 
-class GitRepository
+namespace RiverDreams
 {
-private:
-    std::string rootDirectoryPath;
+    class GitRepository
+    {
+    private:
+        std::string rootDirectoryPath;
 
-    std::string SearchForRootDirectoryPath(std::string searchDirectoryPath);
+        std::string SearchForRootDirectoryPath(std::string searchDirectoryPath);
 
-public:
-    GitRepository();
-    std::string GetRootDirectoryPath();
-    std::string GetBranch();
-};
+    public:
+        GitRepository();
+        std::string GetRootDirectoryPath();
+        std::string GetBranch();
+    };
+}

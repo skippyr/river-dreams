@@ -1,5 +1,7 @@
 #include "DirectoryEntriesStatus.hpp"
 
+using namespace RiverDreams;
+
 DirectoryEntriesStatus::DirectoryEntriesStatus(std::string path)
 {
     DIR* directoryStream = opendir(path.c_str());

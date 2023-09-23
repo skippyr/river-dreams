@@ -6,9 +6,12 @@
 #include <ifaddrs.h>
 #include <net/if.h>
 
-class Network
+namespace RiverDreams
 {
-public:
-    static std::string GetLocalIPV4Address();
-    static std::string GetHostName();
-};
+    class Network
+    {
+    public:
+        static std::string GetLocalIPV4Address();
+        static std::string GetHostName();
+    };
+}

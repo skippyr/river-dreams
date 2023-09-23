@@ -4,10 +4,13 @@
 
 #include <string>
 
-class Path
+namespace RiverDreams
 {
-public:
-    static std::string GetBaseName(std::string path);
-    static std::string GetParentDirectory(std::string path);
-    static std::string GetCurrentDirectoryAbbreviated(std::string repositoryRootDirectory);
-};
+    class Path
+    {
+    public:
+        static std::string GetBaseName(std::string path);
+        static std::string GetParentDirectory(std::string path);
+        static std::string GetCurrentDirectoryAbbreviated(std::string repositoryRootDirectory);
+    };
+}

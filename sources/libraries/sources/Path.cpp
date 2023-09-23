@@ -1,5 +1,7 @@
 #include "Path.hpp"
 
+using namespace RiverDreams;
+
 std::string Path::GetBaseName(std::string path)
 {
     return path.substr(path.find_last_of("/") + 1);

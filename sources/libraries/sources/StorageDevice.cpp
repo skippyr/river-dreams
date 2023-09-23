@@ -1,5 +1,7 @@
 #include "StorageDevice.hpp"
 
+using namespace RiverDreams;
+
 unsigned short StorageDevice::GetUsagePercentage()
 {
     struct statvfs storageDeviceProperties;

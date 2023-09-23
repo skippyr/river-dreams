@@ -1,5 +1,7 @@
 #include "EnvironmentVariables.hpp"
 
+using namespace RiverDreams;
+
 std::string EnvironmentVariables::GetEnvironmentVariable(std::string environmentVariable)
 {
     const char* value = std::getenv(environmentVariable.c_str());

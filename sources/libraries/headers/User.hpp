@@ -3,9 +3,12 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-class User
+namespace RiverDreams
 {
-public:
-    static bool IsRootUser();
-    static bool OwnsCurrentDirectory();
-};
+    class User
+    {
+    public:
+        static bool IsRootUser();
+        static bool OwnsCurrentDirectory();
+    };
+}

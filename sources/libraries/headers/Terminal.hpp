@@ -6,9 +6,12 @@
 
 #include <sys/ioctl.h>
 
-class Terminal
+namespace RiverDreams
 {
-public:
-    static unsigned short GetWidth();
-    static std::string ApplyForegroundColor(Color color, std::string text);
-};
+    class Terminal
+    {
+    public:
+        static unsigned short GetWidth();
+        static std::string ApplyForegroundColor(RiverDreams::Color, std::string text);
+    };
+}

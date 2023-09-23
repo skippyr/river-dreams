@@ -1,5 +1,7 @@
 #include "User.hpp"
 
+using namespace RiverDreams;
+
 bool User::IsRootUser()
 {
     return !getuid();

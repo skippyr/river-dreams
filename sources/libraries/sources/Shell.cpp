@@ -1,5 +1,7 @@
 #include "Shell.hpp"
 
+using namespace RiverDreams;
+
 std::string Shell::GetQuantityOfBackgroundJobs()
 {
     return "%j";

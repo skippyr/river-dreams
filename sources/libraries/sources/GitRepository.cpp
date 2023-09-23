@@ -1,5 +1,7 @@
 #include "GitRepository.hpp"
 
+using namespace RiverDreams;
+
 std::string GitRepository::SearchForRootDirectoryPath(std::string searchDirectoryPath)
 {
     DIR* directoryStream = opendir(searchDirectoryPath.c_str());

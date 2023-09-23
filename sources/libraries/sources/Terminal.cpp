@@ -1,5 +1,7 @@
 #include "Terminal.hpp"
 
+using namespace RiverDreams;
+
 unsigned short Terminal::GetWidth()
 {
     struct winsize terminalProperties;

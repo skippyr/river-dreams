@@ -4,8 +4,11 @@
 
 #include <sys/statvfs.h>
 
-class StorageDevice
+namespace RiverDreams
 {
-public:
-    static unsigned short GetUsagePercentage();
-};
+    class StorageDevice
+    {
+    public:
+        static unsigned short GetUsagePercentage();
+    };
+}

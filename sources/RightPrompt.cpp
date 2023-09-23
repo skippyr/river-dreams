@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+using namespace RiverDreams;
+
 static void PrintDirectoryEntryStatus(unsigned long status, std::string statusSymbol, Color statusSymbolColor)
 {
     if (status)
