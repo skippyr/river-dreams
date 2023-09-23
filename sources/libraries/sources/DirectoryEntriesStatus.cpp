@@ -36,15 +36,15 @@ DirectoryEntriesStatus::DirectoryEntriesStatus(std::string path)
 
 unsigned long DirectoryEntriesStatus::GetTotalOfExecutableEntries()
 {
-    return (this->totalOfExecutableEntries);
+    return this->totalOfExecutableEntries;
 }
 
 unsigned long DirectoryEntriesStatus::GetTotalOfSymlinkEntries()
 {
-    return (this->totalOfSymlinkEntries);
+    return this->totalOfSymlinkEntries;
 }
 
 unsigned long DirectoryEntriesStatus::GetTotalOfHiddenEntries()
 {
-    return (this->totalOfHiddenEntries);
+    return this->totalOfHiddenEntries;
 }

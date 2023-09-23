@@ -5,21 +5,21 @@ std::string SystemTime::GetCalendarWeekDayAbbreviated()
     switch (this->localTime->tm_wday)
     {
     case 0:
-        return ("Sun");
+        return "Sun";
     case 1:
-        return ("Mon");
+        return "Mon";
     case 2:
-        return ("Tue");
+        return "Tue";
     case 3:
-        return ("Wed");
+        return "Wed";
     case 4:
-        return ("Thu");
+        return "Thu";
     case 5:
-        return ("Fri");
+        return "Fri";
     case 6:
-        return ("Sat");
+        return "Sat";
     default:
-        return ("---");
+        return "---";
     }
 }
 
@@ -28,96 +28,96 @@ std::string SystemTime::GetCalendarMonthAbbreviated()
     switch (this->localTime->tm_mon)
     {
     case 0:
-        return ("Jan");
+        return "Jan";
     case 1:
-        return ("Feb");
+        return "Feb";
     case 2:
-        return ("Mar");
+        return "Mar";
     case 3:
-        return ("Apr");
+        return "Apr";
     case 4:
-        return ("May");
+        return "May";
     case 5:
-        return ("Jun");
+        return "Jun";
     case 6:
-        return ("Jul");
+        return "Jul";
     case 7:
-        return ("Aug");
+        return "Aug";
     case 8:
-        return ("Sep");
+        return "Sep";
     case 9:
-        return ("Oct");
+        return "Oct";
     case 10:
-        return ("Nov");
+        return "Nov";
     case 11:
-        return ("Dec");
+        return "Dec";
     default:
-        return ("---");
+        return "---";
     }
 }
 
 std::string SystemTime::GetCalendarOrdinal()
 {
-    bool is_first_ordinal  = !((this->localTime->tm_mday - 1) % 10);
-    bool is_second_ordinal = !((this->localTime->tm_mday - 2) % 10);
-    bool is_third_ordinal  = !((this->localTime->tm_mday - 3) % 10);
-    if (is_first_ordinal)
+    bool isFirstOrdinal = !((this->localTime->tm_mday - 1) % 10);
+    bool isSecondOrdinal = !((this->localTime->tm_mday - 2) % 10);
+    bool isThirdOrdinal = !((this->localTime->tm_mday - 3) % 10);
+    if (isFirstOrdinal)
     {
-        return ("st");
+        return "st";
     }
-    else if (is_second_ordinal)
+    else if (isSecondOrdinal)
     {
-        return ("nd");
+        return "nd";
     }
-    else if (is_third_ordinal)
+    else if (isThirdOrdinal)
     {
-        return ("rd");
+        return "rd";
     }
-    return ("th");
+    return "th";
 }
 
 SystemTime::SystemTime()
 {
     std::time_t epochTime = std::time(0);
-    this->localTime       = std::localtime(&epochTime);
+    this->localTime = std::localtime(&epochTime);
 }
 
 std::string SystemTime::GetCalendar()
 {
     std::string weekDayAbbeviated = GetCalendarWeekDayAbbreviated();
-    std::string monthAbbreviated  = GetCalendarMonthAbbreviated();
-    std::string ordinal           = GetCalendarOrdinal();
-    std::string monthDay          = std::to_string(this->localTime->tm_mday);
-    return ("(" + weekDayAbbeviated + ") " + monthAbbreviated + " " + monthDay + ordinal);
+    std::string monthAbbreviated = GetCalendarMonthAbbreviated();
+    std::string ordinal = GetCalendarOrdinal();
+    std::string monthDay = std::to_string(this->localTime->tm_mday);
+    return "(" + weekDayAbbeviated + ") " + monthAbbreviated + " " + monthDay + ordinal;
 }
 
 std::string SystemTime::GetClock()
 {
-    std::string hoursLeftPadding   = this->localTime->tm_hour < 10 ? "0" : "";
+    std::string hoursLeftPadding = this->localTime->tm_hour < 10 ? "0" : "";
     std::string minutesLeftPadding = this->localTime->tm_min < 10 ? "0" : "";
-    std::string hours              = std::to_string(this->localTime->tm_hour);
-    std::string minutes            = std::to_string(this->localTime->tm_min);
-    std::string hourUnit           = "h";
-    std::string minuteUnit         = "m";
-    return (hoursLeftPadding + hours + hourUnit + minutesLeftPadding + minutes + minuteUnit);
+    std::string hours = std::to_string(this->localTime->tm_hour);
+    std::string minutes = std::to_string(this->localTime->tm_min);
+    std::string hourUnit = "h";
+    std::string minuteUnit = "m";
+    return hoursLeftPadding + hours + hourUnit + minutesLeftPadding + minutes + minuteUnit;
 }
 
 std::string SystemTime::GetColoredClockSymbol()
 {
-    bool isDawn      = this->localTime->tm_hour < 6;
-    bool isMorning   = this->localTime->tm_hour < 12;
+    bool isDawn = this->localTime->tm_hour < 6;
+    bool isMorning = this->localTime->tm_hour < 12;
     bool isAfternoon = this->localTime->tm_hour < 18;
     if (isDawn)
     {
-        return (Terminal::ApplyForegroundColor(Color::MAGENTA, "󰭎 "));
+        return Terminal::ApplyForegroundColor(Color::Magenta, "󰭎 ");
     }
     else if (isMorning)
     {
-        return (Terminal::ApplyForegroundColor(Color::RED, "󰖨 "));
+        return Terminal::ApplyForegroundColor(Color::Red, "󰖨 ");
     }
     else if (isAfternoon)
     {
-        return (Terminal::ApplyForegroundColor(Color::BLUE, " "));
+        return Terminal::ApplyForegroundColor(Color::Blue, " ");
     }
-    return (Terminal::ApplyForegroundColor(Color::YELLOW, "󰽥 "));
+    return Terminal::ApplyForegroundColor(Color::Yellow, "󰽥 ");
 }

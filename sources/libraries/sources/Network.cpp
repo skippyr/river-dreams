@@ -2,14 +2,14 @@
 
 std::string Network::GetLocalIPV4Address()
 {
-    std::string     loopbackAddress = "127.0.0.1";
+    std::string loopbackAddress = "127.0.0.1";
     struct ifaddrs* localNetworkInterfaces;
     if (getifaddrs(&localNetworkInterfaces))
     {
-        return (loopbackAddress);
+        return loopbackAddress;
     }
     for (struct ifaddrs* localNetworkInterface = localNetworkInterfaces; localNetworkInterface;
-         localNetworkInterface                 = localNetworkInterface->ifa_next)
+         localNetworkInterface = localNetworkInterface->ifa_next)
     {
         if (!localNetworkInterface->ifa_addr || !(localNetworkInterface->ifa_flags & IFF_RUNNING) ||
             localNetworkInterface->ifa_flags & IFF_LOOPBACK || localNetworkInterface->ifa_addr->sa_family != AF_INET)
@@ -24,13 +24,13 @@ std::string Network::GetLocalIPV4Address()
             continue;
         }
         freeifaddrs(localNetworkInterfaces);
-        return (localAddress);
+        return localAddress;
     }
     freeifaddrs(localNetworkInterfaces);
-    return (loopbackAddress);
+    return loopbackAddress;
 }
 
 std::string Network::GetHostName()
 {
-    return ("%m");
+    return "%m";
 }

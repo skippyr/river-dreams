@@ -1,13 +1,9 @@
-AccessModifierOffset           : -4
-AlignConsecutiveAssignments    : Consecutive
-AlignConsecutiveBitFields      : Consecutive
-AlignConsecutiveDeclarations   : Consecutive
-AlignConsecutiveMacros         : Consecutive
-BasedOnStyle                   : Microsoft
-BreakAfterJavaFieldAnnotations : true
-FixNamespaceComments           : false
-InsertNewlineAtEOF             : true
-JavaScriptQuotes               : Double
-LineEnding                     : LF
-NamespaceIndentation           : All
-PointerAlignment               : Left
+AccessModifierOffset: -4
+BasedOnStyle: Microsoft
+BreakAfterJavaFieldAnnotations: true
+FixNamespaceComments: false
+InsertNewlineAtEOF: true
+JavaScriptQuotes: Double
+LineEnding: LF
+NamespaceIndentation: All
+PointerAlignment: Left

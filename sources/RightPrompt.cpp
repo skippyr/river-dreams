@@ -15,8 +15,8 @@ static void PrintDirectoryEntryStatus(unsigned long status, std::string statusSy
 static void PrintQuantityOfBackgroundJobs()
 {
     std::string quantityOfBackgroundJobs = Shell::GetQuantityOfBackgroundJobs();
-    std::string backgroundJobSymbol      = "  ";
-    Color       backgroundJobSymbolColor = Color::MAGENTA;
+    std::string backgroundJobSymbol = "  ";
+    Color backgroundJobSymbolColor = Color::Magenta;
     std::cout << Shell::WrapOnBackgroundJobEvent(
         Terminal::ApplyForegroundColor(backgroundJobSymbolColor, backgroundJobSymbol) + quantityOfBackgroundJobs, "");
 }
@@ -24,10 +24,10 @@ static void PrintQuantityOfBackgroundJobs()
 int main()
 {
     DirectoryEntriesStatus directoryEntriesStatus = DirectoryEntriesStatus(".");
-    PrintDirectoryEntryStatus(directoryEntriesStatus.GetTotalOfHiddenEntries(), "  ", Color::RED);
-    PrintDirectoryEntryStatus(directoryEntriesStatus.GetTotalOfSymlinkEntries(), " 󰌷 ", Color::BLUE);
-    PrintDirectoryEntryStatus(directoryEntriesStatus.GetTotalOfExecutableEntries(), " 󱖏 ", Color::GREEN);
+    PrintDirectoryEntryStatus(directoryEntriesStatus.GetTotalOfHiddenEntries(), "  ", Color::Red);
+    PrintDirectoryEntryStatus(directoryEntriesStatus.GetTotalOfSymlinkEntries(), " 󰌷 ", Color::Blue);
+    PrintDirectoryEntryStatus(directoryEntriesStatus.GetTotalOfExecutableEntries(), " 󱖏 ", Color::Green);
     PrintQuantityOfBackgroundJobs();
     std::cout << std::endl;
-    return (EXIT_SUCCESS);
+    return EXIT_SUCCESS;
 }
