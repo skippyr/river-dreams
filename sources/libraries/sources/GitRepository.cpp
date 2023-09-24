@@ -25,7 +25,7 @@ std::string GitRepository::SearchForRootDirectoryPath(std::string searchDirector
 
 GitRepository::GitRepository()
 {
-    std::string pwd = EnvironmentVariables::GetPWD();
+    std::string pwd         = EnvironmentVariables::GetPWD();
     this->rootDirectoryPath = this->SearchForRootDirectoryPath(pwd);
 }
 
@@ -36,16 +36,16 @@ std::string GitRepository::GetRootDirectoryPath()
 
 std::string GitRepository::GetBranch()
 {
-    size_t quantityOfCharactersToIgnore = 16;
-    size_t maximumBranchLength = 255;
-    std::string headFilePath = this->rootDirectoryPath + "/.git/HEAD";
-    std::string readMode = "r";
-    std::FILE* headFileStream = std::fopen(headFilePath.c_str(), readMode.c_str());
+    size_t      quantityOfCharactersToIgnore = 16;
+    size_t      maximumBranchLength          = 255;
+    std::string headFilePath                 = this->rootDirectoryPath + "/.git/HEAD";
+    std::string readMode                     = "r";
+    std::FILE*  headFileStream               = std::fopen(headFilePath.c_str(), readMode.c_str());
     if (!headFileStream)
     {
         return "";
     }
-    size_t characterIndex = 0;
+    size_t      characterIndex = 0;
     std::string branch;
     for (char character; (character = std::fgetc(headFileStream)) != EOF && character != '\n' &&
                          characterIndex < quantityOfCharactersToIgnore + maximumBranchLength;

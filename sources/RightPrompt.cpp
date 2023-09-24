@@ -17,8 +17,8 @@ static void PrintDirectoryEntryStatus(unsigned long status, std::string statusSy
 static void PrintQuantityOfBackgroundJobs()
 {
     std::string quantityOfBackgroundJobs = Shell::GetQuantityOfBackgroundJobs();
-    std::string backgroundJobSymbol = "  ";
-    Color backgroundJobSymbolColor = Color::Magenta;
+    std::string backgroundJobSymbol      = "  ";
+    Color       backgroundJobSymbolColor = Color::Magenta;
     std::cout << Shell::WrapOnBackgroundJobEvent(
         Terminal::ApplyForegroundColor(backgroundJobSymbolColor, backgroundJobSymbol) + quantityOfBackgroundJobs, "");
 }

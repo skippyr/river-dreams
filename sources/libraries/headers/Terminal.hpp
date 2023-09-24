@@ -12,6 +12,6 @@ namespace RiverDreams
     {
     public:
         static unsigned short GetWidth();
-        static std::string ApplyForegroundColor(RiverDreams::Color, std::string text);
+        static std::string    ApplyForegroundColor(RiverDreams::Color, std::string text);
     };
 }

@@ -10,6 +10,6 @@ bool User::IsRootUser()
 bool User::OwnsCurrentDirectory()
 {
     unsigned short uid = getuid();
-    struct stat currentDirectoryProperties;
+    struct stat    currentDirectoryProperties;
     return lstat(".", &currentDirectoryProperties) ? false : uid && currentDirectoryProperties.st_uid != uid;
 }

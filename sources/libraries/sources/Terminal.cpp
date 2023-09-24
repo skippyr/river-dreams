@@ -5,7 +5,7 @@ using namespace RiverDreams;
 unsigned short Terminal::GetWidth()
 {
     struct winsize terminalProperties;
-    int stderrFileDescriptor = 2;
+    int            stderrFileDescriptor = 2;
     return ioctl(stderrFileDescriptor, TIOCGWINSZ, &terminalProperties) < 0 ? 0 : terminalProperties.ws_col;
 }
 

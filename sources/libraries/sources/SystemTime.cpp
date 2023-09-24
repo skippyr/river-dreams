@@ -60,9 +60,9 @@ std::string SystemTime::GetCalendarMonthAbbreviated()
 
 std::string SystemTime::GetCalendarOrdinal()
 {
-    bool isFirstOrdinal = !((this->localTime->tm_mday - 1) % 10);
+    bool isFirstOrdinal  = !((this->localTime->tm_mday - 1) % 10);
     bool isSecondOrdinal = !((this->localTime->tm_mday - 2) % 10);
-    bool isThirdOrdinal = !((this->localTime->tm_mday - 3) % 10);
+    bool isThirdOrdinal  = !((this->localTime->tm_mday - 3) % 10);
     if (isFirstOrdinal)
     {
         return "st";
@@ -81,33 +81,33 @@ std::string SystemTime::GetCalendarOrdinal()
 SystemTime::SystemTime()
 {
     std::time_t epochTime = std::time(0);
-    this->localTime = std::localtime(&epochTime);
+    this->localTime       = std::localtime(&epochTime);
 }
 
 std::string SystemTime::GetCalendar()
 {
     std::string weekDayAbbeviated = GetCalendarWeekDayAbbreviated();
-    std::string monthAbbreviated = GetCalendarMonthAbbreviated();
-    std::string ordinal = GetCalendarOrdinal();
-    std::string monthDay = std::to_string(this->localTime->tm_mday);
+    std::string monthAbbreviated  = GetCalendarMonthAbbreviated();
+    std::string ordinal           = GetCalendarOrdinal();
+    std::string monthDay          = std::to_string(this->localTime->tm_mday);
     return "(" + weekDayAbbeviated + ") " + monthAbbreviated + " " + monthDay + ordinal;
 }
 
 std::string SystemTime::GetClock()
 {
-    std::string hoursLeftPadding = this->localTime->tm_hour < 10 ? "0" : "";
+    std::string hoursLeftPadding   = this->localTime->tm_hour < 10 ? "0" : "";
     std::string minutesLeftPadding = this->localTime->tm_min < 10 ? "0" : "";
-    std::string hours = std::to_string(this->localTime->tm_hour);
-    std::string minutes = std::to_string(this->localTime->tm_min);
-    std::string hourUnit = "h";
-    std::string minuteUnit = "m";
+    std::string hours              = std::to_string(this->localTime->tm_hour);
+    std::string minutes            = std::to_string(this->localTime->tm_min);
+    std::string hourUnit           = "h";
+    std::string minuteUnit         = "m";
     return hoursLeftPadding + hours + hourUnit + minutesLeftPadding + minutes + minuteUnit;
 }
 
 std::string SystemTime::GetColoredClockSymbol()
 {
-    bool isDawn = this->localTime->tm_hour < 6;
-    bool isMorning = this->localTime->tm_hour < 12;
+    bool isDawn      = this->localTime->tm_hour < 6;
+    bool isMorning   = this->localTime->tm_hour < 12;
     bool isAfternoon = this->localTime->tm_hour < 18;
     if (isDawn)
     {
