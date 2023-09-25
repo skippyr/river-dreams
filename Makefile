@@ -13,16 +13,17 @@ all: releases
 clean:
 	rm -rf ${OUT_DIRECTORY}
 
-objects: ${BUILD_DIRECTORY}/Terminal.o                                                                                 \
+objects: ${BUILD_DIRECTORY}/Console.o                                                                                  \
          ${BUILD_DIRECTORY}/Network.o                                                                                  \
-         ${BUILD_DIRECTORY}/SystemTime.o                                                                               \
-         ${BUILD_DIRECTORY}/User.o                                                                                     \
          ${BUILD_DIRECTORY}/StorageDevice.o                                                                            \
-         ${BUILD_DIRECTORY}/DirectoryEntriesStatus.o                                                                   \
-         ${BUILD_DIRECTORY}/GitRepository.o                                                                            \
+         ${BUILD_DIRECTORY}/SystemTime.o                                                                               \
          ${BUILD_DIRECTORY}/Path.o                                                                                     \
-         ${BUILD_DIRECTORY}/Shell.o                                                                                    \
-         ${BUILD_DIRECTORY}/EnvironmentVariables.o
+         ${BUILD_DIRECTORY}/Directory.o                                                                                \
+         ${BUILD_DIRECTORY}/File.o                                                                                     \
+         ${BUILD_DIRECTORY}/EnvironmentVariables.o                                                                     \
+         ${BUILD_DIRECTORY}/GitRepository.o                                                                            \
+         ${BUILD_DIRECTORY}/User.o                                                                                     \
+         ${BUILD_DIRECTORY}/Shell.o
 
 releases: ${RELEASES_DIRECTORY}/LeftPrompt                                                                             \
           ${RELEASES_DIRECTORY}/RightPrompt

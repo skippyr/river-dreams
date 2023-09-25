@@ -1,24 +1,27 @@
 #pragma once
 
-#include "Terminal.hpp"
+#include "DayMoment.hpp"
 
+#include <cstring>
 #include <ctime>
+#include <string>
 
-namespace RiverDreams
+namespace RiverDreams::Time
 {
     class SystemTime
     {
     private:
-        struct std::tm* localTime;
+        struct std::tm localTime;
 
-        std::string GetCalendarWeekDayAbbreviated();
-        std::string GetCalendarMonthAbbreviated();
-        std::string GetCalendarOrdinal();
+    private:
+        std::string GetMonthAbbreviated();
+        std::string GetWeekDayAbbreviated();
+        std::string GetDayOrdinal();
 
     public:
         SystemTime();
         std::string GetCalendar();
         std::string GetClock();
-        std::string GetColoredClockSymbol();
+        DayMoment   GetDayMoment();
     };
 }

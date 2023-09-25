@@ -1,12 +1,13 @@
 #include "StorageDevice.hpp"
 
-using namespace RiverDreams;
+#define FILE_SYSTEM_ROOT_MOUNT_POINT "/"
+
+using namespace RiverDreams::FileSystem;
 
 unsigned short StorageDevice::GetUsagePercentage()
 {
     struct statvfs storageDeviceProperties;
-    std::string    systemMountPoint = "/";
-    if (statvfs(systemMountPoint.c_str(), &storageDeviceProperties))
+    if (statvfs(FILE_SYSTEM_ROOT_MOUNT_POINT, &storageDeviceProperties))
     {
         return 0;
     }

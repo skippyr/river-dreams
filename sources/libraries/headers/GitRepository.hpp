@@ -1,19 +1,17 @@
 #pragma once
 
+#include "Directory.hpp"
+#include "File.hpp"
 #include "Path.hpp"
 
-#include <cstring>
-
-#include <dirent.h>
-
-namespace RiverDreams
+namespace RiverDreams::FileSystem::VersionControl
 {
     class GitRepository
     {
     private:
         std::string rootDirectoryPath;
 
-        std::string SearchForRootDirectoryPath(std::string searchDirectoryPath);
+        std::string SearchForRootDirectoryPath(std::string searchPath);
 
     public:
         GitRepository();

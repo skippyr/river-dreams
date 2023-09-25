@@ -1,166 +1,189 @@
+#include "Console.hpp"
 #include "GitRepository.hpp"
 #include "Network.hpp"
-#include "Path.hpp"
 #include "Shell.hpp"
 #include "StorageDevice.hpp"
 #include "SystemTime.hpp"
-#include "Terminal.hpp"
 #include "User.hpp"
 
 #include <iostream>
 
-#define CHEVRONS_LEFT_DELIMITER      ":«("
-#define CHEVRONS_RIGHT_DELIMITER     ")»:"
+#define CHEVRON_LEFT_DELIMITER       ":«("
+#define CHEVRON_RIGHT_DELIMITER      ")»:"
+#define PARENTHESIS_LEFT_DELIMITER   "("
+#define PARENTHESIS_RIGHT_DELIMITER  ")"
 #define CURLY_BRACES_LEFT_DELIMITER  "{"
 #define CURLY_BRACES_RIGHT_DELIMITER "}"
 
-using namespace RiverDreams;
+using namespace RiverDreams::Connectivity;
+using namespace RiverDreams::Environment;
+using namespace RiverDreams::FileSystem;
+using namespace RiverDreams::FileSystem::VersionControl;
+using namespace RiverDreams::InputOutput;
+using namespace RiverDreams::Time;
+using namespace RiverDreams::Users;
 
-static void PrintCommandsSeparator()
+static void WriteCommandsSeparator()
 {
-    for (unsigned short column = 0; column < Terminal::GetWidth(); column++)
+    for (unsigned short column = 0; column < Console::GetTotalOfColumns(); column++)
     {
-        bool        isColumnOdd = column % 2;
-        std::string symbol      = isColumnOdd ? "⊼" : "⊵";
-        Color       symbolColor = isColumnOdd ? Color::Red : Color::Yellow;
-        std::cout << Terminal::ApplyForegroundColor(symbolColor, symbol);
+        bool         isColumnOdd          = column % 2;
+        std::string  separatorSymbol      = isColumnOdd ? "⊼" : "⊵";
+        ConsoleColor separatorSymbolColor = isColumnOdd ? ConsoleColor::Red : ConsoleColor::Yellow;
+        std::cout << Console::ApplyForegroundColor(separatorSymbol, separatorSymbolColor);
     }
     std::cout << std::endl;
 }
 
-static void PrintWidgetsSeparator()
+static void WriteHorizontalSpacing()
 {
     std::cout << "  ";
 }
 
-static void PrintLocalIPV4Address()
+static void WriteLocalIPV4Address()
 {
-    std::string localAddress    = Network::GetLocalIPV4Address();
-    std::string hostName        = Network::GetHostName();
-    std::string separatorSymbol = "@";
-    std::string networkSymbol   = " ";
-    Color       symbolsColor    = Color::Blue;
-    std::cout << Terminal::ApplyForegroundColor(symbolsColor, networkSymbol) << hostName
-              << Terminal::ApplyForegroundColor(symbolsColor, separatorSymbol) << localAddress;
+    std::string  networkSymbol   = " ";
+    std::string  separatorSymbol = "@";
+    ConsoleColor symbolsColor    = ConsoleColor::Blue;
+    std::cout << Console::ApplyForegroundColor(networkSymbol, symbolsColor) << Network::GetHostName()
+              << Console::ApplyForegroundColor(separatorSymbol, symbolsColor) << Network::GetLocalIPV4Address();
 }
 
-static void PrintStorageDeviceUsagePercentage()
+static void WriteStorageDeviceUsagePercentage()
 {
-    unsigned short usagePercentage = StorageDevice::GetUsagePercentage();
-    std::string    diskSymbol      = "󰋊 ";
-    Color          diskSymbolColor = Color::Yellow;
-    std::cout << Terminal::ApplyForegroundColor(diskSymbolColor, diskSymbol) << usagePercentage << "%%";
+    std::string  storageDeviceSymbol      = "󰋊 ";
+    ConsoleColor storageDeviceSymbolColor = ConsoleColor::Yellow;
+    std::cout << Console::ApplyForegroundColor(storageDeviceSymbol, storageDeviceSymbolColor)
+              << StorageDevice::GetUsagePercentage() << "%%";
 }
 
-static void PrintCalendar(SystemTime& systemTime)
+static void WriteCalendar(SystemTime& systemTime)
 {
-    std::string calendar            = systemTime.GetCalendar();
-    std::string calendarSymbol      = "󰸗 ";
-    Color       calendarSymbolColor = Color::Red;
-    std::cout << Terminal::ApplyForegroundColor(calendarSymbolColor, calendarSymbol) << calendar;
+    std::string  calendarSymbol      = "󰸗 ";
+    ConsoleColor calendarSymbolColor = ConsoleColor::Red;
+    std::cout << Console::ApplyForegroundColor(calendarSymbol, calendarSymbolColor) << systemTime.GetCalendar();
 }
 
-static void PrintClock(SystemTime& systemTime)
+static void WriteClock(SystemTime& systemTime)
 {
-    std::string clock              = systemTime.GetClock();
-    std::string clockColoredSymbol = systemTime.GetColoredClockSymbol();
-    std::cout << clockColoredSymbol << clock;
+    std::string  clockSymbol;
+    ConsoleColor clockSymbolColor;
+    switch (systemTime.GetDayMoment())
+    {
+    case DayMoment::Dawn:
+        clockSymbol      = "󰭎 ";
+        clockSymbolColor = ConsoleColor::Magenta;
+        break;
+    case DayMoment::Morning:
+        clockSymbol      = "󰖨 ";
+        clockSymbolColor = ConsoleColor::Red;
+        break;
+    case DayMoment::Afternoon:
+        clockSymbol      = " ";
+        clockSymbolColor = ConsoleColor::Blue;
+        break;
+    case DayMoment::Night:
+        clockSymbol      = "󰽥 ";
+        clockSymbolColor = ConsoleColor::Yellow;
+        break;
+    default:
+        clockSymbol      = " ";
+        clockSymbolColor = ConsoleColor::Blue;
+    }
+    std::cout << Console::ApplyForegroundColor(clockSymbol, clockSymbolColor) << systemTime.GetClock();
 }
 
-static void PrintExitCodeStatus()
+static void WriteRootStatus()
 {
-    std::string errorSymbol        = "⨲";
-    std::string successSymbol      = "≗";
-    Color       errorSymbolColor   = Color::Red;
-    Color       successSymbolColor = Color::Yellow;
-    Color       delimitersColor    = Color::Yellow;
-    std::cout << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACES_LEFT_DELIMITER)
-              << Shell::WrapOnErrorEvent(Terminal::ApplyForegroundColor(errorSymbolColor, errorSymbol),
-                                         Terminal::ApplyForegroundColor(successSymbolColor, successSymbol))
-              << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACES_RIGHT_DELIMITER);
-}
-
-static void PrintRootStatus()
-{
-    std::string rootSymbol      = "#";
-    Color       delimitersColor = Color::Yellow;
-    Color       rootSymbolColor = Color::Red;
+    std::string  rootSymbol      = "#";
+    ConsoleColor rootSymbolColor = ConsoleColor::Red;
+    ConsoleColor delimitersColor = ConsoleColor::Yellow;
     if (User::IsRootUser())
     {
-        std::cout << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACES_LEFT_DELIMITER)
-                  << Terminal::ApplyForegroundColor(rootSymbolColor, rootSymbol)
-                  << Terminal::ApplyForegroundColor(delimitersColor, CURLY_BRACES_RIGHT_DELIMITER);
+        std::cout << Console::ApplyForegroundColor(CURLY_BRACES_LEFT_DELIMITER, delimitersColor)
+                  << Console::ApplyForegroundColor(rootSymbol, rootSymbolColor)
+                  << Console::ApplyForegroundColor(CURLY_BRACES_RIGHT_DELIMITER, delimitersColor);
     }
 }
 
-static void PrintVirtualEnvironment()
+static void WriteExitCodeStatus()
 {
-    std::string virtualEnvironment     = EnvironmentVariables::GetVirtualEnvironment();
-    std::string virtualEnvironmentName = Path::GetBaseName(virtualEnvironment);
-    std::string leftDelimiter          = "(";
-    std::string rightDelimiter         = ") ";
-    Color       delimitersColor        = Color::Magenta;
-    if (virtualEnvironmentName != "")
+    std::string  successSymbol      = "≗";
+    std::string  errorSymbol        = "⨲";
+    ConsoleColor successSymbolColor = ConsoleColor::Yellow;
+    ConsoleColor errorSymbolColor   = ConsoleColor::Red;
+    ConsoleColor delimitersColor    = ConsoleColor::Yellow;
+    std::cout << Console::ApplyForegroundColor(CURLY_BRACES_LEFT_DELIMITER, delimitersColor)
+              << Shell::WrapOnErrorEvent(Console::ApplyForegroundColor(errorSymbol, errorSymbolColor),
+                                         Console::ApplyForegroundColor(successSymbol, successSymbolColor))
+              << Console::ApplyForegroundColor(CURLY_BRACES_RIGHT_DELIMITER, delimitersColor);
+}
+
+static void WriteVirtualEnv()
+{
+    std::string  virtualEnvName  = Path::GetBaseName(EnvironmentVariables::GetVirtualEnv());
+    ConsoleColor delimitersColor = ConsoleColor::Magenta;
+    if (virtualEnvName != "")
     {
-        std::cout << Terminal::ApplyForegroundColor(delimitersColor, leftDelimiter) << virtualEnvironmentName
-                  << Terminal::ApplyForegroundColor(delimitersColor, rightDelimiter);
+        std::cout << Console::ApplyForegroundColor(PARENTHESIS_LEFT_DELIMITER, delimitersColor) << virtualEnvName
+                  << Console::ApplyForegroundColor(PARENTHESIS_RIGHT_DELIMITER, delimitersColor) << " ";
     }
 }
 
-static void PrintCurrentDirectoryPath(GitRepository& repository)
+static void WriteCurrentDirectoryPathAbbreviated(GitRepository& gitRepository)
 {
-    std::string currentDirectoryPath      = Path::GetCurrentDirectoryAbbreviated(repository.GetRootDirectoryPath());
-    Color       currentDirectoryPathColor = Color::Red;
-    std::cout << Terminal::ApplyForegroundColor(currentDirectoryPathColor, currentDirectoryPath);
+    ConsoleColor pathColor = ConsoleColor::Red;
+    std::cout << Console::ApplyForegroundColor(
+        Path::GetCurrentDirectoryPathAbbreviated(gitRepository.GetRootDirectoryPath()), pathColor);
 }
 
-static void PrintGitBranch(GitRepository& repository)
+static void WriteGitRepositoryBranch(GitRepository& gitRepository)
 {
-    std::string branch          = repository.GetBranch();
-    Color       delimitersColor = Color::Green;
+    std::string  branch          = gitRepository.GetBranch();
+    ConsoleColor delimitersColor = ConsoleColor::Green;
     if (branch != "")
     {
-        std::cout << Terminal::ApplyForegroundColor(delimitersColor, CHEVRONS_LEFT_DELIMITER) << branch
-                  << Terminal::ApplyForegroundColor(delimitersColor, CHEVRONS_RIGHT_DELIMITER);
+        std::cout << Console::ApplyForegroundColor(CHEVRON_LEFT_DELIMITER, delimitersColor) << branch
+                  << Console::ApplyForegroundColor(CHEVRON_RIGHT_DELIMITER, delimitersColor);
     }
 }
 
-static void PrintCurrentDirectoryOwnership()
+static void WriteCurrentDirectoryOwnership()
 {
-    std::string ownershipSymbol      = " ";
-    Color       ownershipSymbolColor = Color::Magenta;
-    if (User::OwnsCurrentDirectory())
+    std::string  readOnlySymbol      = " ";
+    ConsoleColor readOnlySymbolColor = ConsoleColor::Magenta;
+    if (!User::OwnsCurrentDirectory())
     {
-        std::cout << Terminal::ApplyForegroundColor(ownershipSymbolColor, ownershipSymbol);
+        std::cout << Console::ApplyForegroundColor(readOnlySymbol, readOnlySymbolColor);
     }
 }
 
 int main()
 {
-    SystemTime    systemTime             = SystemTime();
-    GitRepository repository             = GitRepository();
-    std::string   arrowSymbol            = "⤐  ";
-    std::string   cursorSymbol           = " ⩺ ";
-    Color         chevronDelimitersColor = Color::Yellow;
-    Color         arrowSymbolColor       = Color::Yellow;
-    Color         cursorSymbolColor      = Color::Magenta;
-    PrintCommandsSeparator();
-    std::cout << Terminal::ApplyForegroundColor(chevronDelimitersColor, CHEVRONS_LEFT_DELIMITER);
-    PrintLocalIPV4Address();
-    PrintWidgetsSeparator();
-    PrintStorageDeviceUsagePercentage();
-    PrintWidgetsSeparator();
-    PrintCalendar(systemTime);
-    PrintWidgetsSeparator();
-    PrintClock(systemTime);
-    std::cout << Terminal::ApplyForegroundColor(chevronDelimitersColor, CHEVRONS_RIGHT_DELIMITER) << std::endl;
-    PrintRootStatus();
-    PrintExitCodeStatus();
-    std::cout << Terminal::ApplyForegroundColor(arrowSymbolColor, arrowSymbol);
-    PrintVirtualEnvironment();
-    PrintCurrentDirectoryPath(repository);
-    PrintGitBranch(repository);
-    PrintCurrentDirectoryOwnership();
-    std::cout << Terminal::ApplyForegroundColor(cursorSymbolColor, cursorSymbol) << std::endl;
+    SystemTime    systemTime        = SystemTime();
+    GitRepository gitRepository     = GitRepository();
+    std::string   arrowSymbol       = "⤐  ";
+    std::string   cursorSymbol      = " ⩺ ";
+    ConsoleColor  arrowSymbolColor  = ConsoleColor::Yellow;
+    ConsoleColor  cursorSymbolColor = ConsoleColor::Magenta;
+    ConsoleColor  delimitersColor   = ConsoleColor::Yellow;
+    WriteCommandsSeparator();
+    std::cout << Console::ApplyForegroundColor(CHEVRON_LEFT_DELIMITER, delimitersColor);
+    WriteLocalIPV4Address();
+    WriteHorizontalSpacing();
+    WriteStorageDeviceUsagePercentage();
+    WriteHorizontalSpacing();
+    WriteCalendar(systemTime);
+    WriteHorizontalSpacing();
+    WriteClock(systemTime);
+    std::cout << Console::ApplyForegroundColor(CHEVRON_RIGHT_DELIMITER, delimitersColor) << std::endl;
+    WriteRootStatus();
+    WriteExitCodeStatus();
+    std::cout << Console::ApplyForegroundColor(arrowSymbol, arrowSymbolColor);
+    WriteVirtualEnv();
+    WriteCurrentDirectoryPathAbbreviated(gitRepository);
+    WriteGitRepositoryBranch(gitRepository);
+    WriteCurrentDirectoryOwnership();
+    std::cout << Console::ApplyForegroundColor(cursorSymbol, cursorSymbolColor) << std::endl;
     return EXIT_SUCCESS;
 }

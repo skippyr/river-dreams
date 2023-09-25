@@ -16,11 +16,9 @@ Here is a preview that you can check it out:
 In the left prompt, you will find:
 
 - Your host name and local IPV4 address. If a valid address is not found, it will show your loopback address: `127.0.0.1`. If you have multiple local network interfaces, it will use the first one that matches its required criterias:
-    - It contains an address.
+    - It contains an IPV4 address.
     - It is running.
     - It is not a loopback.
-    - It is of IPV4 type.
-    - It's address can be converted to a text.
 - Your storage device usage percentage. It refers to the device that is mounted at `/`.
 - A calendar displaying the day of the week, month and day of the month.
 - A clock displaying the hours and minutes of the day. Its symbol also changes depending on the moment of the day:
@@ -36,6 +34,7 @@ In the left prompt, you will find:
 - A decorator that alerts if the last command executed failed or not: it will be a cross-like symbol if it has.
 - The name of sourced virtual environments.
 - The name of the directory you are currently in. It uses an alias for the home directory, `~`, and if inside a Git repository, it will use a special alias, `@`, to short parent directories and only show the ones from inside that workspace.
+- If inside a Git repository, the name of active branch.
 - A decorator that alerts about the current directory ownership: it will show a lock symbol if you are not the owner of the current directory, alerting that is read-only.
 
 In the right prompt, you will find:

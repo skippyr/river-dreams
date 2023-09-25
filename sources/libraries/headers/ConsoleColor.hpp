@@ -1,8 +1,8 @@
 #pragma once
 
-namespace RiverDreams
+namespace RiverDreams::InputOutput
 {
-    enum class Color
+    enum class ConsoleColor
     {
         Black,
         Red,

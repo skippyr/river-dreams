@@ -1,35 +1,35 @@
-#include "DirectoryEntriesStatus.hpp"
+#include "Console.hpp"
+#include "Directory.hpp"
 #include "Shell.hpp"
-#include "Terminal.hpp"
 
 #include <iostream>
 
-using namespace RiverDreams;
+using namespace RiverDreams::FileSystem;
+using namespace RiverDreams::InputOutput;
 
-static void PrintDirectoryEntryStatus(unsigned long status, std::string statusSymbol, Color statusSymbolColor)
+static void WriteDirectoryEntryStatus(unsigned long status, std::string symbol, ConsoleColor color)
 {
     if (status)
     {
-        std::cout << Terminal::ApplyForegroundColor(statusSymbolColor, statusSymbol) << status;
+        std::cout << Console::ApplyForegroundColor(symbol, color) << status;
     }
 }
 
-static void PrintQuantityOfBackgroundJobs()
+static void WriteTotalOfBackgroundJobs()
 {
-    std::string quantityOfBackgroundJobs = Shell::GetQuantityOfBackgroundJobs();
-    std::string backgroundJobSymbol      = "  ";
-    Color       backgroundJobSymbolColor = Color::Magenta;
+    std::string  totalOfBackgroundJobs    = Shell::GetTotalOfBackgroundJobs();
+    std::string  backgroundJobSymbol      = "  ";
+    ConsoleColor backgroundJobSymbolColor = ConsoleColor::Magenta;
     std::cout << Shell::WrapOnBackgroundJobEvent(
-        Terminal::ApplyForegroundColor(backgroundJobSymbolColor, backgroundJobSymbol) + quantityOfBackgroundJobs, "");
+        Console::ApplyForegroundColor(backgroundJobSymbol, backgroundJobSymbolColor) + totalOfBackgroundJobs, "");
 }
 
 int main()
 {
-    DirectoryEntriesStatus directoryEntriesStatus = DirectoryEntriesStatus(".");
-    PrintDirectoryEntryStatus(directoryEntriesStatus.GetTotalOfHiddenEntries(), "  ", Color::Red);
-    PrintDirectoryEntryStatus(directoryEntriesStatus.GetTotalOfSymlinkEntries(), " 󰌷 ", Color::Blue);
-    PrintDirectoryEntryStatus(directoryEntriesStatus.GetTotalOfExecutableEntries(), " 󱖏 ", Color::Green);
-    PrintQuantityOfBackgroundJobs();
-    std::cout << std::endl;
+    DirectoryEntriesStatus entriesStatus = Directory(".").GetDirectoryEntriesStatus();
+    WriteDirectoryEntryStatus(entriesStatus.totalOfHiddenEntries, "  ", ConsoleColor::Red);
+    WriteDirectoryEntryStatus(entriesStatus.totalOfSymlinkEntries, " 󰌷 ", ConsoleColor::Blue);
+    WriteDirectoryEntryStatus(entriesStatus.totalOfExecutableEntries, " 󱖏 ", ConsoleColor::Green);
+    WriteTotalOfBackgroundJobs();
     return EXIT_SUCCESS;
 }

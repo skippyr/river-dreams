@@ -1,8 +1,8 @@
 #include "Shell.hpp"
 
-using namespace RiverDreams;
+using namespace RiverDreams::InputOutput;
 
-std::string Shell::GetQuantityOfBackgroundJobs()
+std::string Shell::GetTotalOfBackgroundJobs()
 {
     return "%j";
 }

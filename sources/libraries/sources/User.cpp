@@ -1,6 +1,7 @@
 #include "User.hpp"
 
-using namespace RiverDreams;
+using namespace RiverDreams::FileSystem;
+using namespace RiverDreams::Users;
 
 bool User::IsRootUser()
 {
@@ -9,7 +10,6 @@ bool User::IsRootUser()
 
 bool User::OwnsCurrentDirectory()
 {
-    unsigned short uid = getuid();
-    struct stat    currentDirectoryProperties;
-    return lstat(".", &currentDirectoryProperties) ? false : uid && currentDirectoryProperties.st_uid != uid;
+    unsigned int userId = getuid();
+    return !(userId && userId != Directory(".").GetUserId());
 }

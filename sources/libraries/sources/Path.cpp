@@ -1,21 +1,24 @@
 #include "Path.hpp"
 
-using namespace RiverDreams;
+using namespace RiverDreams::Environment;
+using namespace RiverDreams::FileSystem;
 
 std::string Path::GetBaseName(std::string path)
 {
-    return path.substr(path.find_last_of("/") + 1);
+    unsigned long lastSlashIndex = path.find_last_of("/");
+    return lastSlashIndex > path.length() ? path : path.substr(lastSlashIndex + 1);
 }
 
-std::string Path::GetParentDirectory(std::string path)
+std::string Path::GetParent(std::string path)
 {
-    return path.substr(0, path.find_last_of("/"));
+    unsigned long lastSlashIndex = path.find_last_of("/");
+    return !lastSlashIndex && path.length() > 1 ? "/" : path.substr(0, lastSlashIndex);
 }
 
-std::string Path::GetCurrentDirectoryAbbreviated(std::string repositoryRootDirectory)
+std::string Path::GetCurrentDirectoryPathAbbreviated(std::string repositoryRootDirectoryPath)
 {
     std::string pwd                 = EnvironmentVariables::GetPWD();
-    std::string repositoryName      = GetBaseName(repositoryRootDirectory);
-    std::string repositoryInnerPath = pwd.substr(repositoryRootDirectory.length());
-    return repositoryRootDirectory != "" ? "@/" + repositoryName + repositoryInnerPath : "%~";
+    std::string repositoryName      = GetBaseName(repositoryRootDirectoryPath);
+    std::string repositoryInnerPath = pwd.substr(repositoryRootDirectoryPath.length());
+    return repositoryRootDirectoryPath != "" ? "@/" + repositoryName + repositoryInnerPath : "%~";
 }

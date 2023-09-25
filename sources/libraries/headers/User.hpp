@@ -1,9 +1,10 @@
 #pragma once
 
-#include <sys/stat.h>
+#include "Directory.hpp"
+
 #include <unistd.h>
 
-namespace RiverDreams
+namespace RiverDreams::Users
 {
     class User
     {

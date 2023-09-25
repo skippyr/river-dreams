@@ -2,15 +2,15 @@
 
 #include <string>
 
-namespace RiverDreams
+namespace RiverDreams::Environment
 {
     class EnvironmentVariables
     {
     private:
-        static std::string GetEnvironmentVariable(std::string environmentVariable);
+        static std::string GetVariable(std::string variable);
 
     public:
         static std::string GetPWD();
-        static std::string GetVirtualEnvironment();
+        static std::string GetVirtualEnv();
     };
 }

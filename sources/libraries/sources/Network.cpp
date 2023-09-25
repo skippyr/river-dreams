@@ -1,35 +1,48 @@
 #include "Network.hpp"
 
-using namespace RiverDreams;
+#define LOOPBACK_NETWORK_INTERFACE_IPV4_ADDRESS "127.0.0.1"
+#define IPV4_FAMILY                             AF_INET
+#define MAXIMUM_IPV4_ADDRESS_LENGTH             16
+
+using namespace RiverDreams::Connectivity;
+
+bool Network::IsValidIPV4NetworkInterface(struct ifaddrs* networkInterface)
+{
+    bool hasIPV4Address = networkInterface->ifa_addr && networkInterface->ifa_addr->sa_family == IPV4_FAMILY;
+    bool isRunning      = networkInterface->ifa_flags & IFF_RUNNING;
+    bool isLoopback     = networkInterface->ifa_flags & IFF_LOOPBACK;
+    return hasIPV4Address && isRunning && !isLoopback;
+}
+
+std::string Network::GetNetworkInterfaceIPV4Address(struct ifaddrs* networkInterface)
+{
+    char networkInterfaceIPV4Address[MAXIMUM_IPV4_ADDRESS_LENGTH];
+    return IsValidIPV4NetworkInterface(networkInterface) &&
+                   inet_ntop(IPV4_FAMILY, &((struct sockaddr_in*)networkInterface->ifa_addr)->sin_addr,
+                             networkInterfaceIPV4Address, sizeof(networkInterfaceIPV4Address))
+               ? networkInterfaceIPV4Address
+               : "";
+}
 
 std::string Network::GetLocalIPV4Address()
 {
-    std::string     loopbackAddress = "127.0.0.1";
     struct ifaddrs* localNetworkInterfaces;
     if (getifaddrs(&localNetworkInterfaces))
     {
-        return loopbackAddress;
+        return LOOPBACK_NETWORK_INTERFACE_IPV4_ADDRESS;
     }
     for (struct ifaddrs* localNetworkInterface = localNetworkInterfaces; localNetworkInterface;
          localNetworkInterface                 = localNetworkInterface->ifa_next)
     {
-        if (!localNetworkInterface->ifa_addr || !(localNetworkInterface->ifa_flags & IFF_RUNNING) ||
-            localNetworkInterface->ifa_flags & IFF_LOOPBACK || localNetworkInterface->ifa_addr->sa_family != AF_INET)
+        std::string localNetworkInterfaceIPV4Address = GetNetworkInterfaceIPV4Address(localNetworkInterface);
+        if (localNetworkInterfaceIPV4Address != "")
         {
-            continue;
+            freeifaddrs(localNetworkInterfaces);
+            return localNetworkInterfaceIPV4Address;
         }
-        char localAddress[16];
-        if (!inet_ntop(localNetworkInterface->ifa_addr->sa_family,
-                       &((struct sockaddr_in*)localNetworkInterface->ifa_addr)->sin_addr, localAddress,
-                       sizeof(localAddress)))
-        {
-            continue;
-        }
-        freeifaddrs(localNetworkInterfaces);
-        return localAddress;
     }
     freeifaddrs(localNetworkInterfaces);
-    return loopbackAddress;
+    return LOOPBACK_NETWORK_INTERFACE_IPV4_ADDRESS;
 }
 
 std::string Network::GetHostName()

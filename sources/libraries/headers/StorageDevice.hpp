@@ -4,7 +4,7 @@
 
 #include <sys/statvfs.h>
 
-namespace RiverDreams
+namespace RiverDreams::FileSystem
 {
     class StorageDevice
     {
