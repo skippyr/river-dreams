@@ -8,10 +8,15 @@ namespace RiverDreams::FileSystem
 {
     class Path
     {
+    private:
+        std::string path;
+
     public:
-        static std::string GetBaseName(std::string path);
+        Path(std::string path);
+        Path Join(std::string path);
+        std::string ToString();
+        static std::string GetBase(std::string path);
         static std::string GetParent(std::string path);
-        static std::string GetCurrentDirectoryPathAbbreviated(
-            std::string repositoryRootDirectoryPath);
+        static std::string GetPWDAbbreviated(std::string repositoryRootDirectoryPath);
     };
 }

@@ -1,9 +1,10 @@
 #pragma once
 
-namespace RiverDreams::InputOutput
+namespace RiverDreams::IO
 {
     enum class ConsoleColor
     {
+        None,
         Black,
         Red,
         Green,

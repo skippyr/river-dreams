@@ -9,7 +9,7 @@ namespace RiverDreams::Users
     class User
     {
     public:
-        static bool IsRootUser();
-        static bool OwnsCurrentDirectory();
+        static bool IsRoot();
+        static bool OwnsPWD();
     };
 }

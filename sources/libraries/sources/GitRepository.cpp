@@ -3,15 +3,15 @@
 using namespace RiverDreams::Environment;
 using namespace RiverDreams::FileSystem::VersionControl;
 
-std::string GitRepository::SearchForRootDirectoryPath(std::string searchPath)
+std::string GitRepository::SearchForRootDirectoryPath(std::string searchDirectoryPath)
 {
-    if (searchPath == "/")
+    if (searchDirectoryPath == "/")
     {
         return "";
     }
-    return Directory(searchPath).IsRepositoryRoot()
-               ? searchPath
-               : SearchForRootDirectoryPath(Path::GetParent(searchPath));
+    return Directory(searchDirectoryPath).IsRepositoryRoot()
+               ? searchDirectoryPath
+               : SearchForRootDirectoryPath(Path::GetParent(searchDirectoryPath));
 }
 
 GitRepository::GitRepository()
@@ -28,7 +28,8 @@ std::string GitRepository::GetBranch()
 {
     unsigned long maximumBranchLength    = 255;
     unsigned long totalOfSlashesToIgnore = 2;
-    File          headFile               = File(rootDirectoryPath + "/.git/HEAD");
+    File          headFile               = File(Path(rootDirectoryPath).Join(".git").Join("HEAD")
+                                                                                    .ToString());
     std::string   branch;
     for (char character; (character = headFile.GetCharacter()) != EOF && character != '\n' &&
                          branch.length() <= maximumBranchLength;)

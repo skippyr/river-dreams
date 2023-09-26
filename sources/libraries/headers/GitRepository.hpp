@@ -2,7 +2,6 @@
 
 #include "Directory.hpp"
 #include "File.hpp"
-#include "Path.hpp"
 
 namespace RiverDreams::FileSystem::VersionControl
 {
@@ -11,7 +10,7 @@ namespace RiverDreams::FileSystem::VersionControl
     private:
         std::string rootDirectoryPath;
 
-        std::string SearchForRootDirectoryPath(std::string searchPath);
+        std::string SearchForRootDirectoryPath(std::string searchDirectoryPath);
 
     public:
         GitRepository();

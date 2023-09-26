@@ -10,8 +10,7 @@ std::string EnvironmentVariables::GetVariable(std::string variable)
 
 std::string EnvironmentVariables::GetPWD()
 {
-    std::string pwd = GetVariable("PWD");
-    return pwd == "" ? "/" : pwd;
+    return GetVariable("PWD");
 }
 
 std::string EnvironmentVariables::GetVirtualEnv()

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DirectoryEntriesStatus.hpp"
+#include "Path.hpp"
 
 #include <string>
 
@@ -13,13 +14,15 @@ namespace RiverDreams::FileSystem
     {
     private:
         std::string path;
-        DIR*        stream;
+        DIR*        stream    = 0;
+        bool        hasOpened = false;
 
     public:
         Directory(std::string path);
         ~Directory();
+        void                   OpenStream();
         bool                   IsRepositoryRoot();
-        unsigned int           GetUserId();
-        DirectoryEntriesStatus GetDirectoryEntriesStatus();
+        DirectoryEntriesStatus GetEntriesStatus();
+        unsigned               GetUserId();
     };
 }

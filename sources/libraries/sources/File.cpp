@@ -1,11 +1,12 @@
 #include "File.hpp"
 
+#define READ_MODE "r"
+
 using namespace RiverDreams::FileSystem;
 
 File::File(std::string path)
 {
-    std::string readMode = "r";
-    stream               = std::fopen(path.c_str(), readMode.c_str());
+    stream = std::fopen(path.c_str(), READ_MODE);
 }
 
 File::~File()

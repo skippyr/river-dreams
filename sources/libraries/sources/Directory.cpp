@@ -1,13 +1,12 @@
 #include "Directory.hpp"
 
-#define ROOT_ID 1
+#define ROOT_UID 1
 
 using namespace RiverDreams::FileSystem;
 
 Directory::Directory(std::string path)
 {
     this->path = path;
-    stream     = opendir(path.c_str());
 }
 
 Directory::~Directory()
@@ -18,17 +17,26 @@ Directory::~Directory()
     }
 }
 
+void Directory::OpenStream()
+{
+    if (!hasOpened)
+    {
+        stream    = opendir(path.c_str());
+        hasOpened = true;
+    }
+}
+
 bool Directory::IsRepositoryRoot()
 {
+    OpenStream();
     if (!stream)
     {
         return false;
     }
     rewinddir(stream);
-    for (struct dirent* entry; (entry = readdir(stream));)
+    for (struct dirent *entry; (entry = readdir(stream));)
     {
-        std::string entryName = entry->d_name;
-        if (entryName == ".git")
+        if ((std::string)entry->d_name == ".git")
         {
             return true;
         }
@@ -36,28 +44,19 @@ bool Directory::IsRepositoryRoot()
     return false;
 }
 
-unsigned int Directory::GetUserId()
-{
-    struct stat directoryProperties;
-    if (stat(path.c_str(), &directoryProperties))
-    {
-        return ROOT_ID;
-    }
-    return directoryProperties.st_uid;
-}
-
-DirectoryEntriesStatus Directory::GetDirectoryEntriesStatus()
+DirectoryEntriesStatus Directory::GetEntriesStatus()
 {
     DirectoryEntriesStatus entriesStatus = DirectoryEntriesStatus();
+    OpenStream();
     if (!stream)
     {
         return entriesStatus;
     }
     rewinddir(stream);
-    for (struct dirent* entry; (entry = readdir(stream));)
+    for (struct dirent *entry; (entry = readdir(stream));)
     {
         std::string entryName = entry->d_name;
-        std::string entryPath = path + "/" + entryName;
+        std::string entryPath = Path(path).Join(entryName).ToString();
         struct stat entryProperties;
         if (entryName == "." || entryName == ".." || lstat(entryPath.c_str(), &entryProperties))
         {
@@ -77,4 +76,10 @@ DirectoryEntriesStatus Directory::GetDirectoryEntriesStatus()
         }
     }
     return entriesStatus;
+}
+
+unsigned Directory::GetUserId()
+{
+    struct stat properties;
+    return stat(path.c_str(), &properties) ? ROOT_UID : properties.st_uid;
 }

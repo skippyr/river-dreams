@@ -13,28 +13,25 @@ all: releases
 clean:
 	rm -rf ${OUT_DIRECTORY}
 
-objects: ${BUILD_DIRECTORY}/Console.o                                                                                  \
-         ${BUILD_DIRECTORY}/Network.o                                                                                  \
-         ${BUILD_DIRECTORY}/StorageDevice.o                                                                            \
-         ${BUILD_DIRECTORY}/SystemTime.o                                                                               \
-         ${BUILD_DIRECTORY}/Path.o                                                                                     \
-         ${BUILD_DIRECTORY}/Directory.o                                                                                \
-         ${BUILD_DIRECTORY}/File.o                                                                                     \
-         ${BUILD_DIRECTORY}/EnvironmentVariables.o                                                                     \
-         ${BUILD_DIRECTORY}/GitRepository.o                                                                            \
-         ${BUILD_DIRECTORY}/User.o                                                                                     \
-         ${BUILD_DIRECTORY}/Shell.o
-
-releases: ${RELEASES_DIRECTORY}/LeftPrompt                                                                             \
+releases: ${RELEASES_DIRECTORY}/LeftPrompt                                                         \
           ${RELEASES_DIRECTORY}/RightPrompt
 
-${BUILD_DIRECTORY}/%.o: ${LIBRARY_SOURCES_DIRECTORY}/%.cpp                                                             \
+${BUILD_DIRECTORY}/%.o: ${LIBRARY_SOURCES_DIRECTORY}/%.cpp                                         \
                         ${LIBRARY_HEADERS_DIRECTORY}/%.hpp
 	mkdir -p ${BUILD_DIRECTORY}
 	${COMPILER} ${COMPILER_OPTIONS} -c -o ${@} ${<}
 
-${RELEASES_DIRECTORY}/%: ${SOURCES_DIRECTORY}/%.cpp                                                                    \
-                         ${LIBRARY_SOURCES_DIRECTORY}/*                                                                \
-                         objects
+${RELEASES_DIRECTORY}/%: ${SOURCES_DIRECTORY}/%.cpp                                                \
+                         ${BUILD_DIRECTORY}/Console.o                                              \
+                         ${BUILD_DIRECTORY}/DateTime.o                                             \
+                         ${BUILD_DIRECTORY}/Directory.o                                            \
+                         ${BUILD_DIRECTORY}/EnvironmentVariables.o                                 \
+                         ${BUILD_DIRECTORY}/File.o                                                 \
+                         ${BUILD_DIRECTORY}/GitRepository.o                                        \
+                         ${BUILD_DIRECTORY}/Network.o                                              \
+                         ${BUILD_DIRECTORY}/Path.o                                                 \
+                         ${BUILD_DIRECTORY}/Shell.o                                                \
+                         ${BUILD_DIRECTORY}/StorageDevice.o                                        \
+                         ${BUILD_DIRECTORY}/User.o
 	mkdir -p ${RELEASES_DIRECTORY}
 	${COMPILER} ${COMPILER_OPTIONS} -o ${@} ${<} ${BUILD_DIRECTORY}/*

@@ -11,7 +11,7 @@ namespace RiverDreams::Connectivity
     class Network
     {
     private:
-        static bool        IsValidIPV4NetworkInterface(struct ifaddrs* networkInterface);
+        static bool        IsValidIPV4NetworkAddress(struct ifaddrs* networkInterface);
         static std::string GetNetworkInterfaceIPV4Address(struct ifaddrs* networkInterface);
 
     public:

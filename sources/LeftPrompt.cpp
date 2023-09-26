@@ -1,25 +1,23 @@
 #include "Console.hpp"
+#include "DateTime.hpp"
 #include "GitRepository.hpp"
 #include "Network.hpp"
 #include "Shell.hpp"
 #include "StorageDevice.hpp"
-#include "SystemTime.hpp"
 #include "User.hpp"
 
-#include <iostream>
-
-#define CHEVRON_LEFT_DELIMITER       ":«("
-#define CHEVRON_RIGHT_DELIMITER      ")»:"
-#define PARENTHESIS_LEFT_DELIMITER   "("
-#define PARENTHESIS_RIGHT_DELIMITER  ")"
+#define CHEVRONS_LEFT_DELIMITER      ":«("
+#define CHEVRONS_RIGHT_DELIMITER     ")»:"
 #define CURLY_BRACES_LEFT_DELIMITER  "{"
 #define CURLY_BRACES_RIGHT_DELIMITER "}"
+#define PARENTHESIS_LEFT_DELIMITER   "("
+#define PARENTHESIS_RIGHT_DELIMITER  ")"
 
 using namespace RiverDreams::Connectivity;
 using namespace RiverDreams::Environment;
 using namespace RiverDreams::FileSystem;
 using namespace RiverDreams::FileSystem::VersionControl;
-using namespace RiverDreams::InputOutput;
+using namespace RiverDreams::IO;
 using namespace RiverDreams::Time;
 using namespace RiverDreams::Users;
 
@@ -27,86 +25,86 @@ static void WriteCommandsSeparator()
 {
     for (unsigned short column = 0; column < Console::GetTotalOfColumns(); column++)
     {
-        bool         isColumnOdd          = column % 2;
-        std::string  separatorSymbol      = isColumnOdd ? "⊼" : "⊵";
-        ConsoleColor separatorSymbolColor = isColumnOdd ? ConsoleColor::Red : ConsoleColor::Yellow;
-        std::cout << Console::ApplyForegroundColor(separatorSymbol, separatorSymbolColor);
+        bool         isOdd  = column % 2;
+        std::string  symbol = isOdd ? "⊼" : "⊵";
+        ConsoleColor color  = isOdd ? ConsoleColor::Red : ConsoleColor::Yellow;
+        Console::Write(symbol, color);
     }
-    std::cout << std::endl;
+    Console::WriteLine();
 }
 
-static void WriteHorizontalSpacing()
+static void WriteHorizontalSeparator()
 {
-    std::cout << "  ";
+    Console::Write("  ");
 }
 
 static void WriteLocalIPV4Address()
 {
     std::string  networkSymbol   = " ";
     std::string  separatorSymbol = "@";
-    ConsoleColor symbolsColor    = ConsoleColor::Blue;
-    std::cout << Console::ApplyForegroundColor(networkSymbol, symbolsColor)
-              << Network::GetHostName()
-              << Console::ApplyForegroundColor(separatorSymbol, symbolsColor)
-              << Network::GetLocalIPV4Address();
+    ConsoleColor color           = ConsoleColor::Blue;
+    Console::Write(networkSymbol, color);
+    Console::Write(Network::GetHostName());
+    Console::Write(separatorSymbol, color);
+    Console::Write(Network::GetLocalIPV4Address());
 }
 
 static void WriteStorageDeviceUsagePercentage()
 {
-    std::string  storageDeviceSymbol      = "󰋊 ";
-    ConsoleColor storageDeviceSymbolColor = ConsoleColor::Yellow;
-    std::cout << Console::ApplyForegroundColor(storageDeviceSymbol, storageDeviceSymbolColor)
-              << StorageDevice::GetUsagePercentage() << "%%";
+    std::string  symbol = "󰋊 ";
+    ConsoleColor color  = ConsoleColor::Yellow;
+    Console::Write(symbol, color);
+    Console::Write(std::to_string(StorageDevice::GetUsagePercentage()) + "%%");
 }
 
-static void WriteCalendar(SystemTime& systemTime)
+static void WriteCalendar(DateTime& now)
 {
-    std::string  calendarSymbol      = "󰸗 ";
-    ConsoleColor calendarSymbolColor = ConsoleColor::Red;
-    std::cout << Console::ApplyForegroundColor(calendarSymbol, calendarSymbolColor)
-              << systemTime.GetCalendar();
+    std::string  symbol = "󰸗 ";
+    ConsoleColor color  = ConsoleColor::Red;
+    Console::Write(symbol, color);
+    Console::Write(now.GetCalendar());
 }
 
-static void WriteClock(SystemTime& systemTime)
+static void WriteClock(DateTime& now)
 {
-    std::string  clockSymbol;
-    ConsoleColor clockSymbolColor;
-    switch (systemTime.GetDayMoment())
+    std::string  symbol;
+    ConsoleColor color;
+    switch (now.GetDayMoment())
     {
     case DayMoment::Dawn:
-        clockSymbol      = "󰭎 ";
-        clockSymbolColor = ConsoleColor::Magenta;
+        symbol = "󰭎 ";
+        color  = ConsoleColor::Magenta;
         break;
     case DayMoment::Morning:
-        clockSymbol      = "󰖨 ";
-        clockSymbolColor = ConsoleColor::Red;
+        symbol = "󰖨 ";
+        color  = ConsoleColor::Red;
         break;
     case DayMoment::Afternoon:
-        clockSymbol      = " ";
-        clockSymbolColor = ConsoleColor::Blue;
+        symbol = " ";
+        color  = ConsoleColor::Blue;
         break;
     case DayMoment::Night:
-        clockSymbol      = "󰽥 ";
-        clockSymbolColor = ConsoleColor::Yellow;
+        symbol = "󰽥 ";
+        color  = ConsoleColor::Yellow;
         break;
     default:
-        clockSymbol      = " ";
-        clockSymbolColor = ConsoleColor::Blue;
+        symbol = " ";
+        color  = ConsoleColor::Blue;
     }
-    std::cout << Console::ApplyForegroundColor(clockSymbol, clockSymbolColor)
-              << systemTime.GetClock();
+    Console::Write(symbol, color);
+    Console::Write(now.GetClock());
 }
 
 static void WriteRootStatus()
 {
-    std::string  rootSymbol      = "#";
-    ConsoleColor rootSymbolColor = ConsoleColor::Red;
+    std::string  symbol          = "#";
+    ConsoleColor symbolColor     = ConsoleColor::Red;
     ConsoleColor delimitersColor = ConsoleColor::Yellow;
-    if (User::IsRootUser())
+    if (User::IsRoot())
     {
-        std::cout << Console::ApplyForegroundColor(CURLY_BRACES_LEFT_DELIMITER, delimitersColor)
-                  << Console::ApplyForegroundColor(rootSymbol, rootSymbolColor)
-                  << Console::ApplyForegroundColor(CURLY_BRACES_RIGHT_DELIMITER, delimitersColor);
+        Console::Write(CURLY_BRACES_LEFT_DELIMITER, delimitersColor);
+        Console::Write(symbol, symbolColor);
+        Console::Write(CURLY_BRACES_RIGHT_DELIMITER, delimitersColor);
     }
 }
 
@@ -117,82 +115,80 @@ static void WriteExitCodeStatus()
     ConsoleColor successSymbolColor = ConsoleColor::Yellow;
     ConsoleColor errorSymbolColor   = ConsoleColor::Red;
     ConsoleColor delimitersColor    = ConsoleColor::Yellow;
-    std::cout << Console::ApplyForegroundColor(CURLY_BRACES_LEFT_DELIMITER, delimitersColor)
-              << Shell::WrapOnErrorEvent(
-                     Console::ApplyForegroundColor(errorSymbol, errorSymbolColor),
-                     Console::ApplyForegroundColor(successSymbol, successSymbolColor))
-              << Console::ApplyForegroundColor(CURLY_BRACES_RIGHT_DELIMITER, delimitersColor);
+    Console::Write(CURLY_BRACES_LEFT_DELIMITER, delimitersColor);
+    Console::Write(Shell::WrapOnErrorEvent(
+        Console::ApplyForegroundColor(errorSymbol, errorSymbolColor),
+        Console::ApplyForegroundColor(successSymbol, successSymbolColor)));
+    Console::Write(CURLY_BRACES_RIGHT_DELIMITER, delimitersColor);
 }
 
 static void WriteVirtualEnv()
 {
-    std::string  virtualEnvName  = Path::GetBaseName(EnvironmentVariables::GetVirtualEnv());
+    std::string  virtualEnvName  = Path::GetBase(EnvironmentVariables::GetVirtualEnv());
     ConsoleColor delimitersColor = ConsoleColor::Magenta;
     if (virtualEnvName != "")
     {
-        std::cout << Console::ApplyForegroundColor(PARENTHESIS_LEFT_DELIMITER, delimitersColor)
-                  << virtualEnvName
-                  << Console::ApplyForegroundColor(PARENTHESIS_RIGHT_DELIMITER, delimitersColor)
-                  << " ";
+        Console::Write(PARENTHESIS_LEFT_DELIMITER, delimitersColor);
+        Console::Write(virtualEnvName);
+        Console::Write(PARENTHESIS_RIGHT_DELIMITER, delimitersColor);
+        Console::Write(" ");
     }
 }
 
-static void WriteCurrentDirectoryPathAbbreviated(GitRepository& gitRepository)
+static void WritePWDAbbreviated(GitRepository& repository)
 {
-    ConsoleColor pathColor = ConsoleColor::Red;
-    std::cout << Console::ApplyForegroundColor(
-        Path::GetCurrentDirectoryPathAbbreviated(gitRepository.GetRootDirectoryPath()), pathColor);
+    ConsoleColor color = ConsoleColor::Red;
+    Console::Write(Path::GetPWDAbbreviated(repository.GetRootDirectoryPath()), color);
 }
 
-static void WriteGitRepositoryBranch(GitRepository& gitRepository)
+static void WriteBranch(GitRepository& repository)
 {
-    std::string  branch          = gitRepository.GetBranch();
+    std::string  branch          = repository.GetBranch();
     ConsoleColor delimitersColor = ConsoleColor::Green;
     if (branch != "")
     {
-        std::cout << Console::ApplyForegroundColor(CHEVRON_LEFT_DELIMITER, delimitersColor)
-                  << branch
-                  << Console::ApplyForegroundColor(CHEVRON_RIGHT_DELIMITER, delimitersColor);
+        Console::Write(CHEVRONS_LEFT_DELIMITER, delimitersColor);
+        Console::Write(branch);
+        Console::Write(CHEVRONS_RIGHT_DELIMITER, delimitersColor);
     }
 }
 
-static void WriteCurrentDirectoryOwnership()
+static void WritePWDOwnership()
 {
-    std::string  readOnlySymbol      = " ";
-    ConsoleColor readOnlySymbolColor = ConsoleColor::Magenta;
-    if (!User::OwnsCurrentDirectory())
+    std::string  symbol = " ";
+    ConsoleColor color  = ConsoleColor::Magenta;
+    if (!User::OwnsPWD())
     {
-        std::cout << Console::ApplyForegroundColor(readOnlySymbol, readOnlySymbolColor);
+        Console::Write(symbol, color);
     }
 }
 
 int main()
 {
-    SystemTime    systemTime        = SystemTime();
-    GitRepository gitRepository     = GitRepository();
+    DateTime      now               = DateTime();
+    GitRepository repository        = GitRepository();
     std::string   arrowSymbol       = "⤐  ";
     std::string   cursorSymbol      = " ⩺ ";
     ConsoleColor  arrowSymbolColor  = ConsoleColor::Yellow;
     ConsoleColor  cursorSymbolColor = ConsoleColor::Magenta;
     ConsoleColor  delimitersColor   = ConsoleColor::Yellow;
     WriteCommandsSeparator();
-    std::cout << Console::ApplyForegroundColor(CHEVRON_LEFT_DELIMITER, delimitersColor);
+    Console::Write(CHEVRONS_LEFT_DELIMITER, delimitersColor);
     WriteLocalIPV4Address();
-    WriteHorizontalSpacing();
+    WriteHorizontalSeparator();
     WriteStorageDeviceUsagePercentage();
-    WriteHorizontalSpacing();
-    WriteCalendar(systemTime);
-    WriteHorizontalSpacing();
-    WriteClock(systemTime);
-    std::cout << Console::ApplyForegroundColor(CHEVRON_RIGHT_DELIMITER, delimitersColor)
-              << std::endl;
+    WriteHorizontalSeparator();
+    WriteCalendar(now);
+    WriteHorizontalSeparator();
+    WriteClock(now);
+    Console::WriteLine(CHEVRONS_RIGHT_DELIMITER, delimitersColor);
     WriteRootStatus();
     WriteExitCodeStatus();
-    std::cout << Console::ApplyForegroundColor(arrowSymbol, arrowSymbolColor);
+    Console::Write(arrowSymbol, arrowSymbolColor);
     WriteVirtualEnv();
-    WriteCurrentDirectoryPathAbbreviated(gitRepository);
-    WriteGitRepositoryBranch(gitRepository);
-    WriteCurrentDirectoryOwnership();
-    std::cout << Console::ApplyForegroundColor(cursorSymbol, cursorSymbolColor) << std::endl;
+    WritePWDAbbreviated(repository);
+    WriteBranch(repository);
+    WritePWDOwnership();
+    Console::WriteLine(cursorSymbol, cursorSymbolColor);
     return EXIT_SUCCESS;
 }

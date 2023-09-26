@@ -3,13 +3,13 @@
 using namespace RiverDreams::FileSystem;
 using namespace RiverDreams::Users;
 
-bool User::IsRootUser()
+bool User::IsRoot()
 {
     return !getuid();
 }
 
-bool User::OwnsCurrentDirectory()
+bool User::OwnsPWD()
 {
-    unsigned int userId = getuid();
+    unsigned userId = getuid();
     return !(userId && userId != Directory(".").GetUserId());
 }
