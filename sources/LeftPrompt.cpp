@@ -45,8 +45,10 @@ static void WriteLocalIPV4Address()
     std::string  networkSymbol   = " ";
     std::string  separatorSymbol = "@";
     ConsoleColor symbolsColor    = ConsoleColor::Blue;
-    std::cout << Console::ApplyForegroundColor(networkSymbol, symbolsColor) << Network::GetHostName()
-              << Console::ApplyForegroundColor(separatorSymbol, symbolsColor) << Network::GetLocalIPV4Address();
+    std::cout << Console::ApplyForegroundColor(networkSymbol, symbolsColor)
+              << Network::GetHostName()
+              << Console::ApplyForegroundColor(separatorSymbol, symbolsColor)
+              << Network::GetLocalIPV4Address();
 }
 
 static void WriteStorageDeviceUsagePercentage()
@@ -61,7 +63,8 @@ static void WriteCalendar(SystemTime& systemTime)
 {
     std::string  calendarSymbol      = "󰸗 ";
     ConsoleColor calendarSymbolColor = ConsoleColor::Red;
-    std::cout << Console::ApplyForegroundColor(calendarSymbol, calendarSymbolColor) << systemTime.GetCalendar();
+    std::cout << Console::ApplyForegroundColor(calendarSymbol, calendarSymbolColor)
+              << systemTime.GetCalendar();
 }
 
 static void WriteClock(SystemTime& systemTime)
@@ -90,7 +93,8 @@ static void WriteClock(SystemTime& systemTime)
         clockSymbol      = " ";
         clockSymbolColor = ConsoleColor::Blue;
     }
-    std::cout << Console::ApplyForegroundColor(clockSymbol, clockSymbolColor) << systemTime.GetClock();
+    std::cout << Console::ApplyForegroundColor(clockSymbol, clockSymbolColor)
+              << systemTime.GetClock();
 }
 
 static void WriteRootStatus()
@@ -114,8 +118,9 @@ static void WriteExitCodeStatus()
     ConsoleColor errorSymbolColor   = ConsoleColor::Red;
     ConsoleColor delimitersColor    = ConsoleColor::Yellow;
     std::cout << Console::ApplyForegroundColor(CURLY_BRACES_LEFT_DELIMITER, delimitersColor)
-              << Shell::WrapOnErrorEvent(Console::ApplyForegroundColor(errorSymbol, errorSymbolColor),
-                                         Console::ApplyForegroundColor(successSymbol, successSymbolColor))
+              << Shell::WrapOnErrorEvent(
+                     Console::ApplyForegroundColor(errorSymbol, errorSymbolColor),
+                     Console::ApplyForegroundColor(successSymbol, successSymbolColor))
               << Console::ApplyForegroundColor(CURLY_BRACES_RIGHT_DELIMITER, delimitersColor);
 }
 
@@ -125,8 +130,10 @@ static void WriteVirtualEnv()
     ConsoleColor delimitersColor = ConsoleColor::Magenta;
     if (virtualEnvName != "")
     {
-        std::cout << Console::ApplyForegroundColor(PARENTHESIS_LEFT_DELIMITER, delimitersColor) << virtualEnvName
-                  << Console::ApplyForegroundColor(PARENTHESIS_RIGHT_DELIMITER, delimitersColor) << " ";
+        std::cout << Console::ApplyForegroundColor(PARENTHESIS_LEFT_DELIMITER, delimitersColor)
+                  << virtualEnvName
+                  << Console::ApplyForegroundColor(PARENTHESIS_RIGHT_DELIMITER, delimitersColor)
+                  << " ";
     }
 }
 
@@ -143,7 +150,8 @@ static void WriteGitRepositoryBranch(GitRepository& gitRepository)
     ConsoleColor delimitersColor = ConsoleColor::Green;
     if (branch != "")
     {
-        std::cout << Console::ApplyForegroundColor(CHEVRON_LEFT_DELIMITER, delimitersColor) << branch
+        std::cout << Console::ApplyForegroundColor(CHEVRON_LEFT_DELIMITER, delimitersColor)
+                  << branch
                   << Console::ApplyForegroundColor(CHEVRON_RIGHT_DELIMITER, delimitersColor);
     }
 }
@@ -176,7 +184,8 @@ int main()
     WriteCalendar(systemTime);
     WriteHorizontalSpacing();
     WriteClock(systemTime);
-    std::cout << Console::ApplyForegroundColor(CHEVRON_RIGHT_DELIMITER, delimitersColor) << std::endl;
+    std::cout << Console::ApplyForegroundColor(CHEVRON_RIGHT_DELIMITER, delimitersColor)
+              << std::endl;
     WriteRootStatus();
     WriteExitCodeStatus();
     std::cout << Console::ApplyForegroundColor(arrowSymbol, arrowSymbolColor);

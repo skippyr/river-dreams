@@ -21,7 +21,9 @@ static void WriteTotalOfBackgroundJobs()
     std::string  backgroundJobSymbol      = "  ";
     ConsoleColor backgroundJobSymbolColor = ConsoleColor::Magenta;
     std::cout << Shell::WrapOnBackgroundJobEvent(
-        Console::ApplyForegroundColor(backgroundJobSymbol, backgroundJobSymbolColor) + totalOfBackgroundJobs, "");
+        Console::ApplyForegroundColor(backgroundJobSymbol, backgroundJobSymbolColor) +
+            totalOfBackgroundJobs,
+        "");
 }
 
 int main()
@@ -29,7 +31,8 @@ int main()
     DirectoryEntriesStatus entriesStatus = Directory(".").GetDirectoryEntriesStatus();
     WriteDirectoryEntryStatus(entriesStatus.totalOfHiddenEntries, "  ", ConsoleColor::Red);
     WriteDirectoryEntryStatus(entriesStatus.totalOfSymlinkEntries, " 󰌷 ", ConsoleColor::Blue);
-    WriteDirectoryEntryStatus(entriesStatus.totalOfExecutableEntries, " 󱖏 ", ConsoleColor::Green);
+    WriteDirectoryEntryStatus(entriesStatus.totalOfExecutableEntries, " 󱖏 ",
+                              ConsoleColor::Green);
     WriteTotalOfBackgroundJobs();
     return EXIT_SUCCESS;
 }

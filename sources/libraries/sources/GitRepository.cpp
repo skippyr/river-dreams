@@ -9,8 +9,9 @@ std::string GitRepository::SearchForRootDirectoryPath(std::string searchPath)
     {
         return "";
     }
-    return Directory(searchPath).IsRepositoryRoot() ? searchPath
-                                                    : SearchForRootDirectoryPath(Path::GetParent(searchPath));
+    return Directory(searchPath).IsRepositoryRoot()
+               ? searchPath
+               : SearchForRootDirectoryPath(Path::GetParent(searchPath));
 }
 
 GitRepository::GitRepository()
@@ -29,8 +30,8 @@ std::string GitRepository::GetBranch()
     unsigned long totalOfSlashesToIgnore = 2;
     File          headFile               = File(rootDirectoryPath + "/.git/HEAD");
     std::string   branch;
-    for (char character;
-         (character = headFile.GetCharacter()) != EOF && character != '\n' && branch.length() <= maximumBranchLength;)
+    for (char character; (character = headFile.GetCharacter()) != EOF && character != '\n' &&
+                         branch.length() <= maximumBranchLength;)
     {
         if (!totalOfSlashesToIgnore)
         {

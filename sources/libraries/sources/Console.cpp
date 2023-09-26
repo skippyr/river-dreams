@@ -8,7 +8,8 @@ using namespace RiverDreams::InputOutput;
 unsigned short Console::GetTotalOfColumns()
 {
     struct winsize consoleWindowProperties;
-    return ioctl(STANDARD_ERROR_FILE_DESCRIPTOR, GET_CONSOLE_WINDOW_SIZE_OPERATION, &consoleWindowProperties) < 0
+    return ioctl(STANDARD_ERROR_FILE_DESCRIPTOR, GET_CONSOLE_WINDOW_SIZE_OPERATION,
+                 &consoleWindowProperties) < 0
                ? 0
                : consoleWindowProperties.ws_col;
 }

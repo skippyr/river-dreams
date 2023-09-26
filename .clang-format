@@ -5,6 +5,7 @@ AlignConsecutiveDeclarations   : Consecutive
 AlignConsecutiveMacros         : Consecutive
 BasedOnStyle                   : Microsoft
 BreakAfterJavaFieldAnnotations : true
+ColumnLimit                    : 100
 FixNamespaceComments           : false
 InsertNewlineAtEOF             : true
 JavaScriptQuotes               : Double

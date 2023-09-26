@@ -11,6 +11,7 @@ namespace RiverDreams::FileSystem
     public:
         static std::string GetBaseName(std::string path);
         static std::string GetParent(std::string path);
-        static std::string GetCurrentDirectoryPathAbbreviated(std::string repositoryRootDirectoryPath);
+        static std::string GetCurrentDirectoryPathAbbreviated(
+            std::string repositoryRootDirectoryPath);
     };
 }

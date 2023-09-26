@@ -91,8 +91,8 @@ SystemTime::SystemTime()
 
 std::string SystemTime::GetCalendar()
 {
-    return "(" + GetWeekDayAbbreviated() + ") " + GetMonthAbbreviated() + " " + std::to_string(localTime.tm_mday) +
-           GetDayOrdinal();
+    return "(" + GetWeekDayAbbreviated() + ") " + GetMonthAbbreviated() + " " +
+           std::to_string(localTime.tm_mday) + GetDayOrdinal();
 }
 
 std::string SystemTime::GetClock()
