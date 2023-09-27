@@ -8,13 +8,11 @@ RELEASES_DIRECTORY        = ${OUT_DIRECTORY}/releases
 COMPILER                  = g++
 COMPILER_OPTIONS          = -std=c++11 -O3 -Wall -Wextra -Werror -I${LIBRARY_HEADERS_DIRECTORY}
 
-all: releases
+all: ${RELEASES_DIRECTORY}/LeftPrompt                                                              \
+     ${RELEASES_DIRECTORY}/RightPrompt
 
 clean:
 	rm -rf ${OUT_DIRECTORY}
-
-releases: ${RELEASES_DIRECTORY}/LeftPrompt                                                         \
-          ${RELEASES_DIRECTORY}/RightPrompt
 
 ${BUILD_DIRECTORY}/%.o: ${LIBRARY_SOURCES_DIRECTORY}/%.cpp                                         \
                         ${LIBRARY_HEADERS_DIRECTORY}/%.hpp
