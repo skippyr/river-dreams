@@ -3,10 +3,10 @@
 #include "DirectoryEntriesStatus.hpp"
 #include "Path.hpp"
 
-#include <string>
-
 #include <dirent.h>
 #include <sys/stat.h>
+
+#include <string>
 
 namespace RiverDreams::FileSystem
 {
@@ -14,15 +14,15 @@ namespace RiverDreams::FileSystem
     {
     private:
         std::string path;
-        DIR*        stream    = 0;
-        bool        hasOpened = false;
+        DIR*        stream = 0;
+
+        bool OpenStream();
 
     public:
         Directory(std::string path);
         ~Directory();
-        void                   OpenStream();
+        unsigned               GetUserIdentifier();
         bool                   IsRepositoryRoot();
         DirectoryEntriesStatus GetEntriesStatus();
-        unsigned               GetUserId();
     };
 }

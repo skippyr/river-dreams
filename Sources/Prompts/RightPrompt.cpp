@@ -7,6 +7,11 @@ using namespace RiverDreams::IO;
 
 static void WriteEntryStatus(unsigned long status,
                              std::string   symbol,
+                             ConsoleColor  color);
+static void WriteTotalOfBackgroundJobs();
+
+static void WriteEntryStatus(unsigned long status,
+                             std::string   symbol,
                              ConsoleColor  color)
 {
     if (status)
@@ -32,5 +37,5 @@ int main()
     WriteEntryStatus(entriesStatus.totalOfExecutableEntries, " 󱖏 ", ConsoleColor::Green);
     WriteTotalOfBackgroundJobs();
     Console::WriteLine();
-    return EXIT_SUCCESS;
+    return (EXIT_SUCCESS);
 }

@@ -1,17 +1,17 @@
 #pragma once
 
-#include <string>
-
 #include <arpa/inet.h>
 #include <ifaddrs.h>
 #include <net/if.h>
+
+#include <string>
 
 namespace RiverDreams::Connectivity
 {
     class Network
     {
     private:
-        static bool        IsValidIPV4NetworkAddress(struct ifaddrs* networkInterface);
+        static bool        IsValidIPV4NetworkInterface(struct ifaddrs* networkInterface);
         static std::string GetNetworkInterfaceIPV4Address(struct ifaddrs* networkInterface);
 
     public:

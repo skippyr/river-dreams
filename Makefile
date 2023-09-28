@@ -1,35 +1,34 @@
-SOURCES_DIRECTORY         = sources
-LIBRARIES_DIRECTORY       = ${SOURCES_DIRECTORY}/libraries
-LIBRARY_HEADERS_DIRECTORY = ${LIBRARIES_DIRECTORY}/headers
-LIBRARY_SOURCES_DIRECTORY = ${LIBRARIES_DIRECTORY}/sources
-OUT_DIRECTORY             = out
-BUILD_DIRECTORY           = ${OUT_DIRECTORY}/build
-RELEASES_DIRECTORY        = ${OUT_DIRECTORY}/releases
-COMPILER                  = g++
-COMPILER_OPTIONS          = -std=c++11 -O3 -Wall -Wextra -Werror -I${LIBRARY_HEADERS_DIRECTORY}
+SOURCES_DIRECTORY   = Sources
+PROMPTS_DIRECTORY   = ${SOURCES_DIRECTORY}/Prompts
+LIBRARIES_DIRECTORY = ${SOURCES_DIRECTORY}/Libraries
+BUILD_DIRECTORY     = Build
+OBJECTS_DIRECTORY   = ${BUILD_DIRECTORY}/Objects
+BINARIES_DIRECTORY  = ${BUILD_DIRECTORY}/Binaries
+COMPILER            = g++
+COMPILER_OPTIONS    = -std=c++11 -O3 -Wall -Wextra -Werror -I${LIBRARIES_DIRECTORY}
 
-all: ${RELEASES_DIRECTORY}/LeftPrompt                                                              \
-     ${RELEASES_DIRECTORY}/RightPrompt
+all: ${BINARIES_DIRECTORY}/LeftPrompt                                                              \
+     ${BINARIES_DIRECTORY}/RightPrompt
 
 clean:
-	rm -rf ${OUT_DIRECTORY}
+	rm -rf ${BUILD_DIRECTORY}
 
-${BUILD_DIRECTORY}/%.o: ${LIBRARY_SOURCES_DIRECTORY}/%.cpp                                         \
-                        ${LIBRARY_HEADERS_DIRECTORY}/%.hpp
-	mkdir -p ${BUILD_DIRECTORY}
+${OBJECTS_DIRECTORY}/%.o: ${LIBRARIES_DIRECTORY}/%.cpp                                             \
+                          ${LIBRARIES_DIRECTORY}/%.hpp
+	mkdir -p ${OBJECTS_DIRECTORY}
 	${COMPILER} ${COMPILER_OPTIONS} -c -o ${@} ${<}
 
-${RELEASES_DIRECTORY}/%: ${SOURCES_DIRECTORY}/%.cpp                                                \
-                         ${BUILD_DIRECTORY}/Console.o                                              \
-                         ${BUILD_DIRECTORY}/DateTime.o                                             \
-                         ${BUILD_DIRECTORY}/Directory.o                                            \
-                         ${BUILD_DIRECTORY}/EnvironmentVariables.o                                 \
-                         ${BUILD_DIRECTORY}/File.o                                                 \
-                         ${BUILD_DIRECTORY}/GitRepository.o                                        \
-                         ${BUILD_DIRECTORY}/Network.o                                              \
-                         ${BUILD_DIRECTORY}/Path.o                                                 \
-                         ${BUILD_DIRECTORY}/Shell.o                                                \
-                         ${BUILD_DIRECTORY}/StorageDevice.o                                        \
-                         ${BUILD_DIRECTORY}/User.o
-	mkdir -p ${RELEASES_DIRECTORY}
-	${COMPILER} ${COMPILER_OPTIONS} -o ${@} ${<} ${BUILD_DIRECTORY}/*
+${BINARIES_DIRECTORY}/%: ${PROMPTS_DIRECTORY}/%.cpp                                                \
+                         ${OBJECTS_DIRECTORY}/Console.o                                            \
+                         ${OBJECTS_DIRECTORY}/Directory.o                                          \
+                         ${OBJECTS_DIRECTORY}/EnvironmentVariables.o                               \
+                         ${OBJECTS_DIRECTORY}/File.o                                               \
+                         ${OBJECTS_DIRECTORY}/GitRepository.o                                      \
+                         ${OBJECTS_DIRECTORY}/Network.o                                            \
+                         ${OBJECTS_DIRECTORY}/Path.o                                               \
+                         ${OBJECTS_DIRECTORY}/Shell.o                                              \
+                         ${OBJECTS_DIRECTORY}/StorageDevice.o                                      \
+                         ${OBJECTS_DIRECTORY}/SystemTime.o                                         \
+                         ${OBJECTS_DIRECTORY}/User.o
+	mkdir -p ${BINARIES_DIRECTORY}
+	${COMPILER} ${COMPILER_OPTIONS} -o ${@} ${<} ${OBJECTS_DIRECTORY}/*

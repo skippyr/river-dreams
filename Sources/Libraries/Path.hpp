@@ -13,10 +13,11 @@ namespace RiverDreams::FileSystem
 
     public:
         Path(std::string path);
-        Path Join(std::string path);
-        std::string ToString();
+        Path               Join(std::string path);
+        std::string        ToString();
+        static bool        IsRoot(std::string path);
         static std::string GetBase(std::string path);
         static std::string GetParent(std::string path);
-        static std::string GetPWDAbbreviated(std::string repositoryRootDirectoryPath);
+        static std::string GetPWDAbbreviated(std::string repositoryRootDirectory);
     };
 }

@@ -8,17 +8,17 @@
 
 namespace RiverDreams::Time
 {
-    class DateTime
+    class SystemTime
     {
     private:
-        struct std::tm localTime;
+        struct std::tm properties;
 
         std::string GetWeekDay();
         std::string GetMonth();
         std::string GetDayOrdinal();
 
     public:
-        DateTime();
+        SystemTime();
         std::string GetCalendar();
         std::string GetClock();
         DayMoment   GetDayMoment();

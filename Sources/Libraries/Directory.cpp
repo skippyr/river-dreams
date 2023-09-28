@@ -1,8 +1,11 @@
 #include "Directory.hpp"
 
-#define ROOT_UID 1
+#define ROOT_USER_IDENTIFIER 0
 
 using namespace RiverDreams::FileSystem;
+
+bool Directory::OpenStream()
+{ return (stream ? true : (stream = opendir(path.c_str())) != 0); }
 
 Directory::Directory(std::string path)
 { this->path = path; }
@@ -13,36 +16,30 @@ Directory::~Directory()
     { closedir(stream); }
 }
 
-void Directory::OpenStream()
+unsigned Directory::GetUserIdentifier()
 {
-    if (!hasOpened)
-    {
-        stream    = opendir(path.c_str());
-        hasOpened = true;
-    }
+    struct stat properties;
+    return (stat(path.c_str(), &properties) ? ROOT_USER_IDENTIFIER : properties.st_uid);
 }
 
 bool Directory::IsRepositoryRoot()
 {
-    OpenStream();
-    if (!stream)
-    { return false; }
+    if (!OpenStream())
+    { return (false); }
     rewinddir(stream);
     for (struct dirent *entry; (entry = readdir(stream));)
     {
         if ((std::string)entry->d_name == ".git")
-        { return true; }
+        { return (true); }
     }
-    return false;
+    return (false);
 }
 
 DirectoryEntriesStatus Directory::GetEntriesStatus()
 {
     DirectoryEntriesStatus entriesStatus = DirectoryEntriesStatus();
-    OpenStream();
-    if (!stream)
-    { return entriesStatus; }
-    rewinddir(stream);
+    if (!OpenStream())
+    { return (entriesStatus); }
     for (struct dirent *entry; (entry = readdir(stream));)
     {
         std::string entryName = entry->d_name;
@@ -57,11 +54,5 @@ DirectoryEntriesStatus Directory::GetEntriesStatus()
         else if (S_ISREG(entryProperties.st_mode) && entryProperties.st_mode & S_IXUSR)
         { entriesStatus.totalOfExecutableEntries++; }
     }
-    return entriesStatus;
-}
-
-unsigned Directory::GetUserId()
-{
-    struct stat properties;
-    return stat(path.c_str(), &properties) ? ROOT_UID : properties.st_uid;
+    return (entriesStatus);
 }

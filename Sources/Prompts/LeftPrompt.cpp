@@ -1,17 +1,17 @@
 #include "Console.hpp"
-#include "DateTime.hpp"
 #include "GitRepository.hpp"
 #include "Network.hpp"
 #include "Shell.hpp"
 #include "StorageDevice.hpp"
+#include "SystemTime.hpp"
 #include "User.hpp"
 
 #define CHEVRONS_LEFT_DELIMITER      ":«("
 #define CHEVRONS_RIGHT_DELIMITER     ")»:"
-#define CURLY_BRACES_LEFT_DELIMITER  "{"
-#define CURLY_BRACES_RIGHT_DELIMITER "}"
 #define PARENTHESIS_LEFT_DELIMITER   "("
 #define PARENTHESIS_RIGHT_DELIMITER  ")"
+#define CURLY_BRACES_LEFT_DELIMITER  "{"
+#define CURLY_BRACES_RIGHT_DELIMITER "}"
 
 using namespace RiverDreams::Connectivity;
 using namespace RiverDreams::Environment;
@@ -20,6 +20,19 @@ using namespace RiverDreams::FileSystem::VersionControl;
 using namespace RiverDreams::IO;
 using namespace RiverDreams::Time;
 using namespace RiverDreams::Users;
+
+static void WriteCommandsSeparator();
+static void WriteHorizontalSeparator();
+static void WriteLocalIPV4Address();
+static void WriteStorageDeviceUsagePercentage();
+static void WriteCalendar(SystemTime& time);
+static void WriteClock(SystemTime& time);
+static void WriteRootStatus();
+static void WriteExitCodeStatus();
+static void WriteVirtualEnv();
+static void WritePWDAbbreviated(GitRepository& repository);
+static void WriteBranch(GitRepository& repository);
+static void WritePWDOwnershipStatus();
 
 static void WriteCommandsSeparator()
 {
@@ -55,19 +68,19 @@ static void WriteStorageDeviceUsagePercentage()
     Console::Write(std::to_string(StorageDevice::GetUsagePercentage()) + "%%");
 }
 
-static void WriteCalendar(DateTime& now)
+static void WriteCalendar(SystemTime& time)
 {
     std::string  symbol = "󰸗 ";
     ConsoleColor color  = ConsoleColor::Red;
     Console::Write(symbol, color);
-    Console::Write(now.GetCalendar());
+    Console::Write(time.GetCalendar());
 }
 
-static void WriteClock(DateTime& now)
+static void WriteClock(SystemTime& time)
 {
     std::string  symbol;
     ConsoleColor color;
-    switch (now.GetDayMoment())
+    switch (time.GetDayMoment())
     {
     case DayMoment::Dawn:
         symbol = "󰭎 ";
@@ -90,7 +103,7 @@ static void WriteClock(DateTime& now)
         color  = ConsoleColor::Blue;
     }
     Console::Write(symbol, color);
-    Console::Write(now.GetClock());
+    Console::Write(time.GetClock());
 }
 
 static void WriteRootStatus()
@@ -136,7 +149,7 @@ static void WriteVirtualEnv()
 static void WritePWDAbbreviated(GitRepository& repository)
 {
     ConsoleColor color = ConsoleColor::Red;
-    Console::Write(Path::GetPWDAbbreviated(repository.GetRootDirectoryPath()), color);
+    Console::Write(Path::GetPWDAbbreviated(repository.GetRootDirectory()), color);
 }
 
 static void WriteBranch(GitRepository& repository)
@@ -151,7 +164,7 @@ static void WriteBranch(GitRepository& repository)
     }
 }
 
-static void WritePWDOwnership()
+static void WritePWDOwnershipStatus()
 {
     std::string  symbol = " ";
     ConsoleColor color  = ConsoleColor::Magenta;
@@ -161,7 +174,7 @@ static void WritePWDOwnership()
 
 int main()
 {
-    DateTime      now               = DateTime();
+    SystemTime    currentTime       = SystemTime();
     GitRepository repository        = GitRepository();
     std::string   arrowSymbol       = "⤐  ";
     std::string   cursorSymbol      = " ⩺ ";
@@ -174,9 +187,9 @@ int main()
     WriteHorizontalSeparator();
     WriteStorageDeviceUsagePercentage();
     WriteHorizontalSeparator();
-    WriteCalendar(now);
+    WriteCalendar(currentTime);
     WriteHorizontalSeparator();
-    WriteClock(now);
+    WriteClock(currentTime);
     Console::WriteLine(CHEVRONS_RIGHT_DELIMITER, delimitersColor);
     WriteRootStatus();
     WriteExitCodeStatus();
@@ -184,7 +197,7 @@ int main()
     WriteVirtualEnv();
     WritePWDAbbreviated(repository);
     WriteBranch(repository);
-    WritePWDOwnership();
+    WritePWDOwnershipStatus();
     Console::WriteLine(cursorSymbol, cursorSymbolColor);
-    return EXIT_SUCCESS;
+    return (EXIT_SUCCESS);
 }

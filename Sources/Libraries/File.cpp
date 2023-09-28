@@ -14,4 +14,4 @@ File::~File()
 }
 
 char File::GetCharacter()
-{ return stream ? std::fgetc(stream) : EOF; }
+{ return (stream ? std::fgetc(stream) : EOF); }

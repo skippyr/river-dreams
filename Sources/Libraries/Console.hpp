@@ -2,9 +2,9 @@
 
 #include "ConsoleColor.hpp"
 
-#include <iostream>
-
 #include <sys/ioctl.h>
+
+#include <iostream>
 
 namespace RiverDreams::IO
 {
