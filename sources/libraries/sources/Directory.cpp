@@ -5,16 +5,12 @@
 using namespace RiverDreams::FileSystem;
 
 Directory::Directory(std::string path)
-{
-    this->path = path;
-}
+{ this->path = path; }
 
 Directory::~Directory()
 {
     if (stream)
-    {
-        closedir(stream);
-    }
+    { closedir(stream); }
 }
 
 void Directory::OpenStream()
@@ -30,16 +26,12 @@ bool Directory::IsRepositoryRoot()
 {
     OpenStream();
     if (!stream)
-    {
-        return false;
-    }
+    { return false; }
     rewinddir(stream);
     for (struct dirent *entry; (entry = readdir(stream));)
     {
         if ((std::string)entry->d_name == ".git")
-        {
-            return true;
-        }
+        { return true; }
     }
     return false;
 }
@@ -49,9 +41,7 @@ DirectoryEntriesStatus Directory::GetEntriesStatus()
     DirectoryEntriesStatus entriesStatus = DirectoryEntriesStatus();
     OpenStream();
     if (!stream)
-    {
-        return entriesStatus;
-    }
+    { return entriesStatus; }
     rewinddir(stream);
     for (struct dirent *entry; (entry = readdir(stream));)
     {
@@ -59,21 +49,13 @@ DirectoryEntriesStatus Directory::GetEntriesStatus()
         std::string entryPath = Path(path).Join(entryName).ToString();
         struct stat entryProperties;
         if (entryName == "." || entryName == ".." || lstat(entryPath.c_str(), &entryProperties))
-        {
-            continue;
-        }
+        { continue; }
         if (entryName[0] == '.')
-        {
-            entriesStatus.totalOfHiddenEntries++;
-        }
+        { entriesStatus.totalOfHiddenEntries++; }
         if (S_ISLNK(entryProperties.st_mode))
-        {
-            entriesStatus.totalOfSymlinkEntries++;
-        }
+        { entriesStatus.totalOfSymlinkEntries++; }
         else if (S_ISREG(entryProperties.st_mode) && entryProperties.st_mode & S_IXUSR)
-        {
-            entriesStatus.totalOfExecutableEntries++;
-        }
+        { entriesStatus.totalOfExecutableEntries++; }
     }
     return entriesStatus;
 }

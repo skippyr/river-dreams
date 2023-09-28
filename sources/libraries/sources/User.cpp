@@ -4,9 +4,7 @@ using namespace RiverDreams::FileSystem;
 using namespace RiverDreams::Users;
 
 bool User::IsRoot()
-{
-    return !getuid();
-}
+{ return !getuid(); }
 
 bool User::OwnsPWD()
 {

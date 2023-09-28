@@ -30,9 +30,7 @@ std::string Network::GetLocalIPV4Address()
 {
     struct ifaddrs* localNetworkInterfaces;
     if (getifaddrs(&localNetworkInterfaces))
-    {
-        return LOOPBACK_IPV4_ADDRESS;
-    }
+    { return LOOPBACK_IPV4_ADDRESS; }
     for (struct ifaddrs* localNetworkInterface = localNetworkInterfaces; localNetworkInterface;
          localNetworkInterface = localNetworkInterface->ifa_next)
     {
@@ -48,6 +46,4 @@ std::string Network::GetLocalIPV4Address()
 }
 
 std::string Network::GetHostName()
-{
-    return "%m";
-}
+{ return "%m"; }

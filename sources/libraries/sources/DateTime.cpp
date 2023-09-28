@@ -64,17 +64,11 @@ std::string DateTime::GetDayOrdinal()
     bool isSecond = !((localTime.tm_mday - 2) % 10);
     bool isThird  = !((localTime.tm_mday - 3) % 10);
     if (isFirst)
-    {
-        return "st";
-    }
+    { return "st"; }
     else if (isSecond)
-    {
-        return "nd";
-    }
+    { return "nd"; }
     else if (isThird)
-    {
-        return "rd";
-    }
+    { return "rd"; }
     return "th";
 }
 
@@ -82,9 +76,7 @@ DateTime::DateTime()
 {
     std::time_t epochTime = std::time(0);
     if (!localtime_r(&epochTime, &localTime))
-    {
-        std::memset(&localTime, 0, sizeof(localTime));
-    }
+    { std::memset(&localTime, 0, sizeof(localTime)); }
 }
 
 std::string DateTime::GetCalendar()
@@ -109,16 +101,10 @@ DayMoment DateTime::GetDayMoment()
     bool isMorning   = !isDawn && localTime.tm_hour < 12;
     bool isAfternoon = !isMorning && localTime.tm_hour < 18;
     if (isDawn)
-    {
-        return DayMoment::Dawn;
-    }
+    { return DayMoment::Dawn; }
     else if (isMorning)
-    {
-        return DayMoment::Morning;
-    }
+    { return DayMoment::Morning; }
     else if (isAfternoon)
-    {
-        return DayMoment::Afternoon;
-    }
+    { return DayMoment::Afternoon; }
     return DayMoment::Night;
 }

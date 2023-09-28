@@ -6,9 +6,7 @@ using namespace RiverDreams::Environment;
 using namespace RiverDreams::FileSystem;
 
 Path::Path(std::string path)
-{
-    this->path = path;
-}
+{ this->path = path; }
 
 Path Path::Join(std::string path)
 {
@@ -17,9 +15,7 @@ Path Path::Join(std::string path)
 }
 
 std::string Path::ToString()
-{
-    return path;
-}
+{ return path; }
 
 std::string Path::GetBase(std::string path)
 {

@@ -9,11 +9,7 @@ std::string EnvironmentVariables::GetVariable(std::string variable)
 }
 
 std::string EnvironmentVariables::GetPWD()
-{
-    return GetVariable("PWD");
-}
+{ return GetVariable("PWD"); }
 
 std::string EnvironmentVariables::GetVirtualEnv()
-{
-    return GetVariable("VIRTUAL_ENV");
-}
+{ return GetVariable("VIRTUAL_ENV"); }

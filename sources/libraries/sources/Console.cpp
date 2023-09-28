@@ -23,9 +23,7 @@ std::string Console::ApplyForegroundColor(std::string  text,
 
 void Console::Write(std::string  text,
                     ConsoleColor color)
-{
-    std::cout << ApplyForegroundColor(text, color);
-}
+{ std::cout << ApplyForegroundColor(text, color); }
 
 void Console::WriteLine(std::string  text,
                         ConsoleColor color)

@@ -34,9 +34,7 @@ static void WriteCommandsSeparator()
 }
 
 static void WriteHorizontalSeparator()
-{
-    Console::Write("  ");
-}
+{ Console::Write("  "); }
 
 static void WriteLocalIPV4Address()
 {
@@ -158,9 +156,7 @@ static void WritePWDOwnership()
     std::string  symbol = " ";
     ConsoleColor color  = ConsoleColor::Magenta;
     if (!User::OwnsPWD())
-    {
-        Console::Write(symbol, color);
-    }
+    { Console::Write(symbol, color); }
 }
 
 int main()

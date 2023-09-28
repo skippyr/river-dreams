@@ -6,23 +6,17 @@ using namespace RiverDreams::FileSystem::VersionControl;
 std::string GitRepository::SearchForRootDirectoryPath(std::string searchDirectoryPath)
 {
     if (searchDirectoryPath == "/")
-    {
-        return "";
-    }
+    { return ""; }
     return Directory(searchDirectoryPath).IsRepositoryRoot()
                ? searchDirectoryPath
                : SearchForRootDirectoryPath(Path::GetParent(searchDirectoryPath));
 }
 
 GitRepository::GitRepository()
-{
-    rootDirectoryPath = SearchForRootDirectoryPath(EnvironmentVariables::GetPWD());
-}
+{ rootDirectoryPath = SearchForRootDirectoryPath(EnvironmentVariables::GetPWD()); }
 
 std::string GitRepository::GetRootDirectoryPath()
-{
-    return rootDirectoryPath;
-}
+{ return rootDirectoryPath; }
 
 std::string GitRepository::GetBranch()
 {
@@ -35,13 +29,9 @@ std::string GitRepository::GetBranch()
                          branch.length() <= maximumBranchLength;)
     {
         if (!totalOfSlashesToIgnore)
-        {
-            branch += character;
-        }
+        { branch += character; }
         else if (character == '/')
-        {
-            totalOfSlashesToIgnore -= 1;
-        }
+        { totalOfSlashesToIgnore -= 1; }
     }
     return branch;
 }
