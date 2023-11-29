@@ -3,14 +3,20 @@ River Dreams
 
 A simple prompt for the ZSH shell with a tribal design.
 
+You can have a preview in the preview.webp file.
+
 Features
 --------
 
 It displays:
 
-	- Your local IPV4 address.
-	- The use percentage of the disk mounted at `/`.
-	- The current date, hour and minute.
+    - Your local IPV4 address.
+    - The disk use percentage.
+    - The date, hour and minute.
+    - A decorator when root.
+    - A decorator for exit codes.
+    - The directory name.
+
 
 Requirements
 ------------
@@ -21,14 +27,14 @@ running an UNIX operating system.
 Installation
 ------------
 
-- Compile the file `riverdreams.c`.
+- Compile the file riverdreams.c.
 
-gcc riverdreams.c -o riverdreams
+    gcc riverdreams.c -o riverdreams
 
 - Make its output be your ZSH prompt by editing your ~/.zshrc file. Replace
-  <DIR> by the path for its repository.
+  <DIR> by the path for the repository.
 
-setopt promptsubst
-PROMPT=$(<DIR>/riverdreams)
+    setopt promptsubst
+    PROMPT='$(<DIR>/riverdreams)'
 
 - Reopen ZSH.
