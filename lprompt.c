@@ -1,3 +1,6 @@
+#include <ifaddrs.h>
+#include <net/if.h>
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
@@ -25,6 +28,25 @@ writehsep(void)
 }
 
 static void
+writeip(void)
+{
+	struct ifaddrs *a;
+	char z[16] = "127.0.0.1";
+	printf("%%F{4} %%f");
+	getifaddrs(&a);
+	for (struct ifaddrs *t = a; t; t = t->ifa_next) {
+		if (t->ifa_addr && t->ifa_addr->sa_family & AF_INET &&
+		    t->ifa_flags & IFF_RUNNING && !(t->ifa_flags & IFF_LOOPBACK)) {
+			inet_ntop(AF_INET, &((struct sockaddr_in*)t->ifa_addr)->sin_addr,
+				  z, sizeof(z));
+			break;
+		}
+	}
+	printf("%s", z);
+	freeifaddrs(a);
+}
+
+static void
 writedisk(void)
 {
 	struct statvfs s;
@@ -37,7 +59,7 @@ writedisk(void)
 static void
 writetm(void)
 {
-	time_t e = time(NULL);
+	time_t e = time(0);
 	struct tm t;
 	char *wdays[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"},
 	     *mons[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
@@ -54,6 +76,8 @@ main(void)
 {
 	writevsep();
 	printf("%%F{3}:«(");
+	writeip();
+	writehsep();
 	writedisk();
 	writehsep();
 	writetm();
