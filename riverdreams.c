@@ -82,6 +82,6 @@ main(void)
 	writedisk();
 	writehsep();
 	writetm();
-	printf("%%F{3})»:\n{%%(?.≗.%%F{1}⨲)%%F{3}}⤐  %%F{1}%%1~%%f ");
+	printf("%%F{3})»:\n%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  %%F{1}%%1~%%f ");
 	return 0;
 }
