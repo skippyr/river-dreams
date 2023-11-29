@@ -1,3 +1,4 @@
+/* See LICENSE file for copyright and license details. */
 #include <ifaddrs.h>
 #include <net/if.h>
 #include <arpa/inet.h>
@@ -11,6 +12,12 @@
 #define ISDWN t.tm_hour < 6
 #define ISMRN t.tm_hour < 12
 #define ISAFT t.tm_hour < 18
+
+static void writevsep(void);
+static void writehsep(void);
+static void writeip(void);
+static void writedisk(void);
+static void writetm(void);
 
 static void
 writevsep(void)
@@ -82,6 +89,7 @@ main(void)
 	writedisk();
 	writehsep();
 	writetm();
-	printf("%%F{3})»:\n%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  %%F{1}%%1~%%f ");
+	printf("%%F{3})»:\n%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  "
+	       "%%F{1}%%1~%%f ");
 	return 0;
 }
