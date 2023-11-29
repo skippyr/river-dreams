@@ -3,10 +3,10 @@
 #include <sys/ioctl.h>
 #include <time.h>
 
-#define ISORD(n) !((t->tm_mday - n) % 10)
-#define ISDWN t->tm_hour < 6
-#define ISMRN t->tm_hour < 12
-#define ISAFT t->tm_hour < 18
+#define ISORD(n) !((t.tm_mday - n) % 10)
+#define ISDWN t.tm_hour < 6
+#define ISMRN t.tm_hour < 12
+#define ISAFT t.tm_hour < 18
 
 static void
 writevsep(void)
@@ -24,27 +24,26 @@ writehsep(void)
 }
 
 static void
-writetm(struct tm *t)
+writetm(void)
 {
+	time_t e = time(NULL);
+	struct tm t;
 	char *wdays[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"},
 	     *mons[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
 			"Sep", "Oct", "Nov", "Dec"};
+	localtime_r(&e, &t);
 	printf("%%F{%d}%s%%f(%s) %s %d%s %02dh%02dm", ISDWN ? 5 : ISMRN ? 1 :
 	       ISAFT ? 4 : 3, ISDWN ? "󰭎 " : ISMRN ? "󰖨 " : ISAFT ? " " : "󰽥 ",
-	       wdays[t->tm_wday], mons[t->tm_mon], t->tm_mday, ISORD(1) ?
-	       "st" : ISORD(2) ? "nd" : ISORD(3) ? "rd" : "st", t->tm_hour,
-	       t->tm_min);
+	       wdays[t.tm_wday], mons[t.tm_mon], t.tm_mday, ISORD(1) ?  "st" :
+	       ISORD(2) ? "nd" : ISORD(3) ? "rd" : "st", t.tm_hour, t.tm_min);
 }
 
 int
 main(void)
 {
-	time_t e = time(NULL);
-	struct tm t;
-	localtime_r(&e, &t);
 	writevsep();
 	printf("%%F{3}:«(");
-	writetm(&t);
+	writetm();
 	printf("%%F{3})»:\n⤐  %%F{1}%%1~%%f ");
 	return 0;
 }
