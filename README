@@ -21,8 +21,8 @@ It displays:
 Requirements
 ------------
 
-In order to build it, you will simply need a C compiler, like GCC, and be
-running an UNIX operating system.
+In order to build it, you will simply need a C compiler, like GCC, and be using
+a font patched by the Nerd Fonts project.
 
 Installation
 ------------
