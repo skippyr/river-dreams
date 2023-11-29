@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
+#include <sys/statvfs.h>
 #include <time.h>
 
 #define ISORD(n) !((t.tm_mday - n) % 10)
@@ -24,6 +25,16 @@ writehsep(void)
 }
 
 static void
+writedisk(void)
+{
+	struct statvfs s;
+	statvfs("/", &s);
+	unsigned long t = s.f_frsize * s.f_blocks, r = s.f_frsize * s.f_bavail;
+	int u = ((float)(t - r) / t) * 100;
+	printf("%%F{%d}󰋊 %%f%d%%%%", u < 70 ? 2 : u < 80 ? 3 : 1, u);
+}
+
+static void
 writetm(void)
 {
 	time_t e = time(NULL);
@@ -43,6 +54,8 @@ main(void)
 {
 	writevsep();
 	printf("%%F{3}:«(");
+	writedisk();
+	writehsep();
 	writetm();
 	printf("%%F{3})»:\n⤐  %%F{1}%%1~%%f ");
 	return 0;
