@@ -34,14 +34,15 @@ writeip(void)
 	char z[16] = "127.0.0.1";
 	printf("%%F{4} %%f");
 	getifaddrs(&a);
-	for (struct ifaddrs *t = a; t; t = t->ifa_next) {
+	for (struct ifaddrs *t = a; t; t = t->ifa_next)
 		if (t->ifa_addr && t->ifa_addr->sa_family & AF_INET &&
-		    t->ifa_flags & IFF_RUNNING && !(t->ifa_flags & IFF_LOOPBACK)) {
-			inet_ntop(AF_INET, &((struct sockaddr_in*)t->ifa_addr)->sin_addr,
+		    t->ifa_flags & IFF_RUNNING &&
+		    !(t->ifa_flags & IFF_LOOPBACK)) {
+			inet_ntop(AF_INET,
+				  &((struct sockaddr_in*)t->ifa_addr)->sin_addr,
 				  z, sizeof(z));
 			break;
 		}
-	}
 	printf("%s", z);
 	freeifaddrs(a);
 }
@@ -61,13 +62,13 @@ writetm(void)
 {
 	time_t e = time(0);
 	struct tm t;
-	char *wdays[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"},
-	     *mons[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
-			"Sep", "Oct", "Nov", "Dec"};
+	char *w[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"},
+	     *m[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+		     "Sep", "Oct", "Nov", "Dec"};
 	localtime_r(&e, &t);
 	printf("%%F{%d}%s%%f(%s) %s %d%s %02dh%02dm", ISDWN ? 5 : ISMRN ? 1 :
 	       ISAFT ? 4 : 3, ISDWN ? "󰭎 " : ISMRN ? "󰖨 " : ISAFT ? " " : "󰽥 ",
-	       wdays[t.tm_wday], mons[t.tm_mon], t.tm_mday, ISORD(1) ?  "st" :
+	       w[t.tm_wday], m[t.tm_mon], t.tm_mday, ISORD(1) ? "st" :
 	       ISORD(2) ? "nd" : ISORD(3) ? "rd" : "st", t.tm_hour, t.tm_min);
 }
 
