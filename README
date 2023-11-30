@@ -29,7 +29,7 @@ Installation
 
 - Compile the file riverdreams.c.
 
-    gcc riverdreams.c -o riverdreams
+    gcc riverdreams.c -O3 -o riverdreams
 
 - Make its output be your ZSH prompt by editing your ~/.zshrc file. Replace
   <DIR> by the path for the repository.
