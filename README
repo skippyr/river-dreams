@@ -1,13 +1,9 @@
 River Dreams
 ============
-
-A simple prompt for the ZSH shell with a tribal design.
-
-You can have a preview in the preview.webp file.
+A prompt for the ZSH shell with a tribal design.
 
 Features
 --------
-
 It displays:
 
     - Your local IPV4 address.
@@ -20,21 +16,22 @@ It displays:
 
 Requirements
 ------------
+In order to build it, you will need:
 
-In order to build it, you will simply need a C compiler, like GCC, and be using
-a font patched by the Nerd Fonts project.
+    - a C compiler.
+    - noto fonts.
+    - a font patched by the Nerd Fonts project.
 
 Installation
 ------------
-
 - Compile the file riverdreams.c.
 
-    gcc riverdreams.c -O3 -o riverdreams
+    mkdir -p ~/.local/bin
+    cc -O3 -o ~/.local/bin/riverdreams riverdreams.c
 
-- Make its output be your ZSH prompt by editing your ~/.zshrc file. Replace
-  <DIR> by the path for the repository.
+- Make its output be your ZSH prompt by editing your ~/.zshrc file.
 
     setopt promptsubst
-    PROMPT='$(<DIR>/riverdreams)'
+    PROMPT='$(~/.local/bin/riverdreams)'
 
 - Reopen ZSH.
