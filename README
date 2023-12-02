@@ -1,17 +1,14 @@
 River Dreams
 ============
-A prompt for the ZSH shell with a tribal design.
-
-Features
---------
-It displays:
+A prompt for the ZSH shell with a tribal design. It displays:
 
     - Your local IPV4 address.
     - The disk use percentage.
+    - The battery percentage and its status, if any.
     - The date, hour and minute.
     - A decorator when root.
     - A decorator for exit codes.
-    - The directory name.
+    - The directory path.
 
 
 Requirements
