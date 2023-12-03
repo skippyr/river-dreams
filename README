@@ -1,6 +1,6 @@
 River Dreams
 ============
-A prompt for the ZSH shell with a tribal design. It displays:
+A prompt for the ZSH shell (Linux only) with a tribal design. It displays:
 
     - Your local IPV4 address.
     - The disk use percentage.
