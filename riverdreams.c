@@ -17,8 +17,8 @@
 #endif
 
 void bat(void);
-void cal(struct tm *t);
-void clk(struct tm *t);
+void cal(struct tm *);
+void clk(struct tm *);
 void disk(void);
 void ip(void);
 
