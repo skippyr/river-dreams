@@ -22,9 +22,7 @@ void clk(struct tm *);
 void disk(void);
 void ip(void);
 
-void
-bat(void)
-{
+void bat(void) {
 	char z[1], w[5] = "0";
 	int s = open(PS "/BAT0/status", O_RDONLY),
 	    c = open(PS "/BAT0/capacity", O_RDONLY);
@@ -41,26 +39,20 @@ bat(void)
 	       "%F{2}  ", p);
 }
 
-void
-cal(struct tm *t)
-{
+void cal(struct tm *t) {
 	char b[10];
 	strftime(b, sizeof(b), "(%a) %b", t);
 	printf("%%F{1}󰃭 %%f%s %d%s  ", b, t->tm_mday, ORD(1) ? "st" : ORD(2) ?
 	       "nd" : ORD(3) ? "rd" : "th");
 }
 
-void
-clk(struct tm *t)
-{
+void clk(struct tm *t) {
 	printf("%s%%f%02dh%02dm", t->tm_hour < 6 ? "%F{6}󰭎 " : t->tm_hour < 12 ?
 	       "%F{1}󰖨 " : t->tm_hour < 18 ? "%F{4} " : "%F{3}󰽥 ", t->tm_hour,
 	       t->tm_min);
 }
 
-void
-disk(void)
-{
+void disk(void) {
 	struct statvfs s;
 	statvfs("/", &s);
 	long unsigned t = s.f_frsize * s.f_blocks, r = s.f_frsize * s.f_bavail;
@@ -68,9 +60,7 @@ disk(void)
 	printf("%%F{%d}󰋊 %%f%d%%%%  ", u < 70 ? 2 : u < 80 ? 3 : 1, u);
 }
 
-void
-ip(void)
-{
+void ip(void) {
 	struct ifaddrs *a, *t;
 	char z[16] = "127.0.0.1";
 	getifaddrs(&a);
@@ -88,9 +78,7 @@ ip(void)
 	freeifaddrs(a);
 }
 
-int
-main(void)
-{
+int main(void) {
 	time_t e = time(0);
 	struct tm t;
 	struct winsize s;
