@@ -12,8 +12,8 @@
 
 #define LN(a, b) for (int i = 0; i < s.ws_col; i++) printf(i % 2 ? a : b);
 #define ORD(n) !((t->tm_mday - n) % 10)
-#ifndef PS
-#define PS "/sys/class/power_supply"
+#ifndef BAT
+#define BAT "/sys/class/power_supply/BAT0"
 #endif
 
 void bat(void);
@@ -24,8 +24,8 @@ void ip(void);
 
 void bat(void) {
 	char z[1], w[5] = "0";
-	int s = open(PS "/BAT0/status", O_RDONLY),
-	    c = open(PS "/BAT0/capacity", O_RDONLY);
+	int s = open(BAT "/status", O_RDONLY),
+	    c = open(BAT "/capacity", O_RDONLY);
 	if (s < 0)
 		return;
 	if (c > 0)
