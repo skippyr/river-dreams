@@ -22,14 +22,18 @@ In order to build it, you will need:
 
 Installation
 ------------
-- Compile the file riverdreams.c.
+- Compile the file river-dreams.c.
 
     mkdir -p ~/.local/bin
-    cc -O3 -o ~/.local/bin/riverdreams riverdreams.c
+    cc -O3 -o ~/.local/bin/river-dreams river-dreams.c
 
 - Make its output be your ZSH prompt by editing your ~/.zshrc file.
 
     setopt promptsubst
-    PROMPT='$(~/.local/bin/riverdreams)'
+    PROMPT='$(~/.local/bin/river-dreams)'
 
 - Reopen ZSH.
+
+Copyright
+---------
+See LICENSE file for copyright and license details.
