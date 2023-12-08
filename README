@@ -11,7 +11,6 @@ A prompt for the ZSH shell (Linux only) with a tribal design. It displays:
     - A decorator for exit codes.
     - The directory path.
 
-
 Requirements
 ------------
 In order to build it, you will need:
