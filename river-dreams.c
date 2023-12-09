@@ -135,7 +135,7 @@ int main(void)
 	struct tm t;
 	time_t epoch = time(NULL);
 	localtime_r(&epoch, &t);
-	ioctl(2, TIOCGWINSZ, &w);
+	ioctl(STDERR_FILENO, TIOCGWINSZ, &w);
 	write_cmd_sep(&w);
 	printf("%%F{3}:«(");
 	write_ip_mod();
