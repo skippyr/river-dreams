@@ -2,97 +2,150 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <ifaddrs.h>
-#include <net/if.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/ioctl.h>
 #include <sys/statvfs.h>
 #include <time.h>
 #include <unistd.h>
 
-#define LN(a, b) for (int i = 0; i < s.ws_col; i++) printf(i % 2 ? a : b);
-#define ORD(n) !((t->tm_mday - n) % 10)
-#ifndef BAT
-#define BAT "/sys/class/power_supply/BAT0"
-#endif
+#ifndef BAT_DIR
+#define BAT_DIR "/sys/class/power_supply/BAT0"
+#endif /* BAT_DIR */
+#define IFF_LOOPBACK 0x8
+#define IFF_RUNNING 0x40
+#define IS_ORD(ord) !((t->tm_mday - ord) % 10)
 
-void bat(void);
-void cal(struct tm *);
-void clk(struct tm *);
-void disk(void);
-void ip(void);
+int count_digits(int n);
+void write_bat_mod(void);
+void write_cal_mod(struct tm *t);
+void write_clk_mod(struct tm *t);
+void write_cmd_sep(struct winsize *w);
+void write_disk_mod(void);
+void write_ip_mod(void);
+void write_mod_sep(struct winsize *w);
 
-void bat(void) {
-	char z[1], w[5] = "0";
-	int s = open(BAT "/status", O_RDONLY),
-	    c = open(BAT "/capacity", O_RDONLY);
-	if (s < 0)
+int mod_len_g = 41;
+
+int count_digits(int n)
+{
+	int i;
+	for (i = !n; n; n /= 10) {
+		i++;
+	}
+	return i;
+}
+
+void write_bat_mod(void)
+{
+	char stat_buf[1];
+	char cap_buf[5];
+	int stat_fd = open(BAT_DIR "/status", O_RDONLY);
+	int cap_fd = open(BAT_DIR "/capacity", O_RDONLY);
+	int per;
+	if (stat_fd < 0) {
 		return;
-	if (c > 0)
-		read(c, w, sizeof(w));
-	read(s, z, 1);
-	close(s);
-	close(c);
-	int p = atoi(w);
-	printf("%s%s%%f%d%%%%  ", *z == 'C' ? "%F{3}󱐋 " : "", p <= 5 ?
-	       "%F{1}  " : p <= 25 ? "%F{3}  " : p <= 50 ? "%F{2}  " :
-	       "%F{2}  ", p);
+	} else if (cap_fd > 0) {
+		read(cap_fd, cap_buf, sizeof(cap_buf));
+	}
+	read(stat_fd, stat_buf, sizeof(stat_buf));
+	close(stat_fd);
+	close(cap_fd);
+	per = atoi(cap_buf);
+	printf("%s%s%%f%d%%%%  ", *stat_buf == 'C' ? "%F{3}󱐋 " : "", per <= 5 ?
+	       "%F{1}  " : per <= 25 ? "%F{3}  " : per <= 50 ? "%F{2}  " :
+	       "%F{2}  ", per);
+	if (*stat_buf == 'C') {
+		mod_len_g += 2;
+	}
+	mod_len_g += count_digits(per) + 6;
 }
 
-void cal(struct tm *t) {
-	char b[10];
-	strftime(b, sizeof(b), "(%a) %b", t);
-	printf("%%F{1}󰃭 %%f%s %d%s  ", b, t->tm_mday, ORD(1) ? "st" : ORD(2) ?
-	       "nd" : ORD(3) ? "rd" : "th");
+void write_cal_mod(struct tm *t)
+{
+	char buf[13];
+	strftime(buf, sizeof(buf), "(%a) %b %d", t);
+	printf("%%F{1}󰃭 %%f%s%s  ", buf, IS_ORD(1) ? "st" : IS_ORD(2) ? "nd" :
+	       IS_ORD(3) ? "rd" : "th");
 }
 
-void clk(struct tm *t) {
+void write_clk_mod(struct tm *t)
+{
 	printf("%s%%f%02dh%02dm", t->tm_hour < 6 ? "%F{6}󰭎 " : t->tm_hour < 12 ?
 	       "%F{1}󰖨 " : t->tm_hour < 18 ? "%F{4} " : "%F{3}󰽥 ", t->tm_hour,
 	       t->tm_min);
 }
 
-void disk(void) {
-	struct statvfs s;
-	statvfs("/", &s);
-	long unsigned t = s.f_frsize * s.f_blocks, r = s.f_frsize * s.f_bavail;
-	int u = ((float)(t - r) / t) * 100;
-	printf("%%F{%d}󰋊 %%f%d%%%%  ", u < 70 ? 2 : u < 80 ? 3 : 1, u);
+void write_cmd_sep(struct winsize *w)
+{
+	int i;
+	for (i = 0; i < w->ws_col; i++) {
+		printf(i % 2 ? "%%F{1}⊼" : "%%F{3}⊵");
+	}
 }
 
-void ip(void) {
-	struct ifaddrs *a, *t;
-	char z[16] = "127.0.0.1";
-	getifaddrs(&a);
-	printf("%%F{4} %%f");
-	for (t = a; t; t = t->ifa_next)
-		if (t->ifa_addr && t->ifa_addr->sa_family & AF_INET &&
-		    t->ifa_flags & IFF_RUNNING &&
-		    !(t->ifa_flags & IFF_LOOPBACK)) {
+void write_disk_mod(void)
+{
+	struct statvfs fstat;
+	unsigned long tot;
+	unsigned long rem;
+	int per;
+	statvfs("/", &fstat);
+	tot = fstat.f_frsize * fstat.f_blocks;
+	rem = fstat.f_frsize * fstat.f_bavail;
+	per = ((float)(tot - rem) / tot) * 100;
+	printf("%%F{%d}󰋊 %%f%d%%%%  ", per < 70 ? 2 : per < 80 ? 3 : 1, per);
+	mod_len_g += count_digits(per);
+}
+
+void write_ip_mod(void)
+{
+	struct ifaddrs *addr;
+	struct ifaddrs *tmp_addr;
+	char buf[16] = "127.0.0.1";
+	getifaddrs(&addr);
+	for (tmp_addr = addr; tmp_addr; tmp_addr = tmp_addr->ifa_next) {
+		if (tmp_addr->ifa_addr &&
+		    tmp_addr->ifa_addr->sa_family & AF_INET &&
+		    tmp_addr->ifa_flags & IFF_RUNNING &&
+		    !(tmp_addr->ifa_flags & IFF_LOOPBACK)) {
 			inet_ntop(AF_INET,
-				  &((struct sockaddr_in*)t->ifa_addr)->sin_addr,
-				  z, sizeof(z));
+				  &((struct sockaddr_in*)tmp_addr->ifa_addr)->sin_addr,
+				  buf, sizeof(buf));
 			break;
 		}
-	printf("%s  ", z);
-	freeifaddrs(a);
+	}
+	freeifaddrs(addr);
+	printf("%%F{4} %%f%s  ", buf);
+	mod_len_g += strlen(buf);
 }
 
-int main(void) {
-	time_t e = time(0);
+void write_mod_sep(struct winsize *w)
+{
+	int i;
+	for (i = 0; i < w->ws_col - mod_len_g; i++) {
+		printf(i % 2 ? "%%F{1}-" : "%%F{3}=");
+	}
+}
+
+int main(void)
+{
+	struct winsize w;
 	struct tm t;
-	struct winsize s;
-	ioctl(2, TIOCGWINSZ, &s);
-	localtime_r(&e, &t);
-	LN("%%F{1}⊼", "%%F{3}⊵");
-	LN("%%F{1}-", "%%F{3}=");
-	printf("\n\33[1A%%F{3}:«(");
-	ip();
-	disk();
-	bat();
-	cal(&t);
-	clk(&t);
-	printf("%%F{3})»:\n%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  "
+	time_t epoch = time(NULL);
+	localtime_r(&epoch, &t);
+	ioctl(2, TIOCGWINSZ, &w);
+	write_cmd_sep(&w);
+	printf("%%F{3}:«(");
+	write_ip_mod();
+	write_disk_mod();
+	write_bat_mod();
+	write_cal_mod(&t);
+	write_clk_mod(&t);
+	printf("%%F{3})»:");
+	write_mod_sep(&w);
+	printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  "
 	       "%%F{1}%%~ %%F{6}✗%%f  ");
 	return 0;
 }
