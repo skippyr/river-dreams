@@ -26,7 +26,7 @@ In order to build it, you will need:
 ## Installation
 - Compile the file `river-dreams.c`.
 
-```c
+```bash
 mkdir -p ~/.local/bin
 cc -O3 -o ~/.local/bin/river-dreams river-dreams.c
 ```
@@ -34,7 +34,7 @@ cc -O3 -o ~/.local/bin/river-dreams river-dreams.c
 - Make its output be your ZSH prompt by adding these lines to your `~/.zshrc`
   config file.
 
-```c
+```zsh
 setopt promptsubst
 PROMPT='$(~/.local/bin/river-dreams)'
 ```
