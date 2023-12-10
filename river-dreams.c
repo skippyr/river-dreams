@@ -30,8 +30,8 @@ int mod_len_g = 41;
 
 int count_digits(int n)
 {
-	int i;
-	for (i = !n; n; n /= 10) {
+	int i = !n;
+	for (; n; n /= 10) {
 		i++;
 	}
 	return i;
@@ -39,10 +39,10 @@ int count_digits(int n)
 
 void write_bat_mod(void)
 {
-	char stat_buf[1];
-	char cap_buf[5];
 	int stat_fd = open(BAT_DIR "/status", O_RDONLY);
 	int cap_fd = open(BAT_DIR "/capacity", O_RDONLY);
+	char stat_buf[1];
+	char cap_buf[5];
 	int per;
 	if (stat_fd < 0) {
 		return;
@@ -79,8 +79,8 @@ void write_clk_mod(struct tm *t)
 
 void write_cmd_sep(struct winsize *w)
 {
-	int i;
-	for (i = 0; i < w->ws_col; i++) {
+	int i = 0;
+	for (; i < w->ws_col; i++) {
 		printf(i % 2 ? "%%F{1}⊼" : "%%F{3}⊵");
 	}
 }
@@ -101,9 +101,9 @@ void write_disk_mod(void)
 
 void write_ip_mod(void)
 {
+	char buf[16] = "127.0.0.1";
 	struct ifaddrs *addr;
 	struct ifaddrs *tmp_addr;
-	char buf[16] = "127.0.0.1";
 	getifaddrs(&addr);
 	for (tmp_addr = addr; tmp_addr; tmp_addr = tmp_addr->ifa_next) {
 		if (tmp_addr->ifa_addr &&
@@ -123,17 +123,17 @@ void write_ip_mod(void)
 
 void write_mod_sep(struct winsize *w)
 {
-	int i;
-	for (i = 0; i < w->ws_col - mod_len_g; i++) {
+	int i = 0;
+	for (; i < w->ws_col - mod_len_g; i++) {
 		printf(i % 2 ? "%%F{1}-" : "%%F{3}=");
 	}
 }
 
 int main(void)
 {
+	time_t epoch = time(NULL);
 	struct winsize w;
 	struct tm t;
-	time_t epoch = time(NULL);
 	localtime_r(&epoch, &t);
 	ioctl(STDERR_FILENO, TIOCGWINSZ, &w);
 	write_cmd_sep(&w);
