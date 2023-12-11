@@ -7,9 +7,9 @@ it makes it easier to find some basic info about the operating system.
 ![](preview.png)
 
 > [!NOTE]
-> The colors used in this theme are affected by the terminal theme settings.
-> Theme used is [Flamerial](https://github.com/skippyr/flamerial). Font used is
-> Mononoki (nerd font patched).
+> The colors used in this theme are affected by the terminal theme settings. In
+> the preview, the theme used is [Flamerial](https://github.com/skippyr/flamerial)
+> and font used is Mononoki (nerd font patched).
 
 It displays:
 
