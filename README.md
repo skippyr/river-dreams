@@ -28,7 +28,7 @@ In order to build it, you will need:
 - A C compiler, like GCC.
 - [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans).
 - A font patched by the [Nerd Fonts](https://www.nerdfonts.com/font-downloads)
-  (release `>=3.0.0,<4.0.0`) project.
+  project (release `>=3.0.0,<4.0.0`).
 
 ## Installation
 - Compile the file `river-dreams.c`.
@@ -39,7 +39,7 @@ cc -ansi -O3 -o ~/.local/bin/river-dreams river-dreams.c
 ```
 
 - Make its output be your ZSH prompt by adding these lines to your `~/.zshrc`
-  config file.
+  config file. Ensure to not be sourcing any other theme.
 
 ```zsh
 setopt promptsubst
