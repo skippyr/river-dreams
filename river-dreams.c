@@ -17,27 +17,19 @@
 #define IFF_RUNNING 0x40
 #define IS_ORD(ord) !((t->tm_mday - ord) % 10)
 
-int count_digits(int n);
-void write_bat_mod(void);
-void write_cal_mod(struct tm *t);
-void write_clk_mod(struct tm *t);
-void write_cmd_sep(struct winsize *w);
-void write_disk_mod(void);
-void write_ip_mod(void);
-void write_mod_sep(struct winsize *w);
+static void bat(void);
+static void blk_usg(void);
+static void cal(struct tm *t);
+static void clk(struct tm *t);
+static void cmd_sep(struct winsize *w);
+static int count_dgts(int n);
+static void ip(void);
+static void mod_sep(struct winsize *w);
 
-int mod_len_g = 41;
+static int mod_len_g = 41;
 
-int count_digits(int n)
-{
-	int i = !n;
-	for (; n; n /= 10) {
-		i++;
-	}
-	return i;
-}
-
-void write_bat_mod(void)
+static void
+bat(void)
 {
 	int stat_fd = open(BAT_DIR "/status", O_RDONLY);
 	int cap_fd = open(BAT_DIR "/capacity", O_RDONLY);
@@ -59,33 +51,11 @@ void write_bat_mod(void)
 	if (*stat_buf == 'C') {
 		mod_len_g += 2;
 	}
-	mod_len_g += count_digits(per) + 6;
+	mod_len_g += count_dgts(per) + 6;
 }
 
-void write_cal_mod(struct tm *t)
-{
-	char buf[13];
-	strftime(buf, sizeof(buf), "(%a) %b %d", t);
-	printf("%%F{1}󰃭 %%f%s%s  ", buf, IS_ORD(1) ? "st" : IS_ORD(2) ? "nd" :
-	       IS_ORD(3) ? "rd" : "th");
-}
-
-void write_clk_mod(struct tm *t)
-{
-	printf("%s%%f%02dh%02dm", t->tm_hour < 6 ? "%F{6}󰭎 " : t->tm_hour < 12 ?
-	       "%F{1}󰖨 " : t->tm_hour < 18 ? "%F{4} " : "%F{3}󰽥 ", t->tm_hour,
-	       t->tm_min);
-}
-
-void write_cmd_sep(struct winsize *w)
-{
-	int i = 0;
-	for (; i < w->ws_col; i++) {
-		printf(i % 2 ? "%%F{1}⊼" : "%%F{3}⊵");
-	}
-}
-
-void write_disk_mod(void)
+static void
+blk_usg(void)
 {
 	struct statvfs fstat;
 	unsigned long tot;
@@ -96,10 +66,47 @@ void write_disk_mod(void)
 	rem = fstat.f_frsize * fstat.f_bavail;
 	per = ((float)(tot - rem) / tot) * 100;
 	printf("%%F{%d}󰋊 %%f%d%%%%  ", per < 70 ? 2 : per < 80 ? 3 : 1, per);
-	mod_len_g += count_digits(per);
+	mod_len_g += count_dgts(per);
 }
 
-void write_ip_mod(void)
+static void
+cal(struct tm *t)
+{
+	char buf[13];
+	strftime(buf, sizeof(buf), "(%a) %b %d", t);
+	printf("%%F{1}󰃭 %%f%s%s  ", buf, IS_ORD(1) ? "st" : IS_ORD(2) ? "nd" :
+	       IS_ORD(3) ? "rd" : "th");
+}
+
+static void
+clk(struct tm *t)
+{
+	printf("%s%%f%02dh%02dm", t->tm_hour < 6 ? "%F{6}󰭎 " : t->tm_hour < 12 ?
+	       "%F{1}󰖨 " : t->tm_hour < 18 ? "%F{4} " : "%F{3}󰽥 ", t->tm_hour,
+	       t->tm_min);
+}
+
+static void
+cmd_sep(struct winsize *w)
+{
+	int i = 0;
+	for (; i < w->ws_col; i++) {
+		printf(i % 2 ? "%%F{1}⊼" : "%%F{3}⊵");
+	}
+}
+
+static int
+count_dgts(int n)
+{
+	int i = !n;
+	for (; n; n /= 10) {
+		i++;
+	}
+	return i;
+}
+
+static void
+ip(void)
 {
 	char buf[16] = "127.0.0.1";
 	struct ifaddrs *addr;
@@ -121,7 +128,8 @@ void write_ip_mod(void)
 	mod_len_g += strlen(buf);
 }
 
-void write_mod_sep(struct winsize *w)
+static void
+mod_sep(struct winsize *w)
 {
 	int i = 0;
 	for (; i < w->ws_col - mod_len_g; i++) {
@@ -129,22 +137,23 @@ void write_mod_sep(struct winsize *w)
 	}
 }
 
-int main(void)
+int
+main(void)
 {
 	time_t epoch = time(NULL);
 	struct winsize w;
 	struct tm t;
 	localtime_r(&epoch, &t);
 	ioctl(STDERR_FILENO, TIOCGWINSZ, &w);
-	write_cmd_sep(&w);
+	cmd_sep(&w);
 	printf("%%F{3}:«(");
-	write_ip_mod();
-	write_disk_mod();
-	write_bat_mod();
-	write_cal_mod(&t);
-	write_clk_mod(&t);
+	ip();
+	blk_usg();
+	bat();
+	cal(&t);
+	clk(&t);
 	printf("%%F{3})»:");
-	write_mod_sep(&w);
+	mod_sep(&w);
 	printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  "
 	       "%%F{1}%%~ %%F{6}✗%%f  ");
 	return 0;
