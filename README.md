@@ -28,7 +28,7 @@ mkdir -p ~/.local/bin/river-dreams
 gcc -ansi -O3 -o ~/.local/bin/river-dreams river-dreams.c
 ```
 
-- Set it as your prompt in your ~/.zshrc file.
+- Set it as your prompt in your `~/.zshrc` file.
 
 ```zsh
 setopt prompsubst
