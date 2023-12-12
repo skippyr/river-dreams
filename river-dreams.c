@@ -13,11 +13,28 @@
 #define IFF_LOOPBACK 0x8
 #define IFF_RUNNING 0x40
 
+static void blkusg(void);
 static void cmdsep(struct winsize *w);
+static int countdgts(int n);
 static void ip(void);
 static void modsep(struct winsize *w);
 
 static int modlen = 41;
+
+static void
+blkusg(void)
+{
+	struct statvfs fstat;
+	unsigned long tot;
+	unsigned long rem;
+	int per;
+	statvfs("/", &fstat);
+	tot = fstat.f_frsize * fstat.f_blocks;
+	rem = fstat.f_frsize * fstat.f_bavail;
+	per = ((float)(tot - rem) / tot) * 100;
+	printf("%%F{%d}󰋊 %%f%d%%%%  ", per < 70 ? 2 : per < 80 ? 3 : 1, per);
+	modlen += countdgts(per);
+}
 
 static void
 cmdsep(struct winsize *w)
@@ -25,6 +42,15 @@ cmdsep(struct winsize *w)
 	int i;
 	for (i = 0; i < w->ws_col; i++)
 		printf(i % 2 ? "%%F{1}⊼" : "%%F{3}⊵");
+}
+
+static int
+countdgts(int n)
+{
+	int i;
+	for (i = !n; n; n /= 10)
+		i++;
+	return i;
 }
 
 static void
@@ -68,6 +94,7 @@ main(void)
 	cmdsep(&w);
 	printf("%%F{3}:«(");
 	ip();
+	blkusg();
 	printf("%%F{3})»:");
 	modsep(&w);
 	return 0;
