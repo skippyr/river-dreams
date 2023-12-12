@@ -89,8 +89,8 @@ clk(struct tm *t)
 static void
 cmd_sep(struct winsize *w)
 {
-	int i = 0;
-	for (; i < w->ws_col; i++) {
+	int i;
+	for (i = 0; i < w->ws_col; i++) {
 		printf(i % 2 ? "%%F{1}⊼" : "%%F{3}⊵");
 	}
 }
@@ -98,8 +98,8 @@ cmd_sep(struct winsize *w)
 static int
 count_dgts(int n)
 {
-	int i = !n;
-	for (; n; n /= 10) {
+	int i;
+	for (i = !n; n; n /= 10) {
 		i++;
 	}
 	return i;
@@ -131,8 +131,8 @@ ip(void)
 static void
 mod_sep(struct winsize *w)
 {
-	int i = 0;
-	for (; i < w->ws_col - mod_len_g; i++) {
+	int i;
+	for (i = 0; i < w->ws_col - mod_len_g; i++) {
 		printf(i % 2 ? "%%F{1}-" : "%%F{3}=");
 	}
 }
