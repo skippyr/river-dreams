@@ -12,12 +12,15 @@
 
 #ifndef BATDIR
 #define BATDIR "/sys/class/power_supply/BAT0"
-#endif /* BAT_DIR */
+#endif /* BATDIR */
 #define IFF_LOOPBACK 0x8
 #define IFF_RUNNING 0x40
+#define ISORD(ord) !((t->tm_mday - ord) % 10)
 
 static void bat(void);
 static void blkusg(void);
+static void cal(struct tm *t);
+static void clk(struct tm *t);
 static void cmdsep(struct winsize *w);
 static int countdgts(int n);
 static void ip(void);
@@ -60,6 +63,23 @@ blkusg(void)
 	per = ((float)(tot - rem) / tot) * 100;
 	printf("%%F{%d}󰋊 %%f%d%%%%  ", per < 70 ? 2 : per < 80 ? 3 : 1, per);
 	modlen += countdgts(per);
+}
+
+static void
+cal(struct tm *t)
+{
+	char buf[13];
+	strftime(buf, sizeof(buf), "(%a) %b %d", t);
+	printf("%%F{1}󰃭 %%f%s%s  ", buf, ISORD(1) ? "st" : ISORD(2) ? "nd" :
+	       ISORD(3) ? "rd" : "th");
+}
+
+static void
+clk(struct tm *t)
+{
+	printf("%s%%f%02dh%02dm", t->tm_hour < 6 ? "%F{6}󰭎 " : t->tm_hour < 12 ?
+	       "%F{1}󰖨 " : t->tm_hour < 18 ? "%F{4} " : "%F{3}󰽥 ", t->tm_hour,
+	       t->tm_min);
 }
 
 static void
@@ -122,6 +142,8 @@ main(void)
 	ip();
 	blkusg();
 	bat();
+	cal(&t);
+	clk(&t);
 	printf("%%F{3})»:");
 	modsep(&w);
 	return 0;
