@@ -40,10 +40,10 @@ countdgts(int n)
 static void
 bat(void)
 {
-	int statfd = open(BATDIR "/status", O_RDONLY);
 	int capfd = open(BATDIR "/capacity", O_RDONLY);
-	char statbuf[1];
+	int statfd = open(BATDIR "/status", O_RDONLY);
 	char capbuf[5];
+	char statbuf[1];
 	int per;
 	if (statfd < 0)
 		return;
@@ -62,10 +62,10 @@ bat(void)
 static void
 blkusg(void)
 {
-	struct statvfs fstat;
-	unsigned long tot;
-	unsigned long rem;
 	int per;
+	struct statvfs fstat;
+	unsigned long rem;
+	unsigned long tot;
 	statvfs("/", &fstat);
 	tot = fstat.f_frsize * fstat.f_blocks;
 	rem = fstat.f_frsize * fstat.f_bavail;
@@ -133,8 +133,8 @@ int
 main(void)
 {
 	time_t epoch = time(NULL);
-	struct winsize w;
 	struct tm t;
+	struct winsize w;
 	localtime_r(&epoch, &t);
 	ioctl(STDERR_FILENO, TIOCGWINSZ, &w);
 	cmdsep(&w);
