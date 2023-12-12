@@ -17,16 +17,25 @@
 #define IFF_RUNNING 0x40
 #define ISORD(ord) !((t->tm_mday - ord) % 10)
 
+static int countdgts(int n);
 static void bat(void);
 static void blkusg(void);
 static void cal(struct tm *t);
 static void clk(struct tm *t);
 static void cmdsep(struct winsize *w);
-static int countdgts(int n);
 static void ip(void);
 static void modsep(struct winsize *w);
 
 static int modlen = 41;
+
+static int
+countdgts(int n)
+{
+	int i;
+	for (i = !n; n; n /= 10)
+		i++;
+	return i;
+}
 
 static void
 bat(void)
@@ -88,15 +97,6 @@ cmdsep(struct winsize *w)
 	int i;
 	for (i = 0; i < w->ws_col; i++)
 		printf(i % 2 ? "%%F{1}⊼" : "%%F{3}⊵");
-}
-
-static int
-countdgts(int n)
-{
-	int i;
-	for (i = !n; n; n /= 10)
-		i++;
-	return i;
 }
 
 static void
