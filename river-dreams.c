@@ -15,6 +15,7 @@
 
 static void cmdsep(struct winsize *w);
 static void ip(void);
+static void modsep(struct winsize *w);
 
 static int modlen = 41;
 
@@ -48,6 +49,14 @@ ip(void)
 	modlen += strlen(buf);
 }
 
+static void
+modsep(struct winsize *w)
+{
+	int i;
+	for (i = 0; i < w->ws_col - modlen; i++)
+		printf(i % 2 ? "%%F{1}-" : "%%F{3}=");
+}
+
 int
 main(void)
 {
@@ -59,5 +68,7 @@ main(void)
 	cmdsep(&w);
 	printf("%%F{3}:«(");
 	ip();
+	printf("%%F{3})»:");
+	modsep(&w);
 	return 0;
 }
