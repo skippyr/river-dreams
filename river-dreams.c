@@ -10,9 +10,13 @@
 #include <time.h>
 #include <unistd.h>
 
+#ifndef BATDIR
+#define BATDIR "/sys/class/power_supply/BAT0"
+#endif /* BAT_DIR */
 #define IFF_LOOPBACK 0x8
 #define IFF_RUNNING 0x40
 
+static void bat(void);
 static void blkusg(void);
 static void cmdsep(struct winsize *w);
 static int countdgts(int n);
@@ -20,6 +24,28 @@ static void ip(void);
 static void modsep(struct winsize *w);
 
 static int modlen = 41;
+
+static void
+bat(void)
+{
+	int statfd = open(BATDIR "/status", O_RDONLY);
+	int capfd = open(BATDIR "/capacity", O_RDONLY);
+	char statbuf[1];
+	char capbuf[5];
+	int per;
+	if (statfd < 0)
+		return;
+	else if (capfd > 0)
+		read(capfd, capbuf, sizeof(capbuf));
+	read(statfd, statbuf, sizeof(statbuf));
+	close(statfd);
+	close(capfd);
+	per = atoi(capbuf);
+	printf("%s%s%%f%d%%%%  ", *statbuf == 'C' ? "%F{3}󱐋 " : "", per <= 5 ?
+	       "%F{1}  " : per <= 25 ? "%F{3}  " : per <= 50 ? "%F{2}  " :
+	       "%F{2}  ", per);
+	modlen += countdgts(per) + 6 + (per == 'C') * 2;
+}
 
 static void
 blkusg(void)
@@ -95,6 +121,7 @@ main(void)
 	printf("%%F{3}:«(");
 	ip();
 	blkusg();
+	bat();
 	printf("%%F{3})»:");
 	modsep(&w);
 	return 0;
