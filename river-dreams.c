@@ -56,7 +56,7 @@ bat(void)
 	printf("%s%s%%f%d%%%%  ", *statbuf == 'C' ? "%F{3}󱐋 " : "", per <= 5 ?
 	       "%F{1}  " : per <= 25 ? "%F{3}  " : per <= 50 ? "%F{2}  " :
 	       "%F{2}  ", per);
-	modlen += countdgts(per) + 6 + (per == 'C') * 2;
+	modlen += countdgts(per) + 6 + (*statbuf == 'C') * 2;
 }
 
 static void
