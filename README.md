@@ -21,7 +21,7 @@ In order to build it, you will need:
 - A font patched by the Nerd Fonts project (release `>= 3.0.0`).
 
 ## Installation
-- Compile the file river-dreams.c.
+- Compile the file `river-dreams.c`.
 
 ```bash
 mkdir -p ~/.local/bin/river-dreams
