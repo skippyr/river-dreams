@@ -25,7 +25,7 @@ In order to build it, you will need:
 
 ```bash
 mkdir -p ~/.local/bin/river-dreams
-gcc -ansi -O3 -o ~/.local/bin/river-dreams river-dreams.c
+cc -std=c90 -O3 -o ~/.local/bin/river-dreams river-dreams.c
 ```
 
 - Set it as your prompt in your `~/.zshrc` file.
