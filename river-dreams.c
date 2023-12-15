@@ -62,10 +62,10 @@ bat(void)
 static void
 blkusg(void)
 {
+	fsblkcnt_t rem;
+	fsblkcnt_t tot;
 	int per;
 	struct statvfs fstat;
-	unsigned long rem;
-	unsigned long tot;
 	statvfs("/", &fstat);
 	tot = fstat.f_frsize * fstat.f_blocks;
 	rem = fstat.f_frsize * fstat.f_bavail;
