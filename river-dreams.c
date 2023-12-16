@@ -10,9 +10,9 @@
 #include <time.h>
 #include <unistd.h>
 
-#ifndef BATDIR
+#if !defined(BATDIR)
 #define BATDIR "/sys/class/power_supply/BAT0"
-#endif /* BATDIR */
+#endif
 #define IFF_LOOPBACK 0x8
 #define IFF_RUNNING 0x40
 #define ISORD(ord) !((t->tm_mday - ord) % 10)
