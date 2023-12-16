@@ -1,7 +1,9 @@
 /* See LICENSE file for copyright and license details. */
+#define _GNU_SOURCE
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <ifaddrs.h>
+#include <net/if.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,8 +15,6 @@
 #if !defined(BATDIR)
 #define BATDIR "/sys/class/power_supply/BAT0"
 #endif
-#define IFF_LOOPBACK 0x8
-#define IFF_RUNNING 0x40
 #define ISORD(ord) !((t->tm_mday - ord) % 10)
 
 static int countdgts(int n);
