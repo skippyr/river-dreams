@@ -1,4 +1,3 @@
-/* See LICENSE file for copyright and license details. */
 #define _GNU_SOURCE
 #include <arpa/inet.h>
 #include <fcntl.h>
@@ -32,9 +31,8 @@ static int
 countdgts(int n)
 {
 	int i;
-	for (i = !n; n; n /= 10) {
+	for (i = !n; n; n /= 10)
 		i++;
-	}
 	return i;
 }
 
@@ -46,11 +44,10 @@ bat(void)
 	char capbuf[5];
 	char statbuf[1];
 	int per;
-	if (statfd < 0) {
+	if (statfd < 0)
 		return;
-	} else if (capfd > 0) {
+	else if (capfd > 0)
 		read(capfd, capbuf, sizeof(capbuf));
-	}
 	read(statfd, statbuf, sizeof(statbuf));
 	close(statfd);
 	close(capfd);
@@ -97,9 +94,8 @@ static void
 cmdsep(struct winsize *w)
 {
 	int i;
-	for (i = 0; i < w->ws_col; i++) {
+	for (i = 0; i < w->ws_col; i++)
 		printf(i % 2 ? "%%F{1}⊼" : "%%F{3}⊵");
-	}
 }
 
 static void
@@ -109,7 +105,7 @@ ip(void)
 	struct ifaddrs *addr;
 	struct ifaddrs *tmpaddr;
 	getifaddrs(&addr);
-	for (tmpaddr = addr; tmpaddr; tmpaddr = tmpaddr->ifa_next) {
+	for (tmpaddr = addr; tmpaddr; tmpaddr = tmpaddr->ifa_next)
 		if (tmpaddr->ifa_addr &&
 		    tmpaddr->ifa_addr->sa_family & AF_INET &&
 		    tmpaddr->ifa_flags & IFF_RUNNING &&
@@ -119,7 +115,6 @@ ip(void)
 				  buf, sizeof(buf));
 			break;
 		}
-	}
 	freeifaddrs(addr);
 	printf("%%F{4} %%f%s  ", buf);
 	modlen += strlen(buf);
@@ -129,9 +124,8 @@ static void
 modsep(struct winsize *w)
 {
 	int i;
-	for (i = 0; i < w->ws_col - modlen; i++) {
+	for (i = 0; i < w->ws_col - modlen; i++)
 		printf(i % 2 ? "%%F{1}-" : "%%F{3}=");
-	}
 }
 
 int
@@ -141,7 +135,7 @@ main(void)
 	struct tm t;
 	struct winsize w;
 	localtime_r(&epoch, &t);
-	ioctl(STDERR_FILENO, TIOCGWINSZ, &w);
+	ioctl(2, TIOCGWINSZ, &w);
 	cmdsep(&w);
 	printf("%%F{3}:«(");
 	ip();
