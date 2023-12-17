@@ -2,6 +2,8 @@
 A tribal-inspired ZSH theme for Linux.
 
 ![](preview.png)
+> In the preview, the terminal theme is [Flamerial](https://github.com/skippyr/flamerial)
+> and font is [Mononoki](https://github.com/madmalik/mononoki) (Nerd Fonts patched).
 
 It displays:
 
