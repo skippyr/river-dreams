@@ -31,9 +31,8 @@ static int
 countdgts(int n)
 {
 	int i;
-	for (i = !n; n; n /= 10) {
+	for (i = !n; n; n /= 10)
 		i++;
-	}
 	return i;
 }
 
@@ -45,11 +44,10 @@ bat(void)
 	char capbuf[5];
 	char statbuf[1];
 	int per;
-	if (statfd < 0) {
+	if (statfd < 0)
 		return;
-	} else if (capfd > 0) {
+	else if (capfd > 0)
 		read(capfd, capbuf, sizeof(capbuf));
-	}
 	read(statfd, statbuf, sizeof(statbuf));
 	close(statfd);
 	close(capfd);
@@ -96,9 +94,8 @@ static void
 cmdsep(struct winsize *w)
 {
 	int i;
-	for (i = 0; i < w->ws_col; i++) {
+	for (i = 0; i < w->ws_col; i++)
 		printf(i % 2 ? "%%F{1}⊼" : "%%F{3}⊵");
-	}
 }
 
 static void
@@ -128,9 +125,8 @@ static void
 modsep(struct winsize *w)
 {
 	int i;
-	for (i = 0; i < w->ws_col - modlen; i++) {
+	for (i = 0; i < w->ws_col - modlen; i++)
 		printf(i % 2 ? "%%F{1}-" : "%%F{3}=");
-	}
 }
 
 int
