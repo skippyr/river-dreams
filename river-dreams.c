@@ -12,7 +12,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#if !defined(BATDIR)
+#ifndef BATDIR
 #define BATDIR "/sys/class/power_supply/BAT0"
 #endif
 #define ISORD(ord) !((t->tm_mday - ord) % 10)
