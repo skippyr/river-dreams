@@ -49,5 +49,13 @@ necessary):
 make uninstall
 ```
 
+## Bugs
+Report bugs at its [issues page](https://github.com/skippyr/river-dreams/issues).
+
+## Patches
+Send patches to be reviewed through its [pull requests page](https://github.com/skippyr/river-dreams/pulls).
+
+All contributions must remain under its same license.
+
 ## Copyright
 See `LICENSE` for copyright and license details.
