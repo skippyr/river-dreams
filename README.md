@@ -18,27 +18,33 @@ It displays:
 ## Requirements
 In order to build it, you will need:
 
-- A C99 compiler, like `tcc`.
+- A C99 compiler, like `gcc`, and `make`.
 - The [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans) font.
 - A font patched by the [Nerd Fonts](https://www.nerdfonts.com/font-downloads)
-  project (release `>= 3.0.0`).
+  project (release `>= 3.0.0 && <= 4.0.0`).
 
-## Installation
-- Compile the file `river-dreams.c`.
+## Install
+Edit the file `config.mk` to match your needs. Then, run the following command
+to install it (use `sudo` if necessary):
 
-```bash
-mkdir -p ~/.local/bin/river-dreams
-tcc -o ~/.local/bin/river-dreams river-dreams.c
+```sh
+make install
 ```
 
-- Set it as your prompt in your `~/.zshrc` file.
+After it, add the following lines to your `~/.zshrc` file and reopen ZSH:
 
-```zsh
-setopt prompsubst
-PROMPT='$(~/.local/bin/river-dreams)'
+```sh
+setopt promptsubst
+PROMPT='$(river-dreams)'
 ```
 
-- Reopen ZSH.
+## Uninstall
+If you want to uninstall it, run the following command (use `sudo` if
+necessary):
+
+```sh
+make uninstall
+```
 
 ## Copyright
-See LICENSE for copyright and license details.
+See `LICENSE` for copyright and license details.
