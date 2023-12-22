@@ -1,4 +1,3 @@
-BINPATH=${LOCALPATH}/bin
+BINPATH=/usr/local/bin
 CC=cc
 CFLAGS=-std=c99 -pedantic -Os -Wall
-LOCALPATH=/usr/local
