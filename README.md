@@ -38,6 +38,9 @@ setopt promptsubst
 PROMPT='$(river-dreams)'
 ```
 
+If you have changed the installation path in `config.mk`, you will need to
+update the path used above for the binary.
+
 ## Uninstall
 If you want to uninstall it, run the following command (use `sudo` if
 necessary):
