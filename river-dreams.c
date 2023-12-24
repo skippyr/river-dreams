@@ -17,7 +17,7 @@
 #endif
 #define ISORD(ord) !((t->tm_mday - ord) % 10)
 
-static int countdgts(int n);
+static unsigned char countdgts(int n);
 static void bat(void);
 static void blkusg(void);
 static void cal(struct tm *t);
@@ -26,12 +26,12 @@ static void cmdsep(struct winsize *w);
 static void ip(void);
 static void modsep(struct winsize *w);
 
-static int modlen = 41;
+static unsigned short int modlen = 41;
 
-static int
+static unsigned char
 countdgts(int n)
 {
-	int i;
+	unsigned char i;
 	for (i = !n; n; n /= 10)
 		i++;
 	return i;
@@ -44,7 +44,7 @@ bat(void)
 	int statfd = open(BATDIR "/status", O_RDONLY);
 	char capbuf[5];
 	char statbuf[1];
-	int per;
+	unsigned char per;
 	if (statfd < 0)
 		return;
 	else if (capfd > 0)
@@ -64,7 +64,7 @@ blkusg(void)
 {
 	fsblkcnt_t rem;
 	fsblkcnt_t tot;
-	int per;
+	unsigned char per;
 	struct statvfs fstat;
 	statvfs("/", &fstat);
 	tot = fstat.f_frsize * fstat.f_blocks;
@@ -94,7 +94,7 @@ clk(struct tm *t)
 static void
 cmdsep(struct winsize *w)
 {
-	int i;
+	unsigned short int i;
 	for (i = 0; i < w->ws_col; i++)
 		printf(i % 2 ? "%%F{1}⊼" : "%%F{3}⊵");
 }
@@ -125,7 +125,7 @@ ip(void)
 static void
 modsep(struct winsize *w)
 {
-	int i;
+	unsigned short int i;
 	for (i = 0; i < w->ws_col - modlen; i++)
 		printf(i % 2 ? "%%F{1}-" : "%%F{3}=");
 }
