@@ -47,7 +47,7 @@ bat(void)
 	unsigned char per;
 	if (statfd < 0)
 		return;
-	else if (capfd > 0)
+	if (capfd > 0)
 		read(capfd, capbuf, sizeof(capbuf));
 	read(statfd, statbuf, sizeof(statbuf));
 	close(statfd);
@@ -64,8 +64,8 @@ blkusg(void)
 {
 	fsblkcnt_t rem;
 	fsblkcnt_t tot;
-	unsigned char per;
 	struct statvfs fstat;
+	unsigned char per;
 	statvfs("/", &fstat);
 	tot = fstat.f_frsize * fstat.f_blocks;
 	rem = fstat.f_frsize * fstat.f_bavail;
