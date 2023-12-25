@@ -3,7 +3,7 @@ A tribal-inspired ZSH theme for Linux.
 
 ![](preview.png)
 > In the preview, the terminal theme is [Flamerial](https://github.com/skippyr/flamerial)
-> and font is [Mononoki](https://github.com/madmalik/mononoki) (Nerd Fonts patched).
+> and font is [0xProto](https://github.com/0xType/0xProto) (Nerd Fonts patched).
 
 It displays:
 
@@ -21,7 +21,7 @@ In order to build it, you will need:
 - A C99 compiler, like `gcc`, and `make`.
 - The [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans) font.
 - A font patched by the [Nerd Fonts](https://www.nerdfonts.com/font-downloads)
-  project (release `>= 3.0.0 && <= 4.0.0`).
+  project.
 
 ## Install
 Edit the file `config.mk` to match your needs. Then, run the following command
