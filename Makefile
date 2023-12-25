@@ -9,7 +9,7 @@ install: all
 	mkdir -p ${BINPATH}
 	mv river-dreams ${BINPATH}
 
-river-dreams: river-dreams.c
+river-dreams: src/river-dreams.c
 	${CC} ${CFLAGS} -o${@} ${^}
 
 uninstall:
