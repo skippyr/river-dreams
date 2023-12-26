@@ -1,15 +1,16 @@
 include config.mk
 
-all: river-dreams
+all: build/river-dreams
 
 clean:
-	rm -f river-dreams
+	rm -rf build
 
 install: all
 	mkdir -p ${BINPATH}
-	mv river-dreams ${BINPATH}
+	cp build/river-dreams ${BINPATH}
 
-river-dreams: src/river-dreams.c
+build/river-dreams: src/river-dreams.c
+	mkdir -p build
 	${CC} ${CFLAGS} -o${@} ${^}
 
 uninstall:

@@ -147,6 +147,6 @@ int main(void) {
   printf("%%F{3})»:");
   writeModulesLine(&size);
   printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  %%F{1}%%~ "
-         "%%F{6}✗%%f  ");
+         "%%F{6}✗%%f  \n");
   return 0;
 }
