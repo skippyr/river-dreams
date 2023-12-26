@@ -1,5 +1,4 @@
 # river-dreams
-
 ## About
 A tribal-inspired ZSH theme for Linux.
 
