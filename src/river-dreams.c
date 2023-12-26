@@ -16,37 +16,13 @@
 #endif
 #define IS_ORDINAL(ordinal) !((date->tm_mday - ordinal) % 10)
 
-/**
- * @brief It counts the total of digits of a number.
- * @param number The number to be analyzed.
- * @returns It returns the total of digits of the number.
- */
 static int countDigits(int number);
-/** @brief It writes the battery percentage module. */
 static void writeBatteryPercentage(void);
-/**
- * @brief It writes the calendar module.
- * @param date The current date.
- */
 static void writeCalendar(struct tm *date);
-/**
- * @brief It writes the clock module.
- * @param date The current date.
- */
 static void writeClock(struct tm *date);
-/**
- * @brief It writes the commands separator line.
- * @param size The terminal window size.
- */
 static void writeCommandsLine(struct winsize *size);
-/** @brief It writes the disk use percentage module. */
 static void writeDiskUsePercentage(void);
-/** @brief It writes the local IPV4 address module. */
 static void writeLocalIPV4Address(void);
-/**
- * @brief It writes the modules separator line.
- * @param size The terminal window size.
- */
 static void writeModulesLine(struct winsize *size);
 
 static int modulesLength_g = 41;
