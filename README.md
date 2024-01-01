@@ -1,10 +1,13 @@
 # river-dreams
+
 ## About
+
 A tribal-inspired ZSH theme for Linux.
 
-![](assets/preview.png)
-> In the preview, the terminal theme is [Flamerial](https://github.com/skippyr/flamerial)
-> and font is [0xProto](https://github.com/0xType/0xProto) (Nerd Fonts patched).
+![](preview.png)
+> In the preview, the theme is [flamerial](https://github.com/skippyr/flamerial)
+> and the font is [Iosevka](https://github.com/be5invis/Iosevka) (Nerd Fonts
+> patched).
 
 It displays:
 
@@ -16,44 +19,92 @@ It displays:
 - A decorator when you are the root user.
 - A decorator for exit codes: both success and failure states.
 
-## Requirements
-In order to build it, you will need:
-
-- A C99 compiler, like `gcc`, and `make`.
-- The [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans) font.
-- A font patched by the [Nerd Fonts](https://www.nerdfonts.com/font-downloads)
-  project.
-
 ## Install
-- Edit the file `config.mk` to match your needs.
-- Run the following command to install it (use `sudo` if necessary):
+
+### Dependencies
+
+The following dependencies are required to install it:
+
+- The version control software `git` will be used to download this repository.
+- The GNU `coreutils` utilities and C build utilites, such as `gcc` and `make`
+  will be used to compile and install this library in your system.
+
+Generally, you are able to install these dependencies through the use of your
+Linux distro package manager, such as `apt`, `dnf` or `pacman`. Here are some
+commands you can use for those:
 
 ```sh
-make install
+# For apt (Debian based distros).
+sudo apt update -y && sudo apt install -y git build-essential
+
+# For dnf (Fedora based distros).
+sudo dnf update -y && sudo dnf -y install git gcc make
+
+# For pacman (Arch Linux based distros).
+sudo pacman --noconfirm --needed -Syu git base-devel
 ```
 
-- Add the following lines to your `~/.zshrc` configuration file and reopen ZSH. If you have changed the installation path in `config.mk`, you will need to update the path used below:
+### Step-By-Step Procedures
+
+After its dependencies have been met, to install it, follow this step-by-step
+using a command-line utility:
+
+- Clone this repository using `git`.
+
+```sh
+git clone --depth 1 https://github.com/skippyr/river-dreams
+```
+
+- Access the repository directory using `cd`.
+
+```sh
+cd river-dreams
+```
+
+- Use `make` to install it.
+
+```sh
+sudo make install clean
+```
+
+- Apply the theme in your `~/.zshrc` configuration file by adding these lines
+  to it:
 
 ```sh
 setopt promptsubst
 PROMPT='$(river-dreams)'
 ```
 
+- Reopen zsh.
+
+If you want a custom install, you can configure the build process by editing the
+`config.mk` file.
+
 ## Uninstall
-If you want to uninstall it, run the following command (use `sudo` if
-necessary):
+
+To uninstall it, follow this step-by-step using a command-line utility:
+
+- Go back to the repository directory.
+- Use `make` to uninstall it.
 
 ```sh
-make uninstall
+sudo make uninstall
 ```
 
-## Bugs
-Report bugs at its [issues page](https://github.com/skippyr/river-dreams/issues).
+## Help
 
-## Patches
-Send patches to be reviewed through its [pull requests page](https://github.com/skippyr/river-dreams/pulls).
+You can ask for help related to this project through its [issues page](https://github.com/skippyr/river-dreams/issues).
 
-All contributions must remain under its same license.
+## Contributing
+
+This project is open to receive contributions from people of any skill level.
+You can send code contributions to be reviewed through its [pull requests page](https://github.com/skippyr/river-dreams/pulls).
+
+By contributing to this project, you agree to use the same copyright used by it.
 
 ## Copyright
-See `LICENSE` for copyright and license details.
+
+MIT License\
+Copyright (c) 2023, Sherman Rofeman \<skippyr.developer@gmail.com\>
+
+See the `LICENSE` file that comes in its source code for more details.

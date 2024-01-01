@@ -1,19 +1,19 @@
 include config.mk
 
+.PHONY: all clean install uninstall
+
 all: build/river-dreams
 
 clean:
 	rm -rf build
 
 install: all
-	mkdir -p ${BINPATH}
-	cp build/river-dreams ${BINPATH}
+	mkdir -p ${INSTALLATION_BIN_PATH}
+	cp build/river-dreams ${INSTALLATION_BIN_PATH}
+
+uninstall:
+	rm -f ${INSTALLATION_BIN_PATH}/river-dreams
 
 build/river-dreams: src/river-dreams.c
 	mkdir -p build
-	${CC} ${CFLAGS} -o${@} ${^}
-
-uninstall:
-	rm -f ${BINPATH}/river-dreams
-
-.PHONY: all clean install uninstall
+	${COMPILER} ${COMPILER_FLAGS} -o${@} ${^}

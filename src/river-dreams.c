@@ -1,3 +1,10 @@
+/* //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
+ * MIT License
+ * Copyright (c) 2023, Sherman Rofeman <skippyr.developer@gmail.com>
+ *
+ * See the LICENSE file that comes in its source code for more details.
+ * //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\// */
+
 #define _GNU_SOURCE
 #include <arpa/inet.h>
 #include <fcntl.h>
