@@ -2,14 +2,8 @@
 
 ## About
 
-A tribal-inspired ZSH theme for Linux.
-
-![](preview.png)
-> In the preview, the theme is [flamerial](https://github.com/skippyr/flamerial)
-> and the font is [Iosevka](https://github.com/be5invis/Iosevka) (Nerd Fonts
-> patched).
-
-It displays:
+A tribal-inspired ZSH theme for Linux designed to be used in simple
+environments without a status bar, such as tiling window managers. It displays:
 
 - Your local IPV4 address.
 - Your disk use percentage.
@@ -19,6 +13,10 @@ It displays:
 - A decorator when you are the root user.
 - A decorator for exit codes: both success and failure states.
 
+![](preview.png)
+> In the preview, the theme is [Flamerial](https://github.com/skippyr/flamerial)
+> and the font is Iosevka (Nerd Fonts patched).
+
 ## Install
 
 ### Dependencies
@@ -26,23 +24,17 @@ It displays:
 The following dependencies are required to install it:
 
 - The version control software `git` will be used to download this repository.
-- The GNU `coreutils` utilities and C build utilites, such as `gcc` and `make`
-  will be used to compile and install this library in your system.
+- The GNU core utilities and C build utilites, such as `gcc` and `make`, will be
+  used to compile and install this software in your system. They may also
+  include the standard C headers.
+- A font patched by the Nerd Fonts project and Noto Sans will provide the cool
+  symbols used in the prompt. To avoid font conflicts, which can lead to badly
+  rendered symbols, it is recommended to only have one Nerd Fonts font
+  installed.
 
-Generally, you are able to install these dependencies through the use of your
-Linux distro package manager, such as `apt`, `dnf` or `pacman`. Here are some
-commands you can use for those:
-
-```sh
-# For apt (Debian based distros).
-sudo apt update -y && sudo apt install -y git build-essential
-
-# For dnf (Fedora based distros).
-sudo dnf update -y && sudo dnf -y install git gcc make
-
-# For pacman (Arch Linux based distros).
-sudo pacman --noconfirm --needed -Syu git base-devel
-```
+Generally, you are able to install most these dependencies through the use of
+your Linux distro package manager. Some dependencies may already be installed in
+your operating system.
 
 ### Step-By-Step Procedures
 
@@ -88,7 +80,7 @@ To uninstall it, follow this step-by-step using a command-line utility:
 - Use `make` to uninstall it.
 
 ```sh
-sudo make uninstall
+sudo make uninstall clean
 ```
 
 ## Help
