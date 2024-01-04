@@ -1,3 +1,0 @@
-AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: false
-BasedOnStyle: LLVM

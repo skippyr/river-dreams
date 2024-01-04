@@ -1,19 +1,15 @@
-include config.mk
+BINPATH:=/usr/local/bin
 
-.PHONY: all clean install uninstall
+.PHONY: all install uninstall
 
-all: build/river-dreams
-
-clean:
-	rm -rf build
+all: river-dreams
 
 install: all
-	mkdir -p ${INSTALLATION_BIN_PATH}
-	cp build/river-dreams ${INSTALLATION_BIN_PATH}
+	mkdir -p ${BINPATH}
+	mv river-dreams ${BINPATH}
 
 uninstall:
-	rm -f ${INSTALLATION_BIN_PATH}/river-dreams
+	rm -f ${BINPATH}/river-dreams
 
-build/river-dreams: src/river-dreams.c
-	mkdir -p build
-	${COMPILER} ${COMPILER_FLAGS} -o${@} ${^}
+river-dreams: river-dreams.c
+	cc -std=c99 -pedantic -Os -Wall -o${@} ${^}
