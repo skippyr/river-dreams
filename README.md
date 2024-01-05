@@ -58,8 +58,8 @@ You can ask for help related to this project through its [issues page](https://g
 
 ## Contributing
 
-This project is open to receive contributions from people of any skill level.
-You can send code contributions to be reviewed through its [pull requests page](https://github.com/skippyr/river-dreams/pulls).
+This project is open to receive contributions.  You can send code contributions
+to be reviewed through its [pull requests page](https://github.com/skippyr/river-dreams/pulls).
 
 By contributing to this project, you agree to use the same copyright used by it.
 
