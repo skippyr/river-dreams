@@ -1,10 +1,3 @@
-/* //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//
- * MIT License
- * Copyright (c) 2023, Sherman Rofeman <skippyr.developer@gmail.com>
- *
- * See the LICENSE file that comes in its source code for more details.
- * //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\// */
-
 #define _GNU_SOURCE
 #include <arpa/inet.h>
 #include <fcntl.h>
@@ -35,8 +28,7 @@ void clkmod(struct tm *t);
 void diskmod(void);
 void ipmod(void);
 
-int
-countdgts(int n)
+int countdgts(int n)
 {
 	int i;
 	for (i = !n; n; n /= 10)
@@ -44,8 +36,7 @@ countdgts(int n)
 	return i;
 }
 
-void
-batmod(void)
+void batmod(void)
 {
 	int capfd = open(BAT "/capacity", O_RDONLY);
 	int statfd = open(BAT "/status", O_RDONLY);
@@ -66,8 +57,7 @@ batmod(void)
 	modlen += countdgts(per) + 6 + (*stat == 'C') * 2;
 }
 
-void
-calmod(struct tm *t)
+void calmod(struct tm *t)
 {
 	char buf[13];
 	strftime(buf, sizeof(buf), "(%a) %b %d", t);
@@ -75,16 +65,14 @@ calmod(struct tm *t)
 	       ISORD(3) ? "rd" : "th");
 }
 
-void
-clkmod(struct tm *t)
+void clkmod(struct tm *t)
 {
 	printf("%s%%f%02dh%02dm", t->tm_hour < 6 ? "%F{6}󰭎 " : t->tm_hour < 12 ?
 	       "%F{1}󰖨 " : t->tm_hour < 18 ? "%F{4} " : "%F{3}󰽥 ", t->tm_hour,
 	       t->tm_min);
 }
 
-void
-diskmod(void)
+void diskmod(void)
 {
 	fsblkcnt_t rem;
 	fsblkcnt_t tot;
@@ -98,27 +86,27 @@ diskmod(void)
 	modlen += countdgts(per);
 }
 
-void
-ipmod(void)
+void ipmod(void)
 {
 	char ip[16] = "127.0.0.1";
-	struct ifaddrs *a;
-	struct ifaddrs *t;
-	getifaddrs(&a);
-	for (t = a; t; t = t->ifa_next)
-		if (t->ifa_addr && t->ifa_addr->sa_family & AF_INET &&
-		    t->ifa_flags & IFF_RUNNING && !(t->ifa_flags & IFF_LOOPBACK)) {
-			inet_ntop(AF_INET, &((struct sockaddr_in *)t->ifa_addr)->sin_addr,
+	struct ifaddrs *addr;
+	struct ifaddrs *tmpaddr;
+	getifaddrs(&addr);
+	for (tmpaddr = addr; tmpaddr; tmpaddr = tmpaddr->ifa_next)
+		if (tmpaddr->ifa_addr &&
+		    tmpaddr->ifa_addr->sa_family & AF_INET &&
+		    tmpaddr->ifa_flags & IFF_RUNNING &&
+		    !(tmpaddr->ifa_flags & IFF_LOOPBACK)) {
+			inet_ntop(AF_INET, &((struct sockaddr_in *)tmpaddr->ifa_addr)->sin_addr,
 				  ip, sizeof(ip));
 			break;
 		}
-	freeifaddrs(a);
+	freeifaddrs(addr);
 	printf("%%F{4} %%f%s  ", ip);
 	modlen += strlen(ip);
 }
 
-int
-main(void)
+int main(void)
 {
 	int i;
 	struct winsize w;

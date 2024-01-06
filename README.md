@@ -32,7 +32,7 @@ A tribal-inspired ZSH theme for Linux that displays:
 - Use `make` to install it.
 
 ```sh
-sudo make install
+sudo make install clean
 ```
 
 - Add these lines to `~/.zshrc` to apply it:
