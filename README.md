@@ -14,9 +14,6 @@ A tribal-inspired ZSH theme for Linux that displays:
 - The current directory.
 
 ![](preview.png)
-> In the preview, the theme is [Flamerial](https://github.com/skippyr/flamerial)
-> and font is [Iosevka SS08](https://github.com/be5invis/Iosevka) with fallback
-> to Nerd Fonts symbols.
 
 ## Install
 
