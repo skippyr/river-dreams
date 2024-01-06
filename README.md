@@ -29,14 +29,14 @@ A tribal-inspired ZSH theme for Linux that displays:
 - Use `make` to install it.
 
 ```sh
-sudo make install clean
+sudo make install clean;
 ```
 
 - Add these lines to `~/.zshrc` to apply it:
 
 ```sh
-setopt promptsubst
-PROMPT='$(river-dreams)'
+setopt promptsubst;
+PROMPT='$(river-dreams)';
 ```
 
 - Reopen `zsh`.
@@ -46,7 +46,7 @@ PROMPT='$(river-dreams)'
 - Use `make` to uninstall it.
 
 ```sh
-sudo make uninstall
+sudo make uninstall;
 ```
 
 ## Help
