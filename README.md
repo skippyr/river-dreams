@@ -1,8 +1,8 @@
-# river-dreams
+# riverdreams
 
 ## About
 
-A tribal-inspired ZSH theme for Linux that displays:
+A tribal inspired ZSH theme for Linux that displays:
 
 - Your local IPV4 address.
 - Your disk use percentage.
@@ -36,7 +36,7 @@ sudo make install clean;
 
 ```sh
 setopt promptsubst;
-PROMPT='$(river-dreams)';
+PROMPT='$(riverdreams)';
 ```
 
 - Reopen `zsh`.
@@ -51,12 +51,12 @@ sudo make uninstall;
 
 ## Help
 
-You can ask for help related to this project through its [issues page](https://github.com/skippyr/river-dreams/issues).
+You can ask for help related to this project through its [issues page](https://github.com/skippyr/riverdreams/issues).
 
 ## Contributing
 
 This project is open to receive contributions.  You can send code contributions
-to be reviewed through its [pull requests page](https://github.com/skippyr/river-dreams/pulls).
+to be reviewed through its [pull requests page](https://github.com/skippyr/riverdreams/pulls).
 
 By contributing to this project, you agree to use the same copyright used by it.
 
