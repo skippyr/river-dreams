@@ -2,8 +2,8 @@
 
 ## About
 
-A multi-line ZSH theme for Linux with a tribal inspired style, designed to help
-you stay motivated while developing your dream projects.
+It is a multi-line ZSH theme for Linux with a tribal inspired style, designed to
+help you stay motivated while developing your dream projects.
 
 ![](preview.png)
 
