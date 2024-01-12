@@ -20,7 +20,7 @@
     printf(i % 2 ? sym0 : sym1);\
   }
 
-int modlen = 41;
+int modlen_g = 41;
 
 int countdgts(int n);
 void batmod(void);
@@ -56,7 +56,7 @@ void batmod(void) {
   printf("%s%s%%f%d%%%%  ", *stat == 'C' ? "%F{3}󱐋 " : "", per <= 5 ?
          "%F{1}  " : per <= 25 ? "%F{3}  " : per <= 50 ? "%F{2}  " :
          "%F{2}  ", per);
-  modlen += countdgts(per) + 6 + (*stat == 'C') * 2;
+  modlen_g += countdgts(per) + 6 + (*stat == 'C') * 2;
 }
 
 void calmod(struct tm *t) {
@@ -82,7 +82,7 @@ void diskmod(void) {
   rem = s.f_frsize * s.f_bavail;
   per = ((float)(tot - rem) / tot) * 100;
   printf("%%F{%d}󰋊 %%f%d%%%%  ", per < 70 ? 2 : per < 80 ? 3 : 1, per);
-  modlen += countdgts(per);
+  modlen_g += countdgts(per);
 }
 
 void ipmod(void) {
@@ -100,7 +100,7 @@ void ipmod(void) {
   }
   freeifaddrs(addr);
   printf("%%F{4} %%f%s  ", ip);
-  modlen += strlen(ip);
+  modlen_g += strlen(ip);
 }
 
 int main(void) {
@@ -117,7 +117,7 @@ int main(void) {
   calmod(t);
   clkmod(t);
   printf("%%F{3})»:");
-  SYMLN("%%F{1}-", "%%F{3}=", w.ws_col - modlen);
+  SYMLN("%%F{1}-", "%%F{3}=", w.ws_col - modlen_g);
   printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  %%F{1}%%~ "
          "%%F{6}✗%%f  \n");
   return 0;
