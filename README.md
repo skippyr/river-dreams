@@ -27,7 +27,7 @@ Its prompt displays:
 
 ### Dependencies
 
-The following dependencies are required to install this theme in your system:
+The following dependencies are required to install it:
 
 1. **git**: it will be used to clone this repository.
 2. **gcc**, **make**: they will be used to compile and install it.
@@ -50,7 +50,7 @@ git clone --depth 1 https://github.com/skippyr/riverdreams;
 cd riverdreams;
 ```
 
-3. Use make to compile and install this theme:
+3. Use make to compile and install it:
 
 ```sh
 sudo make install clean;
@@ -70,7 +70,7 @@ PROMPT='$(riverdreams)';
 Using a terminal, follow these steps:
 
 1. Go back to the repository directory.
-2. Use make to uninstall this theme:
+2. Use make to uninstall it:
 
 ```sh
 sudo make uninstall;
