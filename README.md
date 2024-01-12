@@ -5,11 +5,12 @@
 It is a multi-line ZSH theme for Linux with a tribal inspired style, designed to
 help you stay motivated while developing your dream projects.
 
-![](preview.png)
+<img align="center" src="preview.png" />
 
-In the preview above, the terminal theme used is
-[flamerial](https://github.com/skippyr/flamerial) and font is
-[intel-one-mono](https://github.com/intel/intel-one-mono).
+<p align="center"><strong>Caption:</strong> a preview of the riverdreams theme
+applied on zsh. The terminal theme used is
+<a href="https://github.com/skippyr/flamerial">flamerial</a> and font is
+<a href="https://github.com/intel/intel-one-mono">intel-one-mono</a>.</p>
 
 Its prompt displays:
 
