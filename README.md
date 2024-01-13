@@ -2,15 +2,19 @@
 
 ## About
 
-It is a multi-line ZSH theme for Linux with a tribal inspired style, designed to
-help you stay motivated while developing your dream projects.
+A multi-line ZSH theme for Linux with a tribal inspired style, designed to help
+you stay motivated while developing your dream projects.
 
-<img align="center" src="preview.png" />
+<p align="center">
+  <img src="preview.png" />
+</p>
 
 <p align="center"><strong>Caption:</strong> a preview of the riverdreams theme
 applied on zsh. The terminal theme used is
 <a href="https://github.com/skippyr/flamerial">flamerial</a> and font is
-<a href="https://github.com/intel/intel-one-mono">intel-one-mono</a>.</p>
+<a href="https://github.com/be5invis/Iosevka">Iosevka SS08</a>.</p>
+
+
 
 Its prompt displays:
 
