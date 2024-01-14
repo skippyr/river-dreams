@@ -1,4 +1,6 @@
-include config.mk
+CC:=cc
+CFLAGS:=-std=c99 -pedantic -Os -Wall
+BINPATH:=/usr/local/bin
 
 .PHONY: all clean install uninstall
 
