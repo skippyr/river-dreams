@@ -14,8 +14,6 @@ applied on zsh. The terminal theme used is
 <a href="https://github.com/skippyr/flamerial">flamerial</a> and font is
 <a href="https://github.com/be5invis/Iosevka">Iosevka SS08</a>.</p>
 
-
-
 Its prompt displays:
 
 1. Your local IPV4 address.
@@ -45,7 +43,7 @@ Using a terminal, follow these steps:
 1. Clone this repository using git:
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/riverdreams;
+git clone https://github.com/skippyr/riverdreams;
 ```
 
 2. Access the repository directory using cd:
