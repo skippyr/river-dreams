@@ -1,4 +1,4 @@
-<h1 align="center">riverdreams</h1>
+<h1 align="center">⊼⊵⊼⊵&ensp;riverdreams&ensp;⊼⊵⊼⊵</h1>
 <p align="center">
   <img src="https://img.shields.io/github/license/skippyr/riverdreams" alt="" />
   <img src="https://img.shields.io/github/v/tag/skippyr/riverdreams" alt="" />
