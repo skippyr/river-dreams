@@ -92,3 +92,5 @@ By contributing to this project, you must agree to license your work under the s
 ## License
 
 This project is licensed under the MIT License. Refer to the LICENSE file that comes in its source code for license and copyright details.
+
+<p align="center"><sup><br />⊼⊵⊼⊵&ensp;Here Are Dragons!&ensp;⊼⊵⊼⊵<br />Made with love by skippyr <3</sup></p>
