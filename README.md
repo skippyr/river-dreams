@@ -1,12 +1,18 @@
+<p align="center">
+	<img src="banner.png" alt="" />
+</p>
 <h1 align="center">⊼⊵⊼⊵&ensp;riverdreams&ensp;⊼⊵⊼⊵</h1>
 <p align="center">
-	<img src="https://img.shields.io/github/license/skippyr/riverdreams" alt="" />
-	<img src="https://img.shields.io/github/v/tag/skippyr/riverdreams" alt="" />
-	<img src="https://img.shields.io/github/commit-activity/t/skippyr/riverdreams" alt="" />
-	<img src="https://img.shields.io/github/stars/skippyr/riverdreams" alt="" />
+	<img src="https://img.shields.io/github/license/skippyr/riverdreams?style=social" alt="" />
+	&nbsp;
+	<img src="https://img.shields.io/github/v/tag/skippyr/riverdreams?style=social" alt="" />
+	&nbsp;
+	<img src="https://img.shields.io/github/commit-activity/t/skippyr/riverdreams?style=social" alt="" />
+	&nbsp;
+	<img src="https://img.shields.io/github/stars/skippyr/riverdreams?style=social" alt="" />
 </p>
 
-## About
+## ❡ About
 
 A multi-line ZSH theme for Linux with a tribal inspired style, designed to help you stay motivated while developing your dream projects.
 
@@ -27,7 +33,7 @@ Its prompt displays:
 &emsp;**7.**&ensp;A decorator for exit codes.\
 &emsp;**8.**&ensp;Your current directory.
 
-## Install
+## ❡ Install
 
 ### Dependencies
 
@@ -68,7 +74,7 @@ PROMPT='$(riverdreams)';
 
 &emsp;**5.**&ensp;Reopen ZSH.
 
-## Uninstall
+## ❡ Uninstall
 
 Using a terminal, follow these steps:
 
@@ -79,18 +85,20 @@ Using a terminal, follow these steps:
 sudo make uninstall;
 ```
 
-## Help
+## ❡ Help
 
 If you need help about this project, open a new issue in its [issues page](https://github.com/skippyr/riverdreams/issues) or send me an [e-mail](mailto:skippyr.developer@gmail.com) describing what is going on.
 
-## Contributing
+## ❡ Contributing
 
 This project is open to review and possibly accept contributions, specially fixes and suggestions. If you are interested, send your contribution to its [pull requests page](https://github.com/skippyr/riverdreams/pulls) or to my [e-mail](mailto:skippyr.developer@gmail.com).
 
 By contributing to this project, you must agree to license your work under the same license that the project uses.
 
-## License
+## ❡ License
 
 This project is licensed under the MIT License. Refer to the LICENSE file that comes in its source code for license and copyright details.
 
-<p align="center"><sup><br />⊼⊵⊼⊵&ensp;Here Are Dragons!&ensp;⊼⊵⊼⊵<br />Made with love by skippyr <3</sup></p>
+&nbsp;
+
+<p align="center"><sup><strong>⊼⊵⊼⊵&ensp;Here Are Dragons!&ensp;⊼⊵⊼⊵</strong><br />Made with love by skippyr <3</sup></p>
