@@ -1,9 +1,9 @@
 <h1 align="center">⊼⊵⊼⊵&ensp;riverdreams&ensp;⊼⊵⊼⊵</h1>
 <p align="center">
-  <img src="https://img.shields.io/github/license/skippyr/riverdreams" alt="" />
-  <img src="https://img.shields.io/github/v/tag/skippyr/riverdreams" alt="" />
-  <img src="https://img.shields.io/github/commit-activity/t/skippyr/riverdreams" alt="" />
-  <img src="https://img.shields.io/github/stars/skippyr/riverdreams" alt="" />
+	<img src="https://img.shields.io/github/license/skippyr/riverdreams" alt="" />
+	<img src="https://img.shields.io/github/v/tag/skippyr/riverdreams" alt="" />
+	<img src="https://img.shields.io/github/commit-activity/t/skippyr/riverdreams" alt="" />
+	<img src="https://img.shields.io/github/stars/skippyr/riverdreams" alt="" />
 </p>
 
 ## About
