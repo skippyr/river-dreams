@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="banner.png" alt="" />
+	<img src="banner.webp" alt="" />
 </p>
 <h1 align="center">⊼⊵⊼⊵&ensp;riverdreams&ensp;⊼⊵⊼⊵</h1>
 <p align="center">
@@ -16,7 +16,7 @@
 
 A multi-line ZSH theme for Linux with a tribal inspired style, designed to help you stay motivated while developing your dream projects.
 
-<p align="center"><img src="preview.png" alt="" /></p>
+<p align="center"><img src="preview.webp" alt="" /></p>
 <p align="center"><sup><strong>Caption:</strong> a preview of the riverdreams theme applied on zsh. The terminal theme used is <a href="https://github.com/skippyr/flamerial">flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">iosevka SS08</a>.</sup></p>
 
 
