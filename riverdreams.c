@@ -1,8 +1,10 @@
 #define _GNU_SOURCE
 #include <arpa/inet.h>
+#include <dirent.h>
 #include <fcntl.h>
 #include <ifaddrs.h>
 #include <net/if.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,12 +23,39 @@
 
 int modlen = 41;
 
+char *findgitroot(char *path);
 int countdgts(int n);
 void batmod(void);
 void calmod(struct tm *t);
 void clkmod(struct tm *t);
 void diskmod(void);
+void gitmod(char *root);
 void ipmod(void);
+
+char *findgitroot(char *path)
+{
+	int isroot = 0;
+	DIR *d;
+	struct dirent *e;
+	int lastslash = 0;
+	int i;
+	d = opendir(path);
+	while ((e = readdir(d)))
+		if (!strcmp(e->d_name, ".git")) {
+			isroot = 1;
+			break;
+		}
+	closedir(d);
+	if (isroot)
+		return path;
+	if (strlen(path) == 1)
+		return NULL;
+	for (i = 0; i < strlen(path); i++)
+		if (path[i] == '/')
+			lastslash = i;
+	path[!lastslash ? 1 : lastslash] = 0;
+	return findgitroot(path);
+}
 
 int countdgts(int n)
 {
@@ -86,6 +115,30 @@ void diskmod(void)
 	modlen += countdgts(per);
 }
 
+void gitmod(char *root)
+{
+	FILE *f;
+	char *head;
+	char c;
+	int slashes = 0;
+	if (!root)
+		return;
+	head = malloc(strlen(root) + 11);
+	sprintf(head, "%s/.git/HEAD", root);
+	f = fopen(head, "r");
+	free(head);
+	if (!f)
+		return;
+	printf("%%F{3}:«(%%f");
+	while ((c = fgetc(f)) != EOF && c != '\n')
+		if (slashes == 2)
+			printf("%c", c);
+		else if (c == '/')
+			slashes++;
+	printf("%%F{3})»:");
+	fclose(f);
+}
+
 void ipmod(void)
 {
 	char ip[16] = "127.0.0.1";
@@ -113,6 +166,9 @@ int main(void)
 	struct winsize w;
 	time_t tt = time(NULL);
 	struct tm *t = localtime(&tt);
+	char *pwd = getenv("PWD");
+	char *buf = malloc(strlen(pwd) + 1);
+	strcpy(buf, pwd);
 	ioctl(2, TIOCGWINSZ, &w);
 	SYMLN("%%F{1}⊼", "%%F{3}⊵", w.ws_col);
 	printf("%%F{3}:«(");
@@ -124,6 +180,9 @@ int main(void)
 	printf("%%F{3})»:");
 	SYMLN("%%F{1}-", "%%F{3}=", w.ws_col - modlen);
 	printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  %%F{1}"
-	       "%%1~ %%F{6}✗%%f  \n");
+	       "%%~");
+	gitmod(findgitroot(buf));
+	printf(" %%F{6}✗%%f  \n");
+	free(buf);
 	return 0;
 }
