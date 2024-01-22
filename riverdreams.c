@@ -23,7 +23,7 @@
 
 int modlen = 41;
 
-char *findgitroot(char *path);
+char *gitroot(char *path);
 int countdgts(int n);
 void batmod(void);
 void calmod(struct tm *t);
@@ -32,12 +32,13 @@ void diskmod(void);
 void gitmod(char *root);
 void ipmod(void);
 
-char *findgitroot(char *path)
+char *
+gitroot(char *path)
 {
 	int isroot = 0;
+	int lastslash = 0;
 	DIR *d;
 	struct dirent *e;
-	int lastslash = 0;
 	int i;
 	d = opendir(path);
 	while ((e = readdir(d)))
@@ -54,10 +55,11 @@ char *findgitroot(char *path)
 		if (path[i] == '/')
 			lastslash = i;
 	path[!lastslash ? 1 : lastslash] = 0;
-	return findgitroot(path);
+	return gitroot(path);
 }
 
-int countdgts(int n)
+int
+countdgts(int n)
 {
 	int i;
 	for (i = !n; n; n /= 10)
@@ -65,7 +67,8 @@ int countdgts(int n)
 	return i;
 }
 
-void batmod(void)
+void
+batmod(void)
 {
 	int capfd = open(BAT "/capacity", O_RDONLY);
 	int statfd = open(BAT "/status", O_RDONLY);
@@ -86,7 +89,8 @@ void batmod(void)
 	modlen += countdgts(per) + 6 + (*stat == 'C') * 2;
 }
 
-void calmod(struct tm *t)
+void
+calmod(struct tm *t)
 {
 	char buf[13];
 	strftime(buf, sizeof(buf), "(%a) %b %d", t);
@@ -94,14 +98,16 @@ void calmod(struct tm *t)
 	       ISORD(3) ? "rd" : "th");
 }
 
-void clkmod(struct tm *t)
+void
+clkmod(struct tm *t)
 {
 	printf("%s%%f%02dh%02dm", t->tm_hour < 6 ? "%F{6}󰭎 " : t->tm_hour < 12 ?
 	       "%F{1}󰖨 " : t->tm_hour < 18 ? "%F{4} " : "%F{3}󰽥 ", t->tm_hour,
 	       t->tm_min);
 }
 
-void diskmod(void)
+void
+diskmod(void)
 {
 	fsblkcnt_t rem;
 	fsblkcnt_t tot;
@@ -115,7 +121,8 @@ void diskmod(void)
 	modlen += countdgts(per);
 }
 
-void gitmod(char *root)
+void
+gitmod(char *root)
 {
 	FILE *f;
 	char *head;
@@ -139,7 +146,8 @@ void gitmod(char *root)
 	fclose(f);
 }
 
-void ipmod(void)
+void
+ipmod(void)
 {
 	char ip[16] = "127.0.0.1";
 	struct ifaddrs *addr;
@@ -160,15 +168,16 @@ void ipmod(void)
 	modlen += strlen(ip);
 }
 
-int main(void)
+int
+main(void)
 {
 	int i;
 	struct winsize w;
 	time_t tt = time(NULL);
 	struct tm *t = localtime(&tt);
 	char *pwd = getenv("PWD");
-	char *buf = malloc(strlen(pwd) + 1);
-	strcpy(buf, pwd);
+	char *path = malloc(strlen(pwd) + 1);
+	strcpy(path, pwd);
 	ioctl(2, TIOCGWINSZ, &w);
 	SYMLN("%%F{1}⊼", "%%F{3}⊵", w.ws_col);
 	printf("%%F{3}:«(");
@@ -181,8 +190,8 @@ int main(void)
 	SYMLN("%%F{1}-", "%%F{3}=", w.ws_col - modlen);
 	printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  %%F{1}"
 	       "%%~");
-	gitmod(findgitroot(buf));
+	gitmod(gitroot(path));
 	printf(" %%F{6}✗%%f  \n");
-	free(buf);
+	free(path);
 	return 0;
 }
