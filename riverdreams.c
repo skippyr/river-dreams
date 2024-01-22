@@ -18,8 +18,9 @@
 #endif
 #define ISORD(n) !((t->tm_mday - n) % 10)
 #define SYMLN(sym0, sym1, lim)\
-	for (i = 0; i < lim; i++)\
-		printf(i % 2 ? sym0 : sym1);
+	for (i = 0; i < lim; i++) {\
+		printf(i % 2 ? sym0 : sym1);\
+	}
 
 int modlen = 41;
 
@@ -32,8 +33,7 @@ void diskmod(void);
 void gitmod(char *root);
 void ipmod(void);
 
-char *
-gitroot(char *path)
+char *gitroot(char *path)
 {
 	int isroot = 0;
 	int lastslash = 0;
@@ -41,73 +41,76 @@ gitroot(char *path)
 	struct dirent *e;
 	int i;
 	d = opendir(path);
-	while ((e = readdir(d)))
+	while ((e = readdir(d))) {
 		if (!strcmp(e->d_name, ".git")) {
 			isroot = 1;
 			break;
 		}
+	}
 	closedir(d);
-	if (isroot)
-		return path;
-	if (strlen(path) == 1)
-		return NULL;
-	for (i = 0; i < strlen(path); i++)
-		if (path[i] == '/')
+	if (isroot) {
+		return (path);
+	}
+	if (strlen(path) == 1) {
+		return (NULL);
+	}
+	for (i = 0; i < strlen(path); i++) {
+		if (path[i] == '/') {
 			lastslash = i;
+		}
+	}
 	path[!lastslash ? 1 : lastslash] = 0;
-	return gitroot(path);
+	return (gitroot(path));
 }
 
-int
-countdgts(int n)
+int countdgts(int n)
 {
 	int i;
-	for (i = !n; n; n /= 10)
+	for (i = !n; n; n /= 10) {
 		i++;
-	return i;
+	}
+	return (i);
 }
 
-void
-batmod(void)
+void batmod(void)
 {
 	int capfd = open(BAT "/capacity", O_RDONLY);
 	int statfd = open(BAT "/status", O_RDONLY);
 	char cap[5];
 	char stat[1];
 	int per;
-	if (statfd < 0)
+	if (statfd < 0) {
 		return;
-	if (capfd > 0)
+	}
+	if (capfd > 0) {
 		read(capfd, cap, sizeof(cap));
+	}
 	read(statfd, stat, sizeof(stat));
 	close(statfd);
 	close(capfd);
 	per = atoi(cap);
 	printf("%s%s%%f%d%%%%  ", *stat == 'C' ? "%F{3}󱐋 " : "", per <= 5 ?
-	       "%F{1}  " : per <= 25 ? "%F{3}  " : per <= 50 ? "%F{2}  " :
-	       "%F{2}  ", per);
+		   "%F{1}  " : per <= 25 ? "%F{3}  " : per <= 50 ? "%F{2}  " :
+		   "%F{2}  ", per);
 	modlen += countdgts(per) + 6 + (*stat == 'C') * 2;
 }
 
-void
-calmod(struct tm *t)
+void calmod(struct tm *t)
 {
 	char buf[13];
 	strftime(buf, sizeof(buf), "(%a) %b %d", t);
 	printf("%%F{1}󰃭 %%f%s%s  ", buf, ISORD(1) ? "st" : ISORD(2) ? "nd" :
-	       ISORD(3) ? "rd" : "th");
+		   ISORD(3) ? "rd" : "th");
 }
 
-void
-clkmod(struct tm *t)
+void clkmod(struct tm *t)
 {
 	printf("%s%%f%02dh%02dm", t->tm_hour < 6 ? "%F{6}󰭎 " : t->tm_hour < 12 ?
-	       "%F{1}󰖨 " : t->tm_hour < 18 ? "%F{4} " : "%F{3}󰽥 ", t->tm_hour,
-	       t->tm_min);
+		   "%F{1}󰖨 " : t->tm_hour < 18 ? "%F{4} " : "%F{3}󰽥 ", t->tm_hour,
+		   t->tm_min);
 }
 
-void
-diskmod(void)
+void diskmod(void)
 {
 	fsblkcnt_t rem;
 	fsblkcnt_t tot;
@@ -121,55 +124,57 @@ diskmod(void)
 	modlen += countdgts(per);
 }
 
-void
-gitmod(char *root)
+void gitmod(char *root)
 {
 	FILE *f;
 	char *head;
 	char c;
 	int slashes = 0;
-	if (!root)
+	if (!root) {
 		return;
+	}
 	head = malloc(strlen(root) + 11);
 	sprintf(head, "%s/.git/HEAD", root);
 	f = fopen(head, "r");
 	free(head);
-	if (!f)
+	if (!f) {
 		return;
+	}
 	printf("%%F{3}:«(%%f");
-	while ((c = fgetc(f)) != EOF && c != '\n')
-		if (slashes == 2)
+	while ((c = fgetc(f)) != EOF && c != '\n') {
+		if (slashes == 2) {
 			printf("%c", c);
-		else if (c == '/')
+		} else if (c == '/') {
 			slashes++;
+		}
+	}
 	printf("%%F{3})»:");
 	fclose(f);
 }
 
-void
-ipmod(void)
+void ipmod(void)
 {
 	char ip[16] = "127.0.0.1";
 	struct ifaddrs *addr;
 	struct ifaddrs *tmpaddr;
 	getifaddrs(&addr);
-	for (tmpaddr = addr; tmpaddr; tmpaddr = tmpaddr->ifa_next)
+	for (tmpaddr = addr; tmpaddr; tmpaddr = tmpaddr->ifa_next) {
 		if (tmpaddr->ifa_addr &&
 		    tmpaddr->ifa_addr->sa_family & AF_INET &&
 		    tmpaddr->ifa_flags & IFF_RUNNING &&
 		    !(tmpaddr->ifa_flags & IFF_LOOPBACK)) {
 			inet_ntop(AF_INET,
-				  &((struct sockaddr_in *)tmpaddr->ifa_addr)->sin_addr,
-				  ip, sizeof(ip));
+					  &((struct sockaddr_in *)tmpaddr->ifa_addr)->sin_addr,
+					  ip, sizeof(ip));
 			break;
 		}
+	}
 	freeifaddrs(addr);
 	printf("%%F{4} %%f%s  ", ip);
 	modlen += strlen(ip);
 }
 
-int
-main(void)
+int main(void)
 {
 	int i;
 	struct winsize w;
@@ -188,10 +193,9 @@ main(void)
 	clkmod(t);
 	printf("%%F{3})»:");
 	SYMLN("%%F{1}-", "%%F{3}=", w.ws_col - modlen);
-	printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  %%F{1}"
-	       "%%~");
+	printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  %%F{1}%%~");
 	gitmod(gitroot(path));
 	printf(" %%F{6}✗%%f  \n");
 	free(path);
-	return 0;
+	return (0);
 }
