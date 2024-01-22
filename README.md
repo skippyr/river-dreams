@@ -20,7 +20,7 @@ A tribal inspired ZSH theme for Linux.
 <p align="center"><sup><strong>Caption:</strong> a preview of the riverdreams theme applied on zsh. The terminal theme used is <a href="https://github.com/skippyr/flamerial">flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">iosevka SS08</a>.</sup></p>
 
 
-### Features
+### ¦ Features
 
 Its prompt displays:
 
@@ -36,7 +36,7 @@ Its prompt displays:
 
 ## ❡ Install
 
-### Dependencies
+### ¦ Dependencies
 
 The following dependencies are required to install it:
 
@@ -44,7 +44,7 @@ The following dependencies are required to install it:
 &emsp;**2.**&ensp;**gcc**, **make**: they will be used to compile and install it.\
 &emsp;**3.**&ensp;**Nerd Fonts Symbols**, **Noto Sans**: these fonts provides the pretty symbols used in the prompt.
 
-### Procedures
+### ¦ Procedures
 
 Using a terminal, follow these steps:
 
