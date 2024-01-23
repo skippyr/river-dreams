@@ -34,6 +34,7 @@ void diskmod(void);
 void gitmod(char *root);
 void ipmod(void);
 void pathmod(char *pwd, char *root);
+void venvmod(void);
 
 char *findgitroot(char *buf)
 {
@@ -187,6 +188,14 @@ void pathmod(char *pwd, char *root)
 							   : printf("%%F{1}@/%s", pwd + findrslash(root) + 1);
 }
 
+void venvmod(void)
+{
+	char *v = getenv("VIRTUAL_ENV");
+	if (v) {
+		printf("%%f(%s) ", v + findrslash(v) + 1);
+	}
+}
+
 int main(void)
 {
 	int i;
@@ -209,6 +218,7 @@ int main(void)
 	printf("%%F{3})»:");
 	SYMLN("%%F{1}-", "%%F{3}=", w.ws_col - modlen);
 	printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  ");
+	venvmod();
 	pathmod(pwd, root);
 	gitmod(root);
 	printf(" %%F{6}✗%%f  \n");

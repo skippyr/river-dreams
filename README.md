@@ -26,13 +26,14 @@ Its prompt displays:
 
 &emsp;**1.**&ensp;Your local IPV4 address.\
 &emsp;**2.**&ensp;Your disk use percentage.\
-&emsp;**3.**&ensp;Your battery status and percentage.\
+&emsp;**3.**&ensp;Your battery status and percentage, if any.\
 &emsp;**4.**&ensp;A calendar.\
 &emsp;**5.**&ensp;A clock.\
 &emsp;**6.**&ensp;A decorator when you are the root user.\
 &emsp;**7.**&ensp;A decorator for exit codes.\
-&emsp;**8.**&ensp;Your current directory path, shorting it when inside a git repo.\
-&emsp;**9.**&ensp;The active branch, if inside a git repo.
+&emsp;**8.**&ensp;The active virtual environment, if one has been sourced.\
+&emsp;**9.**&ensp;The active directory path, shorting it when inside a git repo.\
+&emsp;**10.**&ensp;The active branch, when inside a git repo.
 
 ## ❡ Install
 
@@ -69,6 +70,8 @@ sudo make install clean;
 &emsp;**4.**&ensp;Apply the theme in your ~/.zshrc startup file.
 
 ```zsh
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 setopt promptsubst;
 PROMPT='$(riverdreams)';
 ```
