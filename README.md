@@ -70,7 +70,7 @@ sudo make install clean;
 &emsp;**4.**&ensp;Apply the theme in your ~/.zshrc startup file.
 
 ```zsh
-export VIRTUAL_ENV_DISABLE_PROMPT=1
+export VIRTUAL_ENV_DISABLE_PROMPT=1;
 
 setopt promptsubst;
 PROMPT='$(riverdreams)';
