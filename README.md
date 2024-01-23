@@ -31,7 +31,7 @@ Its prompt displays:
 &emsp;**5.**&ensp;A clock.\
 &emsp;**6.**&ensp;A decorator when you are the root user.\
 &emsp;**7.**&ensp;A decorator for exit codes.\
-&emsp;**8.**&ensp;Your current directory path.\
+&emsp;**8.**&ensp;Your current directory path, shorting it when inside a git repo.\
 &emsp;**9.**&ensp;The active branch, if inside a git repo.
 
 ## ❡ Install

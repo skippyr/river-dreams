@@ -24,7 +24,7 @@
 
 int modlen = 41;
 
-char *gitroot(char *path);
+char *gitroot(char *root);
 int countdgts(int n);
 void batmod(void);
 void calmod(struct tm *t);
@@ -32,15 +32,16 @@ void clkmod(struct tm *t);
 void diskmod(void);
 void gitmod(char *root);
 void ipmod(void);
+void pathmod(char *pwd, char *root);
 
-char *gitroot(char *path)
+char *gitroot(char *root)
 {
 	int isroot = 0;
 	int lastslash = 0;
 	DIR *d;
 	struct dirent *e;
 	int i;
-	d = opendir(path);
+	d = opendir(root);
 	while ((e = readdir(d))) {
 		if (!strcmp(e->d_name, ".git")) {
 			isroot = 1;
@@ -49,18 +50,18 @@ char *gitroot(char *path)
 	}
 	closedir(d);
 	if (isroot) {
-		return (path);
+		return (root);
 	}
-	if (strlen(path) == 1) {
+	if (strlen(root) == 1) {
 		return (NULL);
 	}
-	for (i = 0; i < strlen(path); i++) {
-		if (path[i] == '/') {
+	for (i = 0; i < strlen(root); i++) {
+		if (root[i] == '/') {
 			lastslash = i;
 		}
 	}
-	path[!lastslash ? 1 : lastslash] = 0;
-	return (gitroot(path));
+	root[!lastslash ? 1 : lastslash] = 0;
+	return (gitroot(root));
 }
 
 int countdgts(int n)
@@ -174,6 +175,24 @@ void ipmod(void)
 	modlen += strlen(ip);
 }
 
+void pathmod(char *pwd, char *root)
+{
+	int lastslash = 0;
+	int rootlen;
+	int i;
+	printf("%%F{1}");
+	if (!root || (rootlen = strlen(root)) == 1) {
+		printf("%%~");
+		return;
+	}
+	for (i = 0; i < rootlen; i++) {
+		if (root[i] == '/') {
+			lastslash = i;
+		}
+	}
+	printf("@%s", pwd + lastslash + 1);
+}
+
 int main(void)
 {
 	int i;
@@ -181,9 +200,10 @@ int main(void)
 	time_t tt = time(NULL);
 	struct tm *t = localtime(&tt);
 	char *pwd = getenv("PWD");
-	char *path = malloc(strlen(pwd) + 1);
-	strcpy(path, pwd);
+	char *root = malloc(strlen(pwd) + 1);
+	strcpy(root, pwd);
 	ioctl(2, TIOCGWINSZ, &w);
+	gitroot(root);
 	SYMLN("%%F{1}⊼", "%%F{3}⊵", w.ws_col);
 	printf("%%F{3}:«(");
 	ipmod();
@@ -193,9 +213,10 @@ int main(void)
 	clkmod(t);
 	printf("%%F{3})»:");
 	SYMLN("%%F{1}-", "%%F{3}=", w.ws_col - modlen);
-	printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  %%F{1}%%~");
-	gitmod(gitroot(path));
+	printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  ");
+	pathmod(pwd, root);
+	gitmod(root);
 	printf(" %%F{6}✗%%f  \n");
-	free(path);
+	free(root);
 	return (0);
 }
