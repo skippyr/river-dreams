@@ -24,7 +24,7 @@
 
 int modlen = 41;
 
-char *findgitroot(char *root);
+char *findgitroot(char *buf);
 int countdgts(int n);
 int findrslash(char *path);
 void batmod(void);
@@ -35,26 +35,28 @@ void gitmod(char *root);
 void ipmod(void);
 void pathmod(char *pwd, char *root);
 
-char *findgitroot(char *root)
+char *findgitroot(char *buf)
 {
 	int isroot = 0;
-	DIR *d = opendir(root);
+	DIR *d = opendir(buf);
 	struct dirent *e;
 	int rslash;
-	while ((e = readdir(d))) {
-		if (!strcmp(e->d_name, ".git")) {
-			isroot = 1;
-			break;
+	if (d) {
+		while ((e = readdir(d))) {
+			if (!strcmp(e->d_name, ".git")) {
+				isroot = 1;
+				break;
+			}
 		}
+		closedir(d);
 	}
-	closedir(d);
 	if (isroot) {
-		return (root);
-	} else if (strlen(root) == 1) {
+		return (buf);
+	} else if (strlen(buf) == 1) {
 		return (NULL);
 	}
-	root[!(rslash = findrslash(root)) ? 1 : rslash] = 0;
-	return (findgitroot(root));
+	buf[!(rslash = findrslash(buf)) ? 1 : rslash] = 0;
+	return (findgitroot(buf));
 }
 
 int countdgts(int n)
@@ -192,9 +194,10 @@ int main(void)
 	time_t tt = time(NULL);
 	struct tm *t = localtime(&tt);
 	char *pwd = getenv("PWD");
-	char *root = malloc(strlen(pwd) + 1);
-	strcpy(root, pwd);
-	findgitroot(root);
+	char *buf = malloc(strlen(pwd) + 1);
+	char *root;
+	strcpy(buf, pwd);
+	root = findgitroot(buf);
 	ioctl(2, TIOCGWINSZ, &w);
 	SYMLN("%%F{1}⊼", "%%F{3}⊵", w.ws_col);
 	printf("%%F{3}:«(");
@@ -209,6 +212,6 @@ int main(void)
 	pathmod(pwd, root);
 	gitmod(root);
 	printf(" %%F{6}✗%%f  \n");
-	free(root);
+	free(buf);
 	return (0);
 }
