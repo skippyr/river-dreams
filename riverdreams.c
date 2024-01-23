@@ -24,8 +24,9 @@
 
 int modlen = 41;
 
-char *gitroot(char *root);
+char *findgitroot(char *root);
 int countdgts(int n);
+int findrslash(char *path);
 void batmod(void);
 void calmod(struct tm *t);
 void clkmod(struct tm *t);
@@ -34,14 +35,12 @@ void gitmod(char *root);
 void ipmod(void);
 void pathmod(char *pwd, char *root);
 
-char *gitroot(char *root)
+char *findgitroot(char *root)
 {
 	int isroot = 0;
-	int lastslash = 0;
-	DIR *d;
+	DIR *d = opendir(root);
 	struct dirent *e;
-	int i;
-	d = opendir(root);
+	int rslash;
 	while ((e = readdir(d))) {
 		if (!strcmp(e->d_name, ".git")) {
 			isroot = 1;
@@ -51,17 +50,11 @@ char *gitroot(char *root)
 	closedir(d);
 	if (isroot) {
 		return (root);
-	}
-	if (strlen(root) == 1) {
+	} else if (strlen(root) == 1) {
 		return (NULL);
 	}
-	for (i = 0; i < strlen(root); i++) {
-		if (root[i] == '/') {
-			lastslash = i;
-		}
-	}
-	root[!lastslash ? 1 : lastslash] = 0;
-	return (gitroot(root));
+	root[!(rslash = findrslash(root)) ? 1 : rslash] = 0;
+	return (findgitroot(root));
 }
 
 int countdgts(int n)
@@ -71,6 +64,17 @@ int countdgts(int n)
 		i++;
 	}
 	return (i);
+}
+
+int findrslash(char *path)
+{
+	int i;
+	for (i = strlen(path); i; i--) {
+		if (path[i] == '/') {
+			return (i);
+		}
+	}
+	return (0);
 }
 
 void batmod(void)
@@ -127,10 +131,10 @@ void diskmod(void)
 
 void gitmod(char *root)
 {
+	int slashes = 0;
 	FILE *f;
 	char *head;
 	char c;
-	int slashes = 0;
 	if (!root) {
 		return;
 	}
@@ -177,20 +181,8 @@ void ipmod(void)
 
 void pathmod(char *pwd, char *root)
 {
-	int lastslash = 0;
-	int rootlen;
-	int i;
-	printf("%%F{1}");
-	if (!root || (rootlen = strlen(root)) == 1) {
-		printf("%%~");
-		return;
-	}
-	for (i = 0; i < rootlen; i++) {
-		if (root[i] == '/') {
-			lastslash = i;
-		}
-	}
-	printf("@/%s", pwd + lastslash + 1);
+	!root || strlen(root) == 1 ? printf("%%F{1}%%~")
+							   : printf("%%F{1}@/%s", pwd + findrslash(root) + 1);
 }
 
 int main(void)
@@ -202,8 +194,8 @@ int main(void)
 	char *pwd = getenv("PWD");
 	char *root = malloc(strlen(pwd) + 1);
 	strcpy(root, pwd);
+	findgitroot(root);
 	ioctl(2, TIOCGWINSZ, &w);
-	gitroot(root);
 	SYMLN("%%F{1}⊼", "%%F{3}⊵", w.ws_col);
 	printf("%%F{3}:«(");
 	ipmod();
