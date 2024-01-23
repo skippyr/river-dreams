@@ -190,7 +190,7 @@ void pathmod(char *pwd, char *root)
 			lastslash = i;
 		}
 	}
-	printf("@%s", pwd + lastslash + 1);
+	printf("@/%s", pwd + lastslash + 1);
 }
 
 int main(void)
