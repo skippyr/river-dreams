@@ -21,21 +21,21 @@
 	for (i = 0; i < lim; i++)\
 		printf(i % 2 ? sym0 : sym1);
 
-int modlen = 41;
+static int modlen = 41;
 
-char *findgitroot(char *buf);
-int countdgts(int n);
-int findrslash(char *path);
-void batmod(void);
-void calmod(struct tm *t);
-void clkmod(struct tm *t);
-void diskmod(void);
-void gitmod(char *root);
-void ipmod(void);
-void pathmod(char *pwd, char *root);
-void venvmod(void);
+static char *findgitroot(char *buf);
+static int countdgts(int n);
+static int findrslash(char *path);
+static void batmod(void);
+static void calmod(struct tm *t);
+static void clkmod(struct tm *t);
+static void diskmod(void);
+static void gitmod(char *root);
+static void ipmod(void);
+static void pathmod(char *pwd, char *root);
+static void venvmod(void);
 
-char *
+static char *
 findgitroot(char *buf)
 {
 	int isroot = 0;
@@ -58,7 +58,7 @@ findgitroot(char *buf)
 	return findgitroot(buf);
 }
 
-int
+static int
 countdgts(int n)
 {
 	int i;
@@ -67,7 +67,7 @@ countdgts(int n)
 	return i;
 }
 
-int
+static int
 findrslash(char *path)
 {
 	int i;
@@ -77,7 +77,7 @@ findrslash(char *path)
 	return 0;
 }
 
-void
+static void
 batmod(void)
 {
 	int capfd = open(BAT "/capacity", O_RDONLY);
@@ -99,7 +99,7 @@ batmod(void)
 	modlen += countdgts(per) + 6 + (*stat == 'C') * 2;
 }
 
-void
+static void
 calmod(struct tm *t)
 {
 	char buf[13];
@@ -108,7 +108,7 @@ calmod(struct tm *t)
 	       ISORD(3) ? "rd" : "th");
 }
 
-void
+static void
 clkmod(struct tm *t)
 {
 	printf("%s%%f%02dh%02dm", t->tm_hour < 6 ? "%F{6}󰭎 " : t->tm_hour < 12 ?
@@ -116,7 +116,7 @@ clkmod(struct tm *t)
 	       t->tm_min);
 }
 
-void
+static void
 diskmod(void)
 {
 	fsblkcnt_t rem;
@@ -131,7 +131,7 @@ diskmod(void)
 	modlen += countdgts(per);
 }
 
-void
+static void
 gitmod(char *root)
 {
 	int slashes = 0;
@@ -156,7 +156,7 @@ gitmod(char *root)
 	fclose(f);
 }
 
-void
+static void
 ipmod(void)
 {
 	char ip[16] = "127.0.0.1";
@@ -178,14 +178,14 @@ ipmod(void)
 	modlen += strlen(ip);
 }
 
-void
+static void
 pathmod(char *pwd, char *root)
 {
 	!root || strlen(root) == 1 ? printf("%%F{1}%%~")
 				   : printf("%%F{1}@/%s", pwd + findrslash(root) + 1);
 }
 
-void
+static void
 venvmod(void)
 {
 	char *v = getenv("VIRTUAL_ENV");
