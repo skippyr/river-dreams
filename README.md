@@ -22,7 +22,7 @@ A tribal inspired ZSH theme for Linux.
 
 ### ¦ Features
 
-Its prompt displays:
+Its left prompt displays:
 
 &emsp;**1.**&ensp;Your local IPV4 address.\
 &emsp;**2.**&ensp;Your disk use percentage.\
@@ -33,7 +33,16 @@ Its prompt displays:
 &emsp;**7.**&ensp;A decorator for exit codes.\
 &emsp;**8.**&ensp;The active virtual environment, if one has been sourced.\
 &emsp;**9.**&ensp;The active directory path, shorting it when inside a git repo.\
-&emsp;**10.**&ensp;The active branch, when inside a git repo.
+&emsp;**10.**&ensp;The active branch, when inside of a git repo.\
+&emsp;**11.**&ensp;A decorator to check if you can modify the active directory.
+
+Its right prompt displays:
+
+&emsp;**1.**&ensp;The total of hidden entries in the active directory.\
+&emsp;**2.**&ensp;The total of temporary entries in the active directory.\
+&emsp;**3.**&ensp;The total of symlinks in the active directory.\
+&emsp;**4.**&ensp;The total of executables in the active directory.\
+&emsp;**5.**&ensp;The total of background jobs.
 
 ## ❡ Install
 
@@ -73,7 +82,8 @@ sudo make install clean;
 export VIRTUAL_ENV_DISABLE_PROMPT=1;
 
 setopt promptsubst;
-PROMPT='$(riverdreams)';
+PROMPT='$(riverdreams_lprompt)';
+RPROMPT='$(riverdreams_rprompt)';
 ```
 
 &emsp;**5.**&ensp;Reopen ZSH.

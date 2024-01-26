@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
+#include <sys/stat.h>
 #include <sys/statvfs.h>
 #include <time.h>
 #include <unistd.h>
@@ -33,6 +34,7 @@ static void diskmod(void);
 static void gitmod(char *root);
 static void ipmod(void);
 static void pathmod(char *pwd, char *root);
+static void dirpermsmod(void);
 static void venvmod(void);
 
 static char *
@@ -186,6 +188,16 @@ pathmod(char *pwd, char *root)
 }
 
 static void
+dirpermsmod(void)
+{
+	struct stat s;
+	int uid = getuid();
+	stat(".", &s);
+	printf(!uid || (uid == s.st_uid && s.st_mode & S_IWUSR) ? " %%F{6}✗"
+								: " %%F{5}");
+}
+
+static void
 venvmod(void)
 {
 	char *v = getenv("VIRTUAL_ENV");
@@ -219,7 +231,8 @@ main(void)
 	venvmod();
 	pathmod(pwd, root);
 	gitmod(root);
-	printf(" %%F{6}✗%%f  \n");
+	dirpermsmod();
+	printf("%%f  \n");
 	free(buf);
 	return 0;
 }

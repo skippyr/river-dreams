@@ -4,17 +4,17 @@ BINPATH:=/usr/local/bin
 
 .PHONY: all clean install uninstall
 
-all: riverdreams
+all: riverdreams_lprompt riverdreams_rprompt
 
 clean:
-	rm -f riverdreams;
+	rm -f riverdreams_{l,r}prompt;
 
 install: all
 	mkdir -p ${BINPATH};
-	cp riverdreams ${BINPATH};
+	cp riverdreams_{l,r}prompt ${BINPATH};
 
 uninstall:
-	rm -f ${BINPATH}/riverdreams;
+	rm -f ${BINPATH}/riverdreams_{l,r}prompt;
 
-riverdreams: riverdreams.c
+riverdreams_%: riverdreams_%.c
 	${CC} ${CFLAGS} -o${@} ${^};
