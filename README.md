@@ -14,7 +14,7 @@
 
 ## ❡ About
 
-A tribal inspired ZSH theme for Linux.
+A tribal inspired ZSH theme for Linux designed to help you stay motivated while developing your dream projects.
 
 <p align="center"><img src="imgs/preview.webp" alt="" /></p>
 <p align="center"><sup><strong>Caption:</strong> a preview of the riverdreams theme applied on zsh. The terminal theme used is <a href="https://github.com/skippyr/flamerial">flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">iosevka SS08</a>.</sup></p>
