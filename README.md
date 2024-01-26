@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="banner.webp" alt="" />
+	<img src="imgs/banner.webp" alt="" />
 </p>
 <h1 align="center">⊼⊵⊼⊵&ensp;riverdreams&ensp;⊼⊵⊼⊵</h1>
 <p align="center">
@@ -16,9 +16,8 @@
 
 A tribal inspired ZSH theme for Linux.
 
-<p align="center"><img src="preview.webp" alt="" /></p>
+<p align="center"><img src="imgs/preview.webp" alt="" /></p>
 <p align="center"><sup><strong>Caption:</strong> a preview of the riverdreams theme applied on zsh. The terminal theme used is <a href="https://github.com/skippyr/flamerial">flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">iosevka SS08</a>.</sup></p>
-
 
 ### ¦ Features
 
@@ -54,50 +53,38 @@ The following dependencies are required to install it:
 &emsp;**2.**&ensp;**gcc**, **make**: they will be used to compile and install it.\
 &emsp;**3.**&ensp;**Nerd Fonts Symbols**, **Noto Sans**: these fonts provides the pretty symbols used in the prompt.
 
-### ¦ Procedures
+### ¦ Manual Procedures
 
 Using a terminal, follow these steps:
 
 &emsp;**1.**&ensp;Clone this repository using git:
 
 ```sh
-git clone https://github.com/skippyr/riverdreams;
+git clone --depth 1 https://github.com/skippyr/riverdreams\
+		    ~/.local/share/zsh/themes/riverdreams;
 ```
 
-&emsp;**2.**&ensp;Access the repository directory using cd:
+&emsp;**2.**&ensp;Source its theme file in your ~/.zshrc startup file.
 
 ```sh
-cd riverdreams;
+source ~/.local/share/zsh/themes/riverdreams/riverdreams.zsh-theme;
 ```
 
-&emsp;**3.**&ensp;Use make to compile and install it:
+&emsp;**3.**&ensp;Reopen zsh.
 
-```sh
-sudo make install clean;
-```
-
-&emsp;**4.**&ensp;Apply the theme in your ~/.zshrc startup file.
-
-```zsh
-export VIRTUAL_ENV_DISABLE_PROMPT=1;
-
-setopt promptsubst;
-PROMPT='$(riverdreams_lprompt)';
-RPROMPT='$(riverdreams_rprompt)';
-```
-
-&emsp;**5.**&ensp;Reopen ZSH.
-
-## ❡ Uninstall
+### ¦ OhMyZSH Procedures
 
 Using a terminal, follow these steps:
 
-&emsp;**1.**&ensp;Go back to the repository directory.\
-&emsp;**2.**&ensp;Use make to uninstall it:
+&emsp;**1.**&ensp;Clone this repository using git:
 
 ```sh
-sudo make uninstall;
+git clone --depth 1 https://github.com/skippyr/riverdreams\
+		    ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/riverdreams;
 ```
+
+&emsp;**2.**&ensp;Set ZSH\_THEME="riverdreams/riverdreams" in your ~/.zshrc startup file.\
+&emsp;**3.**&ensp;Reopen zsh.
 
 ## ❡ Help
 

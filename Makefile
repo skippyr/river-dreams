@@ -2,19 +2,13 @@ CC:=cc
 CFLAGS:=-std=c99 -pedantic -Os -Wall
 BINPATH:=/usr/local/bin
 
-.PHONY: all clean install uninstall
+.PHONY: all clean
 
-all: riverdreams_lprompt riverdreams_rprompt
+all: out/lprompt out/rprompt
 
 clean:
-	rm -f riverdreams_{l,r}prompt;
+	rm -rf out;
 
-install: all
-	mkdir -p ${BINPATH};
-	cp riverdreams_{l,r}prompt ${BINPATH};
-
-uninstall:
-	rm -f ${BINPATH}/riverdreams_{l,r}prompt;
-
-riverdreams_%: riverdreams_%.c
+out/%prompt: src/%prompt.c
+	mkdir -p out;
 	${CC} ${CFLAGS} -o${@} ${^};
