@@ -30,11 +30,11 @@ static int findrslash(char *path);
 static void batmod(void);
 static void calmod(struct tm *t);
 static void clkmod(struct tm *t);
+static void dirpermsmod(void);
 static void diskmod(void);
 static void gitmod(char *root);
 static void ipmod(void);
 static void pathmod(char *pwd, char *root);
-static void dirpermsmod(void);
 static void venvmod(void);
 
 static char *
@@ -119,6 +119,16 @@ clkmod(struct tm *t)
 }
 
 static void
+dirpermsmod(void)
+{
+	struct stat s;
+	int uid = getuid();
+	stat(".", &s);
+	printf(!uid || (uid == s.st_uid && s.st_mode & S_IWUSR) ? " %%F{6}✗"
+								: " %%F{5}");
+}
+
+static void
 diskmod(void)
 {
 	fsblkcnt_t rem;
@@ -185,16 +195,6 @@ pathmod(char *pwd, char *root)
 {
 	!root || strlen(root) == 1 ? printf("%%F{1}%%~")
 				   : printf("%%F{1}@/%s", pwd + findrslash(root) + 1);
-}
-
-static void
-dirpermsmod(void)
-{
-	struct stat s;
-	int uid = getuid();
-	stat(".", &s);
-	printf(!uid || (uid == s.st_uid && s.st_mode & S_IWUSR) ? " %%F{6}✗"
-								: " %%F{5}");
 }
 
 static void

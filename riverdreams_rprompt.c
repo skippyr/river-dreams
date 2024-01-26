@@ -8,6 +8,8 @@
 	if (val)\
 		printf(" %s%d", sym, val);
 
+static void getdirinfo(int *hid, int *tmp, int *sym, int *exec);
+
 static void
 getdirinfo(int *hid, int *tmp, int *sym, int *exec)
 {
