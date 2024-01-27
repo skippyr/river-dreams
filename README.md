@@ -31,17 +31,24 @@ Its left prompt displays:
 &emsp;**6.**&ensp;A decorator when you are the root user.\
 &emsp;**7.**&ensp;A decorator for exit codes.\
 &emsp;**8.**&ensp;The active virtual environment, if one has been sourced.\
-&emsp;**9.**&ensp;The active directory path, shorting it when inside a git repo.\
+&emsp;**9.**&ensp;The active directory path.\
 &emsp;**10.**&ensp;The active branch, when inside of a git repo.\
 &emsp;**11.**&ensp;A decorator to check if you can modify the active directory.
 
 Its right prompt displays:
 
-&emsp;**1.**&ensp;The total of hidden entries in the active directory.\
-&emsp;**2.**&ensp;The total of temporary entries in the active directory.\
-&emsp;**3.**&ensp;The total of symlinks in the active directory.\
-&emsp;**4.**&ensp;The total of executables in the active directory.\
-&emsp;**5.**&ensp;The total of background jobs.
+&emsp;**1.**&ensp;An overview of the entries in the active directory:\
+&emsp;&emsp;**1.1.**&ensp;The total of hidden entries.\
+&emsp;&emsp;**1.2.**&ensp;The total of temporary entries.\
+&emsp;&emsp;**1.3.**&ensp;The total of regular entries that are executables.\
+&emsp;&emsp;**1.4.**&ensp;The total of symlinks.\
+&emsp;&emsp;**1.5.**&ensp;The total of regular entries.\
+&emsp;&emsp;**1.6.**&ensp;The total of directories.\
+&emsp;&emsp;**1.7.**&ensp;The total of block devices.\
+&emsp;&emsp;**1.8.**&ensp;The total of character devices.\
+&emsp;&emsp;**1.9.**&ensp;The total of fifos.\
+&emsp;&emsp;**1.10.**&ensp;The total of sockets.\
+&emsp;**2.**&ensp;The total of background jobs.
 
 ## ❡ Install
 
@@ -55,7 +62,7 @@ The following dependencies are required to install it:
 
 ### ¦ Manual Procedures
 
-Using a terminal, follow these steps:
+If you just want to install riverdreams without using a plugin manager or framework, using a terminal, follow these steps:
 
 &emsp;**1.**&ensp;Clone this repository using git:
 
@@ -74,7 +81,7 @@ source ~/.local/share/zsh/themes/riverdreams/riverdreams.zsh-theme;
 
 ### ¦ OhMyZSH Procedures
 
-Using a terminal, follow these steps:
+If you plan to use riverdreams within the OhMyZSH framework, using a terminal, follow these steps:
 
 &emsp;**1.**&ensp;Clone this repository using git:
 

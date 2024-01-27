@@ -8,10 +8,23 @@
 	if (val)\
 		printf(" %s%d", sym, val);
 
-static void getdirinfo(int *hid, int *tmp, int *sym, int *exec);
+typedef struct {
+	int hid;
+	int tmp;
+	int sym;
+	int exec;
+	int reg;
+	int dir;
+	int blk;
+	int ff;
+	int ch;
+	int soc;
+} dirinfo;
+
+static void getdirinfo(dirinfo *di);
 
 static void
-getdirinfo(int *hid, int *tmp, int *sym, int *exec)
+getdirinfo(dirinfo *di)
 {
 	DIR *d = opendir(".");
 	struct dirent *e;
@@ -22,14 +35,28 @@ getdirinfo(int *hid, int *tmp, int *sym, int *exec)
 		if (!strcmp(e->d_name, ".") || !strcmp(e->d_name, ".."))
 			continue;
 		lstat(e->d_name, &s);
-		if (*e->d_name == '.')
-			(*hid)++;
-		else if (*e->d_name == '~')
-			(*tmp)++;
 		if (S_ISLNK(s.st_mode))
-			(*sym)++;
-		else if (S_ISREG(s.st_mode) && s.st_mode & S_IXUSR)
-			(*exec)++;
+			di->sym++;
+		stat(e->d_name, &s);
+		if (*e->d_name == '.')
+			di->hid++;
+		else if (*e->d_name == '~')
+			di->tmp++;
+		if (S_ISDIR(s.st_mode))
+			di->dir++;
+		else if (S_ISBLK(s.st_mode))
+			di->blk++;
+		else if (S_ISFIFO(s.st_mode))
+			di->ff++;
+		else if (S_ISCHR(s.st_mode))
+			di->ch++;
+		else if (S_ISREG(s.st_mode)) {
+			di->reg++;
+			if (s.st_mode & S_IXUSR)
+				di->exec++;
+		}
+		else
+			di->soc++;
 	}
 	closedir(d);
 }
@@ -37,15 +64,19 @@ getdirinfo(int *hid, int *tmp, int *sym, int *exec)
 int
 main(void)
 {
-	int hid = 0;
-	int tmp = 0;
-	int sym = 0;
-	int exec = 0;
-	getdirinfo(&hid, &tmp, &sym, &exec);
-	DIRINFO("%F{1} %f", hid);
-	DIRINFO("%F{4}󰌷 %f", sym);
-	DIRINFO("%F{2}󱖏 %f", exec);
-	DIRINFO("%F{5} %f", tmp);
+	dirinfo di;
+	memset(&di, 0, sizeof(di));
+	getdirinfo(&di);
+	DIRINFO("%F{1} %f", di.hid);
+	DIRINFO("%F{5} %f", di.tmp);
+	DIRINFO("%F{2}󱖏 %f", di.exec);
+	DIRINFO("%F{4}󰌷 %f", di.sym);
+	DIRINFO("%F{4} %f", di.reg);
+	DIRINFO("%F{3} %f", di.dir);
+	DIRINFO("%F{5}🖪 %f", di.blk);
+	DIRINFO("%F{2}󰔃 %f", di.ch);
+	DIRINFO("%F{4}󰟦 %f", di.ff);
+	DIRINFO("%F{6}󰀂 %f", di.soc);
 	printf("%%(1j. %%F{5} %%f%%j.)\n");
 	return 0;
 }
