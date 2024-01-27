@@ -19,12 +19,12 @@ typedef struct {
 	int ff;
 	int ch;
 	int soc;
-} dirinfo;
+} DirInfo;
 
-static void getdirinfo(dirinfo *di);
+static void getdirinfo(DirInfo *di);
 
 static void
-getdirinfo(dirinfo *di)
+getdirinfo(DirInfo *di)
 {
 	DIR *d = opendir(".");
 	struct dirent *e;
@@ -64,7 +64,7 @@ getdirinfo(dirinfo *di)
 int
 main(void)
 {
-	dirinfo di;
+	DirInfo di;
 	memset(&di, 0, sizeof(di));
 	getdirinfo(&di);
 	DIRINFO("%F{1} %f", di.hid);
