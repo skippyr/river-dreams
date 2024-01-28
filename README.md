@@ -81,7 +81,7 @@ source ~/.local/share/zsh/themes/riverdreams/riverdreams.zsh-theme;
 
 ### ¦ Procedures For OhMyZSH
 
-If you want to install and use it with the OhMyZSH framework, follow these steps:
+If you want to install and use it with the [OhMyZSH](https://github.com/ohmyzsh/ohmyzsh) framework, follow these steps:
 
 &emsp;**1.**&ensp;Clone this repository using git:
 
@@ -90,8 +90,17 @@ git clone --depth 1 https://github.com/skippyr/riverdreams\
 		    ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/riverdreams;
 ```
 
-&emsp;**2.**&ensp;Set ZSH\_THEME="riverdreams/riverdreams" in your ~/.zshrc startup file.\
-&emsp;**3.**&ensp;Reopen zsh.
+### ¦ Procedures For Antidote
+
+If you want to install it using the [antidote](https://github.com/mattmc3/antidote) plugin manager, follow these steps:
+
+&emsp;**1.**&ensp;Add this repository to your plugins file, usually ~/.zsh_plugins.txt:
+
+```sh
+skippyr/riverdreams
+```
+
+&emsp;**2.**&ensp;Reopen zsh.
 
 ## ❡ Help
 
