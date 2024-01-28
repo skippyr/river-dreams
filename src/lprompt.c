@@ -40,10 +40,9 @@ static void venvmod(void);
 static char *
 findgitroot(char *buf)
 {
-	int isroot = 0;
+	int isroot = 0, rslash;
 	DIR *d = opendir(buf);
 	struct dirent *e;
-	int rslash;
 	if (d) {
 		while ((e = readdir(d)))
 			if (!strcmp(e->d_name, ".git")) {
@@ -82,11 +81,9 @@ findrslash(char *path)
 static void
 batmod(void)
 {
-	int capfd = open(BAT "/capacity", O_RDONLY);
-	int statfd = open(BAT "/status", O_RDONLY);
-	char cap[5];
-	char stat[1];
-	int per;
+	int capfd = open(BAT "/capacity", O_RDONLY),
+	    statfd = open(BAT "/status", O_RDONLY), per;
+	char cap[5], stat[1];
 	if (statfd < 0)
 		return;
 	if (capfd > 0)
@@ -131,10 +128,9 @@ dirpermsmod(void)
 static void
 diskmod(void)
 {
-	fsblkcnt_t rem;
-	fsblkcnt_t tot;
-	int per;
+	fsblkcnt_t rem, tot;
 	struct statvfs s;
+	int per;
 	statvfs("/", &s);
 	tot = s.f_frsize * s.f_blocks;
 	rem = s.f_frsize * s.f_bavail;
@@ -146,10 +142,9 @@ diskmod(void)
 static void
 gitmod(char *root)
 {
-	int slashes = 0;
-	int c;
-	FILE *f;
+	int slashes = 0, c;
 	char *head;
+	FILE *f;
 	if (!root)
 		return;
 	head = malloc(strlen(root) + 11);
@@ -172,20 +167,17 @@ static void
 ipmod(void)
 {
 	char ip[16] = "127.0.0.1";
-	struct ifaddrs *addr;
-	struct ifaddrs *tmpaddr;
-	getifaddrs(&addr);
-	for (tmpaddr = addr; tmpaddr; tmpaddr = tmpaddr->ifa_next)
-		if (tmpaddr->ifa_addr &&
-		    tmpaddr->ifa_addr->sa_family & AF_INET &&
-		    tmpaddr->ifa_flags & IFF_RUNNING &&
-		    !(tmpaddr->ifa_flags & IFF_LOOPBACK)) {
+	struct ifaddrs *addrlist, *addr;
+	getifaddrs(&addrlist);
+	for (addr = addrlist; addr; addr = addr->ifa_next)
+		if (addr->ifa_addr && addr->ifa_addr->sa_family & AF_INET &&
+		    addr->ifa_flags & IFF_RUNNING && !(addr->ifa_flags & IFF_LOOPBACK)) {
 			inet_ntop(AF_INET,
-				  &((struct sockaddr_in *)tmpaddr->ifa_addr)->sin_addr,
+				  &((struct sockaddr_in *)addr->ifa_addr)->sin_addr,
 				  ip, sizeof(ip));
 			break;
 		}
-	freeifaddrs(addr);
+	freeifaddrs(addrlist);
 	printf("%%F{4} %%f%s  ", ip);
 	modlen += strlen(ip);
 }
@@ -212,9 +204,7 @@ main(void)
 	struct winsize w;
 	time_t tt = time(NULL);
 	struct tm *t = localtime(&tt);
-	char *pwd = getenv("PWD");
-	char *buf = malloc(strlen(pwd) + 1);
-	char *root;
+	char *pwd = getenv("PWD"), *buf = malloc(strlen(pwd) + 1), *root;
 	strcpy(buf, pwd);
 	root = findgitroot(buf);
 	ioctl(2, TIOCGWINSZ, &w);

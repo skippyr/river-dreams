@@ -9,16 +9,7 @@
 		printf(" %s%d", sym, val);
 
 typedef struct {
-	int hid;
-	int tmp;
-	int sym;
-	int exec;
-	int reg;
-	int dir;
-	int blk;
-	int ff;
-	int ch;
-	int soc;
+	int hid, tmp, sym, exec, reg, dir, blk, ff, ch, soc;
 } DirInfo;
 
 static void getdirinfo(DirInfo *di);
@@ -29,35 +20,35 @@ getdirinfo(DirInfo *di)
 	DIR *d = opendir(".");
 	struct dirent *e;
 	struct stat s;
+	int len;
 	if (!d)
 		return;
 	while ((e = readdir(d))) {
-		if (!strcmp(e->d_name, ".") || !strcmp(e->d_name, ".."))
+		len = strlen(e->d_name);
+		if ((len == 1 && *e->d_name == '.') ||
+		    (len == 2 && *e->d_name == '.' && e->d_name[1] == '.'))
 			continue;
 		lstat(e->d_name, &s);
 		if (S_ISLNK(s.st_mode))
 			di->sym++;
 		if (stat(e->d_name, &s))
 			continue;
-		if (*e->d_name == '.')
-			di->hid++;
-		else if (*e->d_name == '~')
-			di->tmp++;
-		if (S_ISDIR(s.st_mode))
-			di->dir++;
-		else if (S_ISBLK(s.st_mode))
-			di->blk++;
-		else if (S_ISFIFO(s.st_mode))
-			di->ff++;
-		else if (S_ISCHR(s.st_mode))
-			di->ch++;
-		else if (S_ISREG(s.st_mode)) {
-			di->reg++;
-			if (s.st_mode & S_IXUSR)
-				di->exec++;
+		switch (*e->d_name) {
+			case '.': di->hid++; break;
+			case '~': di->tmp++; break;
 		}
-		else
-			di->soc++;
+		switch (s.st_mode & S_IFMT) {
+			case S_IFDIR: di->dir++; break;
+			case S_IFBLK: di->blk++; break;
+			case S_IFIFO: di->ff++; break;
+			case S_IFCHR: di->ch++; break;
+			case S_IFSOCK: di->soc++; break;
+			case S_IFREG:
+				di->reg++;
+				if (s.st_mode & S_IXUSR)
+					di->exec++;
+				break;
+		}
 	}
 	closedir(d);
 }
