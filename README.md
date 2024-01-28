@@ -90,6 +90,9 @@ git clone --depth 1 https://github.com/skippyr/riverdreams\
 		    ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/riverdreams;
 ```
 
+&emsp;**2.**&ensp;Set ZSH\_THEME="riverdreams/riverdreams" in your ~/.zshrc startup file.\
+&emsp;**3.**&ensp;Reopen zsh.
+
 ### ¦ Procedures For Antidote
 
 If you want to install it using the [antidote](https://github.com/mattmc3/antidote) plugin manager, follow these steps:
