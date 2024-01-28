@@ -147,9 +147,9 @@ static void
 gitmod(char *root)
 {
 	int slashes = 0;
+	int c;
 	FILE *f;
 	char *head;
-	char c;
 	if (!root)
 		return;
 	head = malloc(strlen(root) + 11);
