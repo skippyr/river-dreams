@@ -1,5 +1,5 @@
 CC:=cc
-CFLAGS:=-std=c99 -pedantic -O3 -Wall
+CFLAGS:=-std=c99 -pedantic -O3 -Wall -Wextra
 BINPATH:=/usr/local/bin
 
 .PHONY: all clean

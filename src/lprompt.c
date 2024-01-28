@@ -119,7 +119,7 @@ static void
 dirpermsmod(void)
 {
 	struct stat s;
-	int uid = getuid();
+	uid_t uid = getuid();
 	stat(".", &s);
 	printf(!uid || (uid == s.st_uid && s.st_mode & S_IWUSR) ? " %%F{6}✗"
 								: " %%F{5}");
