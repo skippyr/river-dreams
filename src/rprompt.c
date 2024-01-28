@@ -29,15 +29,12 @@ getdirinfo(DirInfo *di)
 		    (len == 2 && *e->d_name == '.' && e->d_name[1] == '.'))
 			continue;
 		lstat(e->d_name, &s);
-		if (S_ISLNK(s.st_mode))
-			di->sym++;
-		if (stat(e->d_name, &s))
-			continue;
 		switch (*e->d_name) {
 			case '.': di->hid++; break;
 			case '~': di->tmp++; break;
 		}
 		switch (s.st_mode & S_IFMT) {
+			case S_IFLNK: di->sym++; break;
 			case S_IFDIR: di->dir++; break;
 			case S_IFBLK: di->blk++; break;
 			case S_IFIFO: di->ff++; break;
