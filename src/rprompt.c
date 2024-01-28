@@ -37,7 +37,8 @@ getdirinfo(DirInfo *di)
 		lstat(e->d_name, &s);
 		if (S_ISLNK(s.st_mode))
 			di->sym++;
-		stat(e->d_name, &s);
+		if (stat(e->d_name, &s))
+			continue;
 		if (*e->d_name == '.')
 			di->hid++;
 		else if (*e->d_name == '~')
