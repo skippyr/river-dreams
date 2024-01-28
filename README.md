@@ -77,8 +77,7 @@ git clone --depth 1 https://github.com/skippyr/riverdreams\
 source ~/.local/share/zsh/themes/riverdreams/riverdreams.zsh-theme;
 ```
 
-&emsp;**3.**&ensp;Reopen zsh.\
-&emsp;**4.**&ensp;Wait for its source code to compile automatically.
+&emsp;**3.**&ensp;Reopen zsh.
 
 ### ¦ Procedures For OhMyZSH
 
@@ -92,8 +91,7 @@ git clone --depth 1 https://github.com/skippyr/riverdreams\
 ```
 
 &emsp;**2.**&ensp;Set ZSH\_THEME="riverdreams/riverdreams" in your ~/.zshrc startup file.\
-&emsp;**3.**&ensp;Reopen zsh.\
-&emsp;**4.**&ensp;Wait for its source code to compile automatically.
+&emsp;**3.**&ensp;Reopen zsh.
 
 ## ❡ Help
 
