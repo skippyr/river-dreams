@@ -62,7 +62,7 @@ The following dependencies are required to install it:
 
 ### ¦ Manual Procedures
 
-If you just want to install riverdreams without using a plugin manager or framework, using a terminal, follow these steps:
+If you want to install it manually, without a plugin manager or framework, follow these steps:
 
 &emsp;**1.**&ensp;Clone this repository using git:
 
@@ -79,9 +79,9 @@ source ~/.local/share/zsh/themes/riverdreams/riverdreams.zsh-theme;
 
 &emsp;**3.**&ensp;Reopen zsh.
 
-### ¦ OhMyZSH Procedures
+### ¦ Procedures For OhMyZSH
 
-If you plan to use riverdreams within the OhMyZSH framework, using a terminal, follow these steps:
+If you want to install and use it with the OhMyZSH framework, follow these steps:
 
 &emsp;**1.**&ensp;Clone this repository using git:
 
