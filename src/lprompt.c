@@ -121,8 +121,8 @@ dirpermsmod(void)
 	struct stat s;
 	uid_t uid = getuid();
 	stat(".", &s);
-	printf(!uid || (uid == s.st_uid && s.st_mode & S_IWUSR) ? " %%F{6}✗"
-															: " %%F{5}");
+	if (!(!uid || (uid == s.st_uid && s.st_mode & S_IWUSR)))
+		printf(" %%F{5}");
 }
 
 static void
@@ -159,7 +159,7 @@ gitmod(char *root)
 			printf("%c", c);
 		else if (c == '/')
 			slashes++;
-	printf("%%F{3})»:");
+	printf("%%F{3})»");
 	fclose(f);
 }
 
@@ -207,7 +207,7 @@ main(void)
 	strcpy(buf, pwd);
 	root = findgitroot(buf);
 	ioctl(2, TIOCGWINSZ, &w);
-	SYMLN("%%F{1}⊼", "%%F{3}⊵", w.ws_col);
+	SYMLN("%%F{1}v", "%%F{3}≥", w.ws_col);
 	printf("%%F{3}:«(");
 	ipmod();
 	diskmod();
@@ -216,12 +216,12 @@ main(void)
 	clkmod(t);
 	printf("%%F{3})»:");
 	SYMLN("%%F{1}-", "%%F{3}=", w.ws_col - modlen);
-	printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.≗.%%F{1}⨲)%%F{3}}⤐  ");
+	printf("%%F{3}%%(#.{%%F{1}#%%F{3}}.){%%(?.%%%%.%%F{1}x)%%F{3}}⤐  ");
 	venvmod();
 	pathmod(pwd, root);
 	gitmod(root);
 	dirpermsmod();
-	printf("%%f  \n");
+	printf("%%f ");
 	free(buf);
 	return 0;
 }

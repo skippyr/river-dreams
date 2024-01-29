@@ -31,9 +31,9 @@ Its left prompt displays:
 &emsp;**6.**&ensp;A decorator when you are the root user.\
 &emsp;**7.**&ensp;A decorator for exit codes.\
 &emsp;**8.**&ensp;The active virtual environment, if one has been sourced.\
-&emsp;**9.**&ensp;The active directory path.\
+&emsp;**9.**&ensp;The active directory path, shorting it inside of a git repo.\
 &emsp;**10.**&ensp;The active branch, when inside of a git repo.\
-&emsp;**11.**&ensp;A decorator to check if you can modify the active directory.
+&emsp;**11.**&ensp;A decorator when you can not modify the active directory.
 
 Its right prompt displays:
 
