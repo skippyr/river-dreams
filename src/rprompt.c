@@ -61,15 +61,15 @@ main(void)
 	memset(&di, 0, sizeof(di));
 	getdirinfo(&di);
 	DIRINFO("%F{1} %f", di.hid);
-	DIRINFO("%F{5} %f", di.tmp);
+	DIRINFO("%F{5}󰚰 %f", di.tmp);
 	DIRINFO("%F{2}󱖏 %f", di.exec);
 	DIRINFO("%F{4}󰌷 %f", di.sym);
 	DIRINFO("%F{4} %f", di.reg);
 	DIRINFO("%F{3} %f", di.dir);
-	DIRINFO("%F{5}🖪 %f", di.blk);
-	DIRINFO("%F{2}󰔃 %f", di.ch);
+	DIRINFO("%F{5}󰇖 %f", di.blk);
+	DIRINFO("%F{2}󱣴 %f", di.ch);
 	DIRINFO("%F{4}󰟦 %f", di.ff);
-	DIRINFO("%F{6}󰀂 %f", di.soc);
+	DIRINFO("%F{6}󱄙 %f", di.soc);
 	printf("%%(1j. %%F{5} %%f%%j.)\n");
 	return 0;
 }
