@@ -1,9 +1,9 @@
 export VIRTUAL_ENV_DISABLE_PROMPT=1;
-RIVERDREAMSROOT=$(dirname ${0});
+_RDROOT=$(dirname ${0});
 
-[[ ! -f ${RIVERDREAMSROOT}/out/lprompt || ! -f ${RIVERDREAMSROOT}/out/rprompt ]] &&
-	make -s -C ${RIVERDREAMSROOT};
+[[ ! -f ${_RDROOT}/out/lprompt || ! -f ${_RDROOT}/out/rprompt ]] &&
+	make -s -C ${_RDROOT};
 
 setopt promptsubst;
-PROMPT='$(${RIVERDREAMSROOT}/out/lprompt)';
-RPROMPT='$(${RIVERDREAMSROOT}/out/rprompt)';
+PROMPT='$(${_RDROOT}/out/lprompt)';
+RPROMPT='$(${_RDROOT}/out/rprompt)';
