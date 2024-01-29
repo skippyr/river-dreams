@@ -93,8 +93,8 @@ batmod(void)
 	close(capfd);
 	per = atoi(cap);
 	printf("%s%s%%f%d%%%%  ", *stat == 'C' ? "%F{3}󱐋 " : "", per <= 5 ?
-	       "%F{1}  " : per <= 25 ? "%F{3}  " : per <= 50 ? "%F{2}  " :
-	       "%F{2}  ", per);
+		   "%F{1}  " : per <= 25 ? "%F{3}  " : per <= 50 ? "%F{2}  " :
+		   "%F{2}  ", per);
 	modlen += countdgts(per) + 6 + (*stat == 'C') * 2;
 }
 
@@ -104,15 +104,15 @@ calmod(struct tm *t)
 	char buf[13];
 	strftime(buf, sizeof(buf), "(%a) %b %d", t);
 	printf("%%F{1}󰃭 %%f%s%s  ", buf, ISORD(1) ? "st" : ISORD(2) ? "nd" :
-	       ISORD(3) ? "rd" : "th");
+		   ISORD(3) ? "rd" : "th");
 }
 
 static void
 clkmod(struct tm *t)
 {
 	printf("%s%%f%02dh%02dm", t->tm_hour < 6 ? "%F{6}󰭎 " : t->tm_hour < 12 ?
-	       "%F{1}󰖨 " : t->tm_hour < 18 ? "%F{4} " : "%F{3}󰽥 ", t->tm_hour,
-	       t->tm_min);
+		   "%F{1}󰖨 " : t->tm_hour < 18 ? "%F{4} " : "%F{3}󰽥 ", t->tm_hour,
+		   t->tm_min);
 }
 
 static void
@@ -122,7 +122,7 @@ dirpermsmod(void)
 	uid_t uid = getuid();
 	stat(".", &s);
 	printf(!uid || (uid == s.st_uid && s.st_mode & S_IWUSR) ? " %%F{6}✗"
-								: " %%F{5}");
+															: " %%F{5}");
 }
 
 static void
@@ -171,10 +171,9 @@ ipmod(void)
 	getifaddrs(&addrlist);
 	for (addr = addrlist; addr; addr = addr->ifa_next)
 		if (addr->ifa_addr && addr->ifa_addr->sa_family & AF_INET &&
-		    addr->ifa_flags & IFF_RUNNING && !(addr->ifa_flags & IFF_LOOPBACK)) {
-			inet_ntop(AF_INET,
-				  &((struct sockaddr_in *)addr->ifa_addr)->sin_addr,
-				  ip, sizeof(ip));
+			addr->ifa_flags & IFF_RUNNING && !(addr->ifa_flags & IFF_LOOPBACK)) {
+			inet_ntop(AF_INET, &((struct sockaddr_in *)addr->ifa_addr)->sin_addr,
+					  ip, sizeof(ip));
 			break;
 		}
 	freeifaddrs(addrlist);
@@ -186,7 +185,7 @@ static void
 pathmod(char *pwd, char *root)
 {
 	!root || strlen(root) == 1 ? printf("%%F{1}%%~")
-				   : printf("%%F{1}@/%s", pwd + findrslash(root) + 1);
+							   : printf("%%F{1}@/%s", pwd + findrslash(root) + 1);
 }
 
 static void

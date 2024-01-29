@@ -26,25 +26,25 @@ getdirinfo(DirInfo *di)
 	while ((e = readdir(d))) {
 		len = strlen(e->d_name);
 		if ((len == 1 && *e->d_name == '.') ||
-		    (len == 2 && *e->d_name == '.' && e->d_name[1] == '.'))
+			(len == 2 && *e->d_name == '.' && e->d_name[1] == '.'))
 			continue;
 		lstat(e->d_name, &s);
 		switch (*e->d_name) {
-			case '.': di->hid++; break;
-			case '~': di->tmp++; break;
+		case '.': di->hid++; break;
+		case '~': di->tmp++; break;
 		}
 		switch (s.st_mode & S_IFMT) {
-			case S_IFLNK: di->sym++; break;
-			case S_IFDIR: di->dir++; break;
-			case S_IFBLK: di->blk++; break;
-			case S_IFIFO: di->ff++; break;
-			case S_IFCHR: di->ch++; break;
-			case S_IFSOCK: di->soc++; break;
-			case S_IFREG:
-				di->reg++;
-				if (s.st_mode & S_IXUSR)
-					di->exec++;
-				break;
+		case S_IFLNK: di->sym++; break;
+		case S_IFDIR: di->dir++; break;
+		case S_IFBLK: di->blk++; break;
+		case S_IFIFO: di->ff++; break;
+		case S_IFCHR: di->ch++; break;
+		case S_IFSOCK: di->soc++; break;
+		case S_IFREG:
+			di->reg++;
+			if (s.st_mode & S_IXUSR)
+				di->exec++;
+			break;
 		}
 	}
 	closedir(d);
