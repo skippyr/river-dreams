@@ -3,13 +3,13 @@
 </p>
 <h1 align="center">≥v≥v&ensp;riverdreams&ensp;≥v≥v</h1>
 <p align="center">
-	<img src="https://img.shields.io/github/license/skippyr/riverdreams?style=plastic&label=%E2%8A%B5%20license&labelColor=%2324130e&color=%23b8150d" alt="" />
+	<img src="https://img.shields.io/github/license/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20license&labelColor=%2324130e&color=%23b8150d" alt="" />
 	&nbsp;
-	<img src="https://img.shields.io/github/v/tag/skippyr/riverdreams?style=plastic&label=%E2%8A%B5%20tag&labelColor=%2324130e&color=%23b8150d" alt="" />
+	<img src="https://img.shields.io/github/v/tag/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20tag&labelColor=%2324130e&color=%23b8150d" alt="" />
 	&nbsp;
-	<img src="https://img.shields.io/github/commit-activity/t/skippyr/riverdreams?style=plastic&label=%E2%8A%B5%20commits&labelColor=%2324130e&color=%23b8150d" alt="" />
+	<img src="https://img.shields.io/github/commit-activity/t/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20commits&labelColor=%2324130e&color=%23b8150d" alt="" />
 	&nbsp;
-	<img src="https://img.shields.io/github/stars/skippyr/riverdreams?style=plastic&label=%E2%8A%B5%20stars&labelColor=%2324130e&color=%23b8150d" alt="" />
+	<img src="https://img.shields.io/github/stars/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20stars&labelColor=%2324130e&color=%23b8150d" alt="" />
 </p>
 
 ## ❡ About
