@@ -20,13 +20,10 @@ getdirinfo(DirInfo *di)
 	DIR *d = opendir(".");
 	struct dirent *e;
 	struct stat s;
-	int len;
 	if (!d)
 		return;
 	while ((e = readdir(d))) {
-		len = strlen(e->d_name);
-		if ((len == 1 && *e->d_name == '.') ||
-			(len == 2 && *e->d_name == '.' && e->d_name[1] == '.'))
+		if (!strcmp(e->d_name, ".") || !strcmp(e->d_name, ".."))
 			continue;
 		switch (*e->d_name) {
 		case '.': di->hid++; break;
