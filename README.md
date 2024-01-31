@@ -95,7 +95,7 @@ git clone --depth 1 https://github.com/skippyr/riverdreams\
 - Apply the theme in your ~/.zshrc startup file:
 
 ```sh
-ZSH_THEME="riverdreams/riverdreams"
+ZSH_THEME="riverdreams/riverdreams";
 ```
 
 - Reopen zsh.
