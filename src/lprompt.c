@@ -221,7 +221,7 @@ main(void)
 	pathmod(pwd, root);
 	gitmod(root);
 	dirpermsmod();
-	printf("%%f ");
+	printf("%%f \n");
 	free(buf);
 	return 0;
 }
