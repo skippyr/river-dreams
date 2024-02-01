@@ -9,7 +9,7 @@
 		printf(" %s%d", sym, val);
 
 typedef struct {
-	int hid, tmp, sym, exec, reg, dir, blk, ff, ch, soc;
+	int hid, tmp, lnk, exe, reg, dir, blk, ff, ch, skt;
 } DirInfo;
 
 static void getdirinfo(DirInfo *di);
@@ -30,7 +30,7 @@ static void getdirinfo(DirInfo *di)
 		}
 		lstat(e->d_name, &s);
 		if (S_ISLNK(s.st_mode)) {
-			di->sym++;
+			di->lnk++;
 			if (stat(e->d_name, &s))
 				continue;
 		}
@@ -39,11 +39,11 @@ static void getdirinfo(DirInfo *di)
 		case S_IFBLK: di->blk++; break;
 		case S_IFIFO: di->ff++; break;
 		case S_IFCHR: di->ch++; break;
-		case S_IFSOCK: di->soc++; break;
+		case S_IFSOCK: di->skt++; break;
 		case S_IFREG:
 			di->reg++;
 			if (s.st_mode & S_IXUSR)
-				di->exec++;
+				di->exe++;
 			break;
 		}
 	}
@@ -57,14 +57,14 @@ int main(void)
 	getdirinfo(&di);
 	DIRINFO("%F{1} %f", di.hid);
 	DIRINFO("%F{5}󰚰 %f", di.tmp);
-	DIRINFO("%F{2}󱖏 %f", di.exec);
-	DIRINFO("%F{4}󰌷 %f", di.sym);
+	DIRINFO("%F{2}󱖏 %f", di.exe);
+	DIRINFO("%F{4}󰌷 %f", di.lnk);
 	DIRINFO("%F{4} %f", di.reg);
 	DIRINFO("%F{3} %f", di.dir);
 	DIRINFO("%F{5}󰇖 %f", di.blk);
 	DIRINFO("%F{2}󱣴 %f", di.ch);
 	DIRINFO("%F{4}󰟦 %f", di.ff);
-	DIRINFO("%F{6}󱄙 %f", di.soc);
+	DIRINFO("%F{6}󱄙 %f", di.skt);
 	printf("%%(1j. %%F{5} %%f%%j.)\n");
 	return (0);
 }
