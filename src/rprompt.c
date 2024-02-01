@@ -14,8 +14,7 @@ typedef struct {
 
 static void getdirinfo(DirInfo *di);
 
-static void
-getdirinfo(DirInfo *di)
+static void getdirinfo(DirInfo *di)
 {
 	DIR *d = opendir(".");
 	struct dirent *e;
@@ -51,8 +50,7 @@ getdirinfo(DirInfo *di)
 	closedir(d);
 }
 
-int
-main(void)
+int main(void)
 {
 	DirInfo di;
 	memset(&di, 0, sizeof(di));
@@ -68,5 +66,5 @@ main(void)
 	DIRINFO("%F{4}󰟦 %f", di.ff);
 	DIRINFO("%F{6}󱄙 %f", di.soc);
 	printf("%%(1j. %%F{5} %%f%%j.)\n");
-	return 0;
+	return (0);
 }
