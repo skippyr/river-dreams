@@ -21,8 +21,6 @@ A tribal inspired ZSH theme for Linux designed to help you develop your most amb
 
 ### Features
 
-It is designed to be used by experienced shell users that are looking for a simple and efficient solution for their daily usage of the terminal.
-
 Its left prompt displays:
 
 - Your local IPV4 address.
