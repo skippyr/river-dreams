@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
-#include <sys/stat.h>
 #include <sys/statvfs.h>
 #include <time.h>
 #include <unistd.h>
@@ -111,10 +110,7 @@ static void clkmod(struct tm *t)
 
 static void dirpermsmod(void)
 {
-	struct stat s;
-	uid_t uid = getuid();
-	stat(".", &s);
-	if (!(!uid || (uid == s.st_uid && s.st_mode & S_IWUSR)))
+	if (access(".", W_OK))
 		printf(" %%F{5}");
 }
 

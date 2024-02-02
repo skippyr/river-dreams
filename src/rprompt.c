@@ -1,8 +1,9 @@
 #define _GNU_SOURCE
+#include <dirent.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
-#include <dirent.h>
+#include <unistd.h>
 
 #define DIRINFO(sym, val)\
 	if (val)\
@@ -28,21 +29,16 @@ static void getdirinfo(DirInfo *di)
 		case '.': di->hid++; break;
 		case '~': di->tmp++; break;
 		}
-		lstat(e->d_name, &s);
-		if (S_ISLNK(s.st_mode)) {
-			di->lnk++;
-			if (stat(e->d_name, &s))
-				continue;
-		}
-		switch (s.st_mode & S_IFMT) {
-		case S_IFDIR: di->dir++; break;
-		case S_IFBLK: di->blk++; break;
-		case S_IFIFO: di->ff++; break;
-		case S_IFCHR: di->ch++; break;
-		case S_IFSOCK: di->skt++; break;
-		case S_IFREG:
+		switch (e->d_type == DT_LNK && ++di->lnk && !(stat(e->d_name, &s)) ?
+				s.st_mode & S_IFMT : e->d_type) {
+		case S_IFDIR: case DT_DIR: di->dir++; break;
+		case S_IFBLK: case DT_BLK: di->blk++; break;
+		case S_IFIFO: case DT_FIFO: di->ff++; break;
+		case S_IFCHR: case DT_CHR: di->ch++; break;
+		case S_IFSOCK: case DT_SOCK: di->skt++; break;
+		case S_IFREG: case DT_REG:
 			di->reg++;
-			if (s.st_mode & S_IXUSR)
+			if (!access(e->d_name, X_OK))
 				di->exe++;
 			break;
 		}
