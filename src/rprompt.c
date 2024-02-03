@@ -25,10 +25,10 @@ static void getdirinfo(DirInfo *di)
 	while ((e = readdir(d))) {
 		if (!strcmp(e->d_name, ".") || !strcmp(e->d_name, ".."))
 			continue;
-		switch (*e->d_name) {
-		case '.': di->hid++; break;
-		case '~': di->tmp++; break;
-		}
+		if (*e->d_name == '.')
+			di->hid++;
+		if (e->d_name[strlen(e->d_name) - 1] == '~')
+			di->tmp++;
 		switch (e->d_type == DT_LNK && ++di->lnk && !(stat(e->d_name, &s)) ?
 				s.st_mode & S_IFMT : e->d_type) {
 		case S_IFDIR: case DT_DIR: di->dir++; break;
