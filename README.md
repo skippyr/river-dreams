@@ -17,7 +17,7 @@
 A tribal inspired ZSH theme for Linux designed to help you develop your dream projects.
 
 <p align="center"><img src="imgs/preview.webp" alt="" /></p>
-<p align="center"><sup><strong>Caption:</strong> a preview of the riverdreams theme applied on zsh. The terminal theme used is <a href="https://github.com/skippyr/flamerial">flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">iosevka</a>.</sup></p>
+<p align="center"><sup><strong>Caption:</strong> a preview of the riverdreams theme applied on zsh. The terminal theme used is <a href="https://github.com/skippyr/flamerial">flamerial</a> and font is <a href="https://fonts.google.com/specimen/Inconsolata">inconsolata</a>.</sup></p>
 
 ### Features
 
@@ -37,17 +37,7 @@ Its left prompt displays:
 
 Its right prompt displays:
 
-- An overview of all the entry types in the active directory:
-    - The total of hidden entries.
-    - The total of backup/temporary entries.
-    - The total of regular entries that are executable.
-    - The total of symlinks (they are also followed).
-    - The total of regular entries.
-    - The total of directories.
-    - The total of block devices.
-    - The total of character devices.
-    - The total of fifos;
-    - The total of sockets;
+- The total of each entry type in your active directory: regular entries, directories, block devices, character devices, fifos, sockets and symlinks.
 - The total of jobs running in the background.
 
 ## ❡ Install
