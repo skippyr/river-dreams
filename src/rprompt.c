@@ -11,7 +11,7 @@
     printf(" %s%d", sym, val);\
   }
 
-typedef struct {
+struct dirinfo {
   int reg;
   int dir;
   int blk;
@@ -19,28 +19,28 @@ typedef struct {
   int skt;
   int ff;
   int lnk;
-} DirInfo;
+};
 
-typedef struct {
+struct linux_dirent {
   unsigned long d_ino;
   unsigned long d_off;
   unsigned short d_reclen;
   char d_name[];
-} linux_dirent;
+};
 
-static void getdirinfo(DirInfo *di) {
+static void getdirinfo(struct dirinfo *di) {
   char buf[1024];
   int fd = open(".", O_RDONLY);
   int ents;
   int i;
-  linux_dirent *e;
-  memset(di, 0, sizeof(DirInfo));
+  struct linux_dirent *e;
+  memset(di, 0, sizeof(struct dirinfo));
   if (fd < 0) {
     return;
   }
   while ((ents = syscall(SYS_getdents, fd, buf, sizeof(buf))) > 0) {
     for (i = 0; i < ents; i += e->d_reclen) {
-      e = (linux_dirent *)(buf + i);
+      e = (struct linux_dirent *)(buf + i);
       if (!strcmp(e->d_name, ".") || !strcmp(e->d_name, "..")) {
         continue;
       }
@@ -59,7 +59,7 @@ static void getdirinfo(DirInfo *di) {
 }
 
 int main(void) {
-  DirInfo di;
+  struct dirinfo di;
   getdirinfo(&di);
   DIRINFO("%F{4} %f", di.reg);
   DIRINFO("%F{3} %f", di.dir);
