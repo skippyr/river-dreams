@@ -50,7 +50,7 @@
   <li>Clone its repository using <code>git</code>:</li>
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/riverdreams
+git clone --depth 1 https://github.com/skippyr/riverdreams\
                     ~/.config/zsh/themes/riverdreams;
 ```
 
@@ -68,7 +68,7 @@ source ~/.config/zsh/themes/riverdreams/riverdreams.zsh-theme;
   <li>Clone its repository using <code>git</code>:</li>
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/riverdreams
+git clone --depth 1 https://github.com/skippyr/riverdreams\
                     ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/riverdreams;
 ```
 
