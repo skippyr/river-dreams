@@ -33,7 +33,7 @@ static void path(char *pwd, char *root);
 static void rootusr(void);
 static void venv(void);
 
-static int modlen = 41;
+static int modlen_g = 41;
 
 static void bat(void) {
   int statfd = open(BAT "/status", O_RDONLY);
@@ -51,7 +51,7 @@ static void bat(void) {
   rem = atoi(cap);
   printf("%s%s%%f%d%%%%  ", *stat == 'C' ? "%F{3}󱐋 " : "", rem <= 5 ? "%F{1}  " :
          rem <= 25 ? "%F{3}  " : rem <= 50 ? "%F{2}  " : "%F{2}  ", rem);
-  modlen += cntdgts(rem) + 6 + (*stat == 'C') * 2;
+  modlen_g += cntdgts(rem) + 6 + (*stat == 'C') * 2;
 }
 
 static void branch(char *root) {
@@ -126,7 +126,7 @@ static void disk(void) {
   rem = s.f_frsize * s.f_bavail;
   use = ((float)(tot - rem) / tot) * 100;
   printf("%%F{%d}󰋊 %%f%d%%%%  ", use < 70 ? 2 : use < 80 ? 3 : 1, use);
-  modlen += cntdgts(use);
+  modlen_g += cntdgts(use);
 }
 
 static void exitcd(void) {
@@ -180,13 +180,13 @@ static void ip(void) {
   }
   freeifaddrs(addrlist);
   printf("%%F{4} %%f%s  ", ip);
-  modlen += strlen(ip);
+  modlen_g += strlen(ip);
 }
 
 static void modsep(struct winsize *w) {
   int i;
   printf("%%F{3})»:");
-  for (i = 0; i < w->ws_col - modlen; i++) {
+  for (i = 0; i < w->ws_col - modlen_g; i++) {
     printf(i % 2 ? "%%F{1}-" : "%%F{3}=");
   }
 }
