@@ -25,7 +25,7 @@ struct linux_dirent64
 	ino64_t d_ino;
 	off64_t d_off;
 	unsigned short d_reclen;
-	unsigned char  d_type;
+	unsigned char d_type;
 	char d_name[];
 };
 
@@ -41,7 +41,7 @@ static void getdirstat(struct dirstat *d)
 	while ((nents = syscall(SYS_getdents64, fd, buf, sizeof(buf))) > 0) {
 		for (i = 0; i < nents; i += e->d_reclen) {
 			e = (struct linux_dirent64 *)(buf + i);
-			if (e->d_name[0] == '.' && (!e->d_name[1] || (e->d_name[1] == '.' &&
+			if (*e->d_name == '.' && (!e->d_name[1] || (e->d_name[1] == '.' &&
 														  !e->d_name[2])))
 				continue;
 			switch (e->d_type) {

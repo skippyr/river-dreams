@@ -13,11 +13,12 @@
 </p>
 
 ## ❡ About
-A tribal inspired zsh theme for Linux designed to help you develop your dream projects.
+
+A tribal inspired ZSH theme for GNU/Linux designed to help you develop your dream projects.
 
 <p align="center">
 	<img alt="" src="imgs/preview.webp" />
-	<p align="center"><sup><strong>Caption:</strong> a preview showing riverdreams applied on zsh in its own repository. The terminal theme used is <a href="https://github.com/skippyr/flamerial">flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">iosevka</a>.</sup></p>
+	<p align="center"><sup><strong>Caption:</strong> a preview showing riverdreams applied on ZSH. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">Iosevka</a>.</sup></p>
 </p>
 
 Its left prompt displays:
@@ -25,12 +26,13 @@ Its left prompt displays:
 - Your local IPV4 address.
 - Your disk use percentage.
 - Your battery status and remaining charge, if any.
-- A calendar.
-- A clock.
+- A calendar showing the week day, month and day.
+- A clock showing the hour and minute.
 - A decorator when you are the root user.
-- A decorator for exit codes.
-- Your active directory path, shorting it when inside of a git repo.
-- The active branch, when inside of a git repo.
+- A decorator for success and fail exit codes.
+- The active Python virtual environment, if you have sourced one.
+- Your active directory path, shorting it when inside of a git repository.
+- The active branch, when inside of a git repository.
 - A decorator when you can not modify the active directory.
 
 Its right prompt displays:
