@@ -42,7 +42,7 @@ static void getdirstat(struct dirstat *d)
 		for (i = 0; i < nents; i += e->d_reclen) {
 			e = (struct linux_dirent64 *)(buf + i);
 			if (*e->d_name == '.' && (!e->d_name[1] || (e->d_name[1] == '.' &&
-														  !e->d_name[2])))
+														!e->d_name[2])))
 				continue;
 			switch (e->d_type) {
 			case DT_REG: d->reg++; break;

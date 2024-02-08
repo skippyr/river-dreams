@@ -37,7 +37,7 @@ Its left prompt displays:
 
 Its right prompt displays:
 
-- The total of each entry type in your active directory: regulars, directories, block devices, character devices, fifos, sockets and symlinks.
+- The total of each entry type in your active directory: regulars, directories, blocks, characters, fifos, sockets and symlinks.
 - The total of background jobs.
 
 ## ❡ Install
