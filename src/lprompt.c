@@ -20,7 +20,7 @@
 		printf(i % 2 ? sym0 : sym1);
 
 static void bat(void);
-static void branch(char *gitroot);
+static void branch(char *gitroot, int gitrootlen);
 static void cal(struct tm *t);
 static void clk(struct tm *t);
 static void cmdsep(struct winsize *w);
@@ -28,11 +28,11 @@ static int cntdgts(int n);
 static void dirwperms(void);
 static void disk(void);
 static void exitstat(void);
-static void findgitroot(char *pwd, char **root, size_t *rootlen);
-static size_t findrslash(size_t len, char *path);
+static void findgitroot(char *pwd, char **root, int *rootlen);
+static int findrslash(int len, char *path);
 static void ip(void);
 static void modsep(struct winsize *w);
-static void path(char *pwd, char *gitroot, size_t gitrootlen);
+static void path(char *pwd, char *gitroot, int gitrootlen);
 static void rootstat(void);
 static void venv(void);
 
@@ -59,7 +59,7 @@ static void bat(void)
 	modlen_g += cntdgts(rem) + 6 + (*statbuf == 'C') * 2;
 }
 
-static void branch(char *gitroot)
+static void branch(char *gitroot, int gitrootlen)
 {
 	char *headpath;
 	FILE *head;
@@ -67,7 +67,7 @@ static void branch(char *gitroot)
 	int c;
 	if (!gitroot)
 		return;
-	headpath = malloc(strlen(gitroot) + 11);
+	headpath = malloc(gitrootlen + 11);
 	sprintf(headpath, "%s/.git/HEAD", gitroot);
 	head = fopen(headpath, "r");
 	free(headpath);
@@ -138,9 +138,9 @@ static void exitstat(void)
 	printf("{%%(?.%%%%.%%F{1}x)%%F{3}}⤐  ");
 }
 
-static void findgitroot(char *pwd, char **root, size_t *rootlen)
+static void findgitroot(char *pwd, char **root, int *rootlen)
 {
-	size_t pwdlen = strlen(pwd);
+	int pwdlen = strlen(pwd);
 	*root = malloc(pwdlen + 6);
 	for (*rootlen = 0; *rootlen < pwdlen; ++*rootlen)
 		*(*root + *rootlen) = pwd[*rootlen];
@@ -165,9 +165,9 @@ static void findgitroot(char *pwd, char **root, size_t *rootlen)
 	*root = NULL;
 }	
 
-static size_t findrslash(size_t len, char *path)
+static int findrslash(int len, char *path)
 {
-	size_t i;
+	int i;
 	for (i = len - 1; i; i--)
 		if (path[i] == '/')
 			return i;
@@ -199,7 +199,7 @@ static void modsep(struct winsize *w)
 	SYMLN(w->ws_col - modlen_g, "%%F{1}-", "%%F{3}=");
 }
 
-static void path(char *pwd, char *gitroot, size_t gitrootlen)
+static void path(char *pwd, char *gitroot, int gitrootlen)
 {
 	!gitroot || (*gitroot == '/' && !gitroot[1]) ? printf("%%F{1}%%~") :
 		printf("%%F{1}@/%s", pwd + findrslash(gitrootlen, gitroot) + 1);
@@ -221,7 +221,7 @@ int main(void)
 {
 	char *pwd = getenv("PWD");
 	char *gitroot;
-	size_t gitrootlen;
+	int gitrootlen;
 	time_t tt = time(NULL);
 	struct tm *t = localtime(&tt);
 	struct winsize w;
@@ -238,7 +238,7 @@ int main(void)
 	exitstat();
 	venv();
 	path(pwd, gitroot, gitrootlen);
-	branch(gitroot);
+	branch(gitroot, gitrootlen);
 	dirwperms();
 	printf("%%f \n");
 	if (gitroot)

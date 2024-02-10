@@ -5,19 +5,19 @@
 #include <sys/syscall.h>
 #include <unistd.h>
 
-#define DIRSTAT(sym, val)\
+#define DIRSTAT(clr, sym, val)\
 	if (val)\
-		printf(" %s%ld", sym, val);
+		printf(" %%F{%d}%s%%f%d", clr, sym, val);
 
 struct dirstat
 {
-	size_t reg;
-	size_t dir;
-	size_t blk;
-	size_t ch;
-	size_t skt;
-	size_t ff;
-	size_t lnk;
+	int reg;
+	int dir;
+	int blk;
+	int ch;
+	int skt;
+	int ff;
+	int lnk;
 };
 
 struct linux_dirent64
@@ -62,13 +62,13 @@ int main(void)
 {
 	struct dirstat d = {0, 0, 0, 0, 0, 0, 0};
 	getdirstat(&d);
-	DIRSTAT("%F{4} %f", d.reg);
-	DIRSTAT("%F{3} %f", d.dir);
-	DIRSTAT("%F{5}󰇖 %f", d.blk);
-	DIRSTAT("%F{2}󱣴 %f", d.ch);
-	DIRSTAT("%F{4}󰟦 %f", d.ff);
-	DIRSTAT("%F{6}󱄙 %f", d.skt);
-	DIRSTAT("%F{4}󰌷 %f", d.lnk);
+	DIRSTAT(4, " ", d.reg);
+	DIRSTAT(3, " ", d.dir);
+	DIRSTAT(5, "󰇖 ", d.blk);
+	DIRSTAT(2, "󱣴 ", d.ch);
+	DIRSTAT(4, "󰟦 ", d.ff);
+	DIRSTAT(6, "󱄙 ", d.skt);
+	DIRSTAT(4, "󰌷 ", d.lnk);
 	printf("%%(1j. %%F{5} %%f%%j.)\n");
 	return 0;
 }
