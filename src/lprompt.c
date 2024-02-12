@@ -176,20 +176,18 @@ static int findrslash(int len, char *path)
 
 static void ip(void)
 {
-	char ip[16] = "127.0.0.1";
-	struct ifaddrs *addrlist;
+	char buf[16] = "";
 	struct ifaddrs *addr;
-	getifaddrs(&addrlist);
-	for (addr = addrlist; addr; addr = addr->ifa_next)
+	struct ifaddrs *list;
+	getifaddrs(&list);
+	for (addr = list; addr && !*buf; addr = addr->ifa_next)
 		if (addr->ifa_addr && addr->ifa_addr->sa_family & AF_INET &&
-			addr->ifa_flags & IFF_RUNNING && !(addr->ifa_flags & IFF_LOOPBACK)) {
+			addr->ifa_flags & IFF_RUNNING && !(addr->ifa_flags & IFF_LOOPBACK))
 			inet_ntop(AF_INET, &((struct sockaddr_in *)addr->ifa_addr)->sin_addr,
-					  ip, sizeof(ip));
-			break;
-		}
-	freeifaddrs(addrlist);
-	printf("%%F{4} %%f%s  ", ip);
-	modlen_g += strlen(ip);
+					  buf, sizeof(buf));
+	freeifaddrs(list);
+	printf("%%F{4} %%f%s  ", *buf ? buf : "127.0.0.1");
+	modlen_g += strlen(buf);
 }
 
 static void modsep(struct winsize *w)
