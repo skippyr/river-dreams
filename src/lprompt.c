@@ -15,8 +15,8 @@
 #define BAT "/sys/class/power_supply/BAT0"
 #endif
 #define ISORD(n) !((t->tm_mday - n) % 10)
-#define SYMLN(len, sym0, sym1)\
-	for (i = 0; i < len; i++)\
+#define SYMLN(len, sym0, sym1) \
+	for (i = 0; i < len; i++) \
 		printf(i % 2 ? sym0 : sym1);
 
 static void bat(void);
@@ -110,7 +110,7 @@ static int cntdgts(int n)
 	int i;
 	for (i = !n; n; n /= 10)
 		i++;
-	return i;
+	return (i);
 }
 
 static void dirwperms(void)
@@ -170,8 +170,8 @@ static int findrslash(int len, char *path)
 	int i;
 	for (i = len - 1; i; i--)
 		if (path[i] == '/')
-			return i;
-	return 0;
+			return (i);
+	return (0);
 }
 
 static void ip(void)
@@ -220,9 +220,9 @@ static void venv(void)
 int main(void)
 {
 	char *pwd = getenv("PWD");
+	time_t tt = time(NULL);
 	char *gitroot;
 	int gitrootlen;
-	time_t tt = time(NULL);
 	struct tm *t = localtime(&tt);
 	struct winsize w;
 	findgitroot(pwd, &gitroot, &gitrootlen);
@@ -243,5 +243,5 @@ int main(void)
 	printf("%%f \n");
 	if (gitroot)
 		free(gitroot);
-	return 0;
+	return (0);
 }

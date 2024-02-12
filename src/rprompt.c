@@ -5,8 +5,8 @@
 #include <sys/syscall.h>
 #include <unistd.h>
 
-#define DIRSTAT(clr_m, sym_m, val_m)\
-	if (val_m)\
+#define DIRSTAT(clr_m, sym_m, val_m) \
+	if (val_m) \
 		printf(" %%F{%d}%s%%f%d", clr_m, sym_m, val_m);
 
 struct dirstat
@@ -70,5 +70,5 @@ int main(void)
 	DIRSTAT(6, "󱄙 ", d.skt);
 	DIRSTAT(4, "󰌷 ", d.lnk);
 	printf("%%(1j. %%F{5} %%f%%j.)\n");
-	return 0;
+	return (0);
 }
