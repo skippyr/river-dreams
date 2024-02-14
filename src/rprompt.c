@@ -7,17 +7,17 @@
 
 #define DIRSTAT(clr_m, sym_m, val_m) \
 	if (val_m) \
-		printf(" %%F{%d}%s%%f%d", clr_m, sym_m, val_m);
+		printf(" %%F{%d}%s%%f%ld", clr_m, sym_m, val_m);
 
 struct dirstat
 {
-	int reg;
-	int dir;
-	int blk;
-	int ch;
-	int skt;
-	int ff;
-	int lnk;
+	size_t reg;
+	size_t dir;
+	size_t blk;
+	size_t ch;
+	size_t skt;
+	size_t ff;
+	size_t lnk;
 };
 
 struct linux_dirent64
@@ -44,15 +44,20 @@ static void getdirstat(struct dirstat *d)
 			if (*e->d_name == '.' && (!e->d_name[1] || (e->d_name[1] == '.' &&
 														!e->d_name[2])))
 				continue;
-			switch (e->d_type) {
-			case DT_REG: d->reg++; break;
-			case DT_DIR: d->dir++; break;
-			case DT_BLK: d->blk++; break;
-			case DT_CHR: d->ch++; break;
-			case DT_SOCK: d->skt++; break;
-			case DT_FIFO: d->ff++; break;
-			case DT_LNK: d->lnk++; break;
-			}
+			if (e->d_type == DT_REG)
+				d->reg++;
+			else if (e->d_type == DT_DIR)
+				d->dir++;
+			else if (e->d_type == DT_BLK)
+				d->blk++;
+			else if (e->d_type == DT_CHR)
+				d->ch++;
+			else if (e->d_type == DT_SOCK)
+				d->skt++;
+			else if (e->d_type == DT_FIFO)
+				d->ff++;
+			else if (e->d_type == DT_LNK)
+				d->lnk++;
 		}
 	}
 	close(fd);
