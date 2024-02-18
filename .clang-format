@@ -1,0 +1,8 @@
+AccessModifierOffset: -4
+AlignEscapedNewlines: DontAlign
+BasedOnStyle: Microsoft
+BreakAfterJavaFieldAnnotations: True
+ColumnLimit: 100
+FixNamespaceComments: False
+JavaScriptQuotes: Double
+PointerAlignment: Left

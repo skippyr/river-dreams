@@ -1,106 +1,108 @@
 <p align="center">
-	<img alt="" src="imgs/ornament.webp" />
+    <img alt="" src="assets/ornament.webp" />
 </p>
-<h1 align="center">≥v≥v&ensp;riverdreams&ensp;≥v≥v</h1>
+<h1 align="center">≥v≥v&ensp;river-dreams&ensp;≥v≥v</h1>
 <p align="center">
-	<img alt="" src="https://img.shields.io/github/license/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20license&labelColor=%2324130e&color=%23b8150d" />
-	&nbsp;
-	<img alt="" src="https://img.shields.io/github/v/tag/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20tag&labelColor=%2324130e&color=%23b8150d" />
-	&nbsp;
-	<img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20commits&labelColor=%2324130e&color=%23b8150d" />
-	&nbsp;
-	<img alt="" src="https://img.shields.io/github/stars/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20stars&labelColor=%2324130e&color=%23b8150d" />
+    <img alt="" src="https://img.shields.io/github/license/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20license&labelColor=%2324130e&color=%23b8150d" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/v/tag/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20tag&labelColor=%2324130e&color=%23b8150d" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20commits&labelColor=%2324130e&color=%23b8150d" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/stars/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20stars&labelColor=%2324130e&color=%23b8150d" />
 </p>
 
 ## ❡ About
 
 A tribal inspired ZSH theme for GNU/Linux designed to help you develop your dream projects.
 
+It shows you some useful about your environment, making it a great choice for any desktop setup, specially minimalist tiling window managers.
+
 <p align="center">
-	<img alt="" src="imgs/preview.webp" />
-	<p align="center"><sup><strong>Caption:</strong> a preview showing riverdreams applied on ZSH. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">Iosevka</a>.</sup></p>
+    <img alt="" src="assets/preview.webp" />
 </p>
+<p align="center"><strong>Caption:</strong> a preview of River Dreams applied on ZSH. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://github.com/source-foundry/Hack">Hack</a>.</p>
+
+### Features
 
 Its left prompt displays:
 
 - Your local IPV4 address.
-- Your disk use percentage.
-- Your battery status and remaining charge, if any.
-- A calendar showing the week day, month and day.
-- A clock showing the hour and minute.
+- Your disk usage.
+- Your battery charge, if any.
+- A calendar.
+- A clock.
 - A decorator when you are the root user.
-- A decorator for success and fail exit codes.
+- A decorator for exit codes.
 - The active Python virtual environment, if you have sourced one.
-- Your active directory path, shorting it when inside of a git repository.
-- The active branch, when inside of a git repository.
-- A decorator when you can not modify the active directory.
+- The active directory path, shorting it when inside of a Git repository.
+- The active branch, when inside of a Git repository.
+- A decorator when you do not have access to the active directory.
 
 Its right prompt displays:
 
-- The total of each entry type in your active directory: regulars, directories, blocks, characters, fifos, sockets and symlinks.
+- The total of each entry type in the active directory: regulars, directories, blocks, characters, sockets, fifos and symlinks.
 - The total of background jobs.
 
 ## ❡ Install
 
 ### Dependencies
 
-In order to install it, the following dependencies must be installed:
+The following dependencies must be installed before installing it:
 
 - **git**: it will be used to clone this repository.
-- **make**, **gcc**: they will be used to compile this theme.
-- **Nerd Fonts Symbols**, **Noto Sans**: these fonts provide the pretty symbols used in the theme.
+- **g++**, **make**: they will be used to compile this theme.
 
 ### Procedures
 
 #### Manual Procedures
 
-If you want to install it without a plugin manager or for a specific framework, follow these steps:
+If you want to install this theme without a plugin manager or for a specific framework, follow these steps:
 
 - Clone this repository using `git`:
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/riverdreams\
-                    ~/.config/zsh/themes/riverdreams;
+git clone --depth 1 ~/.config/zsh/themes/river-dreams;
 ```
 
-- Source the file `riverdreams.zsh-theme` that is inside of that repository in your `~/.zshrc` configuration file:
+- Source the file `river-dreams.zsh-theme` that is inside of the repository you just cloned in your `~/.zshrc` configuration file:
 
 ```zsh
-source ~/.config/zsh/themes/riverdreams/riverdreams.zsh-theme;
+source ~/.config/zsh/themes/river-dreams/river-dreams.zsh-theme;
 ```
 
 - Reopen `zsh`.
 
 #### Procedures For OhMyZSH
 
-If you want to install and use it with the OhMyZSH framework, follow these steps:
+If you want to install and use this theme with the OhMyZSH framework, follow these steps:
 
 - Clone this repository using `git`:
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/riverdreams\
-                    ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/riverdreams;
+git clone --depth 1 https://github.com/skippyr/river-dreams\
+                    ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/river-dreams;
 ```
 
-- Apply the theme in your `~/.zshrc` configuration file:
+- Apply the theme in `~/.zshrc` configuration by setting the `ZSH_THEME` variable:
 
 ```zsh
-ZSH_THEME="riverdreams/riverdreams";
+ZSH_THEME="river-dreams/river-dreams";
 ```
 
 - Reopen `zsh`.
 
 #### Procedures For Antidote
 
-If you want to install it using the `antidote` package manager, follow these steps:
+If you want to install this theme with the Antidote package manager, follow these steps:
 
-- Add this repository to your plugins file, usually `~/.zsh_plugins.txt`:
+- Add this repository to your plugins file, usually `~/.zsh_plugins.txt`.
 
 ```
-skippyr/riverdreams
+skippyr/river-dreams
 ```
 
-- Use `antidote` to load your plugins:
+- Use `antidote` to load your plugins.
 
 ```zsh
 antidote load ~/.zsh_plugins.txt;

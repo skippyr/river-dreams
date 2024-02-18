@@ -1,14 +1,13 @@
-CC:=cc
-CFLAGS:=-std=c99 -pedantic -O3 -Wall -Wextra
-BINPATH:=/usr/local/bin
+CXX:=g++
+CXXFLAGS:=-std=c++14 -O3 -Wall -Wextra
 
 .PHONY: all clean
 
-all: out/lprompt out/rprompt
+all: out/left-prompt out/right-prompt
 
 clean:
 	rm -rf out;
 
-out/%prompt: src/%prompt.c
+out/%-prompt: src/%-prompt.cpp
 	mkdir -p out;
-	${CC} ${CFLAGS} -o${@} ${^};
+	${CXX} ${CXXFLAGS} -o${@} ${^};
