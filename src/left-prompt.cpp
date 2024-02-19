@@ -123,7 +123,7 @@ static void WriteDiskUsage(void)
     statvfs64("/", &status);
     totalBytes = status.f_frsize * status.f_blocks;
     remainingBytes = status.f_frsize * status.f_bavail;
-    usage = ((totalBytes - remainingBytes) / (float)totalBytes) * 100;
+    usage = ((totalBytes - remainingBytes) / static_cast<float>(totalBytes)) * 100;
     std::printf("%%F{%s}󰋊 %%f%d%%%%  ",
                 usage < 70   ? "green"
                 : usage < 80 ? "yellow"
