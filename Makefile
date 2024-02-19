@@ -3,11 +3,11 @@ CXXFLAGS:=-std=c++14 -O3 -Wall -Wextra
 
 .PHONY: all clean
 
-all: out/left-prompt out/right-prompt
+all: bin/left-prompt bin/right-prompt
 
 clean:
-	rm -rf out;
+	rm -rf bin;
 
-out/%-prompt: src/%-prompt.cpp
-	mkdir -p out;
+bin/%-prompt: src/%-prompt.cpp
+	mkdir -p bin;
 	${CXX} ${CXXFLAGS} -o${@} ${^};
