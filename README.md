@@ -21,7 +21,7 @@ It shows you some useful about your environment, making it a great choice for an
 <p align="center">
     <img alt="" src="assets/preview.webp" />
 </p>
-<p align="center"><strong>Caption:</strong> a preview of River Dreams applied on ZSH. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://github.com/source-foundry/Hack">Hack</a>.</p>
+<p align="center"><sup><strong>Caption:</strong> a preview of River Dreams applied on ZSH. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://github.com/source-foundry/Hack">Hack</a>.</sup></p>
 
 ### Features
 
