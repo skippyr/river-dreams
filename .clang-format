@@ -2,7 +2,9 @@ AccessModifierOffset: -4
 AlignEscapedNewlines: DontAlign
 BasedOnStyle: Microsoft
 BreakAfterJavaFieldAnnotations: True
+BreakBeforeBraces: Mozilla
 ColumnLimit: 100
+ContinuationIndentWidth: 0
 FixNamespaceComments: False
 JavaScriptQuotes: Double
 PointerAlignment: Left

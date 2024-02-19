@@ -6,24 +6,25 @@
 #include <cstdio>
 
 #define WRITE_ENTRY_TYPE(color_m, symbol_m, value_m) \
-    if (value_m) \
-    { \
+    if (value_m) { \
         std::printf(" %%F{%s}%s%%f%ld", color_m, symbol_m, value_m); \
     }
 
 struct EntryTypes
 {
-    std::size_t regulars = 0;
-    std::size_t directories = 0;
-    std::size_t blocks = 0;
-    std::size_t characters = 0;
-    std::size_t sockets = 0;
-    std::size_t fifos = 0;
-    std::size_t symlinks = 0;
+public:
+    std::size_t regulars_s = 0;
+    std::size_t directories_s = 0;
+    std::size_t blocks_s = 0;
+    std::size_t characters_s = 0;
+    std::size_t sockets_s = 0;
+    std::size_t fifos_s = 0;
+    std::size_t symlinks_s = 0;
 };
 
 struct linux_dirent64
 {
+public:
     ino64_t d_ino;
     off64_t d_off;
     unsigned short int d_reclen;
@@ -31,69 +32,70 @@ struct linux_dirent64
     char d_name[];
 };
 
-static void GetEntryTypes(struct EntryTypes& types);
+static struct EntryTypes count_entry_types();
+static void write_total_of_entry_types();
+static void write_total_of_jobs();
 
-static void GetEntryTypes(struct EntryTypes& types)
+static struct EntryTypes count_entry_types()
 {
     char buffer[1024];
     int directory = open(".", O_RDONLY);
-    long totalOfEntries;
-    long index;
+    long total_of_entries;
+    long entry_index;
     struct linux_dirent64* entry;
-    if (directory < 0)
-    {
-        return;
+    struct EntryTypes types = EntryTypes();
+    if (directory < 0) {
+        return (types);
     }
-    while ((totalOfEntries = syscall(SYS_getdents64, directory, buffer, sizeof(buffer))) > 0)
-    {
-        for (index = 0; index < totalOfEntries; index += entry->d_reclen)
-        {
-            entry = (struct linux_dirent64*)(buffer + index);
+    while ((total_of_entries = syscall(SYS_getdents64, directory, buffer, sizeof(buffer))) > 0) {
+        for (entry_index = 0; entry_index < total_of_entries; entry_index += entry->d_reclen) {
+            entry = reinterpret_cast<struct linux_dirent64*>(buffer + entry_index);
             if (*entry->d_name == '.' &&
-                (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
-            {
+                (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2]))) {
                 continue;
             }
-            switch (entry->d_type)
-            {
-            case DT_REG:
-                types.regulars++;
-                break;
-            case DT_DIR:
-                types.directories++;
-                break;
-            case DT_BLK:
-                types.blocks++;
-                break;
-            case DT_CHR:
-                types.characters++;
-                break;
-            case DT_SOCK:
-                types.sockets++;
-                break;
-            case DT_FIFO:
-                types.fifos++;
-                break;
-            case DT_LNK:
-                types.symlinks++;
-                break;
+            if (entry->d_type == DT_REG) {
+                types.regulars_s++;
+            } else if (entry->d_type == DT_DIR) {
+                types.directories_s++;
+            } else if (entry->d_type == DT_BLK) {
+                types.blocks_s++;
+            } else if (entry->d_type == DT_CHR) {
+                types.characters_s++;
+            } else if (entry->d_type == DT_SOCK) {
+                types.sockets_s++;
+            } else if (entry->d_type == DT_FIFO) {
+                types.fifos_s++;
+            } else if (entry->d_type == DT_LNK) {
+                types.symlinks_s++;
             }
         }
     }
     close(directory);
+    return (types);
 }
 
-int main(void)
+static void write_total_of_entry_types()
 {
-    struct EntryTypes types = EntryTypes();
-    GetEntryTypes(types);
-    WRITE_ENTRY_TYPE("blue", " ", types.regulars);
-    WRITE_ENTRY_TYPE("yellow", " ", types.directories);
-    WRITE_ENTRY_TYPE("magenta", "󰇖 ", types.blocks);
-    WRITE_ENTRY_TYPE("green", "󱣴 ", types.characters);
-    WRITE_ENTRY_TYPE("blue", "󰟦 ", types.fifos);
-    WRITE_ENTRY_TYPE("cyan", "󱄙 ", types.sockets);
-    WRITE_ENTRY_TYPE("blue", "󰌷 ", types.symlinks);
-    std::printf("%%(1j. %%F{magenta} %%f%%j.)\n");
+    struct EntryTypes types = count_entry_types();
+    WRITE_ENTRY_TYPE("blue", " ", types.regulars_s);
+    WRITE_ENTRY_TYPE("yellow", " ", types.directories_s);
+    WRITE_ENTRY_TYPE("magenta", "󰇖 ", types.blocks_s);
+    WRITE_ENTRY_TYPE("green", "󱣴 ", types.characters_s);
+    WRITE_ENTRY_TYPE("cyan", "󱄙 ", types.sockets_s);
+    WRITE_ENTRY_TYPE("blue", "󰟦 ", types.fifos_s);
+    WRITE_ENTRY_TYPE("blue", "󰌷 ", types.symlinks_s);
+}
+
+static void write_total_of_jobs()
+{
+    std::printf("%%(1j. %%F{magenta} %%f%%j.)");
+}
+
+int main()
+{
+    write_total_of_entry_types();
+    write_total_of_jobs();
+    std::printf("\n");
     return (0);
 }
