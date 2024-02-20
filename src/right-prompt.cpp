@@ -12,13 +12,13 @@
 
 struct EntryTypes
 {
-    std::size_t regulars_s = 0;
-    std::size_t directories_s = 0;
-    std::size_t blocks_s = 0;
-    std::size_t characters_s = 0;
-    std::size_t sockets_s = 0;
-    std::size_t fifos_s = 0;
-    std::size_t symlinks_s = 0;
+    std::size_t regulars_s;
+    std::size_t directories_s;
+    std::size_t blocks_s;
+    std::size_t characters_s;
+    std::size_t sockets_s;
+    std::size_t fifos_s;
+    std::size_t symlinks_s;
 };
 
 struct linux_dirent64
@@ -41,7 +41,7 @@ static struct EntryTypes count_entry_types()
     long total_of_entries;
     long entry_index;
     struct linux_dirent64* entry;
-    struct EntryTypes types = EntryTypes();
+    struct EntryTypes types = {0, 0, 0, 0, 0, 0, 0};
     if (directory < 0) {
         return (types);
     }
