@@ -12,7 +12,6 @@
 
 struct EntryTypes
 {
-public:
     std::size_t regulars_s = 0;
     std::size_t directories_s = 0;
     std::size_t blocks_s = 0;
@@ -24,7 +23,6 @@ public:
 
 struct linux_dirent64
 {
-public:
     ino64_t d_ino;
     off64_t d_off;
     unsigned short int d_reclen;

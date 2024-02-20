@@ -16,12 +16,12 @@
 
 A tribal inspired ZSH theme for GNU/Linux designed to help you develop your dream projects.
 
-It shows you some useful about your environment, making it a great choice for any desktop setup, specially minimalist tiling window managers.
+It includes many features that inform you about your environment, making it a great addition for any desktop setup, specially minimalist tiling window managers.
 
 <p align="center">
     <img alt="" src="assets/preview.webp" />
 </p>
-<p align="center"><sup><strong>Caption:</strong> a preview of River Dreams applied on ZSH. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://github.com/source-foundry/Hack">Hack</a>.</sup></p>
+<p align="center"><sup><strong>Caption:</strong> a preview of River Dreams applied on ZSH. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">Iosevka SS08</a>.</sup></p>
 
 ### Features
 
@@ -33,7 +33,7 @@ Its left prompt displays:
 - A calendar.
 - A clock.
 - A decorator when you are the root user.
-- A decorator for exit codes.
+- The exit code of the last command you typed in.
 - The active Python virtual environment, if you have sourced one.
 - The active directory path, shorting it when inside of a Git repository.
 - The active branch, when inside of a Git repository.
@@ -75,7 +75,7 @@ source ~/.config/zsh/themes/river-dreams/river-dreams.zsh-theme;
 
 #### Procedures For OhMyZSH
 
-If you want to install and use this theme with the OhMyZSH framework, follow these steps:
+If you want to install and use this theme with the [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh) framework, follow these steps:
 
 - Clone this repository using `git`:
 
@@ -94,7 +94,7 @@ ZSH_THEME="river-dreams/river-dreams";
 
 #### Procedures For Antidote
 
-If you want to install this theme with the Antidote package manager, follow these steps:
+If you want to install this theme with the [antidote](https://github.com/mattmc3/antidote) plugin manager, follow these steps:
 
 - Add this repository to your plugins file, usually `~/.zsh_plugins.txt`.
 

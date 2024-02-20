@@ -151,7 +151,7 @@ static void write_disk_usage()
 
 static void write_exit_code_status()
 {
-    std::printf("{%%(?.%%%%.%%F{red}x)%%F{yellow}}⤐  ");
+    std::printf("{%%(?..%%F{red})%%?%%F{yellow}}⤐  ");
 }
 
 static void write_local_ipv4_address()
