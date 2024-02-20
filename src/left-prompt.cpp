@@ -184,8 +184,8 @@ static void write_modules_separator(struct winsize& window_size)
 
 static void write_path(std::string& pwd, std::string& git_root)
 {
-    git_root.length() < 2 ? std::printf("%%F{1}%%~")
-                          : std::printf("%%F{1}@%s", pwd.c_str() + git_root.find_last_of('/'));
+    git_root.length() < 2 ? std::printf("%%F{red}%%~")
+                          : std::printf("%%F{red}@%s", pwd.c_str() + git_root.find_last_of('/'));
 }
 
 static void write_root_user_status()
