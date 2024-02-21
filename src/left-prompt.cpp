@@ -15,7 +15,7 @@
 #if !defined(BATTERY)
 #define BATTERY "/sys/class/power_supply/BAT0"
 #endif
-#define IS_ORDINAL_DAY(ordinal_m) !((date->tm_mday - ordinal_m) % 10)
+#define IS_ORDINAL_DAY(ordinal_a) !((date->tm_mday - ordinal_a) % 10)
 
 static int count_digits(int number);
 static std::string find_git_root(std::string pwd);
