@@ -10,7 +10,7 @@
         printf(" %%F{%s}%s%%f%ld", color_a, symbol_a, value_a); \
     }
 
-struct EntryTypes
+struct entry_types
 {
     size_t regulars;
     size_t directories;
@@ -30,52 +30,49 @@ struct linux_dirent64
     char d_name[];
 };
 
-static void countEntryTypes(struct EntryTypes* types);
-static void writeEntryTypes(void);
-static void writeJobs(void);
+static void count_entry_types(struct entry_types *types);
+static void write_entry_types(void);
+static void write_jobs(void);
 
-static void countEntryTypes(struct EntryTypes* types)
+static void count_entry_types(struct entry_types *types)
 {
     char buffer[1024];
     int directory = open(".", O_RDONLY);
-    long totalOfEntries;
+    long total_of_entries;
     long index;
-    struct linux_dirent64* entry;
-    if (directory < 0) {
+    struct linux_dirent64 *entry;
+    if (directory < 0)
         return;
-    }
-    while ((totalOfEntries = syscall(SYS_getdents64, directory, buffer, sizeof(buffer))) >
-           0) {
-        for (index = 0; index < totalOfEntries; index += entry->d_reclen) {
-            entry = (struct linux_dirent64*)(buffer + index);
+    while ((total_of_entries =
+                syscall(SYS_getdents64, directory, buffer, sizeof(buffer))) > 0) {
+        for (index = 0; index < total_of_entries; index += entry->d_reclen) {
+            entry = (struct linux_dirent64 *)(buffer + index);
             if (*entry->d_name == '.' &&
-                (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2]))) {
+                (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
                 continue;
-            }
-            if (entry->d_type == DT_REG) {
+            if (entry->d_type == DT_REG)
                 types->regulars++;
-            } else if (entry->d_type == DT_DIR) {
+            else if (entry->d_type == DT_DIR)
                 types->directories++;
-            } else if (entry->d_type == DT_BLK) {
+            else if (entry->d_type == DT_BLK)
                 types->blocks++;
-            } else if (entry->d_type == DT_CHR) {
+            else if (entry->d_type == DT_CHR)
                 types->characters++;
-            } else if (entry->d_type == DT_SOCK) {
+            else if (entry->d_type == DT_SOCK)
                 types->sockets++;
-            } else if (entry->d_type == DT_FIFO) {
+            else if (entry->d_type == DT_FIFO)
                 types->fifos++;
-            } else if (entry->d_type == DT_LNK) {
+            else if (entry->d_type == DT_LNK)
                 types->symlinks++;
-            }
         }
     }
     close(directory);
 }
 
-static void writeEntryTypes(void)
+static void write_entry_types(void)
 {
-    struct EntryTypes types = {0, 0, 0, 0, 0, 0, 0};
-    countEntryTypes(&types);
+    struct entry_types types = {0, 0, 0, 0, 0, 0, 0};
+    count_entry_types(&types);
     WRITE_ENTRY_TYPE(" ", "blue", types.regulars);
     WRITE_ENTRY_TYPE(" ", "yellow", types.directories);
     WRITE_ENTRY_TYPE("󰇖 ", "magenta", types.blocks);
@@ -85,15 +82,15 @@ static void writeEntryTypes(void)
     WRITE_ENTRY_TYPE("󰌷 ", "blue", types.symlinks);
 }
 
-static void writeJobs(void)
+static void write_jobs(void)
 {
     printf("%%(1j. %%F{magenta} %%f%%j.)");
 }
 
 int main(void)
 {
-    writeEntryTypes();
-    writeJobs();
+    write_entry_types();
+    write_jobs();
     printf("\n");
     return (0);
 }

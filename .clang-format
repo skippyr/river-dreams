@@ -2,4 +2,3 @@ AlignEscapedNewlines: DontAlign
 BasedOnStyle: Microsoft
 BreakBeforeBraces: Mozilla
 ColumnLimit: 90
-PointerAlignment: Left
