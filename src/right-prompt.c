@@ -6,9 +6,8 @@
 #include <unistd.h>
 
 #define WRITE_ENTRY_TYPE(symbol_a, color_a, value_a) \
-    if (value_a) { \
-        printf(" %%F{%s}%s%%f%ld", color_a, symbol_a, value_a); \
-    }
+    if (value_a) \
+        printf(" %%F{%s}%s%%f%ld", color_a, symbol_a, value_a);
 
 struct entry_types
 {
@@ -43,8 +42,8 @@ static void count_entry_types(struct entry_types *types)
     struct linux_dirent64 *entry;
     if (directory < 0)
         return;
-    while ((total_of_entries =
-                syscall(SYS_getdents64, directory, buffer, sizeof(buffer))) > 0) {
+    while (
+    (total_of_entries = syscall(SYS_getdents64, directory, buffer, sizeof(buffer))) > 0) {
         for (index = 0; index < total_of_entries; index += entry->d_reclen) {
             entry = (struct linux_dirent64 *)(buffer + index);
             if (*entry->d_name == '.' &&

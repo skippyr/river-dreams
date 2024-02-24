@@ -73,7 +73,7 @@ static void find_git_root(const char *pwd, char **root, size_t *length)
         if (**root == '/' && !*(*root + 1))
             break;
         *(*root + (!(*length = find_last_slash(*root, *length)) ? ++*length : *length)) =
-            0;
+        0;
     }
     free(*root);
     *root = NULL;
@@ -94,10 +94,10 @@ static void write_battery_charge(void)
     close(status_file);
     charge = atoi(capacity_buffer);
     printf("%s%s%%f%d%%%%  ", *status_buffer == 'C' ? "%F{yellow}󱐋 " : "",
-           charge <= 5    ? "%F{red}  "
-           : charge <= 25 ? "%F{yellow}  "
-           : charge <= 50 ? "%F{green}  "
-                          : "%F{green}  ",
+           charge <= 5      ? "%F{red}  "
+           : charge <= 25   ? "%F{yellow}  "
+             : charge <= 50 ? "%F{green}  "
+                            : "%F{green}  ",
            charge);
     modules_length_g += count_digits(charge) + 6 + (*status_buffer == 'C') * 2;
 }
@@ -131,19 +131,19 @@ static void write_calendar(struct tm *date)
     char buffer[13];
     strftime(buffer, sizeof(buffer), "(%a) %b %d", date);
     printf("%%F{red}󰃭 %%f%s%s  ", buffer,
-           IS_ORDINAL_DAY(1)   ? "st"
-           : IS_ORDINAL_DAY(2) ? "nd"
-           : IS_ORDINAL_DAY(3) ? "rd"
-                               : "th");
+           IS_ORDINAL_DAY(1)     ? "st"
+           : IS_ORDINAL_DAY(2)   ? "nd"
+             : IS_ORDINAL_DAY(3) ? "rd"
+                                 : "th");
 }
 
 static void write_clock(struct tm *date)
 {
     printf("%s%%f%02dh%02dm",
-           date->tm_hour < 6    ? "%F{cyan}󰭎 "
-           : date->tm_hour < 12 ? "%F{red}󰖨 "
-           : date->tm_hour < 18 ? "%F{blue} "
-                                : "%F{yellow}󰽥 ",
+           date->tm_hour < 6      ? "%F{cyan}󰭎 "
+           : date->tm_hour < 12   ? "%F{red}󰖨 "
+             : date->tm_hour < 18 ? "%F{blue} "
+                                  : "%F{yellow}󰽥 ",
            date->tm_hour, date->tm_min);
 }
 
@@ -213,8 +213,8 @@ static void write_modules_separator(struct winsize *window_size)
 static void write_path(const char *pwd, const char *git_root, size_t git_root_length)
 {
     !git_root || (*git_root == '/' && !git_root[1])
-        ? printf("%%F{1}%%~")
-        : printf("%%F{1}@/%s", pwd + find_last_slash(git_root, git_root_length) + 1);
+    ? printf("%%F{1}%%~")
+    : printf("%%F{1}@/%s", pwd + find_last_slash(git_root, git_root_length) + 1);
 }
 
 static void write_root_user_status(void)

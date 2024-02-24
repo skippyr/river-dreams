@@ -2,3 +2,4 @@ AlignEscapedNewlines: DontAlign
 BasedOnStyle: Microsoft
 BreakBeforeBraces: Mozilla
 ColumnLimit: 90
+ContinuationIndentWidth: 0
