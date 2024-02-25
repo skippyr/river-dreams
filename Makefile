@@ -3,11 +3,11 @@ CFLAGS:=-std=c99 -pedantic -Os -Wall -Wextra
 
 .PHONY: all clean
 
-all: bin/left-prompt bin/right-prompt
+all: out/left-prompt out/right-prompt
 
 clean:
-	rm -rf bin;
+	rm -rf out;
 
-bin/%-prompt: src/%-prompt.c
-	mkdir -p bin;
+out/%-prompt: src/%-prompt.c
+	mkdir -p out;
 	${CC} ${CFLAGS} -o${@} ${^};
