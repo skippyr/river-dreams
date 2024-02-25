@@ -1,4 +1,4 @@
 AlignEscapedNewlines: DontAlign
-BasedOnStyle: LLVM
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None
+BasedOnStyle: LLVM
