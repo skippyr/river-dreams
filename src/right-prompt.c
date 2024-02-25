@@ -89,6 +89,6 @@ static void writeJobs(void) {
 int main(void) {
   writeEntryTypes();
   writeJobs();
-  printf("\n");
+  putchar('\n');
   return 0;
 }
