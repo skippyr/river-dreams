@@ -111,11 +111,11 @@ antidote load ~/.zsh_plugins.txt;
 
 ## ❡ Help
 
-If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/riverdreams/issues) or send me an [e-mail](mailto:skippyr.developer@gmail.com) describing what is going on.
+If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/river-dreams/issues) or send me an [e-mail](mailto:skippyr.developer@gmail.com) describing what is going on.
 
 ## ❡ Contributing
 
-This project is open to review and possibly accept contributions, specially fixes and suggestions. If you are interested, send your contribution to its [pull requests page](https://github.com/skippyr/riverdreams/pulls) or to my [e-mail](mailto:skippyr.developer@gmail.com).
+This project is open to review and possibly accept contributions, specially fixes and suggestions. If you are interested, send your contribution to its [pull requests page](https://github.com/skippyr/river-dreams/pulls) or to my [e-mail](mailto:skippyr.developer@gmail.com).
 
 By contributing to this project, you agree to license your work under the same license that the project uses.
 
