@@ -14,7 +14,7 @@
 
 ## ❡ About
 
-A tribal inspired ZSH theme for GNU/Linux designed to help you develop your dream projects.
+A tribal inspired ZSH theme for Linux designed to help you develop your dream projects.
 
 It includes many features that inform you about your environment, making it a great addition for any desktop setup, specially minimalist tiling window managers.
 
