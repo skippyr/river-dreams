@@ -76,7 +76,7 @@ source ~/.config/zsh/themes/river-dreams/river-dreams.zsh-theme;
 
 #### Procedures For OhMyZSH
 
-If you want to install and use this theme with the [ohmyzsh](https://github.com/ohmyzsh/ohmyzsh) framework, follow these steps:
+If you want to install and use this theme with the [`ohmyzsh`](https://github.com/ohmyzsh/ohmyzsh) framework, follow these steps:
 
 - Clone this repository using `git`:
 
@@ -95,7 +95,7 @@ ZSH_THEME="river-dreams/river-dreams";
 
 #### Procedures For Antidote
 
-If you want to install this theme with the [antidote](https://github.com/mattmc3/antidote) plugin manager, follow these steps:
+If you want to install this theme with the [`antidote`](https://github.com/mattmc3/antidote) plugin manager, follow these steps:
 
 - Add this repository to your plugins file, usually `~/.zsh_plugins.txt`.
 
