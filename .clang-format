@@ -1,7 +1,4 @@
 AlignEscapedNewlines: DontAlign
-BreakBeforeBraces: Mozilla
-BasedOnStyle: Microsoft
-ColumnLimit: 90
-ContinuationIndentWidth: 0
-PointerAlignment: Left
-UseTab: Always
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+BasedOnStyle: LLVM
