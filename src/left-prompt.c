@@ -14,7 +14,7 @@
 #ifndef BATTERY
 #define BATTERY "/sys/class/power_supply/BAT0"
 #endif
-#define IS_ORDINAL_DAY(ordinal_a) !((date->tm_mday - ordinal_a) % 10)
+#define IS_ORDINAL_DAY(a_ordinal) !((date->tm_mday - a_ordinal) % 10)
 
 static int countDigits(int number);
 static size_t findLastSlash(const char *path, size_t length);
@@ -34,7 +34,7 @@ static void writePath(const char *pwd, const char *gitRoot,
 static void writeRootUserStatus(void);
 static void writeVirtualEnvironment(void);
 
-static int modulesLength_g = 41;
+static int g_modulesLength = 41;
 
 static int countDigits(int number) {
   int digits;
@@ -102,7 +102,7 @@ static void writeBatteryCharge(void) {
          : charge <= 50 ? "%F{green}  "
                         : "%F{green}  ",
          charge);
-  modulesLength_g += countDigits(charge) + 6 + (statusBuffer == 'C') * 2;
+  g_modulesLength += countDigits(charge) + 6 + (statusBuffer == 'C') * 2;
 }
 
 static void writeGitBranch(const char *root, size_t length) {
@@ -177,7 +177,7 @@ static void writeDiskUsage(void) {
          : usage < 80 ? "yellow"
                       : "red",
          usage);
-  modulesLength_g += countDigits(usage);
+  g_modulesLength += countDigits(usage);
 }
 
 static void writeExitCode(void) {
@@ -200,13 +200,13 @@ static void writeLocalIPV4Address(void) {
   }
   freeifaddrs(interfacesList);
   printf("%%F{blue} %%f%s  ", buffer);
-  modulesLength_g += strlen(buffer);
+  g_modulesLength += strlen(buffer);
 }
 
 static void writeModulesSeparator(struct winsize *windowSize) {
   int column;
   printf("%%F{yellow})»:");
-  for (column = 0; column < windowSize->ws_col - modulesLength_g; column++) {
+  for (column = 0; column < windowSize->ws_col - g_modulesLength; column++) {
     printf(column % 2 ? "%%F{red}-" : "%%F{yellow}=");
   }
 }

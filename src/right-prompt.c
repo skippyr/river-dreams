@@ -5,9 +5,9 @@
 #include <sys/syscall.h>
 #include <unistd.h>
 
-#define WRITE_ENTRY_TYPE(symbol_a, color_a, value_a) \
-  if (value_a) { \
-    printf(" %%F{%s}%s%%f%ld", color_a, symbol_a, value_a); \
+#define WRITE_ENTRY_TYPE(a_symbol, a_color, a_value) \
+  if (a_value) { \
+    printf(" %%F{%s}%s%%f%ld", a_color, a_symbol, a_value); \
   }
 
 struct EntryTypes {

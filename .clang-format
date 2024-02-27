@@ -2,3 +2,5 @@ AlignEscapedNewlines: DontAlign
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None
 BasedOnStyle: LLVM
+ContinuationIndentWidth: 2
+ColumnLimit: 90
