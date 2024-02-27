@@ -1,5 +1,6 @@
 CC:=cc
 CFLAGS:=-std=c99 -pedantic -Os -Wall -Wextra
+SHELL:=bash
 
 .PHONY: all clean
 
