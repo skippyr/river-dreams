@@ -85,15 +85,16 @@ static void writeBatteryCharge(void) {
   int statusFile = open(BATTERY "/status", O_RDONLY);
   char capacityBuffer[5];
   char statusBuffer;
-  int charge;
+  int charge = 0;
   if (statusFile < 0) {
     return;
+  } else if (capacityFile > 0) {
+    read(capacityFile, capacityBuffer, sizeof(capacityBuffer));
+    close(capacityFile);
+    charge = atoi(capacityBuffer);
   }
-  read(capacityFile, capacityBuffer, sizeof(capacityBuffer));
   read(statusFile, &statusBuffer, sizeof(statusBuffer));
-  close(capacityFile);
   close(statusFile);
-  charge = atoi(capacityBuffer);
   printf("%s%s%%f%d%%%%  ", statusBuffer == 'C' ? "%F{yellow}󱐋 " : "",
          charge <= 5    ? "%F{red}  "
          : charge <= 25 ? "%F{yellow}  "
