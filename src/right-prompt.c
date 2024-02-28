@@ -7,7 +7,7 @@
 
 #define WRITE_ENTRY_TYPE(a_symbol, a_color, a_value) \
   if (a_value) { \
-    printf(" %%F{%s}%s%%f%ld", a_color, a_symbol, a_value); \
+    printf(" %%F{%s}%s%%f%zu", a_color, a_symbol, a_value); \
   }
 
 struct EntryTypes {
