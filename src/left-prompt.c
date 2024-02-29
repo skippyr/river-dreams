@@ -44,8 +44,7 @@ static int countDigits(int number) {
 }
 
 static size_t findLastSlash(const char *path, size_t length) {
-  size_t index;
-  for (index = length - 1; index; index--) {
+  for (size_t index = length - 1; index; index--) {
     if (path[index] == '/') {
       return index;
     }
