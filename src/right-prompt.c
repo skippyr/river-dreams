@@ -35,15 +35,13 @@ static void writeJobs(void);
 static void countEntryTypes(struct EntryTypes *types) {
   char buffer[1024];
   int directory = open(".", O_RDONLY);
-  long totalOfEntries;
-  long index;
   struct linux_dirent64 *entry;
   if (directory < 0) {
     return;
   }
-  while ((totalOfEntries = syscall(SYS_getdents64, directory, buffer, sizeof(buffer))) >
-         0) {
-    for (index = 0; index < totalOfEntries; index += entry->d_reclen) {
+  for (long totalOfEntries; (totalOfEntries = syscall(SYS_getdents64, directory, buffer,
+                                                      sizeof(buffer))) > 0;) {
+    for (long index = 0; index < totalOfEntries; index += entry->d_reclen) {
       entry = (struct linux_dirent64 *)(buffer + index);
       if (*entry->d_name == '.' &&
           (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2]))) {

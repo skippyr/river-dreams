@@ -1,6 +1,8 @@
 AlignEscapedNewlines: DontAlign
 AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: None
+AllowShortFunctionsOnASingleLine: false
 BasedOnStyle: LLVM
-ContinuationIndentWidth: 2
+BreakAfterJavaFieldAnnotations: true
 ColumnLimit: 90
+FixNamespaceComments: false
+JavaScriptQuotes: Single
