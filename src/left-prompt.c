@@ -70,7 +70,7 @@ static void findGitRoot(const char* pwd, char** root, size_t* length) {
       return;
     }
     *(*root + (*length -= 5)) = 0;
-    if (**root == '/' && !*(*root + 1)) {
+    if (!*(*root + 1)) {
       break;
     }
     *(*root + (!(*length = findLastSlash(*root, *length)) ? ++*length : *length)) = 0;
@@ -201,7 +201,7 @@ static void writeModulesSeparator(struct winsize* windowSize) {
 }
 
 static void writePath(const char* pwd, const char* gitRoot, size_t gitRootLength) {
-  !gitRoot || (*gitRoot == '/' && !gitRoot[1])
+  !gitRoot || !gitRoot[1]
     ? printf("%%F{1}%%~")
     : printf("%%F{1}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
 }
