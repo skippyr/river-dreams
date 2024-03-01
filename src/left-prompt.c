@@ -17,19 +17,19 @@
 #define IS_ORDINAL_DAY(a_ordinal) !((date->tm_mday - a_ordinal) % 10)
 
 static int countDigits(int number);
-static size_t findLastSlash(const char *path, size_t length);
-static void findGitRoot(const char *pwd, char **root, size_t *length);
+static size_t findLastSlash(const char* path, size_t length);
+static void findGitRoot(const char* pwd, char** root, size_t* length);
 static void writeBatteryCharge(void);
-static void writeCalendar(struct tm *date);
-static void writeClock(struct tm *date);
-static void writeCommandsSeparator(struct winsize *windowSize);
+static void writeCalendar(struct tm* date);
+static void writeClock(struct tm* date);
+static void writeCommandsSeparator(struct winsize* windowSize);
 static void writeDirectoryAccess(void);
 static void writeDiskUsage(void);
 static void writeExitCode(void);
-static void writeGitBranch(const char *root, size_t length);
+static void writeGitBranch(const char* root, size_t length);
 static void writeLocalIPV4Address(void);
-static void writeModulesSeparator(struct winsize *windowSize);
-static void writePath(const char *pwd, const char *gitRoot, size_t gitRootLength);
+static void writeModulesSeparator(struct winsize* windowSize);
+static void writePath(const char* pwd, const char* gitRoot, size_t gitRootLength);
 static void writeRootUserStatus(void);
 static void writeVirtualEnvironment(void);
 
@@ -43,7 +43,7 @@ static int countDigits(int number) {
   return digits;
 }
 
-static size_t findLastSlash(const char *path, size_t length) {
+static size_t findLastSlash(const char* path, size_t length) {
   for (size_t index = length - 1; index; index--) {
     if (path[index] == '/') {
       return index;
@@ -52,7 +52,7 @@ static size_t findLastSlash(const char *path, size_t length) {
   return 0;
 }
 
-static void findGitRoot(const char *pwd, char **root, size_t *length) {
+static void findGitRoot(const char* pwd, char** root, size_t* length) {
   size_t pwdLength = strlen(pwd);
   *root = malloc(pwdLength + 6);
   for (*length = 0; *length < pwdLength; ++*length) {
@@ -103,13 +103,13 @@ static void writeBatteryCharge(void) {
   g_modulesLength += countDigits(charge) + 6 + (statusBuffer == 'C') * 2;
 }
 
-static void writeGitBranch(const char *root, size_t length) {
+static void writeGitBranch(const char* root, size_t length) {
   if (!root) {
     return;
   }
-  char *path = malloc(length + 11);
+  char* path = malloc(length + 11);
   sprintf(path, "%s/.git/HEAD", root);
-  FILE *head = fopen(path, "r");
+  FILE* head = fopen(path, "r");
   free(path);
   if (!head) {
     return;
@@ -127,7 +127,7 @@ static void writeGitBranch(const char *root, size_t length) {
   fclose(head);
 }
 
-static void writeCalendar(struct tm *date) {
+static void writeCalendar(struct tm* date) {
   char buffer[13];
   strftime(buffer, sizeof(buffer), "(%a) %b %d", date);
   printf("%%F{red}󰃭 %%f%s%s  ", buffer,
@@ -137,7 +137,7 @@ static void writeCalendar(struct tm *date) {
                              : "th");
 }
 
-static void writeClock(struct tm *date) {
+static void writeClock(struct tm* date) {
   printf("%s%%f%02dh%02dm",
          date->tm_hour < 6    ? "%F{cyan}󰭎 "
          : date->tm_hour < 12 ? "%F{red}󰖨 "
@@ -146,7 +146,7 @@ static void writeClock(struct tm *date) {
          date->tm_hour, date->tm_min);
 }
 
-static void writeCommandsSeparator(struct winsize *windowSize) {
+static void writeCommandsSeparator(struct winsize* windowSize) {
   for (int column = 0; column < windowSize->ws_col; column++) {
     printf(column % 2 ? "%%F{red}v" : "%%F{yellow}≥");
   }
@@ -177,13 +177,13 @@ static void writeExitCode(void) {
 
 static void writeLocalIPV4Address(void) {
   char buffer[16] = "127.0.0.1";
-  struct ifaddrs *interfacesList;
+  struct ifaddrs* interfacesList;
   getifaddrs(&interfacesList);
-  for (struct ifaddrs *interface = interfacesList; interface;
+  for (struct ifaddrs* interface = interfacesList; interface;
        interface = interface->ifa_next) {
     if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET &&
         interface->ifa_flags & IFF_RUNNING && !(interface->ifa_flags & IFF_LOOPBACK)) {
-      inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, buffer,
+      inet_ntop(AF_INET, &((struct sockaddr_in*)interface->ifa_addr)->sin_addr, buffer,
                 sizeof(buffer));
       break;
     }
@@ -193,17 +193,17 @@ static void writeLocalIPV4Address(void) {
   g_modulesLength += strlen(buffer);
 }
 
-static void writeModulesSeparator(struct winsize *windowSize) {
+static void writeModulesSeparator(struct winsize* windowSize) {
   printf("%%F{yellow})»:");
   for (int column = 0; column < windowSize->ws_col - g_modulesLength; column++) {
     printf(column % 2 ? "%%F{red}-" : "%%F{yellow}=");
   }
 }
 
-static void writePath(const char *pwd, const char *gitRoot, size_t gitRootLength) {
+static void writePath(const char* pwd, const char* gitRoot, size_t gitRootLength) {
   !gitRoot || (*gitRoot == '/' && !gitRoot[1])
-      ? printf("%%F{1}%%~")
-      : printf("%%F{1}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
+    ? printf("%%F{1}%%~")
+    : printf("%%F{1}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
 }
 
 static void writeRootUserStatus(void) {
@@ -211,18 +211,18 @@ static void writeRootUserStatus(void) {
 }
 
 static void writeVirtualEnvironment(void) {
-  const char *path = getenv("VIRTUAL_ENV");
+  const char* path = getenv("VIRTUAL_ENV");
   if (path) {
     printf("%%f(%s) ", path + findLastSlash(path, strlen(path)) + 1);
   }
 }
 
 int main(void) {
-  const char *pwd = getenv("PWD");
-  char *gitRoot;
+  const char* pwd = getenv("PWD");
+  char* gitRoot;
   size_t gitRootLength;
   time_t epoch = time(NULL);
-  struct tm *date = localtime(&epoch);
+  struct tm* date = localtime(&epoch);
   struct winsize windowSize;
   ioctl(STDERR_FILENO, TIOCGWINSZ, &windowSize);
   findGitRoot(pwd, &gitRoot, &gitRootLength);

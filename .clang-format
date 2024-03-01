@@ -4,5 +4,7 @@ AllowShortFunctionsOnASingleLine: false
 BasedOnStyle: LLVM
 BreakAfterJavaFieldAnnotations: true
 ColumnLimit: 90
+ContinuationIndentWidth: 2
 FixNamespaceComments: false
 JavaScriptQuotes: Single
+PointerAlignment: Left
