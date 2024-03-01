@@ -38,13 +38,13 @@ static int g_modulesLength = 41;
 static int countDigits(int number) {
   int digits;
   for (digits = !number; number; number /= 10) {
-    digits++;
+    ++digits;
   }
   return digits;
 }
 
 static size_t findLastSlash(const char* path, size_t length) {
-  for (size_t index = length - 1; index; index--) {
+  for (size_t index = length - 1; index; --index) {
     if (path[index] == '/') {
       return index;
     }
@@ -120,7 +120,7 @@ static void writeGitBranch(const char* root, size_t length) {
     if (slashes == 2) {
       putchar(character);
     } else if (character == '/') {
-      slashes++;
+      ++slashes;
     }
   }
   printf("%%F{3})»");
@@ -147,7 +147,7 @@ static void writeClock(struct tm* date) {
 }
 
 static void writeCommandsSeparator(struct winsize* windowSize) {
-  for (int column = 0; column < windowSize->ws_col; column++) {
+  for (int column = 0; column < windowSize->ws_col; ++column) {
     printf(column % 2 ? "%%F{red}v" : "%%F{yellow}≥");
   }
   printf("%%F{yellow}:«(");
@@ -195,7 +195,7 @@ static void writeLocalIPV4Address(void) {
 
 static void writeModulesSeparator(struct winsize* windowSize) {
   printf("%%F{yellow})»:");
-  for (int column = 0; column < windowSize->ws_col - g_modulesLength; column++) {
+  for (int column = 0; column < windowSize->ws_col - g_modulesLength; ++column) {
     printf(column % 2 ? "%%F{red}-" : "%%F{yellow}=");
   }
 }

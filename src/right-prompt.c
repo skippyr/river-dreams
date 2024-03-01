@@ -48,19 +48,19 @@ static void countEntryTypes(struct EntryTypes* types) {
         continue;
       }
       if (entry->d_type == DT_REG) {
-        types->regulars++;
+        ++types->regulars;
       } else if (entry->d_type == DT_DIR) {
-        types->directories++;
+        ++types->directories;
       } else if (entry->d_type == DT_BLK) {
-        types->blocks++;
+        ++types->blocks;
       } else if (entry->d_type == DT_CHR) {
-        types->characters++;
+        ++types->characters;
       } else if (entry->d_type == DT_SOCK) {
-        types->sockets++;
+        ++types->sockets;
       } else if (entry->d_type == DT_FIFO) {
-        types->fifos++;
+        ++types->fifos;
       } else if (entry->d_type == DT_LNK) {
-        types->symlinks++;
+        ++types->symlinks;
       }
     }
   }
