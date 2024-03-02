@@ -6,4 +6,3 @@ BreakAfterJavaFieldAnnotations: true
 ContinuationIndentWidth: 2
 FixNamespaceComments: false
 JavaScriptQuotes: Single
-PointerAlignment: Left
