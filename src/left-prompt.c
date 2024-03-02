@@ -29,7 +29,8 @@ static void writeExitCode(void);
 static void writeGitBranch(const char* root, size_t length);
 static void writeLocalIPV4Address(void);
 static void writeModulesSeparator(struct winsize* windowSize);
-static void writePath(const char* pwd, const char* gitRoot, size_t gitRootLength);
+static void writePath(const char* pwd, const char* gitRoot,
+                      size_t gitRootLength);
 static void writeRootUserStatus(void);
 static void writeVirtualEnvironment(void);
 
@@ -73,7 +74,8 @@ static void findGitRoot(const char* pwd, char** root, size_t* length) {
     if (!*(*root + 1)) {
       break;
     }
-    *(*root + (!(*length = findLastSlash(*root, *length)) ? ++*length : *length)) = 0;
+    *(*root +
+      (!(*length = findLastSlash(*root, *length)) ? ++*length : *length)) = 0;
   }
   free(*root);
   *root = NULL;
@@ -182,9 +184,10 @@ static void writeLocalIPV4Address(void) {
   for (struct ifaddrs* interface = interfacesList; interface;
        interface = interface->ifa_next) {
     if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET &&
-        interface->ifa_flags & IFF_RUNNING && !(interface->ifa_flags & IFF_LOOPBACK)) {
-      inet_ntop(AF_INET, &((struct sockaddr_in*)interface->ifa_addr)->sin_addr, buffer,
-                sizeof(buffer));
+        interface->ifa_flags & IFF_RUNNING &&
+        !(interface->ifa_flags & IFF_LOOPBACK)) {
+      inet_ntop(AF_INET, &((struct sockaddr_in*)interface->ifa_addr)->sin_addr,
+                buffer, sizeof(buffer));
       break;
     }
   }
@@ -195,12 +198,14 @@ static void writeLocalIPV4Address(void) {
 
 static void writeModulesSeparator(struct winsize* windowSize) {
   printf("%%F{yellow})»:");
-  for (int column = 0; column < windowSize->ws_col - g_modulesLength; ++column) {
+  for (int column = 0; column < windowSize->ws_col - g_modulesLength;
+       ++column) {
     printf(column % 2 ? "%%F{red}-" : "%%F{yellow}=");
   }
 }
 
-static void writePath(const char* pwd, const char* gitRoot, size_t gitRootLength) {
+static void writePath(const char* pwd, const char* gitRoot,
+                      size_t gitRootLength) {
   !gitRoot || !gitRoot[1]
     ? printf("%%F{1}%%~")
     : printf("%%F{1}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
