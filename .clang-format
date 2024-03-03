@@ -1,6 +1,6 @@
 AlignEscapedNewlines: DontAlign
 BasedOnStyle: Microsoft
-BreakBeforeBraces: Mozilla
+BreakBeforeBraces: WebKit
 ColumnLimit: 90
 PointerAlignment: Left
 UseTab: Always
