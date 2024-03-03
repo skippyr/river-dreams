@@ -1,5 +1,5 @@
 CC:=cc
-CFLAGS:=-std=c99 -pedantic -Os -Wall -Wextra
+CFLAGS:=-std=c99 -pedantic -O3 -Wall -Wextra -Wno-unused-result
 SHELL:=bash
 
 .PHONY: all clean
