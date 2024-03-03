@@ -17,7 +17,7 @@
 #define IS_ORDINAL_DAY(a_ordinal) !((date->tm_mday - a_ordinal) % 10)
 
 static int CountDigits(int number);
-static size_t findLastSlash(const char* path, size_t length);
+static size_t FindLastSlash(const char* path, size_t length);
 static void FindGitRoot(const char* pwd, char** root, size_t* length);
 static void WriteBatteryCharge(void);
 static void WriteCalendar(struct tm* date);
@@ -45,7 +45,7 @@ static int CountDigits(int number)
 	return (digits);
 }
 
-static size_t findLastSlash(const char* path, size_t length)
+static size_t FindLastSlash(const char* path, size_t length)
 {
 	size_t index;
 	for (index = length - 1; index; --index)
@@ -84,7 +84,7 @@ static void FindGitRoot(const char* pwd, char** root, size_t* length)
 		{
 			break;
 		}
-		*(*root + (!(*length = findLastSlash(*root, *length)) ? ++*length : *length)) = 0;
+		*(*root + (!(*length = FindLastSlash(*root, *length)) ? ++*length : *length)) = 0;
 	}
 	free(*root);
 	*root = NULL;
@@ -246,7 +246,7 @@ static void WritePath(const char* pwd, const char* gitRoot, size_t gitRootLength
 {
 	!gitRoot || !gitRoot[1]
 		? printf("%%F{1}%%~")
-		: printf("%%F{1}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
+		: printf("%%F{1}@/%s", pwd + FindLastSlash(gitRoot, gitRootLength) + 1);
 }
 
 static void WriteRootUserStatus(void)
@@ -259,7 +259,7 @@ static void WriteVirtualEnvironment(void)
 	const char* path = getenv("VIRTUAL_ENV");
 	if (path)
 	{
-		printf("%%f(%s) ", path + findLastSlash(path, strlen(path)) + 1);
+		printf("%%f(%s) ", path + FindLastSlash(path, strlen(path)) + 1);
 	}
 }
 

@@ -31,11 +31,11 @@ struct linux_dirent64
 	char d_name[];
 };
 
-static void countEntryTypes(struct EntryTypes* types);
+static void CountEntryTypes(struct EntryTypes* types);
 static void WriteEntryTypes(void);
 static void WriteJobs(void);
 
-static void countEntryTypes(struct EntryTypes* types)
+static void CountEntryTypes(struct EntryTypes* types)
 {
 	char buffer[1024];
 	int directory = open(".", O_RDONLY);
@@ -93,7 +93,7 @@ static void countEntryTypes(struct EntryTypes* types)
 static void WriteEntryTypes(void)
 {
 	struct EntryTypes types = {0, 0, 0, 0, 0, 0, 0};
-	countEntryTypes(&types);
+	CountEntryTypes(&types);
 	WRITE_ENTRY_TYPE(" ", "blue", types.regulars);
 	WRITE_ENTRY_TYPE(" ", "yellow", types.directories);
 	WRITE_ENTRY_TYPE("󰇖 ", "magenta", types.blocks);
