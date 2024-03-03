@@ -1,8 +1,6 @@
 AlignEscapedNewlines: DontAlign
-AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: false
-BasedOnStyle: LLVM
-BreakAfterJavaFieldAnnotations: true
-ContinuationIndentWidth: 2
-FixNamespaceComments: false
-JavaScriptQuotes: Single
+BasedOnStyle: Microsoft
+BreakBeforeBraces: Mozilla
+ColumnLimit: 90
+PointerAlignment: Left
+UseTab: Always
