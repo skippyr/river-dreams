@@ -7,9 +7,12 @@
 
 #define WRITE_ENTRY_TYPE(a_symbol, a_color, a_value) \
 	if (a_value) \
-		printf(" %%F{%s}%s%%f%zu", a_color, a_symbol, a_value);
+	{ \
+		printf(" %%F{%s}%s%%f%zu", a_color, a_symbol, a_value); \
+	}
 
-struct EntryTypes {
+struct EntryTypes
+{
 	size_t regulars;
 	size_t directories;
 	size_t blocks;
@@ -19,7 +22,8 @@ struct EntryTypes {
 	size_t symlinks;
 };
 
-struct linux_dirent64 {
+struct linux_dirent64
+{
 	ino64_t d_ino;
 	off64_t d_off;
 	unsigned short int d_reclen;
@@ -28,8 +32,8 @@ struct linux_dirent64 {
 };
 
 static void countEntryTypes(struct EntryTypes* types);
-static void writeEntryTypes(void);
-static void writeJobs(void);
+static void WriteEntryTypes(void);
+static void WriteJobs(void);
 
 static void countEntryTypes(struct EntryTypes* types)
 {
@@ -39,33 +43,54 @@ static void countEntryTypes(struct EntryTypes* types)
 	long index;
 	struct linux_dirent64* entry;
 	if (directory < 0)
+	{
 		return;
+	}
 	while ((totalOfEntries = syscall(SYS_getdents64, directory, buffer, sizeof(buffer))) >
-		   0)
-		for (index = 0; index < totalOfEntries; index += entry->d_reclen) {
+	       0)
+	{
+		for (index = 0; index < totalOfEntries; index += entry->d_reclen)
+		{
 			entry = (struct linux_dirent64*)(buffer + index);
 			if (*entry->d_name == '.' &&
-				(!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
+			    (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
+			{
 				continue;
+			}
 			if (entry->d_type == DT_REG)
+			{
 				++types->regulars;
+			}
 			else if (entry->d_type == DT_DIR)
+			{
 				++types->directories;
+			}
 			else if (entry->d_type == DT_BLK)
+			{
 				++types->blocks;
+			}
 			else if (entry->d_type == DT_CHR)
+			{
 				++types->characters;
+			}
 			else if (entry->d_type == DT_SOCK)
+			{
 				++types->sockets;
+			}
 			else if (entry->d_type == DT_FIFO)
+			{
 				++types->fifos;
+			}
 			else if (entry->d_type == DT_LNK)
+			{
 				++types->symlinks;
+			}
 		}
-	close(directory);
+		close(directory);
+	}
 }
 
-static void writeEntryTypes(void)
+static void WriteEntryTypes(void)
 {
 	struct EntryTypes types = {0, 0, 0, 0, 0, 0, 0};
 	countEntryTypes(&types);
@@ -78,15 +103,15 @@ static void writeEntryTypes(void)
 	WRITE_ENTRY_TYPE("󰌷 ", "blue", types.symlinks);
 }
 
-static void writeJobs(void)
+static void WriteJobs(void)
 {
 	printf("%%(1j. %%F{magenta} %%f%%j.)");
 }
 
 int main(void)
 {
-	writeEntryTypes();
-	writeJobs();
+	WriteEntryTypes();
+	WriteJobs();
 	putchar('\n');
 	return (0);
 }
