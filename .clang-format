@@ -1,8 +1,6 @@
 AlignEscapedNewlines: DontAlign
 BasedOnStyle: Microsoft
 BreakAfterJavaFieldAnnotations: true
-BreakBeforeBraces: WebKit
-ColumnLimit: 90
 FixNamespaceComments: false
 JavaScriptQuotes: Double
 UseTab: AlignWithSpaces
