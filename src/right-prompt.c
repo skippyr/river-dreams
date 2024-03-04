@@ -10,8 +10,7 @@
 		printf(" %%F{%s}%s%%f%zu", a_color, a_symbol, a_value); \
 	}
 
-struct EntryTypes
-{
+struct EntryTypes {
 	size_t regulars;
 	size_t directories;
 	size_t blocks;
@@ -21,8 +20,7 @@ struct EntryTypes
 	size_t symlinks;
 };
 
-struct linux_dirent64
-{
+struct linux_dirent64 {
 	ino64_t d_ino;
 	off64_t d_off;
 	unsigned short int d_reclen;
