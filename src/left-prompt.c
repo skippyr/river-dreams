@@ -38,8 +38,7 @@ static int g_modulesLength = 41;
 static int countDigits(int number)
 {
 	int digits;
-	for (digits = !number; number; number /= 10)
-	{
+	for (digits = !number; number; number /= 10) {
 		++digits;
 	}
 	return (digits);
@@ -47,10 +46,8 @@ static int countDigits(int number)
 
 static size_t findLastSlash(const char *path, size_t length)
 {
-	for (size_t index = length - 1; index; --index)
-	{
-		if (path[index] == '/')
-		{
+	for (size_t index = length - 1; index; --index) {
+		if (path[index] == '/') {
 			return (index);
 		}
 	}
@@ -61,26 +58,22 @@ static void findGitRoot(const char *pwd, char **root, size_t *length)
 {
 	size_t pwdLength = strlen(pwd);
 	*root = malloc(pwdLength + 6);
-	for (*length = 0; *length < pwdLength; ++*length)
-	{
+	for (*length = 0; *length < pwdLength; ++*length) {
 		*(*root + *length) = pwd[*length];
 	}
-	while (1)
-	{
+	while (1) {
 		*(*root + *length) = '/';
 		*(*root + ++*length) = '.';
 		*(*root + ++*length) = 'g';
 		*(*root + ++*length) = 'i';
 		*(*root + ++*length) = 't';
 		*(*root + ++*length) = 0;
-		if (!access(*root, F_OK))
-		{
+		if (!access(*root, F_OK)) {
 			*(*root + (*length -= 5)) = 0;
 			return;
 		}
 		*(*root + (*length -= 5)) = 0;
-		if (!*(*root + 1))
-		{
+		if (!*(*root + 1)) {
 			break;
 		}
 		*(*root + (!(*length = findLastSlash(*root, *length)) ? ++*length : *length)) = 0;
@@ -92,15 +85,13 @@ static void findGitRoot(const char *pwd, char **root, size_t *length)
 static void writeBatteryCharge(void)
 {
 	int statusFile = open(BATTERY "/status", O_RDONLY);
-	if (statusFile < 0)
-	{
+	if (statusFile < 0) {
 		return;
 	}
 	int capacityFile = open(BATTERY "/capacity", O_RDONLY);
 	char capacityBuffer[5];
 	int charge = 0;
-	if (capacityFile > 0)
-	{
+	if (capacityFile > 0) {
 		read(capacityFile, capacityBuffer, sizeof(capacityBuffer));
 		close(capacityFile);
 		charge = atoi(capacityBuffer);
@@ -119,27 +110,22 @@ static void writeBatteryCharge(void)
 
 static void writeGitBranch(const char *root, size_t length)
 {
-	if (!root)
-	{
+	if (!root) {
 		return;
 	}
 	char *path = malloc(length + 11);
 	sprintf(path, "%s/.git/HEAD", root);
 	FILE *head = fopen(path, "r");
 	free(path);
-	if (!head)
-	{
+	if (!head) {
 		return;
 	}
 	printf("%%F{3}:«(%%f");
-	for (int character, slashes = 0; (character = fgetc(head)) != EOF && character != '\n';)
-	{
-		if (slashes == 2)
-		{
+	for (int character, slashes = 0;
+	     (character = fgetc(head)) != EOF && character != '\n';) {
+		if (slashes == 2) {
 			putchar(character);
-		}
-		else if (character == '/')
-		{
+		} else if (character == '/') {
 			++slashes;
 		}
 	}
@@ -170,8 +156,7 @@ static void writeClock(struct tm *date)
 
 static void writeCommandsSeparator(struct winsize *windowSize)
 {
-	for (int column = 0; column < windowSize->ws_col; ++column)
-	{
+	for (int column = 0; column < windowSize->ws_col; ++column) {
 		printf(column % 2 ? "%%F{red}v" : "%%F{yellow}≥");
 	}
 	printf("%%F{yellow}:«(");
@@ -189,7 +174,11 @@ static void writeDiskUsage(void)
 	fsblkcnt64_t totalBytes = status.f_frsize * status.f_blocks;
 	fsblkcnt64_t availableBytes = status.f_frsize * status.f_bavail;
 	int usage = ((totalBytes - availableBytes) / (float)totalBytes) * 100;
-	printf("%%F{%s}󰋊 %%f%d%%%%  ", usage < 70 ? "green" : usage < 80 ? "yellow" : "red", usage);
+	printf("%%F{%s}󰋊 %%f%d%%%%  ",
+	       usage < 70   ? "green"
+	       : usage < 80 ? "yellow"
+	                    : "red",
+	       usage);
 	g_modulesLength += countDigits(usage);
 }
 
@@ -203,12 +192,13 @@ static void writeLocalIPV4Address(void)
 	struct ifaddrs *interfacesList;
 	getifaddrs(&interfacesList);
 	char buffer[16] = "127.0.0.1";
-	for (struct ifaddrs *interface = interfacesList; interface; interface = interface->ifa_next)
-	{
-		if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET && interface->ifa_flags & IFF_RUNNING &&
-		    !(interface->ifa_flags & IFF_LOOPBACK))
-		{
-			inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, buffer, sizeof(buffer));
+	for (struct ifaddrs *interface = interfacesList; interface;
+	     interface = interface->ifa_next) {
+		if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET &&
+		    interface->ifa_flags & IFF_RUNNING &&
+		    !(interface->ifa_flags & IFF_LOOPBACK)) {
+			inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr,
+			          buffer, sizeof(buffer));
 			break;
 		}
 	}
@@ -220,16 +210,16 @@ static void writeLocalIPV4Address(void)
 static void writeModulesSeparator(struct winsize *windowSize)
 {
 	printf("%%F{yellow})»:");
-	for (int column = 0; column < windowSize->ws_col - g_modulesLength; ++column)
-	{
+	for (int column = 0; column < windowSize->ws_col - g_modulesLength; ++column) {
 		printf(column % 2 ? "%%F{red}-" : "%%F{yellow}=");
 	}
 }
 
 static void writePath(const char *pwd, const char *gitRoot, size_t gitRootLength)
 {
-	!gitRoot || !gitRoot[1] ? printf("%%F{1}%%~")
-							: printf("%%F{1}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
+	!gitRoot || !gitRoot[1]
+		? printf("%%F{1}%%~")
+		: printf("%%F{1}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
 }
 
 static void writeRootUserStatus(void)
@@ -240,8 +230,7 @@ static void writeRootUserStatus(void)
 static void writeVirtualEnvironment(void)
 {
 	const char *path = getenv("VIRTUAL_ENV");
-	if (path)
-	{
+	if (path) {
 		printf("%%f(%s) ", path + findLastSlash(path, strlen(path)) + 1);
 	}
 }
@@ -270,8 +259,7 @@ int main(void)
 	writeGitBranch(gitRoot, gitRootLength);
 	writeDirectoryAccess();
 	printf(" %%f\n");
-	if (gitRoot)
-	{
+	if (gitRoot) {
 		free(gitRoot);
 	}
 	return (0);
