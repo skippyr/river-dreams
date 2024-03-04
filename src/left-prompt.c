@@ -47,8 +47,7 @@ static int CountDigits(int number)
 
 static size_t FindLastSlash(const char* path, size_t length)
 {
-	size_t index;
-	for (index = length - 1; index; --index)
+	for (size_t index = length - 1; index; --index)
 	{
 		if (path[index] == '/')
 		{
@@ -92,21 +91,21 @@ static void FindGitRoot(const char* pwd, char** root, size_t* length)
 
 static void WriteBatteryCharge(void)
 {
-	int capacityFile = open(BATTERY "/capacity", O_RDONLY);
 	int statusFile = open(BATTERY "/status", O_RDONLY);
-	char capacityBuffer[5];
-	char statusBuffer;
-	int charge = 0;
 	if (statusFile < 0)
 	{
 		return;
 	}
+	int capacityFile = open(BATTERY "/capacity", O_RDONLY);
+	char capacityBuffer[5];
+	int charge = 0;
 	if (capacityFile > 0)
 	{
 		read(capacityFile, capacityBuffer, sizeof(capacityBuffer));
 		close(capacityFile);
 		charge = atoi(capacityBuffer);
 	}
+	char statusBuffer;
 	read(statusFile, &statusBuffer, sizeof(statusBuffer));
 	close(statusFile);
 	printf("%s%s%%f%d%%%%  ", statusBuffer == 'C' ? "%F{yellow}󱐋 " : "",
@@ -120,24 +119,21 @@ static void WriteBatteryCharge(void)
 
 static void WriteGitBranch(const char* root, size_t length)
 {
-	char* path;
-	FILE* head;
-	int character;
-	int slashes = 0;
 	if (!root)
 	{
 		return;
 	}
-	path = malloc(length + 11);
+	char* path = malloc(length + 11);
 	sprintf(path, "%s/.git/HEAD", root);
-	head = fopen(path, "r");
+	FILE* head = fopen(path, "r");
 	free(path);
 	if (!head)
 	{
 		return;
 	}
 	printf("%%F{3}:«(%%f");
-	while ((character = fgetc(head)) != EOF && character != '\n')
+	for (int character, slashes = 0;
+	     (character = fgetc(head)) != EOF && character != '\n';)
 	{
 		if (slashes == 2)
 		{
@@ -175,8 +171,7 @@ static void WriteClock(struct tm* date)
 
 static void WriteCommandsSeparator(struct winsize* windowSize)
 {
-	int column;
-	for (column = 0; column < windowSize->ws_col; ++column)
+	for (int column = 0; column < windowSize->ws_col; ++column)
 	{
 		printf(column % 2 ? "%%F{red}v" : "%%F{yellow}≥");
 	}
@@ -190,14 +185,11 @@ static void WriteDirectoryAccess(void)
 
 static void WriteDiskUsage(void)
 {
-	fsblkcnt64_t totalBytes;
-	fsblkcnt64_t availableBytes;
-	int usage;
 	struct statvfs64 status;
 	statvfs64("/", &status);
-	totalBytes = status.f_frsize * status.f_blocks;
-	availableBytes = status.f_frsize * status.f_bavail;
-	usage = ((totalBytes - availableBytes) / (float)totalBytes) * 100;
+	fsblkcnt64_t totalBytes = status.f_frsize * status.f_blocks;
+	fsblkcnt64_t availableBytes = status.f_frsize * status.f_bavail;
+	int usage = ((totalBytes - availableBytes) / (float)totalBytes) * 100;
 	printf("%%F{%s}󰋊 %%f%d%%%%  ",
 	       usage < 70   ? "green"
 	       : usage < 80 ? "yellow"
@@ -213,11 +205,10 @@ static void WriteExitCode(void)
 
 static void WriteLocalIPV4Address(void)
 {
-	char buffer[16] = "127.0.0.1";
 	struct ifaddrs* interfacesList;
-	struct ifaddrs* interface;
 	getifaddrs(&interfacesList);
-	for (interface = interfacesList; interface; interface = interface->ifa_next)
+	char buffer[16] = "127.0.0.1";
+	for (struct ifaddrs* interface = interfacesList; interface; interface = interface->ifa_next)
 	{
 		if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET &&
 		    interface->ifa_flags & IFF_RUNNING && !(interface->ifa_flags & IFF_LOOPBACK))
@@ -234,9 +225,8 @@ static void WriteLocalIPV4Address(void)
 
 static void WriteModulesSeparator(struct winsize* windowSize)
 {
-	int column;
 	printf("%%F{yellow})»:");
-	for (column = 0; column < windowSize->ws_col - g_modulesLength; ++column)
+	for (int column = 0; column < windowSize->ws_col - g_modulesLength; ++column)
 	{
 		printf(column % 2 ? "%%F{red}-" : "%%F{yellow}=");
 	}
