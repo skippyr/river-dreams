@@ -1,5 +1,4 @@
 AlignEscapedNewlines: DontAlign
 BasedOnStyle: Microsoft
-#BreakBeforeBraces: WebKit
 ColumnLimit: 90
-UseTab: AlignWithSpaces
+UseTab: ForContinuationAndIndentation

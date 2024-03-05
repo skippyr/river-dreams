@@ -109,11 +109,11 @@ static void writeBatteryCharge(void)
 	read(statusFile, &statusBuffer, sizeof(statusBuffer));
 	close(statusFile);
 	printf("%s%s%%f%d%%%%  ", statusBuffer == 'C' ? "%F{yellow}󱐋 " : "",
-	       charge <= 5    ? "%F{red}  "
-	       : charge <= 25 ? "%F{yellow}  "
-	       : charge <= 50 ? "%F{green}  "
-	                      : "%F{green}  ",
-	       charge);
+		   charge <= 5    ? "%F{red}  "
+		   : charge <= 25 ? "%F{yellow}  "
+		   : charge <= 50 ? "%F{green}  "
+						  : "%F{green}  ",
+		   charge);
 	g_modulesLength += countDigits(charge) + 6 + (statusBuffer == 'C') * 2;
 }
 
@@ -133,7 +133,7 @@ static void writeGitBranch(const char *root, size_t length)
 	}
 	printf("%%F{3}:«(%%f");
 	for (int character, slashes = 0;
-	     (character = fgetc(head)) != EOF && character != '\n';)
+		 (character = fgetc(head)) != EOF && character != '\n';)
 	{
 		if (slashes == 2)
 		{
@@ -153,20 +153,20 @@ static void writeCalendar(struct tm *date)
 	char buffer[13];
 	strftime(buffer, sizeof(buffer), "(%a) %b %d", date);
 	printf("%%F{red}󰃭 %%f%s%s  ", buffer,
-	       IS_ORDINAL_DAY(1)   ? "st"
-	       : IS_ORDINAL_DAY(2) ? "nd"
-	       : IS_ORDINAL_DAY(3) ? "rd"
-	                           : "th");
+		   IS_ORDINAL_DAY(1)   ? "st"
+		   : IS_ORDINAL_DAY(2) ? "nd"
+		   : IS_ORDINAL_DAY(3) ? "rd"
+							   : "th");
 }
 
 static void writeClock(struct tm *date)
 {
 	printf("%s%%f%02dh%02dm",
-	       date->tm_hour < 6    ? "%F{cyan}󰭎 "
-	       : date->tm_hour < 12 ? "%F{red}󰖨 "
-	       : date->tm_hour < 18 ? "%F{blue} "
-	                            : "%F{yellow}󰽥 ",
-	       date->tm_hour, date->tm_min);
+		   date->tm_hour < 6    ? "%F{cyan}󰭎 "
+		   : date->tm_hour < 12 ? "%F{red}󰖨 "
+		   : date->tm_hour < 18 ? "%F{blue} "
+								: "%F{yellow}󰽥 ",
+		   date->tm_hour, date->tm_min);
 }
 
 static void writeCommandsSeparator(struct winsize *windowSize)
@@ -191,10 +191,10 @@ static void writeDiskUsage(void)
 	fsblkcnt64_t availableBytes = status.f_frsize * status.f_bavail;
 	int usage = ((totalBytes - availableBytes) / (float)totalBytes) * 100;
 	printf("%%F{%s}󰋊 %%f%d%%%%  ",
-	       usage < 70   ? "green"
-	       : usage < 80 ? "yellow"
-	                    : "red",
-	       usage);
+		   usage < 70   ? "green"
+		   : usage < 80 ? "yellow"
+						: "red",
+		   usage);
 	g_modulesLength += countDigits(usage);
 }
 
@@ -209,13 +209,13 @@ static void writeLocalIPV4Address(void)
 	getifaddrs(&interfacesList);
 	char buffer[16] = "127.0.0.1";
 	for (struct ifaddrs *interface = interfacesList; interface;
-	     interface = interface->ifa_next)
+		 interface = interface->ifa_next)
 	{
 		if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET &&
-		    interface->ifa_flags & IFF_RUNNING && !(interface->ifa_flags & IFF_LOOPBACK))
+			interface->ifa_flags & IFF_RUNNING && !(interface->ifa_flags & IFF_LOOPBACK))
 		{
 			inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr,
-			          buffer, sizeof(buffer));
+					  buffer, sizeof(buffer));
 			break;
 		}
 	}

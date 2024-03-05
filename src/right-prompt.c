@@ -45,13 +45,13 @@ static void countEntryTypes(struct EntryTypes *types)
 	char buffer[sizeof(struct linux_dirent64) * 100];
 	struct linux_dirent64 *entry;
 	for (long totalOfEntries; (totalOfEntries = syscall(SYS_getdents64, directory, buffer,
-	                                                    sizeof(buffer))) > 0;)
+														sizeof(buffer))) > 0;)
 	{
 		for (long index = 0; index < totalOfEntries; index += entry->d_reclen)
 		{
 			entry = (struct linux_dirent64 *)(buffer + index);
 			if (*entry->d_name == '.' &&
-			    (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
+				(!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
 			{
 				continue;
 			}
