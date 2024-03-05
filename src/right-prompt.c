@@ -42,7 +42,7 @@ static void countEntryTypes(struct EntryTypes *types)
 	{
 		return;
 	}
-	char buffer[sizeof(struct linux_dirent64) * 100];
+	char buffer[1024];
 	struct linux_dirent64 *entry;
 	for (long totalOfEntries; (totalOfEntries = syscall(SYS_getdents64, directory, buffer,
 														sizeof(buffer))) > 0;)
