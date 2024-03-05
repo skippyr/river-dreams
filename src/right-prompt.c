@@ -6,13 +6,11 @@
 #include <unistd.h>
 
 #define WRITE_ENTRY_TYPE(a_symbol, a_color, a_value) \
-	if (a_value) \
-	{ \
+	if (a_value) { \
 		printf(" %%F{%s}%s%%f%zu", a_color, a_symbol, a_value); \
 	}
 
-struct EntryTypes
-{
+struct EntryTypes {
 	size_t regulars;
 	size_t directories;
 	size_t blocks;
@@ -22,8 +20,7 @@ struct EntryTypes
 	size_t symlinks;
 };
 
-struct linux_dirent64
-{
+struct linux_dirent64 {
 	ino64_t d_ino;
 	off64_t d_off;
 	unsigned short int d_reclen;
@@ -38,49 +35,32 @@ static void writeJobs(void);
 static void countEntryTypes(struct EntryTypes *types)
 {
 	int directory = open(".", O_RDONLY);
-	if (directory < 0)
-	{
+	if (directory < 0) {
 		return;
 	}
 	char buffer[1024];
 	struct linux_dirent64 *entry;
 	for (long totalOfEntries; (totalOfEntries = syscall(SYS_getdents64, directory, buffer,
-														sizeof(buffer))) > 0;)
-	{
-		for (long index = 0; index < totalOfEntries; index += entry->d_reclen)
-		{
+														sizeof(buffer))) > 0;) {
+		for (long index = 0; index < totalOfEntries; index += entry->d_reclen) {
 			entry = (struct linux_dirent64 *)(buffer + index);
 			if (*entry->d_name == '.' &&
-				(!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
-			{
+				(!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2]))) {
 				continue;
 			}
-			if (entry->d_type == DT_REG)
-			{
+			if (entry->d_type == DT_REG) {
 				++types->regulars;
-			}
-			else if (entry->d_type == DT_DIR)
-			{
+			} else if (entry->d_type == DT_DIR) {
 				++types->directories;
-			}
-			else if (entry->d_type == DT_BLK)
-			{
+			} else if (entry->d_type == DT_BLK) {
 				++types->blocks;
-			}
-			else if (entry->d_type == DT_CHR)
-			{
+			} else if (entry->d_type == DT_CHR) {
 				++types->characters;
-			}
-			else if (entry->d_type == DT_SOCK)
-			{
+			} else if (entry->d_type == DT_SOCK) {
 				++types->sockets;
-			}
-			else if (entry->d_type == DT_FIFO)
-			{
+			} else if (entry->d_type == DT_FIFO) {
 				++types->fifos;
-			}
-			else if (entry->d_type == DT_LNK)
-			{
+			} else if (entry->d_type == DT_LNK) {
 				++types->symlinks;
 			}
 		}
