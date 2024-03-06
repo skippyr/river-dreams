@@ -3,7 +3,7 @@ root = true
 charset = utf-8
 insert_final_newline = true
 indent_size = 2
-indent_style = spaces
+indent_style = space
 trim_trailing_whitespace = true
 [*.c]
 indent_size = 4
