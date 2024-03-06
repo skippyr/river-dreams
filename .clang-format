@@ -1,3 +1,2 @@
-AlignEscapedNewlines: DontAlign
 BasedOnStyle: Microsoft
-UseTab: ForContinuationAndIndentation
+PointerAlignment: Left
