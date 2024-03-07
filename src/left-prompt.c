@@ -198,11 +198,7 @@ static void writeDiskUsage(void)
     totalBytes = status.f_frsize * status.f_blocks;
     availableBytes = status.f_frsize * status.f_bavail;
     usage = ((totalBytes - availableBytes) / (float)totalBytes) * 100;
-    printf("%%F{%s}󰋊 %%f%d%%%%  ",
-           usage < 70   ? "green"
-           : usage < 80 ? "yellow"
-                        : "red",
-           usage);
+    printf("%%F{%s}󰋊 %%f%d%%%%  ", usage < 70 ? "green" : usage < 80 ? "yellow" : "red", usage);
     g_modulesLength += countDigits(usage);
 }
 
@@ -222,8 +218,8 @@ static void writeLocalIPV4Address(void)
         if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET &&
             interface->ifa_flags & IFF_RUNNING && !(interface->ifa_flags & IFF_LOOPBACK))
         {
-            inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr,
-                      buffer, sizeof(buffer));
+            inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, buffer,
+                      sizeof(buffer));
             break;
         }
     }
@@ -244,9 +240,8 @@ static void writeModulesSeparator(struct winsize *windowSize)
 
 static void writePath(const char *pwd, const char *gitRoot, size_t gitRootLength)
 {
-    !gitRoot || !gitRoot[1]
-        ? printf("%%F{1}%%~")
-        : printf("%%F{1}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
+    !gitRoot || !gitRoot[1] ? printf("%%F{1}%%~")
+                            : printf("%%F{1}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
 }
 
 static void writeRootUserStatus(void)

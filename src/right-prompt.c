@@ -46,8 +46,7 @@ static void countEntryTypes(struct EntryTypes *types)
     {
         return;
     }
-    while ((totalOfEntries = syscall(SYS_getdents64, directory, buffer, sizeof(buffer))) >
-           0)
+    while ((totalOfEntries = syscall(SYS_getdents64, directory, buffer, sizeof(buffer))) > 0)
     {
         for (index = 0; index < totalOfEntries; index += entry->d_reclen)
         {
