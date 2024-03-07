@@ -1,4 +1,3 @@
 BasedOnStyle: Microsoft
 AlignEscapedNewlines: DontAlign
 ColumnLimit: 90
-UseTab: ForContinuationAndIndentation
