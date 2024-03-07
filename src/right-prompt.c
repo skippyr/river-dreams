@@ -85,8 +85,8 @@ static void countEntryTypes(struct EntryTypes *types)
                 ++types->symlinks;
             }
         }
-        close(directory);
     }
+    close(directory);
 }
 
 static void writeEntryTypes(void)
