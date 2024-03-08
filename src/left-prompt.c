@@ -215,11 +215,10 @@ static void writeLocalIPV4Address(void)
     getifaddrs(&interfacesList);
     for (interface = interfacesList; interface; interface = interface->ifa_next)
     {
-        if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET &&
-            interface->ifa_flags & IFF_RUNNING && !(interface->ifa_flags & IFF_LOOPBACK))
+        if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET && interface->ifa_flags & IFF_RUNNING &&
+            !(interface->ifa_flags & IFF_LOOPBACK))
         {
-            inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, buffer,
-                      sizeof(buffer));
+            inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, buffer, sizeof(buffer));
             break;
         }
     }

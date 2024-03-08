@@ -51,8 +51,7 @@ static void countEntryTypes(struct EntryTypes *types)
         for (index = 0; index < totalOfEntries; index += entry->d_reclen)
         {
             entry = (struct linux_dirent64 *)(buffer + index);
-            if (*entry->d_name == '.' &&
-                (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
+            if (*entry->d_name == '.' && (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
             {
                 continue;
             }

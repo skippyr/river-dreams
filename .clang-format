@@ -1,3 +1,6 @@
-BasedOnStyle: Microsoft
 AlignEscapedNewlines: DontAlign
-ColumnLimit: 100
+BasedOnStyle: Microsoft
+BreakAfterJavaFieldAnnotations: true
+FixNamespaceComments: false
+JavaScriptQuotes: Double
+NamespaceIndentation: All
