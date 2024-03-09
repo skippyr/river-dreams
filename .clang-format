@@ -4,3 +4,4 @@ BreakAfterJavaFieldAnnotations: true
 FixNamespaceComments: false
 JavaScriptQuotes: Double
 NamespaceIndentation: All
+UseTab: ForContinuationAndIndentation
