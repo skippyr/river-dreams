@@ -1,7 +1,6 @@
-AlignEscapedNewlines: DontAlign
-BasedOnStyle: Microsoft
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: false
+BasedOnStyle: LLVM
 BreakAfterJavaFieldAnnotations: true
 FixNamespaceComments: false
-JavaScriptQuotes: Double
-NamespaceIndentation: All
-UseTab: ForContinuationAndIndentation
+JavaScriptQuotes: Single
