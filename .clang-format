@@ -1,6 +1,8 @@
-AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: false
-BasedOnStyle: LLVM
+AccessModifierOffset: -4
+AlignEscapedNewlines: DontAlign
+BasedOnStyle: Microsoft
 BreakAfterJavaFieldAnnotations: true
 FixNamespaceComments: false
-JavaScriptQuotes: Single
+JavaScriptQuotes: Double
+NamespaceIndentation : All
+PointerAlignment: Left
