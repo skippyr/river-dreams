@@ -7,3 +7,4 @@ FixNamespaceComments: false
 JavaScriptQuotes: Double
 NamespaceIndentation : All
 PointerAlignment: Left
+SpacesInContainerLiterals: false
