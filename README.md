@@ -94,7 +94,7 @@ ZSH_THEME="river-dreams/river-dreams";
 
 - Reopen `zsh`.
 - Wait for the theme to compile.
-- 
+
 #### Procedures For Antidote
 
 If you want to install this theme with the [`antidote`](https://github.com/mattmc3/antidote) plugin manager, using a terminal, follow these steps:

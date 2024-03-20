@@ -17,7 +17,7 @@ static std::string findGitRoot(std::string path) {
   if (path == "/") {
     return "";
   }
-  size_t lastSlash = path.find_last_of('/');
+  std::size_t lastSlash = path.find_last_of('/');
   return findGitRoot(!lastSlash ? "/" : path.substr(0, lastSlash));
 }
 
