@@ -1,5 +1,5 @@
-CXX:=g++
-CXXFLAGS:=-std=c++20 -O3 -Wno-unused-result
+CC:=cc
+CFLAGS:=-pedantic -std=c99 -O3 -Wall -Wextra -Wno-unused-result
 SHELL:=bash
 
 .PHONY: all clean
@@ -9,6 +9,6 @@ all: bin/left-prompt bin/right-prompt
 clean:
 	rm -rf bin;
 
-bin/%-prompt: src/%-prompt.cpp src/%-prompt.hpp
+bin/%-prompt: src/%-prompt.c src/%-prompt.h
 	mkdir -p bin;
-	${CXX} ${CXXFLAGS} -o${@} ${^};
+	${CC} ${CFLAGS} -o${@} ${^};

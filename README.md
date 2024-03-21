@@ -51,7 +51,7 @@ Its right prompt displays:
 The following dependencies must be installed before installing it:
 
 - **git**: it will be used to clone this repository.
-- **g++**, **make**: they will be used to compile this theme.
+- **gcc**, **make**: they will be used to compile this theme.
 - [**Nerd Font Symbols**](https://www.nerdfonts.com/font-downloads), **Noto Sans**: they provide the pretty symbols used in the theme.
 
 ### Procedures
