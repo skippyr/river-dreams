@@ -3,13 +3,14 @@
 #include <fcntl.h>
 #include <ifaddrs.h>
 #include <net/if.h>
+#include <sys/ioctl.h>
+#include <sys/statvfs.h>
+#include <unistd.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/ioctl.h>
-#include <sys/statvfs.h>
 #include <time.h>
-#include <unistd.h>
 
 #ifndef BATTERY
 #define BATTERY "/sys/class/power_supply/BAT0"
