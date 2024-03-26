@@ -4,7 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 
-struct EntryTypesCount {
+struct EntryTypesCount
+{
     size_t regulars;
     size_t directories;
     size_t blocks;

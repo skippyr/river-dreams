@@ -1,34 +1,52 @@
 #include "right-prompt.h"
 
-#define WRITE_ENTRY_TYPE_COUNT(a_color, a_symbol, a_value)                                         \
-    if (a_value) {                                                                                 \
-        printf(" %%F{" a_color "}" a_symbol "%%f%zu", a_value);                                    \
+#define WRITE_ENTRY_TYPE_COUNT(a_color, a_symbol, a_value) \
+    if (a_value) \
+    { \
+        printf(" %%F{" a_color "}" a_symbol "%%f%zu", a_value); \
     }
 
 static void countEntryTypes(struct EntryTypesCount *count)
 {
     memset(count, 0, sizeof(struct EntryTypesCount));
     DIR *directory = opendir(".");
-    if (!directory) {
+    if (!directory)
+    {
         return;
     }
-    for (struct dirent *entry; (entry = readdir(directory));) {
+    for (struct dirent *entry; (entry = readdir(directory));)
+    {
         if (*entry->d_name == '.' &&
-            (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2]))) {
+            (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
+        {
             continue;
-        } else if (entry->d_type == DT_REG) {
+        }
+        else if (entry->d_type == DT_REG)
+        {
             ++count->regulars;
-        } else if (entry->d_type == DT_DIR) {
+        }
+        else if (entry->d_type == DT_DIR)
+        {
             ++count->directories;
-        } else if (entry->d_type == DT_BLK) {
+        }
+        else if (entry->d_type == DT_BLK)
+        {
             ++count->blocks;
-        } else if (entry->d_type == DT_CHR) {
+        }
+        else if (entry->d_type == DT_CHR)
+        {
             ++count->characters;
-        } else if (entry->d_type == DT_SOCK) {
+        }
+        else if (entry->d_type == DT_SOCK)
+        {
             ++count->sockets;
-        } else if (entry->d_type == DT_FIFO) {
+        }
+        else if (entry->d_type == DT_FIFO)
+        {
             ++count->fifos;
-        } else if (entry->d_type == DT_LNK) {
+        }
+        else if (entry->d_type == DT_LNK)
+        {
             ++count->symlinks;
         }
     }
