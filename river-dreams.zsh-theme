@@ -1,9 +1,9 @@
 export VIRTUAL_ENV_DISABLE_PROMPT=1;
-_g_riverDreamsRoot=$(dirname ${0});
+_riverDreams_g_root=$(dirname ${0});
 
-[[ ! -f ${_g_riverDreamsRoot}/bin/left-prompt || ! -f ${_g_riverDreamsRoot}/bin/right-prompt ]] &&
-    make -sC ${_g_riverDreamsRoot};
+[[ ! -f ${_riverDreams_g_root}/bin/left-prompt || ! -f ${_riverDreams_g_root}/bin/right-prompt ]] &&
+    make -sC ${_riverDreams_g_root};
 
 setopt promptsubst;
-PROMPT='$(${_g_riverDreamsRoot}/bin/left-prompt)';
-RPROMPT='$(${_g_riverDreamsRoot}/bin/right-prompt)';
+PROMPT='$(${_riverDreams_g_root}/bin/left-prompt)';
+RPROMPT='$(${_riverDreams_g_root}/bin/right-prompt)';
