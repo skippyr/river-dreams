@@ -52,7 +52,7 @@ The following dependencies must be installed before installing it:
 
 - **git**: it will be used to clone this repository.
 - **gcc**, **make**: they will be used to compile this theme.
-- [**Nerd Font Symbols**](https://www.nerdfonts.com/font-downloads), **Noto Sans**: they provide the pretty symbols used in the theme.
+- [**Nerd Font Symbols**](https://www.nerdfonts.com/font-downloads), **Noto Sans**: these fonts provide the pretty symbols used in the theme.
 
 ### Procedures
 
@@ -82,14 +82,14 @@ If you want to install and use this theme with the [`ohmyzsh`](https://github.co
 - Clone this repository using `git`:
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/river-dreams\
+git clone --depth 1 https://github.com/skippyr/river-dreams \
                     ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/river-dreams;
 ```
 
 - Apply the theme in `~/.zshrc` configuration by setting the `ZSH_THEME` variable:
 
 ```zsh
-ZSH_THEME="river-dreams/river-dreams";
+ZSH_THEME=river-dreams/river-dreams;
 ```
 
 - Reopen `zsh`.
