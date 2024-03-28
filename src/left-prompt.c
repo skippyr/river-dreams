@@ -6,12 +6,12 @@ static struct tm *g_date;
 
 static int countDigits(int number)
 {
-    int totalOfDigits;
-    for (totalOfDigits = !number; number; number /= 10)
+    int totalDigits;
+    for (totalDigits = !number; number; number /= 10)
     {
-        ++totalOfDigits;
+        ++totalDigits;
     }
-    return totalOfDigits;
+    return totalDigits;
 }
 
 static void findGitRoot(char *pwd, char **root, size_t *length)
@@ -152,15 +152,15 @@ static void writeGitBranchModule(char *root, size_t length)
         return;
     }
     printf("%%F{yellow}:«(%%f");
-    for (int character, totalOfSlashes = 0; (character = fgetc(head)) != EOF && character != '\n';)
+    for (int character, totalSlashes = 0; (character = fgetc(head)) != EOF && character != '\n';)
     {
-        if (totalOfSlashes == 2)
+        if (totalSlashes == 2)
         {
             putchar(character);
         }
         else if (character == '/')
         {
-            ++totalOfSlashes;
+            ++totalSlashes;
         }
     }
     printf("%%F{yellow})»");
