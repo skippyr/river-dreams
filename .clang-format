@@ -1,7 +1,11 @@
+AccessModifierOffset: -4
 AlignEscapedNewlines: DontAlign
 AlignTrailingComments: false
 AllowShortLambdasOnASingleLine: None
+AlwaysBreakTemplateDeclarations: Yes
 BasedOnStyle: Microsoft
-ColumnLimit: 100
+BreakAfterJavaFieldAnnotations: true
+FixNamespaceComments: false
 JavaScriptQuotes: Double
+NamespaceIndentation : All
 SpacesInContainerLiterals: false

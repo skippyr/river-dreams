@@ -11,7 +11,7 @@ static int countDigits(int number)
     {
         ++totalDigits;
     }
-    return totalDigits;
+    return (totalDigits);
 }
 
 static void findGitRoot(char *pwd, char **root, size_t *length)
@@ -52,10 +52,10 @@ static size_t findLastSlash(char *path, size_t length)
     {
         if (path[index] == '/')
         {
-            return index;
+            return (index);
         }
     }
-    return 0;
+    return (0);
 }
 
 static void writeBatteryModule(void)
@@ -174,11 +174,10 @@ static void writeIPModule(void)
     getifaddrs(&interfacesList);
     for (struct ifaddrs *interface = interfacesList; interface; interface = interface->ifa_next)
     {
-        if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET &&
-            interface->ifa_flags & IFF_RUNNING && !(interface->ifa_flags & IFF_LOOPBACK))
+        if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET && interface->ifa_flags & IFF_RUNNING &&
+            !(interface->ifa_flags & IFF_LOOPBACK))
         {
-            inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, ip,
-                      sizeof(ip));
+            inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, ip, sizeof(ip));
             break;
         }
     }
@@ -198,9 +197,8 @@ static void writeModulesSeparator(void)
 
 static void writePathModule(char *pwd, char *gitRoot, size_t gitRootLength)
 {
-    !gitRoot || !gitRoot[1]
-        ? printf("%%F{red}%%~")
-        : printf("%%F{red}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
+    !gitRoot || !gitRoot[1] ? printf("%%F{red}%%~")
+                            : printf("%%F{red}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
 }
 
 static void writeRootUserModule(void)
@@ -244,5 +242,5 @@ int main(void)
     {
         free(gitRoot);
     }
-    return 0;
+    return (0);
 }

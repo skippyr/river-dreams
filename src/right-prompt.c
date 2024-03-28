@@ -16,8 +16,7 @@ static void countEntryTypes(struct EntryTypesCount *count)
     }
     for (struct dirent *entry; (entry = readdir(directory));)
     {
-        if (*entry->d_name == '.' &&
-            (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
+        if (*entry->d_name == '.' && (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
         {
             continue;
         }
@@ -76,5 +75,5 @@ int main(void)
     writeEntryTypesCountModule();
     writeJobsCountModule();
     putchar('\n');
-    return 0;
+    return (0);
 }
