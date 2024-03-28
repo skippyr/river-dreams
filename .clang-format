@@ -2,6 +2,8 @@ AlignEscapedNewlines: DontAlign
 AlignTrailingComments: false
 AllowShortLambdasOnASingleLine: None
 BasedOnStyle: Microsoft
+BreakBeforeBraces: WebKit
 ColumnLimit: 100
 JavaScriptQuotes: Double
 SpacesInContainerLiterals: false
+UseTab: ForContinuationAndIndentation
