@@ -6,15 +6,15 @@
         printf(" %%F{" a_color "}" a_symbol "%%f%zu", a_value); \
     }
 
-static void countEntryTypes(struct EntryTypesCount *count)
+static void countEntryTypes(struct EntryTypesCount* count)
 {
     memset(count, 0, sizeof(struct EntryTypesCount));
-    DIR *directory = opendir(".");
+    DIR* directory = opendir(".");
     if (!directory)
     {
         return;
     }
-    for (struct dirent *entry; (entry = readdir(directory));)
+    for (struct dirent* entry; (entry = readdir(directory));)
     {
         if (*entry->d_name == '.' && (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])))
         {

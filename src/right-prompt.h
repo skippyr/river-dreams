@@ -15,6 +15,6 @@ struct EntryTypesCount
     size_t symlinks;
 };
 
-static void countEntryTypes(struct EntryTypesCount *count);
+static void countEntryTypes(struct EntryTypesCount* count);
 static void writeEntryTypesCountModule(void);
 static void writeJobsCountModule(void);
