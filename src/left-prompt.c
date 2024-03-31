@@ -11,7 +11,7 @@ static int countDigits(int number)
     {
         ++totalDigits;
     }
-    return (totalDigits);
+    return totalDigits;
 }
 
 static void findGitRoot(char* pwd, char** root, size_t* length)
@@ -52,10 +52,10 @@ static size_t findLastSlash(char* path, size_t length)
     {
         if (path[index] == '/')
         {
-            return (index);
+            return index;
         }
     }
-    return (0);
+    return 0;
 }
 
 static void writeBatteryModule(void)
@@ -242,5 +242,5 @@ int main(void)
     {
         free(gitRoot);
     }
-    return (0);
+    return 0;
 }

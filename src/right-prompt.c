@@ -75,5 +75,5 @@ int main(void)
     writeEntryTypesCountModule();
     writeJobsCountModule();
     putchar('\n');
-    return (0);
+    return 0;
 }
