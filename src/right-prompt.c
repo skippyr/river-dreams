@@ -3,7 +3,14 @@
 #define WRITE_ENTRY_TYPE_COUNT(a_color, a_symbol, a_value) \
     if (a_value) \
     { \
-        printf(" %%F{" a_color "}" a_symbol "%%f%zu", a_value); \
+        if (a_color) \
+        { \
+            printf(" %%F{%s}%s%%f%zu", a_color, a_symbol, a_value); \
+        } \
+        else \
+        { \
+            printf("%s%zu", a_symbol, a_value); \
+        } \
     }
 
 static void countEntryTypes(struct EntryTypesCount* count)
@@ -56,7 +63,7 @@ static void writeEntryTypesCountModule(void)
 {
     struct EntryTypesCount count;
     countEntryTypes(&count);
-    WRITE_ENTRY_TYPE_COUNT("blue", " ", count.regulars);
+    WRITE_ENTRY_TYPE_COUNT((char*)NULL, " ", count.regulars);
     WRITE_ENTRY_TYPE_COUNT("yellow", " ", count.directories);
     WRITE_ENTRY_TYPE_COUNT("magenta", "󰇖 ", count.blocks);
     WRITE_ENTRY_TYPE_COUNT("green", "󱣴 ", count.characters);

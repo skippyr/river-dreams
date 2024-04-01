@@ -21,7 +21,7 @@ It includes many features to keep you informed about your development environmen
 <p align="center">
     <img alt="" src="assets/preview.webp" />
 </p>
-<p align="center"><sup><strong>Caption:</strong> a preview of river-dreams applied on <code>zsh</code>. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">Iosevka SS08</a>.</sup></p>
+<p align="center"><sup><strong>Caption:</strong> a preview of river-dreams applied on <code>zsh</code>. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://fonts.google.com/specimen/Fira+Code">Fira Code</a>.</sup></p>
 
 ### Features
 
