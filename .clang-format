@@ -3,6 +3,9 @@ AlignTrailingComments: false
 AllowShortEnumsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None
 AllowShortLambdasOnASingleLine: None
+AlwaysBreakTemplateDeclarations: true
 BasedOnStyle: LLVM
+BreakAfterJavaFieldAnnotations: true
+FixNamespaceComments: false
 JavaScriptQuotes: Single
 SpacesInContainerLiterals: false
