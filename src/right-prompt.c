@@ -1,14 +1,5 @@
 #include "right-prompt.h"
 
-#define WRITE_ENTRY_TYPE_COUNT(color_a, symbol_a, value_a) \
-  if (value_a) { \
-    if (color_a) { \
-      printf(" %%F{%s}%s%%f%zu", color_a, symbol_a, value_a); \
-    } else { \
-      printf("%s%zu", symbol_a, value_a); \
-    } \
-  }
-
 static void countEntryTypes(struct EntryTypesCount *count) {
   memset(count, 0, sizeof(struct EntryTypesCount));
   DIR *directory = opendir(".");
