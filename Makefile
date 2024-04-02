@@ -11,4 +11,4 @@ clean:
 
 bin/%-prompt: src/%-prompt.c src/%-prompt.h
 	mkdir -p bin;
-	${CC} ${CFLAGS} -o${@} ${^};
+	${CC} ${CFLAGS} -o${@} ${<};
