@@ -10,20 +10,29 @@ static void countEntryTypes(struct EntryTypesCount *count) {
     if (*entry->d_name == '.' &&
         (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2]))) {
       continue;
-    } else if (entry->d_type == DT_REG) {
+    }
+    switch (entry->d_type) {
+    case DT_REG:
       ++count->regulars;
-    } else if (entry->d_type == DT_DIR) {
+      break;
+    case DT_DIR:
       ++count->directories;
-    } else if (entry->d_type == DT_BLK) {
+      break;
+    case DT_BLK:
       ++count->blocks;
-    } else if (entry->d_type == DT_CHR) {
+      break;
+    case DT_CHR:
       ++count->characters;
-    } else if (entry->d_type == DT_SOCK) {
+      break;
+    case DT_SOCK:
       ++count->sockets;
-    } else if (entry->d_type == DT_FIFO) {
+      break;
+    case DT_FIFO:
       ++count->fifos;
-    } else if (entry->d_type == DT_LNK) {
+      break;
+    case DT_LNK:
       ++count->symlinks;
+      break;
     }
   }
   closedir(directory);
