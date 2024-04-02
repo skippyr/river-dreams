@@ -1,11 +1,11 @@
 #include "right-prompt.h"
 
-#define WRITE_ENTRY_TYPE_COUNT(a_color, a_symbol, a_value) \
-  if (a_value) { \
-    if (a_color) { \
-      printf(" %%F{%s}%s%%f%zu", a_color, a_symbol, a_value); \
+#define WRITE_ENTRY_TYPE_COUNT(color_a, symbol_a, value_a) \
+  if (value_a) { \
+    if (color_a) { \
+      printf(" %%F{%s}%s%%f%zu", color_a, symbol_a, value_a); \
     } else { \
-      printf("%s%zu", a_symbol, a_value); \
+      printf("%s%zu", symbol_a, value_a); \
     } \
   }
 

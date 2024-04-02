@@ -1,8 +1,8 @@
 #include "left-prompt.h"
 
-static int g_modulesLength = 41;
-static struct winsize g_windowSize;
-static struct tm *g_date;
+static int modulesLength_g = 41;
+static struct winsize windowSize_g;
+static struct tm *date_g;
 
 static int countDigits(int number) {
   int totalDigits;
@@ -71,30 +71,30 @@ static void writeBatteryModule(void) {
          : charge <= 50 ? "%F{green}  "
                         : "%F{green}  ",
          charge);
-  g_modulesLength += countDigits(charge) + 6 + (statusBuffer == 'C') * 2;
+  modulesLength_g += countDigits(charge) + 6 + (statusBuffer == 'C') * 2;
 }
 
 static void writeCalendarModule(void) {
   char buffer[13];
-  strftime(buffer, sizeof(buffer), "(%a) %b %d", g_date);
+  strftime(buffer, sizeof(buffer), "(%a) %b %d", date_g);
   printf("%%F{red}󰃭 %%f%s%s  ", buffer,
-         !((g_date->tm_mday - 1) % 10)   ? "st"
-         : !((g_date->tm_mday - 2) % 10) ? "nd"
-         : !((g_date->tm_mday - 3) % 10) ? "rd"
+         !((date_g->tm_mday - 1) % 10)   ? "st"
+         : !((date_g->tm_mday - 2) % 10) ? "nd"
+         : !((date_g->tm_mday - 3) % 10) ? "rd"
                                          : "th");
 }
 
 static void writeClockModule(void) {
   printf("%s%%f%02dh%02dm",
-         g_date->tm_hour < 6    ? "%F{cyan}󰭎 "
-         : g_date->tm_hour < 12 ? "%F{red}󰖨 "
-         : g_date->tm_hour < 18 ? "%F{blue} "
+         date_g->tm_hour < 6    ? "%F{cyan}󰭎 "
+         : date_g->tm_hour < 12 ? "%F{red}󰖨 "
+         : date_g->tm_hour < 18 ? "%F{blue} "
                                 : "%F{yellow}󰽥 ",
-         g_date->tm_hour, g_date->tm_min);
+         date_g->tm_hour, date_g->tm_min);
 }
 
 static void writeCommandsSeparator(void) {
-  for (int column = 0; column < g_windowSize.ws_col; ++column) {
+  for (int column = 0; column < windowSize_g.ws_col; ++column) {
     printf(column % 2 ? "%%F{red}v" : "%%F{yellow}≥");
   }
   printf("%%F{yellow}:«(");
@@ -115,7 +115,7 @@ static void writeDiskModule(void) {
          : usage < 80 ? "yellow"
                       : "red",
          usage);
-  g_modulesLength += countDigits(usage);
+  modulesLength_g += countDigits(usage);
 }
 
 static void writeExitCodeModule(void) {
@@ -162,12 +162,12 @@ static void writeIPModule(void) {
   }
   freeifaddrs(interfacesList);
   printf("%%F{blue} %%f%s  ", ip);
-  g_modulesLength += strlen(ip);
+  modulesLength_g += strlen(ip);
 }
 
 static void writeModulesSeparator(void) {
   printf("%%F{yellow})»:");
-  for (int column = 0; column < g_windowSize.ws_col - g_modulesLength;
+  for (int column = 0; column < windowSize_g.ws_col - modulesLength_g;
        ++column) {
     printf(column % 2 ? "%%F{red}-" : "%%F{yellow}=");
   }
@@ -192,11 +192,11 @@ static void writeVirtualEnvModule(void) {
 
 int main(void) {
   time_t epoch = time(NULL);
-  g_date = localtime(&epoch);
+  date_g = localtime(&epoch);
   char *pwd = getenv("PWD");
   char *gitRoot;
   size_t gitRootLength;
-  ioctl(STDERR_FILENO, TIOCGWINSZ, &g_windowSize);
+  ioctl(STDERR_FILENO, TIOCGWINSZ, &windowSize_g);
   findGitRoot(pwd, &gitRoot, &gitRootLength);
   writeCommandsSeparator();
   writeIPModule();
