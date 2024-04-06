@@ -14,7 +14,7 @@
 
 ## ❡ About
 
-A tribal theme for `zsh` for Linux.
+A tribal looking theme for the `zsh` shell for Linux.
 
 <p align="center">
   <img alt="" src="assets/preview.webp" />
