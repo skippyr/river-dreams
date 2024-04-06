@@ -14,7 +14,7 @@
 
 ## ❡ About
 
-A tribal inspired ZSH theme for Linux created to help you develop your dream projects.
+A tribal theme for `zsh` for Linux.
 
 <p align="center">
   <img alt="" src="assets/preview.webp" />
@@ -33,8 +33,8 @@ Its left prompt displays:
 - A decorator when you are the root user.
 - The exit code of the last command you typed in.
 - The active Python virtual environment, if you have sourced one.
-- The active directory path, shorting it when inside of a Git repository.
-- The active branch, when inside of a Git repository.
+- The active directory path, shorting it when inside of a `git` repository.
+- The active branch, when inside of a `git` repository.
 - A decorator when you do not have access to the active directory.
 
 Its right prompt displays:
@@ -50,7 +50,7 @@ The following dependencies must be installed before installing it:
 
 - **git**: it will be used to clone this repository.
 - **gcc**, **make**: they will be used to compile this theme.
-- [**Nerd Font Symbols**](https://www.nerdfonts.com/font-downloads), **Noto Sans**: these fonts provide the pretty symbols used in the theme.
+- **Noto Sans**, [**Nerd Font Symbols**](https://www.nerdfonts.com/font-downloads): these fonts provide the pretty symbols used in the theme.
 
 ### Procedures
 
@@ -61,13 +61,13 @@ If you want to install this theme without a plugin manager or for a specific fra
 - Clone this repository using `git`:
 
 ```sh
-git clone --depth 1 ~/.config/zsh/themes/river-dreams;
+git clone --depth 1 "~/.config/zsh/themes/river-dreams";
 ```
 
 - Source the file `river-dreams.zsh-theme` that is inside of the repository you just cloned in your `~/.zshrc` configuration file:
 
 ```zsh
-source ~/.config/zsh/themes/river-dreams/river-dreams.zsh-theme;
+source "~/.config/zsh/themes/river-dreams/river-dreams.zsh-theme";
 ```
 
 - Reopen `zsh`.
@@ -80,14 +80,15 @@ If you want to install and use this theme with the [`ohmyzsh`](https://github.co
 - Clone this repository using `git`:
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/river-dreams \
-                    ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/river-dreams;
+git clone --depth 1 \
+    "https://github.com/skippyr/river-dreams" \
+    "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/river-dreams";
 ```
 
-- Apply the theme in `~/.zshrc` configuration by setting the `ZSH_THEME` variable:
+- Apply the theme in your `~/.zshrc` configuration file by setting the `ZSH_THEME` variable:
 
 ```zsh
-ZSH_THEME=river-dreams/river-dreams;
+ZSH_THEME="river-dreams/river-dreams";
 ```
 
 - Reopen `zsh`.
@@ -106,7 +107,7 @@ skippyr/river-dreams
 - Use `antidote` to load your plugins.
 
 ```zsh
-antidote load ~/.zsh_plugins.txt;
+antidote load "~/.zsh_plugins.txt";
 ```
 
 - Wait for the theme to compile.
