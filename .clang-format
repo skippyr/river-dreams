@@ -9,5 +9,4 @@ BreakAfterJavaFieldAnnotations: true
 FixNamespaceComments: false
 JavaScriptQuotes: Single
 NamespaceIndentation : All
-PointerAlignment: Left
 SpacesInContainerLiterals: false

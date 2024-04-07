@@ -2,7 +2,7 @@
 
 static int modulesLength_g = 41;
 static struct winsize windowSize_g;
-static struct tm* date_g;
+static struct tm *date_g;
 
 static int countDigits(int number) {
   int totalDigits;
@@ -12,7 +12,7 @@ static int countDigits(int number) {
   return totalDigits;
 }
 
-static void findGitRoot(char* pwd, char** root, size_t* length) {
+static void findGitRoot(char *pwd, char **root, size_t *length) {
   size_t pwdLength = strlen(pwd);
   *root = malloc(pwdLength + 6);
   for (*length = 0; *length < pwdLength; ++*length) {
@@ -40,7 +40,7 @@ static void findGitRoot(char* pwd, char** root, size_t* length) {
   *root = NULL;
 }
 
-static size_t findLastSlash(char* path, size_t length) {
+static size_t findLastSlash(char *path, size_t length) {
   for (size_t index = length - 1; index; --index) {
     if (path[index] == '/') {
       return index;
@@ -122,13 +122,13 @@ static void writeExitCodeModule(void) {
   printf("{%%(?..%%F{red})%%?%%F{yellow}}⤐  ");
 }
 
-static void writeGitBranchModule(char* root, size_t length) {
+static void writeGitBranchModule(char *root, size_t length) {
   if (!root) {
     return;
   }
-  char* path = malloc(length + 11);
+  char *path = malloc(length + 11);
   sprintf(path, "%s/.git/HEAD", root);
-  FILE* head = fopen(path, "r");
+  FILE *head = fopen(path, "r");
   free(path);
   if (!head) {
     return;
@@ -148,14 +148,14 @@ static void writeGitBranchModule(char* root, size_t length) {
 
 static void writeIPModule(void) {
   char ip[16] = "127.0.0.1";
-  struct ifaddrs* interfacesList;
+  struct ifaddrs *interfacesList;
   getifaddrs(&interfacesList);
-  for (struct ifaddrs* interface = interfacesList; interface;
+  for (struct ifaddrs *interface = interfacesList; interface;
        interface = interface->ifa_next) {
     if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET &&
         interface->ifa_flags & IFF_RUNNING &&
         !(interface->ifa_flags & IFF_LOOPBACK)) {
-      inet_ntop(AF_INET, &((struct sockaddr_in*)interface->ifa_addr)->sin_addr,
+      inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr,
                 ip, sizeof(ip));
       break;
     }
@@ -173,7 +173,7 @@ static void writeModulesSeparator(void) {
   }
 }
 
-static void writePathModule(char* pwd, char* gitRoot, size_t gitRootLength) {
+static void writePathModule(char *pwd, char *gitRoot, size_t gitRootLength) {
   !gitRoot || !gitRoot[1]
       ? printf("%%F{red}%%~")
       : printf("%%F{red}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
@@ -184,7 +184,7 @@ static void writeRootUserModule(void) {
 }
 
 static void writeVirtualEnvModule(void) {
-  char* path = getenv("VIRTUAL_ENV");
+  char *path = getenv("VIRTUAL_ENV");
   if (path) {
     printf("%%f(%s) ", path + findLastSlash(path, strlen(path)) + 1);
   }
@@ -193,8 +193,8 @@ static void writeVirtualEnvModule(void) {
 int main(void) {
   time_t epoch = time(NULL);
   date_g = localtime(&epoch);
-  char* pwd = getenv("PWD");
-  char* gitRoot;
+  char *pwd = getenv("PWD");
+  char *gitRoot;
   size_t gitRootLength;
   ioctl(STDERR_FILENO, TIOCGWINSZ, &windowSize_g);
   findGitRoot(pwd, &gitRoot, &gitRootLength);

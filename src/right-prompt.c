@@ -1,12 +1,12 @@
 #include "right-prompt.h"
 
-static void countEntryTypes(struct EntryTypesCount* count) {
+static void countEntryTypes(struct EntryTypesCount *count) {
   memset(count, 0, sizeof(struct EntryTypesCount));
-  DIR* directory = opendir(".");
+  DIR *directory = opendir(".");
   if (!directory) {
     return;
   }
-  for (struct dirent* entry; (entry = readdir(directory));) {
+  for (struct dirent *entry; (entry = readdir(directory));) {
     if (*entry->d_name == '.' &&
         (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2]))) {
       continue;
@@ -41,7 +41,7 @@ static void countEntryTypes(struct EntryTypesCount* count) {
 static void writeEntryTypesCountModule(void) {
   struct EntryTypesCount count;
   countEntryTypes(&count);
-  WRITE_ENTRY_TYPE_COUNT((char*)NULL, " ", count.regulars);
+  WRITE_ENTRY_TYPE_COUNT((char *)NULL, " ", count.regulars);
   WRITE_ENTRY_TYPE_COUNT("yellow", " ", count.directories);
   WRITE_ENTRY_TYPE_COUNT("magenta", "󰇖 ", count.blocks);
   WRITE_ENTRY_TYPE_COUNT("green", "󱣴 ", count.characters);
