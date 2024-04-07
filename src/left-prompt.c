@@ -12,7 +12,7 @@ static int countDigits(int number) {
   return totalDigits;
 }
 
-static void findGitRoot(char *pwd, char **root, size_t *length) {
+static void findGitRoot(const char *pwd, char **root, size_t *length) {
   size_t pwdLength = strlen(pwd);
   *root = malloc(pwdLength + 6);
   for (*length = 0; *length < pwdLength; ++*length) {
@@ -40,7 +40,7 @@ static void findGitRoot(char *pwd, char **root, size_t *length) {
   *root = NULL;
 }
 
-static size_t findLastSlash(char *path, size_t length) {
+static size_t findLastSlash(const char *path, size_t length) {
   for (size_t index = length - 1; index; --index) {
     if (path[index] == '/') {
       return index;
@@ -122,7 +122,7 @@ static void writeExitCodeModule(void) {
   printf("{%%(?..%%F{red})%%?%%F{yellow}}⤐  ");
 }
 
-static void writeGitBranchModule(char *root, size_t length) {
+static void writeGitBranchModule(const char *root, size_t length) {
   if (!root) {
     return;
   }
@@ -173,7 +173,8 @@ static void writeModulesSeparator(void) {
   }
 }
 
-static void writePathModule(char *pwd, char *gitRoot, size_t gitRootLength) {
+static void writePathModule(const char *pwd, const char *gitRoot,
+                            size_t gitRootLength) {
   !gitRoot || !gitRoot[1]
       ? printf("%%F{red}%%~")
       : printf("%%F{red}@/%s", pwd + findLastSlash(gitRoot, gitRootLength) + 1);
@@ -184,7 +185,7 @@ static void writeRootUserModule(void) {
 }
 
 static void writeVirtualEnvModule(void) {
-  char *path = getenv("VIRTUAL_ENV");
+  const char *path = getenv("VIRTUAL_ENV");
   if (path) {
     printf("%%f(%s) ", path + findLastSlash(path, strlen(path)) + 1);
   }
@@ -193,7 +194,7 @@ static void writeVirtualEnvModule(void) {
 int main(void) {
   time_t epoch = time(NULL);
   date_g = localtime(&epoch);
-  char *pwd = getenv("PWD");
+  const char *pwd = getenv("PWD");
   char *gitRoot;
   size_t gitRootLength;
   ioctl(STDERR_FILENO, TIOCGWINSZ, &windowSize_g);
