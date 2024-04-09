@@ -1,8 +1,8 @@
 #define _GNU_SOURCE
-#include <dirent.h>
-
 #include <stdio.h>
 #include <string.h>
+
+#include <dirent.h>
 
 #define WRITE_ENTRY_TYPE_COUNT(color_a, symbol_a, value_a) \
 	if (value_a) \

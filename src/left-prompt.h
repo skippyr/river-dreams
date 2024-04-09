@@ -1,4 +1,9 @@
 #define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <ifaddrs.h>
@@ -6,11 +11,6 @@
 #include <sys/ioctl.h>
 #include <sys/statvfs.h>
 #include <unistd.h>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
 
 #ifndef BATTERY
 #define BATTERY "/sys/class/power_supply/BAT0"
