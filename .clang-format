@@ -9,3 +9,4 @@ JavaScriptQuotes: Double
 NamespaceIndentation : All
 PointerAlignment: Left
 SpacesInContainerLiterals: false
+UseTab: ForContinuationAndIndentation
