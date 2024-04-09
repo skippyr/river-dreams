@@ -1,15 +1,15 @@
 <p align="center">
-  <img alt="" src="assets/ornament.webp" />
+    <img alt="" src="assets/ornament.webp" />
 </p>
 <h1 align="center">≥v≥v&ensp;river-dreams&ensp;≥v≥v</h1>
 <p align="center">
-  <img alt="" src="https://img.shields.io/github/license/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20license&labelColor=%2324130e&color=%23b8150d" />
-  &nbsp;
-  <img alt="" src="https://img.shields.io/github/v/tag/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20tag&labelColor=%2324130e&color=%23b8150d" />
-  &nbsp;
-  <img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20commits&labelColor=%2324130e&color=%23b8150d" />
-  &nbsp;
-  <img alt="" src="https://img.shields.io/github/stars/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20stars&labelColor=%2324130e&color=%23b8150d" />
+    <img alt="" src="https://img.shields.io/github/license/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20license&labelColor=%2324130e&color=%23b8150d" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/v/tag/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20tag&labelColor=%2324130e&color=%23b8150d" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20commits&labelColor=%2324130e&color=%23b8150d" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/stars/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20stars&labelColor=%2324130e&color=%23b8150d" />
 </p>
 
 ## ❡ About
@@ -17,7 +17,7 @@
 A tribal looking theme for the `zsh` shell for Linux.
 
 <p align="center">
-  <img alt="" src="assets/preview.webp" />
+    <img alt="" src="assets/preview.webp" />
 </p>
 <p align="center"><sup><strong>Caption:</strong> a preview of river-dreams applied on <code>zsh</code>. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://fonts.google.com/specimen/Fira+Code">Fira Code</a>.</sup></p>
 
