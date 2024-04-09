@@ -1,3 +1,4 @@
+AccessModifierOffset: -4
 AlignEscapedNewlines: DontAlign
 AlignTrailingComments: false
 AllowShortLambdasOnASingleLine: None
