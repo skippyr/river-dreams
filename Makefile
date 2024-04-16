@@ -4,11 +4,11 @@ SHELL:=bash
 
 .PHONY: all clean
 
-all: build/bin/left-prompt build/bin/right-prompt
+all: build/bin/lprompt build/bin/rprompt
 
 clean:
 	rm -rf build;
 
-build/bin/%-prompt: src/%-prompt.c src/%-prompt.h
+build/bin/%prompt: src/%prompt.c
 	mkdir -p build/bin;
-	${CC} ${CFLAGS} -o${@} ${<};
+	${CC} ${CFLAGS} -o ${@} ${<};
