@@ -63,7 +63,7 @@ writeents(void)
 	WRITEENT(2, "󱣴 ", e.ch);
 	WRITEENT(6, "󱄙 ", e.soc);
 	WRITEENT(4, "󰟦 ", e.ff);
-	WRITEENT(4, "󰌷 ", e.ff);
+	WRITEENT(4, "󰌷 ", e.lnk);
 }
 
 static void
