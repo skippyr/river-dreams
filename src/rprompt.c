@@ -77,5 +77,6 @@ main(void)
 {
 	writeents();
 	writejobs();
+	putchar('\n');
 	return 0;
 }
