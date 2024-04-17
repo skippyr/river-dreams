@@ -1,9 +1,13 @@
 #define _GNU_SOURCE
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 
 #include <dirent.h>
+#include <fcntl.h>
+#include <sys/syscall.h>
+#include <unistd.h>
 
+#define BUFSZ 1024
 #define WRITEENT(clr_a, sym_a, val_a) \
 	if (val_a) \
 		clr_a ? printf(" %%F{%d}%s%%f%zu", clr_a, sym_a, val_a) : \
@@ -19,6 +23,15 @@ struct ents {
 	size_t lnk;
 };
 
+struct linux_dirent64 {
+	ino64_t d_ino;
+	off64_t d_off;
+	unsigned short d_reclen;
+	unsigned char d_type;
+	char d_name[];
+};
+
+
 static void countents(struct ents *e);
 static void writeents(void);
 static void writejobs(void);
@@ -26,36 +39,49 @@ static void writejobs(void);
 static void
 countents(struct ents *e)
 {
-	DIR *d = opendir(".");
-	struct dirent *ed;
-	memset(e, 0, sizeof(struct ents));
-	if (!d)
-		return;
-	while ((ed = readdir(d)))
-		if (!(*ed->d_name == '.' && (!ed->d_name[1] || (ed->d_name[1] == '.' &&
-			!ed->d_name[2])))) {
-			if (ed->d_type == DT_REG)
+	int dir = open(".", O_RDONLY);
+	struct linux_dirent64 *d;
+	long sz;
+	long i;
+	char *buf = malloc(BUFSZ);
+	while ((sz = syscall(SYS_getdents64, dir, buf, BUFSZ)) > 0)
+		for (i = 0; i < sz; i += d->d_reclen) {
+			d = (struct linux_dirent64 *)(buf + i);
+			if (*d->d_name == '.' && (!d->d_name[1] || (d->d_name[1] == '.' &&
+				!d->d_name[2])))
+				continue;
+			switch (d->d_type) {
+			case DT_REG:
 				++e->reg;
-			else if (ed->d_type == DT_DIR)
+				break;
+			case DT_DIR:
 				++e->dir;
-			else if (ed->d_type == DT_BLK)
+				break;
+			case DT_BLK:
 				++e->blk;
-			else if (ed->d_type == DT_CHR)
+				break;
+			case DT_CHR:
 				++e->ch;
-			else if (ed->d_type == DT_SOCK)
+				break;
+			case DT_SOCK:
 				++e->soc;
-			else if (ed->d_type == DT_FIFO)
+				break;
+			case DT_FIFO:
 				++e->ff;
-			else if (ed->d_type == DT_LNK)
+				break;
+			case DT_LNK:
 				++e->lnk;
+				break;
+			}
 		}
-	closedir(d);
+	free(buf);
+	close(dir);
 }
 
 static void
 writeents(void)
 {
-	struct ents e;
+	struct ents e = {0, 0, 0, 0, 0, 0, 0};
 	countents(&e);
 	WRITEENT(0, " ", e.reg);
 	WRITEENT(3, " ", e.dir);
