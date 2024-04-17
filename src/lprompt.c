@@ -52,7 +52,7 @@ findgitroot(char *pwd, size_t *len)
 	memcpy(buf, pwd, *len);
 	while (1) {
 		buf[*len] = '/';
-		*(int*)(buf + *len + 1) = *(int*)".git";
+		*(int *)(buf + *len + 1) = *(int *)".git";
 		buf[*len + 5] = 0;
 		if (!access(buf, F_OK)) {
 			buf[*len] = 0;
