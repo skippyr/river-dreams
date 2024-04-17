@@ -51,7 +51,9 @@ findgitroot(char *pwd, size_t *len)
 	size_t rslash;
 	memcpy(buf, pwd, *len);
 	while (1) {
-		memcpy(buf + *len, "/.git", 6);
+		buf[*len] = '/';
+		*(int*)(buf + *len + 1) = *(int*)".git";
+		buf[*len + 5] = 0;
 		if (!access(buf, F_OK)) {
 			buf[*len] = 0;
 			return buf;
