@@ -32,6 +32,7 @@ Its left prompt displays:
 - A clock.
 - A decorator when you are the root user.
 - The exit code of the last command you typed in.
+- The active mode of the [zsh-vi-mode](https://github.com/jeffreytse/zsh-vi-mode) plugin, if it has been sourced.
 - The active Python virtual environment, if you have sourced one.
 - The active directory path, shorting it when inside of a `git` repository.
 - The active branch, when inside of a `git` repository.

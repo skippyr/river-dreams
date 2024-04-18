@@ -32,6 +32,7 @@ static void writemodsep(struct winsize *w);
 static void writepath(char *pwd, char *gitroot, size_t gitrootlen);
 static void writerootstat(void);
 static void writevenv(void);
+static void writezvmmode(char mode);
 
 static unsigned short modlen_g = 41;
 
@@ -160,7 +161,7 @@ writediskuse(void)
 static void
 writeexitcd(void)
 {
-	printf("{%%(?..%%F{1})%%?%%F{3}}⤐  ");
+	printf("%%F{3}{%%(?..%%F{1})%%?%%F{3}}");
 }
 
 static void
@@ -236,8 +237,15 @@ writevenv(void)
 		printf("%%f(%s) ", venv + getrslashpos(venv, strlen(venv)) + 1);
 }
 
+static void
+writezvmmode(char mode)
+{
+	printf("{%%F{%d}%c%%F{3}}", mode == 'n' ? 3 : mode == 'i' ? 2 :
+		   mode == 'r' ? 5 : 4, mode - 32);
+}
+
 int
-main(void)
+main(int argc, char **argv)
 {
 	time_t tt = time(NULL);
 	struct tm *t = localtime(&tt);
@@ -255,6 +263,9 @@ main(void)
 	writemodsep(&w);
 	writerootstat();
 	writeexitcd();
+	if (argc > 1)
+		writezvmmode(*argv[1]);
+	printf("⤐  ");
 	writevenv();
 	writepath(pwd, gitroot, gitrootlen);
 	writegitbranch(gitroot, gitrootlen);
