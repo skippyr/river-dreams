@@ -95,13 +95,13 @@ writebatper(void)
 	}
 	read(statfd, &statbuf, sizeof(statbuf));
 	close(statfd);
-	if (statbuf == 'C') {
-		printf("%%F{3}󱐋 ");
+	if (statbuf == 'C' || per <= 15) {
+		printf("%%F{3}%s", statbuf == 'C' ? "󱐋 " : "󰀦 ");
 		modlen_g += 2;
 	}
-	printf("%s%%f%d%%%%  ", per <= 15 ? "%F{1}  " : per <= 35 ? "%F{3}  " :
-		   per <= 70 ? "%F{2}  " : "%F{2}  ", per);
-	modlen_g += countdigits(per) + 6;
+	printf("%s%%f%d%%%%  ", per <= 15 ? "%F{1}󱊡 " : per <= 50 ? "%F{3}󱊢 " :
+		   "%F{2}󱊣 ", per);
+	modlen_g += countdigits(per) + 5;
 }
 
 static void
@@ -149,6 +149,10 @@ writediskuse(void)
 	tot = s.f_frsize * s.f_blocks;
 	avl = s.f_frsize * s.f_bavail;
 	use = ((tot - avl) / (float)tot) * 100;
+	if (use > 80) {
+		printf("%%F{3}󰀦 ");
+		modlen_g += 2;
+	}
 	printf("%%F{%d}󰋊 %%f%d%%%%  ", use < 70 ? 2 : use < 80 ? 3 : 1, use);
 	modlen_g += countdigits(use);
 }
@@ -187,21 +191,18 @@ writegitbranch(char *root, size_t len)
 static void
 writeip(void)
 {
-	char buf[16] = "127.0.0.1";
+	char buf[16] = "";
 	struct ifaddrs *list;
 	struct ifaddrs *addr;
 	getifaddrs(&list);
-	for (addr = list; addr; addr = addr->ifa_next)
+	for (addr = list; !*buf && addr; addr = addr->ifa_next)
 		if (addr->ifa_addr && addr->ifa_addr->sa_family & AF_INET &&
-			addr->ifa_flags & IFF_RUNNING &&
-			!(addr->ifa_flags & IFF_LOOPBACK)) {
+			addr->ifa_flags & IFF_RUNNING && !(addr->ifa_flags & IFF_LOOPBACK))
 			inet_ntop(AF_INET, &((struct sockaddr_in*)addr->ifa_addr)->sin_addr,
 					  buf, sizeof(buf));
-			break;
-		}
 	freeifaddrs(list);
-	printf("%%F{4} %%f%s  ", buf);
-	modlen_g += strlen(buf);
+	printf("%%F{4} %%f%s  ", !*buf ? "127.0.0.1" : buf);
+	modlen_g += !*buf ? 9 : strlen(buf);
 }
 
 static void

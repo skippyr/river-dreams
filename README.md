@@ -39,7 +39,7 @@ Its left prompt displays:
 
 Its right prompt displays:
 
-- The total of each entry type in the active directory: regulars, directories, blocks, characters, sockets, fifos and symlinks.
+- The total of each entry type and some statuses in the active directory: regulars, directories, blocks, characters, sockets, fifos, symlinks, hidden and temporary entries.
 - The total of background jobs.
 
 ## ❡ Install

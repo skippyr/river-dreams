@@ -8,19 +8,17 @@
 #include <unistd.h>
 
 #define BUFSZ 1024
-#define WRITEENT(clr_a, sym_a, val_a) \
-	if (val_a) \
-		clr_a ? printf(" %%F{%d}%s%%f%zu", clr_a, sym_a, val_a) : \
-		printf("%s%zu", sym_a, val_a);
 
 struct ents {
-	size_t reg;
-	size_t dir;
-	size_t blk;
-	size_t ch;
-	size_t soc;
-	size_t ff;
-	size_t lnk;
+	int reg;
+	int dir;
+	int blk;
+	int ch;
+	int soc;
+	int ff;
+	int lnk;
+	int hid;
+	int tmp;
 };
 
 struct linux_dirent64 {
@@ -31,8 +29,8 @@ struct linux_dirent64 {
 	char d_name[];
 };
 
-
 static void countents(struct ents *e);
+static void writeent(int clr, char *sym, int val);
 static void writeents(void);
 static void writejobs(void);
 
@@ -43,13 +41,20 @@ countents(struct ents *e)
 	struct linux_dirent64 *d;
 	long sz;
 	long i;
+	size_t j;
 	char *buf = malloc(BUFSZ);
 	while ((sz = syscall(SYS_getdents64, dir, buf, BUFSZ)) > 0)
 		for (i = 0; i < sz; i += d->d_reclen) {
 			d = (struct linux_dirent64 *)(buf + i);
-			if (*d->d_name == '.' && (!d->d_name[1] || (d->d_name[1] == '.' &&
-				!d->d_name[2])))
-				continue;
+			if (*d->d_name == '.') {
+				if (!d->d_name[1] || (d->d_name[1] == '.' && !d->d_name[2]))
+					continue;
+				else
+					++e->hid;
+			}
+			for (j = 0; d->d_name[j]; ++j);
+			if (d->d_name[j - 1] == '~')
+				++e->tmp;
 			switch (d->d_type) {
 			case DT_REG:
 				++e->reg;
@@ -79,17 +84,38 @@ countents(struct ents *e)
 }
 
 static void
+writeent(int clr, char *sym, int val)
+{
+	char buf[8];
+	int len;
+	int i;
+	int j;
+	if (!val)
+		return;
+	clr ? printf(" %%F{%d}%s%%f", clr, sym) : printf(" %s", sym);
+	sprintf(buf, "%d", val);
+	for (len = 0; buf[len]; ++len);
+	for (i = len - 3, j = 0; j <= len; ++j) {
+		if (j == i && i)
+			putchar(',');
+		putchar(buf[j]);
+	}
+}
+
+static void
 writeents(void)
 {
-	struct ents e = {0, 0, 0, 0, 0, 0, 0};
+	struct ents e = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 	countents(&e);
-	WRITEENT(0, " ", e.reg);
-	WRITEENT(3, " ", e.dir);
-	WRITEENT(5, "󰇖 ", e.blk);
-	WRITEENT(2, "󱣴 ", e.ch);
-	WRITEENT(6, "󱄙 ", e.soc);
-	WRITEENT(4, "󰟦 ", e.ff);
-	WRITEENT(4, "󰌷 ", e.lnk);
+	writeent(0, " ", e.reg);
+	writeent(3, "󰝰 ", e.dir);
+	writeent(5, "󰇖 ", e.blk);
+	writeent(2, "󱣴 ", e.ch);
+	writeent(6, "󱄙 ", e.soc);
+	writeent(4, "󰟦 ", e.ff);
+	writeent(4, "󰌷 ", e.lnk);
+	writeent(1, "󰈉 ", e.hid);
+	writeent(5, "󱣹 ", e.tmp);
 }
 
 static void
