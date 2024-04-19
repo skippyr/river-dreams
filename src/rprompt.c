@@ -1,9 +1,11 @@
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include <dirent.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 #include <sys/syscall.h>
 #include <unistd.h>
 
@@ -43,6 +45,8 @@ countents(struct ents *e)
 	long i;
 	size_t j;
 	char *buf = malloc(BUFSZ);
+	struct stat s;
+	memset(e, 0, sizeof(struct ents));
 	while ((sz = syscall(SYS_getdents64, dir, buf, BUFSZ)) > 0)
 		for (i = 0; i < sz; i += d->d_reclen) {
 			d = (struct linux_dirent64 *)(buf + i);
@@ -55,27 +59,31 @@ countents(struct ents *e)
 			for (j = 0; d->d_name[j]; ++j);
 			if (d->d_name[j - 1] == '~')
 				++e->tmp;
-			switch (d->d_type) {
+			switch (d->d_type == DT_LNK && ++e->lnk && !stat(d->d_name, &s) ?
+					s.st_mode & S_IFMT : d->d_type) {
+			case S_IFREG:
 			case DT_REG:
 				++e->reg;
 				break;
+			case S_IFDIR:
 			case DT_DIR:
 				++e->dir;
 				break;
+			case S_IFBLK:
 			case DT_BLK:
 				++e->blk;
 				break;
+			case S_IFCHR:
 			case DT_CHR:
 				++e->ch;
 				break;
+			case S_IFSOCK:
 			case DT_SOCK:
 				++e->soc;
 				break;
+			case S_IFIFO:
 			case DT_FIFO:
 				++e->ff;
-				break;
-			case DT_LNK:
-				++e->lnk;
 				break;
 			}
 		}
@@ -105,7 +113,7 @@ writeent(int clr, char *sym, int val)
 static void
 writeents(void)
 {
-	struct ents e = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+	struct ents e;
 	countents(&e);
 	writeent(0, " ", e.reg);
 	writeent(3, "󰝰 ", e.dir);
