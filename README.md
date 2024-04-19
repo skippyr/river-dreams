@@ -51,7 +51,7 @@ The following dependencies must be installed before installing it:
 
 - **git**: it will be used to clone this repository.
 - **gcc**, **make**: they will be used to compile this software.
-- **Noto Sans**, [**Nerd Font Symbols**](https://www.nerdfonts.com/font-downloads): these fonts provide the pretty symbols used in the theme.
+- **Noto Sans**, [**Nerd Font Symbols**](https://www.nerdfonts.com/font-downloads): these fonts provide the pretty symbols used in the software.
 
 ### Procedures
 
@@ -68,7 +68,7 @@ git clone --depth 1 "https://github.com/skippyr/riverdreams" \
 
 - Source the file `riverdreams.zsh-theme` that is inside of the repository you just cloned in your `~/.zshrc` configuration file:
 
-```zsh
+```sh
 source "~/.config/zsh/themes/riverdreams/riverdreams.zsh-theme";
 ```
 
@@ -108,7 +108,7 @@ skippyr/riverdreams
 
 - Use `antidote` to load your plugins.
 
-```zsh
+```sh
 antidote load "~/.zsh_plugins.txt";
 ```
 
