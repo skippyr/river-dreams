@@ -66,7 +66,7 @@ git clone --depth 1 "https://github.com/skippyr/riverdreams" \
                     "~/.config/zsh/themes/riverdreams";
 ```
 
-- Source the file `riverdreams.zsh-theme` that is inside of the repository you just cloned in your `~/.zshrc` configuration file:
+- Source the file `riverdreams.zsh-theme` that is inside of the repository you cloned in your `~/.zshrc` configuration file:
 
 ```sh
 source "~/.config/zsh/themes/riverdreams/riverdreams.zsh-theme";
