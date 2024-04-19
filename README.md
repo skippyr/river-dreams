@@ -19,7 +19,7 @@ A tribal looking theme for the `zsh` shell for Linux.
 <p align="center">
 	<img alt="" src="assets/preview.webp" />
 </p>
-<p align="center"><sup><strong>Caption:</strong> a preview of riverdreams applied on <code>zsh</code>. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">Iosevka SS08</a>.</sup></p>
+<p align="center"><sup><strong>Caption:</strong> a preview of riverdreams applied on <code>zsh</code>. The terminal theme used is <a href="https://github.com/skippyr/flamerial">flamerial</a> and font is <a href="https://github.com/be5invis/Iosevka">iosevka SS08</a>.</sup></p>
 
 ### Features
 
