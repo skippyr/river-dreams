@@ -72,7 +72,7 @@ git clone --depth 1 "https://github.com/skippyr/riverdreams" \
 source "~/.config/zsh/themes/riverdreams/riverdreams.zsh-theme";
 ```
 
-- Reopen `zsh`.
+- Open a new `zsh` session.
 - Wait for the theme to compile.
 
 #### Procedures For OhMyZSH
@@ -93,7 +93,7 @@ git clone --depth 1 \
 ZSH_THEME="riverdreams/riverdreams";
 ```
 
-- Reopen `zsh`.
+- Open a new `zsh` session.
 - Wait for the theme to compile.
 
 #### Procedures For Antidote
