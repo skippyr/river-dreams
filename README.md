@@ -50,19 +50,20 @@ Its right prompt displays:
 The following dependencies must be installed before installing it:
 
 - **git**: it will be used to clone this repository.
-- **gcc**, **make**: they will be used to compile this theme.
+- **gcc**, **make**: they will be used to compile this software.
 - **Noto Sans**, [**Nerd Font Symbols**](https://www.nerdfonts.com/font-downloads): these fonts provide the pretty symbols used in the theme.
 
 ### Procedures
 
 #### Manual Procedures
 
-If you want to install this theme without a plugin manager or for a specific framework, using a terminal, follow these steps:
+If you want to install this software without a plugin manager or for a specific framework, using a terminal, follow these steps:
 
 - Clone this repository using `git`:
 
 ```sh
-git clone --depth 1 "~/.config/zsh/themes/riverdreams";
+git clone --depth 1 "https://github.com/skippyr/riverdreams" \
+                    "~/.config/zsh/themes/riverdreams";
 ```
 
 - Source the file `riverdreams.zsh-theme` that is inside of the repository you just cloned in your `~/.zshrc` configuration file:
@@ -76,7 +77,7 @@ source "~/.config/zsh/themes/riverdreams/riverdreams.zsh-theme";
 
 #### Procedures For OhMyZSH
 
-If you want to install and use this theme with the [`ohmyzsh`](https://github.com/ohmyzsh/ohmyzsh) framework, using a terminal, follow these steps:
+If you want to install and use this software with the [`ohmyzsh`](https://github.com/ohmyzsh/ohmyzsh) framework, using a terminal, follow these steps:
 
 - Clone this repository using `git`:
 
@@ -97,7 +98,7 @@ ZSH_THEME="riverdreams/riverdreams";
 
 #### Procedures For Antidote
 
-If you want to install this theme with the [`antidote`](https://github.com/mattmc3/antidote) plugin manager, using a terminal, follow these steps:
+If you want to install this software with the [`antidote`](https://github.com/mattmc3/antidote) plugin manager, using a terminal, follow these steps:
 
 - Add this repository to your plugins file, usually `~/.zsh_plugins.txt`.
 
