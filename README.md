@@ -66,7 +66,7 @@ git clone --depth 1 "https://github.com/skippyr/riverdreams" \
                     "${HOME}/.config/zsh/themes/riverdreams";
 ```
 
-- Source the file `riverdreams.zsh-theme` that is inside of the repository you cloned in your `~/.zshrc` configuration file:
+- Source the file `riverdreams.zsh-theme` that is inside of the repository you cloned in your `${HOME}/.zshrc` configuration file:
 
 ```sh
 source "${HOME}/.config/zsh/themes/riverdreams/riverdreams.zsh-theme";
@@ -87,7 +87,7 @@ git clone --depth 1 \
     "${ZSH_CUSTOM:-${HOME}/.oh-my-zsh/custom}/themes/riverdreams";
 ```
 
-- Apply the theme in your `~/.zshrc` configuration file by setting the `ZSH_THEME` variable:
+- Apply the theme in your `${HOME}/.zshrc` configuration file by setting the `ZSH_THEME` variable:
 
 ```zsh
 ZSH_THEME="riverdreams/riverdreams";
@@ -100,7 +100,7 @@ ZSH_THEME="riverdreams/riverdreams";
 
 If you want to install this software with the [`antidote`](https://github.com/mattmc3/antidote) plugin manager, using a terminal, follow these steps:
 
-- Add this repository to your plugins file, usually `~/.zsh_plugins.txt`.
+- Add this repository to your plugins file, usually `${HOME}/.zsh_plugins.txt`.
 
 ```
 skippyr/riverdreams
@@ -109,7 +109,7 @@ skippyr/riverdreams
 - Use `antidote` to load your plugins.
 
 ```sh
-antidote load "~/.zsh_plugins.txt";
+antidote load "${HOME}/.zsh_plugins.txt";
 ```
 
 - Wait for the theme to compile.
