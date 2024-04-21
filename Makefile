@@ -7,8 +7,8 @@ SHELL:=bash
 all: build/bin/lprompt build/bin/rprompt
 
 clean:
-	rm -rf "build";
+	rm -rf build;
 
 build/bin/%prompt: src/%prompt.c
-	mkdir -p "build/bin";
+	mkdir -p build/bin;
 	${CC} ${CFLAGS} -o ${@} ${<};
