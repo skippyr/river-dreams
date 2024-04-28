@@ -1,0 +1,11 @@
+AlignEscapedNewlines: DontAlign
+AlignTrailingComments: false
+AllowShortLambdasOnASingleLine: None
+AlwaysBreakTemplateDeclarations: true
+BasedOnStyle: Microsoft
+BreakAfterJavaFieldAnnotations: true
+ColumnLimit: 100
+FixNamespaceComments: false
+JavaScriptQuotes: Double
+NamespaceIndentation: All
+SpacesInContainerLiterals: false
