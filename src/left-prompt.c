@@ -77,11 +77,7 @@ static void writeBatteryModule(int *modulesLength)
         printf("%%F{yellow}%s", status == 'C' ? "󱐋 " : "󰀦 ");
         *modulesLength += 2;
     }
-    printf("%s%%f%d%%%%  ",
-           charge <= 15   ? "%F{red}󱊡 "
-           : charge <= 50 ? "%F{yellow}󱊢 "
-                          : "%F{green}󱊣 ",
-           charge);
+    printf("%s%%f%d%%%%  ", charge <= 15 ? "%F{red}󱊡 " : charge <= 50 ? "%F{yellow}󱊢 " : "%F{green}󱊣 ", charge);
     *modulesLength += countDigits(charge) + 5;
 #undef BATTERY
 }
@@ -166,8 +162,7 @@ static void writeGitModule(const char *root, size_t length)
         return;
     }
     printf("%%F{yellow}:«(%%f");
-    for (int totalSlashes = 0, character = 0;
-         (character = fgetc(head)) != EOF && character != '\n';)
+    for (int totalSlashes = 0, character = 0; (character = fgetc(head)) != EOF && character != '\n';)
     {
         if (totalSlashes == 2)
         {
@@ -187,14 +182,12 @@ static void writeIPModule(int *modulesLength)
     char buffer[16] = {0};
     struct ifaddrs *interfacesList;
     getifaddrs(&interfacesList);
-    for (struct ifaddrs *interface = interfacesList; !buffer[0] && interface;
-         interface = interface->ifa_next)
+    for (struct ifaddrs *interface = interfacesList; !buffer[0] && interface; interface = interface->ifa_next)
     {
-        if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET &&
-            interface->ifa_flags & IFF_RUNNING && !(interface->ifa_flags & IFF_LOOPBACK))
+        if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET && interface->ifa_flags & IFF_RUNNING &&
+            !(interface->ifa_flags & IFF_LOOPBACK))
         {
-            inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, buffer,
-                      sizeof(buffer));
+            inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, buffer, sizeof(buffer));
         }
     }
     freeifaddrs(interfacesList);
@@ -213,8 +206,7 @@ static void writeModulesSeparator(int modulesLength, struct winsize *terminalSiz
 
 static void writePathModule(const char *pwd, const char *gitRoot, size_t gitRootLength)
 {
-    gitRootLength > 1 ? printf("%%F{red}@%s", pwd + getLastSlashOffset(gitRoot, gitRootLength))
-                      : printf("%%F{red}%%~");
+    gitRootLength > 1 ? printf("%%F{red}@%s", pwd + getLastSlashOffset(gitRoot, gitRootLength)) : printf("%%F{red}%%~");
 }
 
 static void writeRootAccessModule(void)

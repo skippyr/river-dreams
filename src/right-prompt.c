@@ -14,8 +14,7 @@ static void countEntries(struct EntriesCount *count)
         close(directory);
         return;
     }
-    for (long totalEntries;
-         (totalEntries = syscall(SYS_getdents64, directory, buffer, BUFFER_SIZE)) > 0;)
+    for (long totalEntries; (totalEntries = syscall(SYS_getdents64, directory, buffer, BUFFER_SIZE)) > 0;)
     {
         struct linux_dirent64 *entry;
         for (long offset = 0; offset < totalEntries; offset += entry->d_reclen)
@@ -35,8 +34,7 @@ static void countEntries(struct EntriesCount *count)
                 ++count->totalTemporaryEntries;
             }
             struct stat status;
-            switch (entry->d_type == DT_LNK && ++count->totalSymlinks &&
-                            !stat(entry->d_name, &status)
+            switch (entry->d_type == DT_LNK && ++count->totalSymlinks && !stat(entry->d_name, &status)
                         ? status.st_mode & S_IFMT
                         : entry->d_type)
             {
