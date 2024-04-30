@@ -12,6 +12,11 @@
 #include <sys/statvfs.h>
 #include <unistd.h>
 
+#ifndef BATTERY
+#define BATTERY "/sys/class/power_supply/BAT0"
+#endif
+#define IS_DAY_ORDINAL(ordinal_a) !((localTime->tm_hour - ordinal_a) % 10)
+
 static int countDigits(int number);
 static char *findGitRoot(const char *pwd, size_t *length);
 static size_t getLastSlashOffset(const char *path, size_t length);

@@ -52,9 +52,6 @@ static size_t getLastSlashOffset(const char *path, size_t length)
 
 static void writeBatteryModule(int *modulesLength)
 {
-#ifndef BATTERY
-#define BATTERY "/sys/class/power_supply/BAT0"
-#endif
     int statusFile = open(BATTERY "/status", O_RDONLY);
     if (statusFile < 0)
     {
@@ -79,12 +76,10 @@ static void writeBatteryModule(int *modulesLength)
     }
     printf("%s%%f%d%%%%  ", charge <= 15 ? "%F{red}󱊡 " : charge <= 50 ? "%F{yellow}󱊢 " : "%F{green}󱊣 ", charge);
     *modulesLength += countDigits(charge) + 5;
-#undef BATTERY
 }
 
 static void writeCalendarModule(struct tm *localTime)
 {
-#define IS_DAY_ORDINAL(ordinal_a) !((localTime->tm_hour - ordinal_a) % 10)
     char buffer[13];
     strftime(buffer, sizeof(buffer), "(%a) %b %d", localTime);
     printf("%%F{red}󰃭 %%f%s%s  ", buffer,
@@ -92,7 +87,6 @@ static void writeCalendarModule(struct tm *localTime)
            : IS_DAY_ORDINAL(2) ? "nd"
            : IS_DAY_ORDINAL(3) ? "rd"
                                : "th");
-#undef IS_DAY_ORDINAL
 }
 
 static void writeClockModule(struct tm *localTime)
