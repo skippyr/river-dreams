@@ -3,13 +3,13 @@
 </div>
 <h1 align="center">≥v≥v&ensp;river-dreams&ensp;≥v≥v</h1>
 <div align="center">
-    <img alt="" src="https://img.shields.io/github/license/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20license&labelColor=%2324130e&color=%23b8150d" />
+    <img alt="" src="https://img.shields.io/github/license/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20license&labelColor=%2324130e&color=%23b8150d" />
     &nbsp;
-    <img alt="" src="https://img.shields.io/github/v/tag/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20tag&labelColor=%2324130e&color=%23b8150d" />
+    <img alt="" src="https://img.shields.io/github/v/tag/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20tag&labelColor=%2324130e&color=%23b8150d" />
     &nbsp;
-    <img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20commits&labelColor=%2324130e&color=%23b8150d" />
+    <img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20commits&labelColor=%2324130e&color=%23b8150d" />
     &nbsp;
-    <img alt="" src="https://img.shields.io/github/stars/skippyr/riverdreams?style=plastic&label=%E2%89%A5%20stars&labelColor=%2324130e&color=%23b8150d" />
+    <img alt="" src="https://img.shields.io/github/stars/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20stars&labelColor=%2324130e&color=%23b8150d" />
 </div>
 
 ## ❡ About
@@ -62,14 +62,14 @@ If you want to install this software without a plugin manager or for a specific 
 - Clone this repository using `git`:
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/riverdreams \
-                    ~/.config/zsh/themes/riverdreams;
+git clone --depth 1 https://github.com/skippyr/river-dreams \
+                    ~/.config/zsh/themes/river-dreams;
 ```
 
-- Source the file `riverdreams.zsh-theme` that is inside of the repository you cloned in your `~/.zshrc` configuration file:
+- Source the file `river-dreams.zsh-theme` that is inside of the repository you cloned in your `~/.zshrc` configuration file:
 
 ```sh
-source ~/.config/zsh/themes/riverdreams/riverdreams.zsh-theme;
+source ~/.config/zsh/themes/river-dreams/river-dreams.zsh-theme;
 ```
 
 - Open a new `zsh` session.
@@ -83,14 +83,14 @@ If you want to install and use this software with the [`ohmyzsh`](https://github
 
 ```sh
 git clone --depth 1 \
-    https://github.com/skippyr/riverdreams \
-    ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/riverdreams;
+    https://github.com/skippyr/river-dreams \
+    ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/river-dreams;
 ```
 
 - Apply the theme in your `~/.zshrc` configuration file by setting the `ZSH_THEME` variable:
 
 ```zsh
-ZSH_THEME=riverdreams/riverdreams;
+ZSH_THEME=river-dreams/river-dreams;
 ```
 
 - Open a new `zsh` session.
@@ -103,7 +103,7 @@ If you want to install this software with the [`antidote`](https://github.com/ma
 - Add this repository to your plugins file, usually `~/.zsh_plugins.txt`.
 
 ```
-skippyr/riverdreams
+skippyr/river-dreams
 ```
 
 - Use `antidote` to load your plugins.
@@ -116,11 +116,11 @@ antidote load ~/.zsh_plugins.txt;
 
 ## ❡ Help
 
-If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/riverdreams/issues) or send me an [e-mail](mailto:skippyr.developer@gmail.com) describing what is going on.
+If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/river-dreams/issues) or send me an [e-mail](mailto:skippyr.developer@gmail.com) describing what is going on.
 
 ## ❡ Contributing
 
-This project is open to review and possibly accept contributions, specially fixes and suggestions. If you are interested, send your contribution to its [pull requests page](https://github.com/skippyr/riverdreams/pulls) or to my [e-mail](mailto:skippyr.developer@gmail.com).
+This project is open to review and possibly accept contributions, specially fixes and suggestions. If you are interested, send your contribution to its [pull requests page](https://github.com/skippyr/river-dreams/pulls) or to my [e-mail](mailto:skippyr.developer@gmail.com).
 
 By contributing to this project, you agree to license your work under the same license that the project uses.
 
