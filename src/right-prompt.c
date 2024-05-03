@@ -4,40 +4,34 @@ static void countEntries(struct EntriesCount *count)
 {
     memset(count, 0, sizeof(struct EntriesCount));
     int directory = open(".", O_RDONLY);
-    if (!directory)
-    {
+    if (!directory) {
         return;
     }
     char *buffer = malloc(BUFFER_SIZE);
-    if (!buffer)
-    {
+    if (!buffer) {
         close(directory);
         return;
     }
-    for (long totalEntries; (totalEntries = syscall(SYS_getdents64, directory, buffer, BUFFER_SIZE)) > 0;)
-    {
+    for (long totalEntries;
+         (totalEntries = syscall(SYS_getdents64, directory, buffer, BUFFER_SIZE)) > 0;) {
         struct linux_dirent64 *entry;
-        for (long offset = 0; offset < totalEntries; offset += entry->d_reclen)
-        {
+        for (long offset = 0; offset < totalEntries; offset += entry->d_reclen) {
             entry = (struct linux_dirent64 *)(buffer + offset);
-            if (entry->d_name[0] == '.')
-            {
-                if (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2]))
-                {
+            if (entry->d_name[0] == '.') {
+                if (!entry->d_name[1] || (entry->d_name[1] == '.' && !entry->d_name[2])) {
                     continue;
                 }
                 ++count->totalHiddenEntries;
             }
             size_t length = strlen(entry->d_name);
-            if (entry->d_name[length - 1] == '~')
-            {
+            if (entry->d_name[length - 1] == '~') {
                 ++count->totalTemporaryEntries;
             }
             struct stat status;
-            switch (entry->d_type == DT_LNK && ++count->totalSymlinks && !stat(entry->d_name, &status)
+            switch (entry->d_type == DT_LNK && ++count->totalSymlinks &&
+                            !stat(entry->d_name, &status)
                         ? status.st_mode & S_IFMT
-                        : entry->d_type)
-            {
+                        : entry->d_type) {
             case S_IFREG:
             case DT_REG:
                 ++count->totalFiles;
@@ -71,18 +65,15 @@ static void countEntries(struct EntriesCount *count)
 
 static void writeEntryCount(const char *symbol, const char *color, int value)
 {
-    if (!value)
-    {
+    if (!value) {
         return;
     }
     color ? printf(" %%F{%s}%s%%f", color, symbol) : printf(" %s", symbol);
     char buffer[7];
     sprintf(buffer, "%d", value);
     int length = strlen(buffer);
-    for (int separatorOffset = length - 3, offset = 0; offset < length; ++offset)
-    {
-        if (offset == separatorOffset && separatorOffset)
-        {
+    for (int separatorOffset = length - 3, offset = 0; offset < length; ++offset) {
+        if (offset == separatorOffset && separatorOffset) {
             putchar(',');
         }
         putchar(buffer[offset]);

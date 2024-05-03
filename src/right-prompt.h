@@ -11,8 +11,7 @@
 
 #define BUFFER_SIZE 1024
 
-struct EntriesCount
-{
+struct EntriesCount {
     int totalFiles;
     int totalDirectories;
     int totalSymlinks;
@@ -24,8 +23,7 @@ struct EntriesCount
     int totalTemporaryEntries;
 };
 
-struct linux_dirent64
-{
+struct linux_dirent64 {
     ino64_t d_ino;
     off64_t d_off;
     unsigned short d_reclen;

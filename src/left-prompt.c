@@ -3,8 +3,7 @@
 static int countDigits(int number)
 {
     int totalDigits;
-    for (totalDigits = !number; number; number /= 10)
-    {
+    for (totalDigits = !number; number; number /= 10) {
         ++totalDigits;
     }
     return totalDigits;
@@ -13,21 +12,17 @@ static int countDigits(int number)
 static char *findGitRoot(const char *pwd, size_t *length)
 {
     char *buffer = malloc((*length = strlen(pwd)) + 6);
-    if (!buffer)
-    {
+    if (!buffer) {
         return NULL;
     }
     memcpy(buffer, pwd, *length);
-    while (1)
-    {
+    while (1) {
         memcpy(buffer + *length, "/.git", 6);
-        if (!access(buffer, F_OK))
-        {
+        if (!access(buffer, F_OK)) {
             buffer[*length] = 0;
             return buffer;
         }
-        if (*length == 1)
-        {
+        if (*length == 1) {
             break;
         }
         buffer[*length] = 0;
@@ -40,10 +35,8 @@ static char *findGitRoot(const char *pwd, size_t *length)
 
 static size_t getLastSlashOffset(const char *path, size_t length)
 {
-    for (size_t offset = length - 1; offset; --offset)
-    {
-        if (path[offset] == '/')
-        {
+    for (size_t offset = length - 1; offset; --offset) {
+        if (path[offset] == '/') {
             return offset;
         }
     }
@@ -53,8 +46,7 @@ static size_t getLastSlashOffset(const char *path, size_t length)
 static void writeBatteryModule(int *modulesLength)
 {
     int statusFile = open(BATTERY "/status", O_RDONLY);
-    if (statusFile < 0)
-    {
+    if (statusFile < 0) {
         return;
     }
     char status;
@@ -62,19 +54,21 @@ static void writeBatteryModule(int *modulesLength)
     close(statusFile);
     int capacityFile = open(BATTERY "/capacity", O_RDONLY);
     int charge = 0;
-    if (capacityFile >= 0)
-    {
+    if (capacityFile >= 0) {
         char buffer[4];
         read(capacityFile, buffer, sizeof(buffer));
         close(capacityFile);
         charge = atoi(buffer);
     }
-    if (status == 'C' || charge <= 15)
-    {
+    if (status == 'C' || charge <= 15) {
         printf("%%F{yellow}%s", status == 'C' ? "󱐋 " : "󰀦 ");
         *modulesLength += 2;
     }
-    printf("%s%%f%d%%%%  ", charge <= 15 ? "%F{red}󱊡 " : charge <= 50 ? "%F{yellow}󱊢 " : "%F{green}󱊣 ", charge);
+    printf("%s%%f%d%%%%  ",
+           charge <= 15   ? "%F{red}󱊡 "
+           : charge <= 50 ? "%F{yellow}󱊢 "
+                          : "%F{green}󱊣 ",
+           charge);
     *modulesLength += countDigits(charge) + 5;
 }
 
@@ -101,8 +95,7 @@ static void writeClockModule(struct tm *localTime)
 
 static void writeCommandLineSeparator(struct winsize *terminalSize)
 {
-    for (int column = 0; column < terminalSize->ws_col; ++column)
-    {
+    for (int column = 0; column < terminalSize->ws_col; ++column) {
         printf(column % 2 ? "%%F{red}v" : "%%F{yellow}≥");
     }
     printf("%%F{yellow}:«(");
@@ -110,8 +103,7 @@ static void writeCommandLineSeparator(struct winsize *terminalSize)
 
 static void writeDirectoryAccessModule(void)
 {
-    if (access(".", W_OK))
-    {
+    if (access(".", W_OK)) {
         printf("%%F{magenta} ");
     }
 }
@@ -123,8 +115,7 @@ static void writeDiskModule(int *modulesLength)
     fsblkcnt64_t totalBytes = status.f_frsize * status.f_blocks;
     fsblkcnt64_t availableBytes = status.f_frsize * status.f_bavail;
     int use = (totalBytes - availableBytes) / (float)totalBytes * 100;
-    if (use > 85)
-    {
+    if (use > 85) {
         printf("%%F{yellow}󰀦 ");
         *modulesLength += 2;
     }
@@ -139,31 +130,25 @@ static void writeExitCodeModule(void)
 
 static void writeGitModule(const char *root, size_t length)
 {
-    if (!root)
-    {
+    if (!root) {
         return;
     }
     char *headPath = malloc(length + 11);
-    if (!headPath)
-    {
+    if (!headPath) {
         return;
     }
     sprintf(headPath, "%s/.git/HEAD", root);
     FILE *head = fopen(headPath, "r");
     free(headPath);
-    if (!head)
-    {
+    if (!head) {
         return;
     }
     printf("%%F{yellow}:«(%%f");
-    for (int totalSlashes = 0, character = 0; (character = fgetc(head)) != EOF && character != '\n';)
-    {
-        if (totalSlashes == 2)
-        {
+    for (int totalSlashes = 0, character = 0;
+         (character = fgetc(head)) != EOF && character != '\n';) {
+        if (totalSlashes == 2) {
             putchar(character);
-        }
-        else if (character == '/')
-        {
+        } else if (character == '/') {
             ++totalSlashes;
         }
     }
@@ -176,12 +161,13 @@ static void writeIPModule(int *modulesLength)
     char buffer[16] = {0};
     struct ifaddrs *interfacesList;
     getifaddrs(&interfacesList);
-    for (struct ifaddrs *interface = interfacesList; !buffer[0] && interface; interface = interface->ifa_next)
-    {
-        if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET && interface->ifa_flags & IFF_RUNNING &&
-            !(interface->ifa_flags & IFF_LOOPBACK))
-        {
-            inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, buffer, sizeof(buffer));
+    for (struct ifaddrs *interface = interfacesList; !buffer[0] && interface;
+         interface = interface->ifa_next) {
+        if (interface->ifa_addr && interface->ifa_addr->sa_family & AF_INET &&
+            interface->ifa_flags & IFF_RUNNING &&
+            !(interface->ifa_flags & IFF_LOOPBACK)) {
+            inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr,
+                      buffer, sizeof(buffer));
         }
     }
     freeifaddrs(interfacesList);
@@ -192,15 +178,16 @@ static void writeIPModule(int *modulesLength)
 static void writeModulesSeparator(int modulesLength, struct winsize *terminalSize)
 {
     printf("%%F{yellow})»:");
-    for (int column = 0; column < terminalSize->ws_col - modulesLength; ++column)
-    {
+    for (int column = 0; column < terminalSize->ws_col - modulesLength; ++column) {
         printf(column % 2 ? "%%F{red}-" : "%%F{yellow}=");
     }
 }
 
 static void writePathModule(const char *pwd, const char *gitRoot, size_t gitRootLength)
 {
-    gitRootLength > 1 ? printf("%%F{red}@%s", pwd + getLastSlashOffset(gitRoot, gitRootLength)) : printf("%%F{red}%%~");
+    gitRootLength > 1
+        ? printf("%%F{red}@%s", pwd + getLastSlashOffset(gitRoot, gitRootLength))
+        : printf("%%F{red}%%~");
 }
 
 static void writeRootAccessModule(void)
@@ -211,8 +198,7 @@ static void writeRootAccessModule(void)
 static void writeVenvModule(void)
 {
     const char *venv = getenv("VIRTUAL_ENV");
-    if (venv)
-    {
+    if (venv) {
         printf("%%f(%s) ", venv + getLastSlashOffset(venv, strlen(venv)) + 1);
     }
 }
@@ -246,8 +232,7 @@ int main(int totalArguments, const char **arguments)
     writeModulesSeparator(modulesLength, &terminalSize);
     writeRootAccessModule();
     writeExitCodeModule();
-    if (totalArguments > 1)
-    {
+    if (totalArguments > 1) {
         writeZVMModule(arguments[1][0]);
     }
     printf("⤐  ");
@@ -257,8 +242,7 @@ int main(int totalArguments, const char **arguments)
     writeDirectoryAccessModule();
     printf(" %%f\n");
     free(pwd);
-    if (gitRoot)
-    {
+    if (gitRoot) {
         free(gitRoot);
     }
     return 0;
