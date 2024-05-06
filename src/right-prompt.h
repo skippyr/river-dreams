@@ -12,23 +12,23 @@
 #define BUFFER_SIZE 1024
 
 struct EntriesCount {
-    int totalFiles;
-    int totalDirectories;
-    int totalSymlinks;
-    int totalBlocks;
-    int totalCharacters;
-    int totalFifos;
-    int totalSockets;
-    int totalHiddenEntries;
-    int totalTemporaryEntries;
+	int totalFiles;
+	int totalDirectories;
+	int totalSymlinks;
+	int totalBlocks;
+	int totalCharacters;
+	int totalFifos;
+	int totalSockets;
+	int totalHiddenEntries;
+	int totalTemporaryEntries;
 };
 
 struct linux_dirent64 {
-    ino64_t d_ino;
-    off64_t d_off;
-    unsigned short d_reclen;
-    unsigned char d_type;
-    char d_name[];
+	ino64_t d_ino;
+	off64_t d_off;
+	unsigned short d_reclen;
+	unsigned char d_type;
+	char d_name[];
 };
 
 static void countEntries(struct EntriesCount *count);
