@@ -1,12 +1,16 @@
-AlignEscapedNewlines: DontAlign
-AlignTrailingComments: false
-AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: false
-AllowShortLambdasOnASingleLine: None
+AccessModifierOffset           : -4
+AlignConsecutiveAssignments    : Consecutive
+AlignConsecutiveBitFields      : Consecutive
+AlignConsecutiveDeclarations   : Consecutive
+AlignConsecutiveMacros         : Consecutive
+AllowShortLambdasOnASingleLine : None
 AlwaysBreakTemplateDeclarations: true
-BasedOnStyle: LLVM
-BreakAfterJavaFieldAnnotations: true
-FixNamespaceComments: false
-JavaScriptQuotes: Single
-NamespaceIndentation: All
-SpacesInContainerLiterals: false
+BasedOnStyle                   : Microsoft
+BreakAfterJavaFieldAnnotations : true
+BreakBeforeBraces              : Custom
+ColumnLimit                    : 100
+FixNamespaceComments           : false
+JavaScriptQuotes               : Double
+NamespaceIndentation           : All
+PointerAlignment               : Left
+SpacesInContainerLiterals      : false

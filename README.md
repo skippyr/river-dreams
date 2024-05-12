@@ -1,46 +1,49 @@
 <div align="center">
-  <img alt="" src="assets/ornament.webp" />
+    <img alt="" src="assets/ornament.png" />
 </div>
 <h1 align="center">≥v≥v&ensp;river-dreams&ensp;≥v≥v</h1>
 <div align="center">
-  <img alt="" src="https://img.shields.io/github/license/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20license&labelColor=%2324130e&color=%23b8150d" />
-  &nbsp;
-  <img alt="" src="https://img.shields.io/github/v/tag/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20tag&labelColor=%2324130e&color=%23b8150d" />
-  &nbsp;
-  <img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20commits&labelColor=%2324130e&color=%23b8150d" />
-  &nbsp;
-  <img alt="" src="https://img.shields.io/github/stars/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20stars&labelColor=%2324130e&color=%23b8150d" />
+    <img alt="" src="https://img.shields.io/github/license/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20license&labelColor=%23221107&color=%23990b3a" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/v/tag/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20tag&labelColor=%23221107&color=%23990b3a" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20commits&labelColor=%23221107&color=%23990b3a" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/stars/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20stars&labelColor=%23221107&color=%23990b3a" />
 </div>
 
 ## ❡ About
 
-A tribal looking theme for the `zsh` shell for Linux.
+A fast and full-featured tribal looking theme for the `zsh` shell for Linux.
 
 <p align="center">
-  <img alt="" src="assets/preview.webp" />
+    <img alt="" src="assets/preview-0.png" />
+    <img alt="" src="assets/preview-1.png" />
+    <img alt="" src="assets/preview-2.png" />
+    <img alt="" src="assets/preview-3.png" />
 </p>
-<p align="center"><sup><strong>Caption:</strong> river-dreams applied on <code>zsh</code>. The terminal theme used is <a href="https://github.com/skippyr/flamerial">flamerial</a> and font is <a href="https://www.nerdfonts.com/font-downloads">firacode nerd font</a>.</sup></p>
+<p align="center"><sup><strong>Caption:</strong> River Dreams applied on <code>zsh</code> in different contexts. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://www.nerdfonts.com/font-downloads">Hack</a> (Nerd Fonts patched).</sup></p>
 
 ### Features
 
 Its left prompt displays:
 
-- Your local IPV4 address.
-- Your disk usage.
-- Your battery charge, if any.
-- A calendar.
-- A clock.
-- A decorator when you are the root user.
+- Your local IPV4 address or "No Address Found" in case no address is found.
+- Your disk usage and a warning symbol if it is almost full.
+- If you have a battery, its charge and a symbol to indicate its status: a warning symbol if is almost empty or a lightning one if it is charging.
+- A calendar displaying the week day, month and day with its ordinal.
+- A 24-hours clock with a symbol that changes depending on the day time: dawn, morning, afternoon and night.
+- An indicator with a hastag symbol when you are the root user.
 - The exit code of the last command you typed in.
-- The active mode of the [zsh-vi-mode](https://github.com/jeffreytse/zsh-vi-mode) plugin, if it has been sourced.
-- The active Python virtual environment, if you have sourced one.
-- The active directory path, shorting it when inside of a `git` repository.
+- The active mode of the [zsh-vi-mode](https://github.com/jeffreytse/zsh-vi-mode) plugin if it has been sourced: normal (`N`), insert (`I`), visual (`V`) and replace (`R`).
+- The active Python virtual environment if you have sourced one.
+- The current working directory path, abbreviating parent directories and shorting it when inside of a `git` repository. The last path split and `git` repository names are always highlighted.
 - The active branch, when inside of a `git` repository.
-- A decorator when you do not have access to the active directory.
+- A lock symbol when you do not have write access to the current working directory.
 
 Its right prompt displays:
 
-- The total of each entry type in your active directory: regulars, directories, blocks, characters, sockets, fifos, symlinks, hidden and temporary entries.
+- The total of each entry type in your active directory: blocks, characters, directories, fifos, files, hidden entries, sockets, symlinks and temporary entries. Symlinks are also followed.
 - The total of background jobs.
 
 ## ❡ Install
@@ -50,7 +53,7 @@ Its right prompt displays:
 The following dependencies must be installed before installing it:
 
 - **git**: it will be used to clone this repository.
-- **gcc**, **make**: they will be used to compile this software.
+- **g++**, **make**: they will be used to compile this software.
 - **Noto Sans**, [**Nerd Font Symbols**](https://www.nerdfonts.com/font-downloads): these fonts provide the pretty symbols used in the software.
 
 ### Procedures
