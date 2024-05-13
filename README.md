@@ -65,8 +65,7 @@ If you want to install this software without a plugin manager or for a specific 
 - Clone this repository using `git`:
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/river-dreams \
-                    ~/.config/zsh/themes/river-dreams;
+git clone --depth 1 https://github.com/skippyr/river-dreams ~/.config/zsh/themes/river-dreams;
 ```
 
 - Source the file `river-dreams.zsh-theme` that is inside of the repository you cloned in your `~/.zshrc` configuration file:
@@ -85,7 +84,7 @@ If you want to install and use this software with the [`ohmyzsh`](https://github
 - Clone this repository using `git`:
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/river-dreams \
+git clone --depth 1 https://github.com/skippyr/river-dreams                                        \
                     ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/river-dreams;
 ```
 

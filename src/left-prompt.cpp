@@ -161,8 +161,7 @@ static void WriteGitModule(std::string& gitRoot)
     {
         return;
     }
-    std::string headPath = gitRoot + "/.git/HEAD";
-    std::FILE*  head     = std::fopen(headPath.c_str(), "r");
+    std::FILE* head = std::fopen((gitRoot + "/.git/HEAD").c_str(), "r");
     if (!head)
     {
         return;
