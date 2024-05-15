@@ -1,15 +1,12 @@
-AccessModifierOffset           : -4
-AlignConsecutiveAssignments    : Consecutive
-AlignConsecutiveBitFields      : Consecutive
-AlignConsecutiveDeclarations   : Consecutive
-AlignConsecutiveMacros         : Consecutive
-AllowShortLambdasOnASingleLine : None
+AlignEscapedNewlines: DontAlign
+AlignTrailingComments: false
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortLambdasOnASingleLine: None
 AlwaysBreakTemplateDeclarations: true
-BasedOnStyle                   : Microsoft
-BreakAfterJavaFieldAnnotations : true
-ColumnLimit                    : 100
-FixNamespaceComments           : false
-JavaScriptQuotes               : Double
-NamespaceIndentation           : All
-PointerAlignment               : Left
-SpacesInContainerLiterals      : false
+BasedOnStyle: LLVM
+BreakAfterJavaFieldAnnotations: true
+FixNamespaceComments: false
+JavaScriptQuotes: Single
+NamespaceIndentation: All
+SpacesInContainerLiterals: false

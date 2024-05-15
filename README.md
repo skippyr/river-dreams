@@ -1,15 +1,15 @@
 <div align="center">
-    <img alt="" src="assets/ornament.png" />
+  <img alt="" src="assets/ornament.png" />
 </div>
 <h1 align="center">≥v≥v&ensp;river-dreams&ensp;≥v≥v</h1>
 <div align="center">
-    <img alt="" src="https://img.shields.io/github/license/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20license&labelColor=%23221107&color=%23990b3a" />
-    &nbsp;
-    <img alt="" src="https://img.shields.io/github/v/tag/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20tag&labelColor=%23221107&color=%23990b3a" />
-    &nbsp;
-    <img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20commits&labelColor=%23221107&color=%23990b3a" />
-    &nbsp;
-    <img alt="" src="https://img.shields.io/github/stars/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20stars&labelColor=%23221107&color=%23990b3a" />
+  <img alt="" src="https://img.shields.io/github/license/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20license&labelColor=%23221107&color=%23990b3a" />
+  &nbsp;
+  <img alt="" src="https://img.shields.io/github/v/tag/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20tag&labelColor=%23221107&color=%23990b3a" />
+  &nbsp;
+  <img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20commits&labelColor=%23221107&color=%23990b3a" />
+  &nbsp;
+  <img alt="" src="https://img.shields.io/github/stars/skippyr/river-dreams?style=plastic&label=%E2%B8%96%20stars&labelColor=%23221107&color=%23990b3a" />
 </div>
 
 ## ❡ About
@@ -17,10 +17,10 @@
 A fast and full-featured tribal looking theme for the `zsh` shell for Linux.
 
 <p align="center">
-    <img alt="" src="assets/preview-0.png" />
-    <img alt="" src="assets/preview-1.png" />
-    <img alt="" src="assets/preview-2.png" />
-    <img alt="" src="assets/preview-3.png" />
+  <img alt="" src="assets/preview-0.png" />
+  <img alt="" src="assets/preview-1.png" />
+  <img alt="" src="assets/preview-2.png" />
+  <img alt="" src="assets/preview-3.png" />
 </p>
 <p align="center"><sup><strong>Caption:</strong> River Dreams applied on <code>zsh</code> in different contexts. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://www.nerdfonts.com/font-downloads">Hack</a> (Nerd Fonts patched).</sup></p>
 
@@ -65,7 +65,8 @@ If you want to install this software without a plugin manager or for a specific 
 - Clone this repository using `git`:
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/river-dreams ~/.config/zsh/themes/river-dreams;
+git clone --depth 1 https://github.com/skippyr/river-dreams \
+                    ~/.config/zsh/themes/river-dreams;
 ```
 
 - Source the file `river-dreams.zsh-theme` that is inside of the repository you cloned in your `~/.zshrc` configuration file:
@@ -84,7 +85,7 @@ If you want to install and use this software with the [`ohmyzsh`](https://github
 - Clone this repository using `git`:
 
 ```sh
-git clone --depth 1 https://github.com/skippyr/river-dreams                                        \
+git clone --depth 1 https://github.com/skippyr/river-dreams                    \
                     ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/river-dreams;
 ```
 
