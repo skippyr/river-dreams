@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="" src="assets/ornament.png" />
+  <img alt="" src="assets/ornament.webp" />
 </div>
 <h1 align="center">≥v≥v&ensp;river-dreams&ensp;≥v≥v</h1>
 <div align="center">
@@ -17,10 +17,10 @@
 A fast and full-featured tribal looking theme for the `zsh` shell for Linux.
 
 <p align="center">
-  <img alt="" src="assets/preview-0.png" />
-  <img alt="" src="assets/preview-1.png" />
-  <img alt="" src="assets/preview-2.png" />
-  <img alt="" src="assets/preview-3.png" />
+  <img alt="" src="assets/preview-0.webp" />
+  <img alt="" src="assets/preview-1.webp" />
+  <img alt="" src="assets/preview-2.webp" />
+  <img alt="" src="assets/preview-3.webp" />
 </p>
 <p align="center"><sup><strong>Caption:</strong> River Dreams applied on <code>zsh</code> in different contexts. The terminal theme used is <a href="https://github.com/skippyr/flamerial">Flamerial</a> and font is <a href="https://www.nerdfonts.com/font-downloads">Hack</a> (Nerd Fonts patched).</sup></p>
 
