@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <ifaddrs.h>
 #include <net/if.h>
+#include <pwd.h>
 #include <sys/ioctl.h>
 #include <sys/statvfs.h>
 #include <unistd.h>

@@ -108,7 +108,7 @@ static void WriteCWDPathModule(std::string cwd, std::string& gitRoot)
     std::cout << "%F{blue}⸖";
     if (gitRoot.length() <= 1)
     {
-        std::string home = std::getenv("HOME");
+        std::string home = getpwuid(getuid())->pw_dir;
         std::string path = !cwd.find(home) ? "~" + cwd.substr(home.length()) : cwd;
         std::cout << "%F{red}";
         WritePathSplits(path);
