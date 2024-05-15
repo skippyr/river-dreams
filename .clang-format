@@ -7,7 +7,6 @@ AllowShortLambdasOnASingleLine : None
 AlwaysBreakTemplateDeclarations: true
 BasedOnStyle                   : Microsoft
 BreakAfterJavaFieldAnnotations : true
-BreakBeforeBraces              : Custom
 ColumnLimit                    : 100
 FixNamespaceComments           : false
 JavaScriptQuotes               : Double
