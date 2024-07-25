@@ -1,11 +1,1 @@
-AccessModifierOffset: -4
-AllowShortLambdasOnASingleLine: None
-AlwaysBreakTemplateDeclarations: true
-BasedOnStyle: Microsoft
-BreakAfterJavaFieldAnnotations: true
-ColumnLimit: 100
-FixNamespaceComments: false
-JavaScriptQuotes: Double
-NamespaceIndentation: All
-PointerAlignment: Left
-SpacesInContainerLiterals: false
+BasedOnStyle: LLVM
