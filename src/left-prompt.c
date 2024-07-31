@@ -203,12 +203,12 @@ static void writeIPV4Address(void) {
 #if defined(_WIN32)
   ULONG adaptersListSize = 15360;
   PIP_ADAPTER_ADDRESSES adaptersList = allocateHeapMemory(adaptersListSize);
-  char buffer[17] = "No Address Found";
+  char buffer[16] = {0};
   if (GetAdaptersAddresses(AF_INET, 0, NULL, adaptersList, &adaptersListSize) !=
       NO_ERROR) {
     goto write_l;
   }
-  for (PIP_ADAPTER_ADDRESSES adapter = adaptersList; adapter;
+  for (PIP_ADAPTER_ADDRESSES adapter = adaptersList; !buffer[0] && adapter;
        adapter = adapter->Next) {
     if (adapter->IfType == IF_TYPE_SOFTWARE_LOOPBACK) {
       continue;
@@ -216,33 +216,40 @@ static void writeIPV4Address(void) {
     SOCKADDR_IN *sockAddrIn =
         (SOCKADDR_IN *)adapter->FirstUnicastAddress->Address.lpSockaddr;
     inet_ntop(AF_INET, &sockAddrIn->sin_addr, buffer, sizeof(buffer));
-    break;
+    size_t length = strlen(buffer);
+    /*
+     * Network interfaces that start with "0" (unnasigned) and end with
+     * ".1" (brigde) must be disconsidered.
+     */
+    if (buffer[0] == '0' ||
+        (buffer[length - 2] == '.' && buffer[length - 1] == '1')) {
+      buffer[0] = 0;
+    }
   }
 write_l:
   free(adaptersList);
-  tmk_write("\033[34m \033[39m%s", buffer);
+  tmk_write("\033[34m \033[39m%s", !buffer[0] ? "No Address Found" : buffer);
 #else
   struct ifaddrs *interfacesList;
   char buffer[16] = {0};
   if (getifaddrs(&interfacesList)) {
     goto write_l;
   }
-  for (struct ifaddrs *interface = interfacesList; interface;
+  for (struct ifaddrs *interface = interfacesList; !buffer[0] && interface;
        interface = interface->ifa_next) {
-    if (!buffer[0] && interface->ifa_addr &&
-        interface->ifa_addr->sa_family == AF_INET &&
+    if (interface->ifa_addr && interface->ifa_addr->sa_family == AF_INET &&
         !(interface->ifa_flags & IFF_LOOPBACK)) {
       inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr,
                 buffer, sizeof(buffer));
-#if defined(__linux__)
+      size_t length = strlen(buffer);
       /*
-       * Linux contains network interfaces with 0.0.0.0 addresses that must
-       * be disconsidered.
+       * Network interfaces that start with "0" (unnasigned) and end with
+       * ".1" (brigde) must be disconsidered.
        */
-      if (buffer[0] == '0') {
+      if (buffer[0] == '0' ||
+          (buffer[length - 2] == '.' && buffer[length - 1] == '1')) {
         buffer[0] = 0;
       }
-#endif
     }
   }
   freeifaddrs(interfacesList);
