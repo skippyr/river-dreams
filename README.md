@@ -90,26 +90,6 @@ git clone --depth 1 --recurse-submodules \
           ~/.local/share/zsh/themes/river-dreams;
 ```
 
-- Use `cmake` to build and install it:
-
-```powershell
-# For Windows (PowerShell)
-cmake -S "${env:USERPROFILE}\powershell\themes\river-dreams" `
-      -B "${env:USERPROFILE}\powershell\themes\river-dreams\build\cmake";
-cmake --build "${env:USERPROFILE}\powershell\themes\river-dreams\build\cmake" `
-      --config release;
-cmake --install "${env:USERPROFILE}\powershell\themes\river-dreams\build\cmake";
-```
-
-```zsh
-# For Linux (ZSH) and MacOS (ZSH)
-cmake -S ~/.local/share/zsh/themes/river-dreams \
-      -B ~/.local/share/zsh/themes/river-dreams/build/cmake;
-cmake --build ~/.local/share/zsh/themes/river-dreams/build/cmake \
-      --config release;
-cmake --install ~/.local/share/zsh/themes/river-dreams/build/cmake;
-```
-
 - Source the specific connector for your shell:
   - For Windows (PowerShell): create and edit your PowerShell profile file (use `echo ${PROFILE};` to see its path), adding the following lines to it:
 
