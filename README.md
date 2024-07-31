@@ -77,30 +77,28 @@ On Windows, using the `Developer PowerShell for VS 2022` profile or, on any othe
 - Clone this repository using `git`:
 
 ```powershell
-# For Windows (PowerShell)
-git clone --depth 1 --recurse-submodules `
-          https://github.com/skippyr/river-dreams `
+# For Windows (PowerShell).
+git clone --depth 1 https://github.com/skippyr/river-dreams `
           "${env:USERPROFILE}\powershell\themes\river-dreams";
 ```
 
 ```zsh
-# For Linux (ZSH) and MacOS (ZSH)
-git clone --depth 1 --recurse-submodules \
-          https://github.com/skippyr/river-dreams \
+# For Linux (ZSH) and MacOS (ZSH).
+git clone --depth 1 https://github.com/skippyr/river-dreams \
           ~/.local/share/zsh/themes/river-dreams;
 ```
 
 - Source the specific connector for your shell:
-  - For Windows (PowerShell): create and edit your PowerShell profile file (use `echo ${PROFILE};` to see its path), adding the following lines to it:
 
 ```powershell
-. "${env:USERPROFILE}\powershell\themes\river-dreams\src\connectors\river-dreams.ps1";
+# For Windows (PowerShell).
+Write-Output `n'. "${env:USERPROFILE}\powershell\themes\river-dreams\src\connectors\river-dreams.ps1";' | `
+Out-File -Append -Encoding UTF8 ${PROFILE};
 ```
 
-  - For Linux (ZSH) and MacOS (ZSH): create and edit the file `~/.zshrc`, adding the following lines to it:
-
 ```zsh
-source ~/.local/share/zsh/themes/river-dreams/src/connectors/river-dreams.zsh;
+# For Linux (ZSH) and MacOS (ZSH).
+echo "source ~/.local/share/zsh/themes/river-dreams/src/connectors/river-dreams.zsh;" >> ~/.zshrc;
 ```
 
 - Reopen your shell.
