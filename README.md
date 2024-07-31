@@ -85,7 +85,7 @@ git clone --depth 1 --recurse-submodules `
 
 ```zsh
 # For Linux (ZSH) and MacOS (ZSH)
-git clone --depth 1 --recurse-submodule \
+git clone --depth 1 --recurse-submodules \
           https://github.com/skippyr/river-dreams \
           ~/.local/share/zsh/themes/river-dreams;
 ```
