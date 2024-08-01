@@ -392,9 +392,9 @@ static void writeCalendar(struct tm *localTime) {
             : localTime->tm_mon == 10 ? "Nov"
                                       : "Dec",
             localTime->tm_mday,
-            !((localTime->tm_hour - 1) % 10)   ? "st"
-            : !((localTime->tm_hour - 2) % 10) ? "nd"
-            : !((localTime->tm_hour - 3) % 10) ? "rd"
+            !((localTime->tm_mday - 1) % 10)   ? "st"
+            : !((localTime->tm_mday - 2) % 10) ? "nd"
+            : !((localTime->tm_mday - 3) % 10) ? "rd"
                                                : "th");
 }
 
