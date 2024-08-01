@@ -371,7 +371,7 @@ static void writeCalendar(struct tm *localTime) {
 #else
   tmk_write("%%F{1}󰃭 %%f");
 #endif
-  tmk_write("(%s) %s %d%s",
+  tmk_write("(%s) %s %02d%s",
             !localTime->tm_wday       ? "Sun"
             : localTime->tm_wday == 1 ? "Mon"
             : localTime->tm_wday == 2 ? "Tue"
