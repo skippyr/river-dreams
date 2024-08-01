@@ -48,7 +48,7 @@ The following dependencies must be installed before it:
 
 #### Dependencies For Windows
 
-- [**Visual Studio 2022**](https://visualstudio.microsoft.com): it provides all the tools required to build this software.
+- [**Visual Studio 2022**](https://visualstudio.microsoft.com) with the "Desktop development with C++" workload: it provides all the tools required to build this software.
 - [**git**](https://git-scm.com): it will be used to clone this repository.
 - **A font patched by the [Nerd Fonts project](https://www.nerdfonts.com/font-downloads)**: it provides the pretty symbols used by the software.
 
