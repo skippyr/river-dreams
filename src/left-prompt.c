@@ -228,7 +228,7 @@ static void writeIPV4Address(void) {
   }
 write_l:
   free(adaptersList);
-  tmk_write("\033[34m \033[39m%s", !buffer[0] ? "No Address Found" : buffer);
+  tmk_write("\033[34m \033[39m%s", !buffer[0] ? "No Address" : buffer);
 #else
   struct ifaddrs *interfacesList;
   char buffer[16] = {0};
@@ -254,9 +254,9 @@ write_l:
   }
   freeifaddrs(interfacesList);
 write_l:
-  tmk_write("%%F{4} %%f%s", !buffer[0] ? "No Address Found" : buffer);
+  tmk_write("%%F{4} %%f%s", !buffer[0] ? "No Address" : buffer);
 #endif
-  modulesLength_g += !buffer[0] ? 16 : strlen(buffer);
+  modulesLength_g += !buffer[0] ? 10 : strlen(buffer);
 }
 
 static void writeBatteryStatus(void) {
