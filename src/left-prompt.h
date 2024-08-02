@@ -27,6 +27,12 @@
 #include <time.h>
 #include <tmk.h>
 
+/* Emulates a fake battery for screenshots and debugging. */
+#define USE_FAKE_BATTERY false
+#if defined(USE_FAKE_BATTERY)
+#define FAKE_BATTERY_CHARGE 15
+#define IS_FAKE_BATTERY_CHARGING true
+#endif
 #if defined(__linux__)
 #define BATTERY "/sys/class/power_supply/BAT0"
 #endif

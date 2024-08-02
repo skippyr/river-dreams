@@ -260,6 +260,10 @@ write_l:
 }
 
 static void writeBatteryStatus(void) {
+#if defined(USE_FAKE_BATTERY) && USE_FAKE_BATTERY
+  int charge = FAKE_BATTERY_CHARGE;
+  bool isCharging = IS_FAKE_BATTERY_CHARGING;
+#else
 #if defined(_WIN32)
   SYSTEM_POWER_STATUS battery;
   if (!GetSystemPowerStatus(&battery) ||
@@ -271,18 +275,7 @@ static void writeBatteryStatus(void) {
   int charge = battery.BatteryLifePercent == 255
                    ? 0
                    : battery.BatteryLifePercent;
-  tmk_write("  %s",
-            charge <= 15   ? "\033[31m󱊡"
-            : charge <= 50 ? "\033[33m󱊢"
-                           : "\033[32m󱊣",
-            charge);
-  if (isCharging) {
-    tmk_write("\033[33m󱐋");
-    modulesLength_g += 1;
-  }
-  tmk_write(" \033[39m%d%%", charge);
-#else
-#if defined(__APPLE__)
+#elif defined(__APPLE__)
   CFTypeRef powerSourcesInfo = IOPSCopyPowerSourcesInfo();
   if (!powerSourcesInfo) {
     return;
@@ -327,6 +320,19 @@ static void writeBatteryStatus(void) {
     charge = atoi(buffer);
   }
 #endif
+#endif
+#if defined(_WIN32)
+  tmk_write("  %s",
+            charge <= 15   ? "\033[31m󱊡"
+            : charge <= 50 ? "\033[33m󱊢"
+                           : "\033[32m󱊣",
+            charge);
+  if (isCharging) {
+    tmk_write("\033[33m󱐋");
+    modulesLength_g += 1;
+  }
+  tmk_write(" \033[39m%d%%", charge);
+#else
   tmk_write("  %s",
             charge <= 15   ? "%F{1}󱊡"
             : charge <= 50 ? "%F{3}󱊢"
