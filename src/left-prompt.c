@@ -392,7 +392,7 @@ static void writeCalendar(struct tm *localTime) {
             : localTime->tm_mon == 4  ? "May"
             : localTime->tm_mon == 5  ? "Jun"
             : localTime->tm_mon == 6  ? "Jul"
-            : localTime->tm_mon == 7  ? "Ago"
+            : localTime->tm_mon == 7  ? "Aug"
             : localTime->tm_mon == 8  ? "Sep"
             : localTime->tm_mon == 9  ? "Oct"
             : localTime->tm_mon == 10 ? "Nov"
