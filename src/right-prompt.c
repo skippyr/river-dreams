@@ -83,7 +83,8 @@ static void getDirectoryStat(struct DirectoryStat *directoryStat) {
 #endif
 }
 
-static void writeEntryStat(bool isFirst, const char *symbol, int color, int total) {
+static void writeEntryStat(bool isFirst, const char *symbol, int color,
+                           int total) {
   if (!total) {
     return;
   }
@@ -127,7 +128,8 @@ int main(void) {
   /*
    * On Windows, as the right-prompt needs to be manually placed on the right
    * side using its connector, its visual length needs to be output as
-   * PowerShell .length() does not calculates it well with wide-characters.
+   * PowerShell .length() method does not calculates it well with
+   * wide-characters.
    */
   tmk_write("%d", promptLength_g);
 #endif
