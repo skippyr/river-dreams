@@ -30,7 +30,7 @@
 /* Emulates a fake battery for screenshots and debugging. */
 #define USE_FAKE_BATTERY false
 #if defined(USE_FAKE_BATTERY)
-#define FAKE_BATTERY_CHARGE 15
+#define FAKE_BATTERY_CHARGE 95
 #define IS_FAKE_BATTERY_CHARGING true
 #endif
 #if tmk_IS_OPERATING_SYSTEM_LINUX
