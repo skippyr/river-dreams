@@ -1,12 +1,12 @@
 #include "right-prompt.h"
 
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
 static int promptLength_g = 0;
 #endif
 
 static void getDirectoryStat(struct DirectoryStat *directoryStat) {
   memset(directoryStat, 0, sizeof(struct DirectoryStat));
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   WIN32_FIND_DATAW entry;
   HANDLE directoryStream = FindFirstFileW(L".\\*", &entry);
   if (directoryStream == INVALID_HANDLE_VALUE) {
@@ -88,14 +88,14 @@ static void writeEntryStat(bool isFirst, const char *symbol, int color,
   if (!total) {
     return;
   }
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   promptLength_g += countDigits(total) + 2 + !isFirst;
 #endif
   if (!isFirst) {
     tmk_write(" ");
   }
   if (color >= 0) {
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write("\033[3%dm%s\033[39m%d", color, symbol, total);
 #else
     tmk_write("%%F{%d}%s%%f%d", color, symbol, total);
@@ -110,7 +110,7 @@ static void writeDirectoryStat(void) {
   getDirectoryStat(&stat);
   writeEntryStat(true, " ", -1, stat.totalFiles);
   writeEntryStat(false, " ", 3, stat.totalDirectories);
-#if !defined(_WIN32)
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
   writeEntryStat(false, "󰌷 ", 4, stat.totalSymlinks);
   writeEntryStat(false, "󰇖 ", 5, stat.totalBlocks);
   writeEntryStat(false, "󱣴 ", 2, stat.totalCharacters);
@@ -124,12 +124,14 @@ static void writeDirectoryStat(void) {
 int main(void) {
   writeDirectoryStat();
   tmk_writeLine("");
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   /*
    * On Windows, as the right-prompt needs to be manually placed on the right
-   * side using its connector, its visual length needs to be output as
-   * PowerShell .length() method does not calculates it well with
+   * side using its connector, its visual length needs to be output as the
+   * PowerShell .length() method of strings does not calculates it well with
    * wide-characters.
+   *
+   * More implementation details may be found in the respective connector.
    */
   tmk_write("%d", promptLength_g);
 #endif

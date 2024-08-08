@@ -1,4 +1,9 @@
-#if defined(_WIN32)
+#include "common.h"
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <tmk.h>
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
 /* WinSock2.h must be put before iphlpapi.h. */
 #include <WinSock2.h>
 #include <ws2tcpip.h> /* For inet_ntop declaration and IDE autocompletion.
@@ -9,7 +14,7 @@
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "iphlpapi.lib")
 #else
-#if defined(__APPLE__)
+#if tmk_IS_OPERATING_SYSTEM_MACOS
 #include <IOKit/ps/IOPSKeys.h>
 #include <IOKit/ps/IOPowerSources.h>
 #else
@@ -21,11 +26,6 @@
 #include <sys/statvfs.h>
 #include <unistd.h>
 #endif
-#include "common.h"
-#include <stdio.h>
-#include <string.h>
-#include <time.h>
-#include <tmk.h>
 
 /* Emulates a fake battery for screenshots and debugging. */
 #define USE_FAKE_BATTERY false
@@ -33,11 +33,11 @@
 #define FAKE_BATTERY_CHARGE 15
 #define IS_FAKE_BATTERY_CHARGING true
 #endif
-#if defined(__linux__)
+#if tmk_IS_OPERATING_SYSTEM_LINUX
 #define BATTERY "/sys/class/power_supply/BAT0"
 #endif
 
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
 static void getPWDPath(char **utf8PWD, wchar_t **utf16PWD, size_t *length);
 static size_t findLastPathSeparator(bool isWide, const void *path,
                                     size_t length);

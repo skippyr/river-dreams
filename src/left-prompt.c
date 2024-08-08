@@ -2,7 +2,7 @@
 
 int modulesLength_g = 41;
 
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
 static void getPWDPath(char **utf8PWD, wchar_t **utf16PWD, size_t *length) {
   DWORD size = GetFullPathNameW(L".", 0, NULL, NULL);
   *utf16PWD = allocateHeapMemory(size * sizeof(wchar_t));
@@ -144,7 +144,7 @@ static void writeLastExitCode(void) {
 static void writeVirtualEnv(void) {
   char *venv = getenv("VIRTUAL_ENV");
   if (venv) {
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write(" \033[39m(%s)",
               venv + findLastPathSeparator(false, venv, strlen(venv)) + 1);
 #else
@@ -156,7 +156,7 @@ static void writeVirtualEnv(void) {
 
 static void writePath(const char *pwd, const char *gitRoot,
                       size_t gitRootLastSeparatorOffset) {
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   bool isToShort = gitRoot && gitRootLastSeparatorOffset > 2;
   tmk_write(isToShort ? " \033[31m@%s" : " \033[31m%s",
             isToShort ? pwd + gitRootLastSeparatorOffset : pwd);
@@ -178,7 +178,7 @@ static void writeGitBranch(const char *gitRoot, size_t gitRootLength) {
   if (!file) {
     return;
   }
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   tmk_write("\033[33m:«(\033[39m");
 #else
   tmk_write("%%F{3}:«(%%f");
@@ -191,7 +191,7 @@ static void writeGitBranch(const char *gitRoot, size_t gitRootLength) {
       ++totalSlashes;
     }
   }
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   tmk_write("\033[33m)»");
 #else
   tmk_write("%%F{3})»");
@@ -200,7 +200,7 @@ static void writeGitBranch(const char *gitRoot, size_t gitRootLength) {
 }
 
 static void writeIPV4Address(void) {
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   ULONG adaptersListSize = 15360;
   PIP_ADAPTER_ADDRESSES adaptersList = allocateHeapMemory(adaptersListSize);
   char buffer[16] = {0};
@@ -264,7 +264,7 @@ static void writeBatteryStatus(void) {
   int charge = FAKE_BATTERY_CHARGE;
   bool isCharging = IS_FAKE_BATTERY_CHARGING;
 #else
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   SYSTEM_POWER_STATUS battery;
   if (!GetSystemPowerStatus(&battery) ||
       battery.BatteryFlag == 128 /* No system battery */ ||
@@ -275,7 +275,7 @@ static void writeBatteryStatus(void) {
   int charge = battery.BatteryLifePercent == 255
                    ? 0
                    : battery.BatteryLifePercent;
-#elif defined(__APPLE__)
+#elif tmk_IS_OPERATING_SYSTEM_MACOS
   CFTypeRef powerSourcesInfo = IOPSCopyPowerSourcesInfo();
   if (!powerSourcesInfo) {
     return;
@@ -321,7 +321,7 @@ static void writeBatteryStatus(void) {
   }
 #endif
 #endif
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   tmk_write("  %s",
             charge <= 15   ? "\033[31m󱊡"
             : charge <= 50 ? "\033[33m󱊢"
@@ -348,7 +348,7 @@ static void writeBatteryStatus(void) {
 }
 
 static void writeDiskUse(void) {
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   ULARGE_INTEGER totalBytes;
   ULARGE_INTEGER freeBytes;
   GetDiskFreeSpaceExW(L"C:\\", NULL, &totalBytes, &freeBytes);
@@ -372,7 +372,7 @@ static void writeDiskUse(void) {
 
 static void writeCalendar(struct tm *localTime) {
   tmk_write("  ");
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   tmk_write("\033[31m󰃭 \033[39m");
 #else
   tmk_write("%%F{1}󰃭 %%f");
@@ -406,7 +406,7 @@ static void writeCalendar(struct tm *localTime) {
 
 static void writeClock(struct tm *localTime) {
   tmk_write("  ");
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   tmk_write(localTime->tm_hour < 6    ? "\033[36m󰭎 "
             : localTime->tm_hour < 12 ? "\033[31m󰖨 "
             : localTime->tm_hour < 18 ? "\033[34m "
@@ -449,13 +449,13 @@ static void *allocateHeapMemory(size_t size) {
 
 static void writeCommandLineSeparator(uint16_t totalColumns) {
   for (uint16_t offset = 0; offset < totalColumns; ++offset) {
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write(offset % 2 ? "\033[31mv" : "\033[33m≥");
 #else
     tmk_write(offset % 2 ? "%%F{1}v" : "%%F{3}≥");
 #endif
   }
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   tmk_write("\033[33m:«(");
 #else
   tmk_write("%%F{3}:«(");
@@ -463,13 +463,13 @@ static void writeCommandLineSeparator(uint16_t totalColumns) {
 }
 
 static void writeModulesSeparator(uint16_t totalColumns) {
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   tmk_write("\033[33m)»:");
 #else
   tmk_write("%%F{3})»:");
 #endif
   for (uint16_t offset = 0; offset < totalColumns - modulesLength_g; ++offset) {
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write(offset % 2 ? "\033[31m-" : "\033[33m=");
 #else
     tmk_write(offset % 2 ? "%%F{1}-" : "%%F{3}=");
@@ -477,7 +477,7 @@ static void writeModulesSeparator(uint16_t totalColumns) {
   }
 }
 
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
 int main(int totalRawCMDArguments, const char **rawCMDArguments) {
   struct tmk_CMDArguments cmdArguments;
   tmk_getCMDArguments(totalRawCMDArguments, rawCMDArguments, &cmdArguments);
@@ -513,7 +513,7 @@ int main(void) {
   size_t gitRootLength;
   size_t gitRootLastSeparatorOffset;
   char *gitRoot;
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   writeModulesSeparator(totalColumns);
   char *utf8PWD;
   wchar_t *utf16PWD;
@@ -534,13 +534,13 @@ int main(void) {
   tmk_write("%%F{3}⤐ ");
 #endif
   writeVirtualEnv();
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   writePath(utf8PWD, gitRoot, gitRootLastSeparatorOffset);
 #else
   writePath(pwd, gitRoot, gitRootLastSeparatorOffset);
 #endif
   writeGitBranch(gitRoot, gitRootLength);
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   tmk_writeLine("\033[39m");
 #else
   tmk_writeLine("%%f ");
@@ -548,7 +548,7 @@ int main(void) {
   if (gitRoot) {
     free(gitRoot);
   }
-#if defined(_WIN32)
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
   free(utf8PWD);
   free(utf16PWD);
 #else

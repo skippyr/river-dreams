@@ -1,19 +1,19 @@
-#if defined(_WIN32)
+#include "common.h"
+#include <string.h>
+#include <tmk.h>
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
 #include <Windows.h>
 #else
 #include <dirent.h>
 #include <sys/stat.h>
 #endif
-#include "common.h"
-#include <string.h>
-#include <tmk.h>
 
 struct DirectoryStat {
   int totalDirectories;
   int totalFiles;
   int totalHiddenEntries;
   int totalTemporaryEntries;
-#if !defined(_WIN32)
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
   int totalBlocks;
   int totalCharacters;
   int totalFifos;
