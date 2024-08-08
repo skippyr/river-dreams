@@ -9,7 +9,7 @@ foreach (${edition} in $(Get-ChildItem "C:\Program Files\Microsoft Visual Studio
   [System.Environment]::SetEnvironmentVariable(
     "PATH",
     ${env:PATH} +
-    "C:\Program Files\Microsoft Visual Studio\2022\${edition}\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin"
+    ";C:\Program Files\Microsoft Visual Studio\2022\${edition}\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin"
   );
 }
 

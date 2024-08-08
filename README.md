@@ -57,6 +57,9 @@ The following dependencies must be installed before it:
 - **[Git](https://git-scm.com):** it will be used to clone this repository.
 - **A font patched by the [Nerd Fonts project](https://www.nerdfonts.com/font-downloads):** it provides the pretty symbols used by the software.
 
+> [!WARNING]
+> It is highly recommended that you use a terminal with great Unicode and wide-character support for the symbols used in the theme to appear correctly. Recommendation for Windows is **Windows Terminal**. It comes pre-installed on Windows 11, while on Windows 10 you can download it from the Microsoft Store.
+
 #### Dependencies For Linux
 
 - **GCC, CMake**: they will be used to build this software.
@@ -65,6 +68,9 @@ The following dependencies must be installed before it:
 
 > [!TIP]
 > Use your distro package manager to install these packages.
+
+> [!WARNING]
+> It is highly recommended that you use a terminal with great Unicode and wide-character support for the symbols used in the theme to appear correctly. Recommendation for Linux is **Kitty**. You can download it by following the previous tip.
 
 #### Dependencies For MacOS
 
@@ -75,56 +81,81 @@ The following dependencies must be installed before it:
 > [!TIP]
 > Use `xcode-select --install` to install the Apple command line tools. For the rest, use [HomeBrew](https://brew.sh/).
 
+> [!WARNING]
+> It is highly recommended that you use a terminal with great Unicode and wide-character support for the symbols used in the theme to appear correctly. Recommendation for MacOS is **Kitty**. You can download it by following the previous tip.
+
 ### Procedures
 
-On Windows, using the `Developer PowerShell for VS 2022` terminal profile or, on any other operating systems, using any terminal, follow these instructions:
+#### Procedures For Windows
 
+- Open PowerShell with administrator priveleges.
+- Set your PowerShell execution policy to `Bypass`. When prompted, type `y` to accept the changes. This will allow you to execute River Dreams, as, by default, Windows does not allow the execution of any script or configuration file. For more information, access the [PowerShell Execution Policy](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy) documentation page:
+
+```ps1
+Set-ExecutionPolicy Bypass;
+```
+
+- Reopen PowerShell without administrator priveleges.
 - Clone this repository using `git`:
 
-```powershell
-# For Windows (PowerShell).
+```ps1
 git clone --depth 1 https://github.com/skippyr/river-dreams `
           "${env:USERPROFILE}\powershell\themes\river-dreams";
 ```
 
-```zsh
-# For Linux (ZSH) and MacOS (ZSH).
-git clone --depth 1 https://github.com/skippyr/river-dreams \
-          ~/.local/share/zsh/themes/river-dreams;
-```
+- Add the specific connector to the PowerShell profile file:
 
-- Source the specific connector for your shell:
-
-```powershell
-# For Windows (PowerShell).
+```ps1
 Write-Output `n'. "${env:USERPROFILE}\powershell\themes\river-dreams\src\connectors\river-dreams.ps1";' | `
 Out-File -Append -Encoding UTF8 ${PROFILE};
 ```
 
+- Reopen PowerShell in order to initiate the theme.
+- During its first execution, River Dreams will automatically check its dependencies and build its source code, a process that can take a moment. Once that is done, the theme will be loaded and will be ready for you to use.
+
+#### Procedures For Linux and MacOS
+
+- Open ZSH.
+- Clone this repository using `git`:
+
 ```zsh
-# For Linux (ZSH) and MacOS (ZSH).
+git clone --depth 1 https://github.com/skippyr/river-dreams \
+          ~/.local/share/zsh/themes/river-dreams;
+```
+
+- Add the specific connector to the ZSH profile file:
+
+```zsh
 echo "source ~/.local/share/zsh/themes/river-dreams/src/connectors/river-dreams.zsh;" >> ~/.zshrc;
 ```
 
-- Reopen your shell.
+- Reopen ZSH in order to initiate the theme.
 - During its first execution, River Dreams will automatically check its dependencies and build its source code, a process that can take a moment. Once that is done, the theme will be loaded and will be ready for you to use.
 
 ## ❡ Uninstall
 
-- In your terminal profile file, remove the line that sources the connector added during the installation. If you are on Windows, use `echo ${PROFILE}` to locate this file.
-- Remove the repository you have cloned during the installation. It contains all the file automatically generated and used by the software.
+#### Procedures For Windows
 
-```zsh
-# For Windows (PowerShell).
+- Edit the PowerShell profile file in order to remove the line that sources the connector added during the installation. If you are unsure where it is, use `echo ${PROFILE};` to locate this file.
+- Using PowerShell, remove the repository you have cloned during the installation. It contains all the file automatically generated and used by the software.
+
+```ps1
 Remove-Item -Recurse -Force "${env:USERPROFILE}\powershell\themes\river-dreams";
 ```
 
+- Reopen PowerShell.
+- River Dreams should now be uninstalled.
+
+#### Procedures For Linux and MacOS
+
+- Edit the ZSH profile file (`~/.zshrc`) in order to remove the line that sources the connector added during the installation.
+- Using ZSH, remove the repository you have cloned during the installation. It contains all the file automatically generated and used by the software.
+
 ```zsh
-# For Linux (ZSH) and MacOS (ZSH).
 rm -rf ~/.local/share/zsh/themes/river-dreams;
 ```
 
-- Reopen your shell.
+- Reopen ZSH.
 - River Dreams should now be uninstalled.
 
 ## ❡ Help
