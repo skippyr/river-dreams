@@ -19,7 +19,7 @@ A fast and full-featured tribal looking shell theme available for Windows (Power
 <p align="center">
   <img alt="" src="assets/preview.png" width=1020 />
 </p>
-<p align="center"><strong>Caption:</strong> River Dreams running on MacOS (ZSH). Terminal theme is <a href="https://github.com/skippyr/flamerial">Flamerial</a>. Font is Fira Code (patched by the <a href="https://www.nerdfonts.com/font-downloads">Nerd Fonts project</a>).</p>
+<p align="center"><strong>Caption:</strong> River Dreams running on MacOS (ZSH). Terminal theme is <a href="https://github.com/skippyr/flamerial">Flamerial</a>. Font is Hack (patched by the <a href="https://www.nerdfonts.com/font-downloads">Nerd Fonts project</a>).</p>
 
 > [!NOTE]
 > The font and colors used in the software may be affected by your terminal settings. Images for illustration purpose only.
