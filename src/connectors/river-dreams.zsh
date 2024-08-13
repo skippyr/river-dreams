@@ -6,20 +6,14 @@ _riverDreams_root_g=$(dirname $(dirname $(dirname ${0})));
 if [[ ! $(command -v git) || ! $(command -v cmake) || ! $(command -v gcc) ||
       ! $(command -v make) ]]; then
   echo;
-  echo "river-dreams";
-  echo;
-  echo "[ERROR] Some dependencies are missing.";
-  echo "        Please install the ones defined in the README.md file."
+  echo "\x1b[31m[ERROR] \x1b[1;39mriver-dreams \x1b[22;38;5;8m(code 1)\x1b[39m: some dependencies are missing. Install the ones defined in README.md file.";
   return;
 fi
 
 if [[ ! -f "${_riverDreams_root_g}/build/bin/left-prompt" ||
       ! -f "${_riverDreams_root_g}/build/bin/right-prompt" ]]; then
   echo;
-  echo "river-dreams";
-  echo;
-  echo "Preparing the theme for the first time.";
-  echo "Please, wait just a moment.";
+  echo "\x1b[34m[INFO] \x1b[1;39mriver-dreams\x1b[22m: wait while the theme is being prepared for the first time.";
   git -C ${_riverDreams_root_g} submodule init &> /dev/null;
   git -C ${_riverDreams_root_g} submodule update &> /dev/null;
   rm -rf "${_riverDreams_root_g}/build";

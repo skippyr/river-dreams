@@ -132,39 +132,9 @@ echo "source ~/.local/share/zsh/themes/river-dreams/src/connectors/river-dreams.
 - Reopen ZSH in order to initiate the theme.
 - During its first execution, River Dreams will automatically check its dependencies and build its source code, a process that can take a moment. Once that is done, the theme will be loaded and will be ready for you to use.
 
-## ❡ Uninstall
-
-#### Procedures For Windows
-
-- Edit the PowerShell profile file in order to remove the line that sources the connector added during the installation. If you are unsure where it is, use `echo ${PROFILE};` to locate this file.
-- Using PowerShell, remove the repository you have cloned during the installation. It contains all the file automatically generated and used by the software.
-
-```ps1
-Remove-Item -Recurse -Force "${env:USERPROFILE}\powershell\themes\river-dreams";
-```
-
-- Reopen PowerShell.
-- River Dreams should now be uninstalled.
-
-#### Procedures For Linux and MacOS
-
-- Edit the ZSH profile file (`~/.zshrc`) in order to remove the line that sources the connector added during the installation.
-- Using ZSH, remove the repository you have cloned during the installation. It contains all the file automatically generated and used by the software.
-
-```zsh
-rm -rf ~/.local/share/zsh/themes/river-dreams;
-```
-
-- Reopen ZSH.
-- River Dreams should now be uninstalled.
-
 ## ❡ Help
 
 If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/river-dreams/issues) or send me an [e-mail](mailto:skippyr.developer@icloud.com) describing what is going on.
-
-## ❡ Privacy
-
-This software does not collect, store or share any user data. It only gathers the minimal information needed for its functionality, and this data is discarded once its execution is over. Its source code is available for reviews. If you have any questions about it, open a new issue in its [issues pages](https://github.com/skippyr/river-dreams/issues) or send me an [e-mail](mailto:skippyr.developer@icloud.com) describing what is going on.
 
 ## ❡ Contributing
 

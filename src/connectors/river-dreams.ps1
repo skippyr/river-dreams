@@ -16,10 +16,10 @@ foreach (${edition} in $(Get-ChildItem "C:\Program Files\Microsoft Visual Studio
 if (-not(Get-Command git -ErrorAction SilentlyContinue) -or
     -not(Get-Command cmake -ErrorAction SilentlyContinue)) {
   Write-Host;
-  Write-Host "river-dreams";
-  Write-Host;
-  Write-Host "[ERROR] Some dependencies are missing.";
-  Write-Host "        Please install the ones defined in the README.md file.";
+  Write-Host -ForegroundColor DarkRed -NoNewline "[ERROR] ";
+  Write-Host -NoNewline "river-dreams ";
+  Write-Host -ForegroundColor DarkGray -NoNewline "(code 1)"
+  Write-Host ": some dependecies are missing. Install the ones defined in the README.md file.";
   [System.Environment]::SetEnvironmentVariable("PATH", ${originalPath});
   ${originalPath} = ${null};
   return;
@@ -28,10 +28,8 @@ if (-not(Get-Command git -ErrorAction SilentlyContinue) -or
 if (-not (Test-Path "${_riverDreams_root_g}\build\bin\left-prompt.exe") -or
     -not (Test-Path "${_riverDreams_root_g}\build\bin\right-prompt.exe")) {
   Write-Host;
-  Write-Host "river-dreams";
-  Write-Host;
-  Write-Host "Preparing the theme for the first time.";
-  Write-Host "Please, wait just a moment.";
+  Write-Host -ForegroundColor DarkBlue -NoNewline "[INFO] ";
+  Write-Host "river-dreams: wait while the theme is being prepared for the first time.";
   git -C ${_riverDreams_root_g} submodule init > ${null} 2>&1;
   git -C ${_riverDreams_root_g} submodule update > ${null} 2>&1;
   Remove-Item -Recurse -Force -ErrorAction SilentlyContinue `
