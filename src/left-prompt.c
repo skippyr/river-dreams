@@ -22,7 +22,7 @@ static void getPWDPath(char **utf8PWD, wchar_t **utf16PWD, size_t *length) {
   *utf8PWD = tmk_convertUTF16ToUTF8(*utf16PWD, length);
 }
 
-static size_t findLastPathSeparator(bool isWide, const void *path,
+static size_t findLastPathSeparator(int isWide, const void *path,
                                     size_t length) {
   for (size_t offset = length - 1; offset; --offset) {
     if ((isWide ? ((const wchar_t *)path)[offset]
@@ -39,7 +39,7 @@ static void findGitRoot(const wchar_t *utf16PWD, size_t pwdLength,
   *gitRootLength = pwdLength;
   wchar_t *utf16GitRoot = allocateHeapMemory((pwdLength + 6) * sizeof(wchar_t));
   memcpy(utf16GitRoot, utf16PWD, pwdLength * sizeof(wchar_t));
-  while (true) {
+  while (1) {
     memcpy(utf16GitRoot + *gitRootLength, L"\\.git", 6 * sizeof(wchar_t));
     *gitRootLength += 5;
     if (GetFileAttributesW(utf16GitRoot) != INVALID_FILE_ATTRIBUTES) {
@@ -47,14 +47,14 @@ static void findGitRoot(const wchar_t *utf16PWD, size_t pwdLength,
       utf16GitRoot[*gitRootLength] = 0;
       *gitRoot = tmk_convertUTF16ToUTF8(utf16GitRoot, NULL);
       *gitRootLastSeparatorOffset =
-          findLastPathSeparator(true, utf16GitRoot, *gitRootLength);
+          findLastPathSeparator(1, utf16GitRoot, *gitRootLength);
       free(utf16GitRoot);
       return;
     }
     *gitRootLength -= 5;
     utf16GitRoot[*gitRootLength] = 0;
     size_t lastSeparatorOffset =
-        findLastPathSeparator(true, utf16GitRoot, *gitRootLength);
+        findLastPathSeparator(1, utf16GitRoot, *gitRootLength);
     if (lastSeparatorOffset == 2) {
       if (*gitRootLength == 3) {
         break;
@@ -71,7 +71,7 @@ static void findGitRoot(const wchar_t *utf16PWD, size_t pwdLength,
   *gitRoot = NULL;
 }
 
-static void writeAdministratorRole(bool isAdministrator) {
+static void writeAdministratorRole(int isAdministrator) {
   if (isAdministrator) {
     tmk_write("\033[33m{\033[31m#\033[33m}");
   }
@@ -102,7 +102,7 @@ static void findGitRoot(const char *pwd, size_t pwdLength, char **gitRoot,
   *gitRootLength = pwdLength;
   *gitRoot = allocateHeapMemory(*gitRootLength + 6);
   memcpy(*gitRoot, pwd, pwdLength);
-  while (true) {
+  while (1) {
     memcpy(*gitRoot + *gitRootLength, "/.git", 6);
     *gitRootLength += 5;
     if (!access(*gitRoot, F_OK)) {
@@ -146,10 +146,9 @@ static void writeVirtualEnv(void) {
   if (venv) {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write(" \033[39m(%s)",
-              venv + findLastPathSeparator(false, venv, strlen(venv)) + 1);
+              venv + findLastPathSeparator(0, venv, strlen(venv)) + 1);
 #else
-    tmk_write(" %%f(%s)",
-              venv + findLastPathSeparator(venv, strlen(venv)) + 1);
+    tmk_write(" %%f(%s)", venv + findLastPathSeparator(venv, strlen(venv)) + 1);
 #endif
   }
 }
@@ -157,11 +156,11 @@ static void writeVirtualEnv(void) {
 static void writePath(const char *pwd, const char *gitRoot,
                       size_t gitRootLastSeparatorOffset) {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-  bool isToShort = gitRoot && gitRootLastSeparatorOffset > 2;
+  int isToShort = gitRoot && gitRootLastSeparatorOffset > 2;
   tmk_write(isToShort ? " \033[31m@%s" : " \033[31m%s",
             isToShort ? pwd + gitRootLastSeparatorOffset : pwd);
 #else
-  bool isToShort = gitRoot && gitRootLastSeparatorOffset;
+  int isToShort = gitRoot && gitRootLastSeparatorOffset;
   tmk_write(isToShort ? " %%F{1}@%s" : " %%F{1}%s",
             isToShort ? pwd + gitRootLastSeparatorOffset : "%~");
 #endif
@@ -262,7 +261,7 @@ write_l:
 static void writeBatteryStatus(void) {
 #if defined(USE_FAKE_BATTERY) && USE_FAKE_BATTERY
   int charge = FAKE_BATTERY_CHARGE;
-  bool isCharging = IS_FAKE_BATTERY_CHARGING;
+  int isCharging = IS_FAKE_BATTERY_CHARGING;
 #else
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
   SYSTEM_POWER_STATUS battery;
@@ -271,10 +270,9 @@ static void writeBatteryStatus(void) {
       battery.BatteryFlag == 255 /* Unknown battery status */) {
     return;
   }
-  bool isCharging = battery.BatteryFlag == 8;
-  int charge = battery.BatteryLifePercent == 255
-                   ? 0
-                   : battery.BatteryLifePercent;
+  int isCharging = battery.BatteryFlag == 8;
+  int charge =
+      battery.BatteryLifePercent == 255 ? 0 : battery.BatteryLifePercent;
 #elif tmk_IS_OPERATING_SYSTEM_MACOS
   CFTypeRef powerSourcesInfo = IOPSCopyPowerSourcesInfo();
   if (!powerSourcesInfo) {
@@ -294,8 +292,8 @@ static void writeBatteryStatus(void) {
       CFDictionaryGetValue(battery, CFSTR(kIOPSPowerSourceStateKey));
   int charge;
   CFNumberGetValue(chargeRef, kCFNumberIntType, &charge);
-  bool isCharging = CFStringCompare(chargeStateRef, CFSTR(kIOPSACPowerValue),
-                                    0) == kCFCompareEqualTo;
+  int isCharging = CFStringCompare(chargeStateRef, CFSTR(kIOPSACPowerValue),
+                                   0) == kCFCompareEqualTo;
   CFRelease(powerSourcesList);
   CFRelease(powerSourcesInfo);
 #else
@@ -310,7 +308,7 @@ static void writeBatteryStatus(void) {
    * Status will be either the first letter of: Charging ('C') or
    * Discharging ('D').
    */
-  bool isCharging = status == 'C';
+  int isCharging = status == 'C';
   int capacityFile = open(BATTERY "/capacity", O_RDONLY);
   int charge = 0;
   if (capacityFile > 0) {
@@ -425,11 +423,11 @@ static void writeClock(struct tm *localTime) {
 static void throwError(const char *format, ...) {
   va_list arguments;
   va_start(arguments, format);
-  tmk_setFontANSIColor(tmk_ANSIColor_DarkRed, tmk_FontLayer_Foreground);
+  tmk_setFontANSIColor(tmk_ANSIColor_DarkRed, tmk_Layer_Foreground);
   tmk_writeError("[ERROR] ");
   tmk_resetFontColors();
   tmk_writeError("river-dreams - left-prompt ");
-  tmk_setFontANSIColor(tmk_ANSIColor_LightBlack, tmk_FontLayer_Foreground);
+  tmk_setFontANSIColor(tmk_ANSIColor_LightBlack, tmk_Layer_Foreground);
   tmk_writeError("(code 1)");
   tmk_resetFontColors();
   tmk_writeError(": ");
@@ -488,7 +486,7 @@ int main(int totalRawCMDArguments, const char **rawCMDArguments) {
   }
   int totalColumns = atoi(cmdArguments.utf8Arguments[1]);
   int lastExitCode = atoi(cmdArguments.utf8Arguments[2]);
-  bool isAdministrator = atoi(cmdArguments.utf8Arguments[3]);
+  int isAdministrator = atoi(cmdArguments.utf8Arguments[3]);
   tmk_freeCMDArguments(&cmdArguments);
   if (!totalColumns) {
     throwError("the terminal window dimensions are invalid.");

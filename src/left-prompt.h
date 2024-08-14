@@ -28,10 +28,10 @@
 #endif
 
 /* Emulates a fake battery for screenshots and debugging. */
-#define USE_FAKE_BATTERY false
+#define USE_FAKE_BATTERY 0
 #if defined(USE_FAKE_BATTERY)
 #define FAKE_BATTERY_CHARGE 95
-#define IS_FAKE_BATTERY_CHARGING true
+#define IS_FAKE_BATTERY_CHARGING 1
 #endif
 #if tmk_IS_OPERATING_SYSTEM_LINUX
 #define BATTERY "/sys/class/power_supply/BAT0"
@@ -39,12 +39,12 @@
 
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
 static void getPWDPath(char **utf8PWD, wchar_t **utf16PWD, size_t *length);
-static size_t findLastPathSeparator(bool isWide, const void *path,
+static size_t findLastPathSeparator(int isWide, const void *path,
                                     size_t length);
 static void findGitRoot(const wchar_t *utf16PWD, size_t pwdLength,
                         char **gitRoot, size_t *gitRootLength,
                         size_t *gitRootLastSeparatorOffset);
-static void writeAdministratorRole(bool isAdministrator);
+static void writeAdministratorRole(int isAdministrator);
 static void writeLastExitCode(int lastExitCode);
 #else
 static void getPWDPath(char **pwd, size_t *length);

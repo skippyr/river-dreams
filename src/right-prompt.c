@@ -83,7 +83,7 @@ static void getDirectoryStat(struct DirectoryStat *directoryStat) {
 #endif
 }
 
-static void writeEntryStat(bool isFirst, const char *symbol, int color,
+static void writeEntryStat(int isFirst, const char *symbol, int color,
                            int total) {
   if (!total) {
     return;
@@ -108,17 +108,17 @@ static void writeEntryStat(bool isFirst, const char *symbol, int color,
 static void writeDirectoryStat(void) {
   struct DirectoryStat stat;
   getDirectoryStat(&stat);
-  writeEntryStat(true, " ", -1, stat.totalFiles);
-  writeEntryStat(false, " ", 3, stat.totalDirectories);
+  writeEntryStat(1, " ", -1, stat.totalFiles);
+  writeEntryStat(0, " ", 3, stat.totalDirectories);
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
-  writeEntryStat(false, "󰌷 ", 4, stat.totalSymlinks);
-  writeEntryStat(false, "󰇖 ", 5, stat.totalBlocks);
-  writeEntryStat(false, "󱣴 ", 2, stat.totalCharacters);
-  writeEntryStat(false, "󰟦 ", 4, stat.totalFifos);
-  writeEntryStat(false, "󱄙 ", 6, stat.totalSockets);
+  writeEntryStat(0, "󰌷 ", 4, stat.totalSymlinks);
+  writeEntryStat(0, "󰇖 ", 5, stat.totalBlocks);
+  writeEntryStat(0, "󱣴 ", 2, stat.totalCharacters);
+  writeEntryStat(0, "󰟦 ", 4, stat.totalFifos);
+  writeEntryStat(0, "󱄙 ", 6, stat.totalSockets);
 #endif
-  writeEntryStat(false, "󰈉 ", 1, stat.totalHiddenEntries);
-  writeEntryStat(false, "󱣹 ", 5, stat.totalTemporaryEntries);
+  writeEntryStat(0, "󰈉 ", 1, stat.totalHiddenEntries);
+  writeEntryStat(0, "󱣹 ", 5, stat.totalTemporaryEntries);
 }
 
 int main(void) {

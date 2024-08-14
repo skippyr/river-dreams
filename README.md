@@ -1,7 +1,7 @@
 <p align="center">
   <img alt="" src="assets/ornament.png" width=1020 />
 </p>
-<h1 align="center">≥v≥v&ensp;River Dreams&ensp;≥v≥v</h1>
+<h1 align="center">≥v≥v&ensp;river-dreams&ensp;≥v≥v</h1>
 <p align="center">
   <img alt="" src="https://img.shields.io/github/license/skippyr/river-dreams?style=plastic&label=%E2%89%A5%20license&labelColor=%2324130e&color=%23b8150d" />
   &nbsp;

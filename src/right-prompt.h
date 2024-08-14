@@ -23,5 +23,5 @@ struct DirectoryStat {
 };
 
 static void getDirectoryStat(struct DirectoryStat *stat);
-static void writeEntryStat(bool isFirst, const char *symbol, int color, int total);
+static void writeEntryStat(int isFirst, const char *symbol, int color, int total);
 static void writeDirectoryStat(void);
