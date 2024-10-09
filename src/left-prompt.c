@@ -141,6 +141,13 @@ static void writeLastExitCode(void) {
 }
 #endif
 
+static bool isUnassignedIp(const char *ip) { return ip[0] == '0'; }
+
+static bool isBridgeIp(const char *ip) {
+  size_t length = strlen(ip);
+  return ip[length - 2] == '.' && ip[length - 1] == '1';
+}
+
 static void writeVirtualEnv(void) {
   char *venv = getenv("VIRTUAL_ENV");
   if (venv) {
@@ -240,13 +247,7 @@ static void writeIPV4Address(void) {
     SOCKADDR_IN *sockAddrIn =
         (SOCKADDR_IN *)adapter->FirstUnicastAddress->Address.lpSockaddr;
     inet_ntop(AF_INET, &sockAddrIn->sin_addr, buffer, sizeof(buffer));
-    size_t length = strlen(buffer);
-    /*
-     * Network interfaces that start with "0" (unnasigned) and end with
-     * ".1" (brigde) must be disconsidered.
-     */
-    if (buffer[0] == '0' ||
-        (buffer[length - 2] == '.' && buffer[length - 1] == '1')) {
+    if (isUnassignedIp(buffer) || isBridgeIp(buffer)) {
       buffer[0] = 0;
     }
   }
@@ -265,13 +266,7 @@ write_l:
         !(interface->ifa_flags & IFF_LOOPBACK)) {
       inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr,
                 buffer, sizeof(buffer));
-      size_t length = strlen(buffer);
-      /*
-       * Network interfaces that start with "0" (unnasigned) and end with
-       * ".1" (brigde) must be disconsidered.
-       */
-      if (buffer[0] == '0' ||
-          (buffer[length - 2] == '.' && buffer[length - 1] == '1')) {
+      if (isUnassignedIp(buffer) || isBridgeIp(buffer)) {
         buffer[0] = 0;
       }
     }

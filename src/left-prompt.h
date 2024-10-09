@@ -55,6 +55,8 @@ static void findGitRoot(const char *pwd, size_t pwdLength, char **gitRoot,
 static void writeAdministratorRole(void);
 static void writeLastExitCode(void);
 #endif
+static bool isUnassignedIp(const char *ip);
+static bool isBridgeIp(const char *ip);
 static void writeVirtualEnv(void);
 static void writePath(const char *pwd, const char *gitRoot,
                       size_t gitRootLastSeparatorOffset);
