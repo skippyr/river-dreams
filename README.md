@@ -36,7 +36,7 @@ These are the descriptions of each prompt feature from left to right, top to bot
 - The exit code of the last command ran.
 - The active Python virtual environment, if you have sourced one.
 - The current active directory path, shorting it when inside of a Git repository.
-- The active branch, when inside of a Git repository.
+- When inside of a Git repository, the active branch name or the reference hash if its under rebase.
 
 #### Right Prompt Features
 - The total of each entry type in the current active directory: block devices, character devices, directories, fifos, files, hidden entries, sockets, symlinks and temporary entries. Symlinks are followed. Types availability and interpretation are subject to the operating system you are using.
