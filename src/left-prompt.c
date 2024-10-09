@@ -200,11 +200,16 @@ static void writeGitBranch(const char *gitRoot, size_t gitRootLength) {
       }
     }
   } else {
-    /*
-     * When the HEAD file does not contain a branch, the repository is during
-     * rebase and it will contain a hash instead. In this case, it must show its
-     * first 7 digits.
-     */
+/*
+ * When the HEAD file does not contain a branch, the repository is during
+ * rebase and it will contain a hash instead. In this case, it must show its
+ * first 7 digits.
+ */
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    tmk_write("\033[35mrebase\033[39m:@");
+#else
+    tmk_write("%%F{5}rebase%%f:@");
+#endif
     for (int offset = 0, character;
          offset <= 6 && (character = fgetc(file)) != EOF; ++offset) {
       tmk_write("%c", character);
