@@ -13,20 +13,23 @@
 </p>
 
 ## ❡ About
-A fast and full-featured tribal looking shell theme available for Windows (PowerShell), Linux (ZSH) and MacOS (ZSH). It is designed to help you develop even your most ambitious software projects.
+
+A fast and full-featured tribal looking shell theme available for PowerShell and ZSH running on Windows, Linux and MacOS.
 
 <p align="center">
   <img alt="" src="assets/preview.png" width=1020 />
 </p>
-<p align="center"><strong>Caption:</strong> River Dreams running on MacOS (ZSH). Terminal theme is <a href="https://github.com/skippyr/flamerial">Flamerial</a>. Font is Hack (patched by the <a href="https://www.nerdfonts.com/font-downloads">Nerd Fonts project</a>).</p>
+<p align="center"><strong>Caption:</strong> River Dreams running on MacOS (ZSH). Terminal theme is <a href="https://github.com/skippyr/river-dreams">river-dreams</a>. Font is Hack (patched by the <a href="https://www.nerdfonts.com/font-downloads">Nerd Fonts project</a>).</p>
 
 > [!NOTE]
 > The font and colors used in the software may be affected by your terminal settings. Images for illustration purpose only.
 
 ### Features
+
 These are the descriptions of each prompt feature from left to right, top to bottom, respectively:
 
 #### Left Prompt Features
+
 - Your local IPV4 address or "No Address" if no address can be found.
 - If you are using a laptop, its battery charge and if it is being currently charged.
 - Your disk usage.
@@ -36,17 +39,20 @@ These are the descriptions of each prompt feature from left to right, top to bot
 - The exit code of the last command ran.
 - The active Python virtual environment, if you have sourced one.
 - The current active directory path, shorting it when inside of a Git repository.
-- The active branch, when inside of a Git repository.
+- When inside of a Git repository, the active branch name or the reference hash if its under rebase.
 
 #### Right Prompt Features
+
 - The total of each entry type in the current active directory: block devices, character devices, directories, fifos, files, hidden entries, sockets, symlinks and temporary entries. Symlinks are followed. Types availability and interpretation are subject to the operating system you are using.
 
 ## ❡ Install
 
 ### Dependencies
+
 The following dependencies must be installed before it:
 
 #### Dependencies For Windows
+
 - **[Visual Studio 2022](https://visualstudio.microsoft.com) with the "Desktop development with C++" workload:** it provides all the tools required to build this software.
 - **[Git](https://git-scm.com):** it will be used to clone this repository.
 - **A font patched by the [Nerd Fonts project](https://www.nerdfonts.com/font-downloads):** it provides the pretty symbols used by the software.
@@ -55,6 +61,7 @@ The following dependencies must be installed before it:
 > It is highly recommended that you use a terminal with great Unicode and wide-character support for the symbols used in the theme to appear correctly. Recommendation for Windows is **Windows Terminal**. It comes pre-installed on Windows 11, while on Windows 10 you can download it from the Microsoft Store.
 
 #### Dependencies For Linux
+
 - **GCC, CMake**: they will be used to build this software.
 - **Git**: it will be used to clone this repository.
 - **A font patched by the [Nerd Fonts project](https://www.nerdfonts.com/font-downloads):** it provides the pretty symbols used by the software.
@@ -66,6 +73,7 @@ The following dependencies must be installed before it:
 > It is highly recommended that you use a terminal with great Unicode and wide-character support for the symbols used in the theme to appear correctly. Recommendation for Linux is **Kitty**. You can download it by following the previous tip.
 
 #### Dependencies For MacOS
+
 - **Apple Command Line Tools, cmake**: they will be used to build this software.
 - **Git**: it will be used to clone this repository.
 - **A font patched by the [Nerd Fonts project](https://www.nerdfonts.com/font-downloads):** it provides the pretty symbols used by the software.
@@ -77,59 +85,73 @@ The following dependencies must be installed before it:
 > It is highly recommended that you use a terminal with great Unicode and wide-character support for the symbols used in the theme to appear correctly. Recommendation for MacOS is **Kitty**. You can download it by following the previous tip.
 
 ### Procedures
-#### Procedures For Windows
-- Open PowerShell with administrator priveleges.
-- Set your PowerShell execution policy to `Bypass`. When prompted, type `y` to accept the changes. This will allow you to execute River Dreams, as, by default, Windows does not allow the execution of any script or configuration file. For more information, access the [PowerShell Execution Policy](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy) documentation page:
+#### Procedures For PowerShell
+
+- If you are using Windows, open PowerShell with administrator privileges and set your PowerShell execution policy to `Unrestricted`. When prompted, type `y` to accept the changes. For non-Windows systems this is already the default option. For more information, access the [PowerShell Execution Policy](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy) documentation page:
 
 ```ps1
-Set-ExecutionPolicy Bypass;
+Set-ExecutionPolicy Unrestricted;
 ```
 
-- Reopen PowerShell without administrator priveleges.
+- Open/Reopen PowerShell without administrator privileges.
 - Clone this repository using `git`:
 
 ```ps1
+# For Linux/MacOS
 git clone --depth 1 https://github.com/skippyr/river-dreams `
-          "${env:USERPROFILE}\powershell\themes\river-dreams";
+                    "${env:HOME}/.config/powershell/themes/river-dreams";
+
+# For Windows
+git clone --depth 1 https://github.com/skippyr/river-dreams `
+          "${env:USERPROFILE}\Documents\WindowsPowerShell\themes\river-dreams";
 ```
 
-- Add the specific connector to the PowerShell profile file:
+- Add the PowerShell connector source command to your profile:
 
 ```ps1
-Write-Output `n'. "${env:USERPROFILE}\powershell\themes\river-dreams\src\connectors\river-dreams.ps1";' | `
+# For Linux/MacOS
+Write-Output `n'. "${env:HOME}/.config/powershell/themes/river-dreams/src/connectors/river-dreams.ps1";' | `
+Out-File -Append -Encoding UTF8 ${PROFILE};
+
+# For Windows
+Write-Output `n'. "${env:USERPROFILE}\Documents\WindowsPowerShell\themes\river-dreams\src\connectors\river-dreams.ps1";' | `
 Out-File -Append -Encoding UTF8 ${PROFILE};
 ```
 
 - Reopen PowerShell in order to initiate the theme.
 - During its first execution, River Dreams will automatically check its dependencies and build its source code, a process that can take a moment. Once that is done, the theme will be loaded and will be ready for you to use.
 
-#### Procedures For Linux and MacOS
+#### Procedures For ZSH
+
 - Open ZSH.
 - Clone this repository using `git`:
 
 ```zsh
 git clone --depth 1 https://github.com/skippyr/river-dreams \
-          ~/.local/share/zsh/themes/river-dreams;
+          ~/.config/zsh/themes/river-dreams;
 ```
 
-- Add the specific connector to the ZSH profile file:
+- Add the ZSH connector source command to your profile:
 
 ```zsh
-echo "source ~/.local/share/zsh/themes/river-dreams/src/connectors/river-dreams.zsh;" >> ~/.zshrc;
+echo "source ~/.config/zsh/themes/river-dreams/src/connectors/river-dreams.zsh;" >> ~/.zshrc;
 ```
 
 - Reopen ZSH in order to initiate the theme.
 - During its first execution, River Dreams will automatically check its dependencies and build its source code, a process that can take a moment. Once that is done, the theme will be loaded and will be ready for you to use.
 
 ## ❡ Help
-If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/flamerial/issues) or send me an [e-mail](mailto:skippyr.developer@icloud.com) describing what is going on.
+
+If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/river-dreams/issues) or send me an [e-mail](mailto:skippyr.developer@icloud.com) describing what is going on.
 
 ## ❡ Contributing
-This project is open to review and possibly accept contributions, specially fixes and suggestions. If you are interested, send your contribution to its [pull requests page](https://github.com/skippyr/flamerial/pulls) or to my [e-mail](mailto:skippyr.developer@icloud.com).
+
+This project is open to review and possibly accept contributions, specially fixes and suggestions. If you are interested, send your contribution to its [pull requests page](https://github.com/skippyr/river-dreams/pulls) or to my [e-mail](mailto:skippyr.developer@icloud.com).
 
 In order to keep it open-source, by contributing to this project, you must agree to license your work under the same license that the project uses. For other intentions, prefer to create a fork.
 
 ## ❡ License
+
 This is free software licensed under the MIT License that comes WITH NO WARRANTY. Refer to the `LICENSE` file that comes in its source code for license and copyright details.
 
 &ensp;

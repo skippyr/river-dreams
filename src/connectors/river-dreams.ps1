@@ -1,32 +1,30 @@
-${_riverDreams_root_g} = $(Split-Path $(Split-Path $PSScriptRoot));
+${_riverDreams_root_g} = Split-Path $(Split-Path $PSScriptRoot);
+${_riverDreams_isWinNt} = [System.Environment]::OsVersion.Platform -match "Win32NT";
 
-${originalPath} = ${env:PATH};
-# Visual Studio 2022 Development Profile does not adds CMake to the ${PATH}
-# environment variable at the time this script runs. Thus, that need to be
-# manually set temporarily.
-foreach (${edition} in $(Get-ChildItem "C:\Program Files\Microsoft Visual Studio\2022")) {
-  # Add each installed edition of Visual Studio 2022 to ${PATH}.
-  [System.Environment]::SetEnvironmentVariable(
-    "PATH",
-    ${env:PATH} +
-    ";C:\Program Files\Microsoft Visual Studio\2022\${edition}\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin"
-  );
-}
-
-if (-not(Get-Command git -ErrorAction SilentlyContinue) -or
-    -not(Get-Command cmake -ErrorAction SilentlyContinue)) {
-  Write-Host;
-  Write-Host -ForegroundColor DarkRed -NoNewline "[ERROR] ";
-  Write-Host -NoNewline "river-dreams ";
-  Write-Host -ForegroundColor DarkGray -NoNewline "(code 1)"
-  Write-Host ": some dependecies are missing. Install the ones defined in the README.md file.";
-  [System.Environment]::SetEnvironmentVariable("PATH", ${originalPath});
-  ${originalPath} = ${null};
-  return;
-}
-
-if (-not (Test-Path "${_riverDreams_root_g}\build\bin\left-prompt.exe") -or
-    -not (Test-Path "${_riverDreams_root_g}\build\bin\right-prompt.exe")) {
+if (-not(Test-Path ("${_riverDreams_root_g}\build\bin\river-dreams" + $(if (${_riverDreams_isWinNt}) { ".exe" })))) {
+  if (${_riverDreams_isWinNt}) {
+    ${originalPath} = ${env:PATH};
+    foreach (${year} in $(Get-ChildItem "C:\Program Files\Microsoft Visual Studio")) {
+      foreach (${edition} in $(Get-ChildItem "C:\Program Files\Microsoft Visual Studio\${year}")) {
+        [System.Environment]::SetEnvironmentVariable("PATH",
+          ${env:PATH} +
+          ";C:\Program Files\Microsoft Visual Studio\${year}\${edition}\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin");
+      }
+    }
+  }
+  if (-not(Get-Command git -ErrorAction SilentlyContinue) -or
+      -not(Get-Command cmake -ErrorAction SilentlyContinue)) {
+    Write-Host;
+    Write-Host -ForegroundColor DarkRed -NoNewline "[ERROR] ";
+    Write-Host -NoNewline "river-dreams ";
+    Write-Host -ForegroundColor DarkGray -NoNewline "(code 1)"
+    Write-Host ": some dependecies are missing. Install the ones defined in the README.md file.";
+    if (${_riverDreams_isWinNt}) {
+      [System.Environment]::SetEnvironmentVariable("PATH", ${originalPath});
+      ${originalPath} = ${null};
+    }
+    return;
+  }
   Write-Host;
   Write-Host -ForegroundColor DarkBlue -NoNewline "[INFO] ";
   Write-Host "river-dreams: wait while the theme is being prepared for the first time.";
@@ -39,24 +37,25 @@ if (-not (Test-Path "${_riverDreams_root_g}\build\bin\left-prompt.exe") -or
   cmake --build "${_riverDreams_root_g}\build\cmake" --config release > ${null};
   cmake --install "${_riverDreams_root_g}\build\cmake" > ${null};
   cls;
+  if (${_riverDreams_isWinNt}) {
+    [System.Environment]::SetEnvironmentVariable("PATH", ${originalPath});
+    ${originalPath} = ${null};
+  }
 }
 
-[System.Environment]::SetEnvironmentVariable("PATH", ${originalPath});
-${originalPath} = ${null};
-Set-Item -Path env:VIRTUAL_ENV_DISABLE_PROMPT -Value 1;
+[System.Environment]::SetEnvironmentVariable("PATH",
+  [System.Environment]::GetEnvironmentVariable("PATH") +
+  $(if (${_riverDreams_isWinNt}) { ";" } else { ":" }) +
+  (Join-Path (Join-Path ${_riverDreams_root_g} "build") "bin"));
 
 function Prompt {
   [Console]::OutputEncoding = [System.Text.Encoding]::UTF8;
-  ${leftPrompt} =
-      & "${_riverDreams_root_g}\build\bin\left-prompt.exe" `
-      $([Console]::WindowWidth) `
-      $(if (${LASTEXITCODE} -eq ${null}) { 0 } else { ${LASTEXITCODE} }) `
-      $(if (([Security.Principal.WindowsPrincipal] `
-             [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) `
-             { 1 } else { 0 });
-  ${rightPromptParts} =
-      & "${_riverDreams_root_g}\build\bin\right-prompt.exe" -Split "`n";
+  ${exitCode} = $(if (${LASTEXITCODE} -eq ${null}) { 0 } else { ${LASTEXITCODE} });
+  ${consoleWidth} = $([Console]::WindowWidth);
+  ${leftPrompt} = & "river-dreams" "pwsh" "left" ${exitCode} ${consoleWidth};
   Write-Host -NoNewline ${leftPrompt};
+  ${rightPromptParts} =
+      & "river-dreams" "pwsh" "right" ${exitCode} ${consoleWidth} -Split "`n";
   if (${rightPromptParts}[1] -gt 0) {
     ${cursorLeft} = [Console]::CursorLeft;
     ${cursorTop} = [Console]::CursorTop;
