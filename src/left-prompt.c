@@ -182,12 +182,32 @@ static void writeGitBranch(const char *gitRoot, size_t gitRootLength) {
 #else
   tmk_write("%%F{3}:«(%%f");
 #endif
-  for (int totalSlashes = 0, character = 0;
-       (character = fgetc(file)) != EOF && character != '\n';) {
-    if (totalSlashes == 2) {
+  bool doesHeadContainsBranch = false;
+  for (int offset = 0, character;
+       offset <= 3 && (character = fgetc(file)) != EOF; ++offset) {
+    if (offset == 3 && character == ':') {
+      doesHeadContainsBranch = true;
+    }
+  }
+  rewind(file);
+  if (doesHeadContainsBranch) {
+    for (int totalSlashes = 0, character;
+         (character = fgetc(file)) != EOF && character != '\n';) {
+      if (totalSlashes == 2) {
+        tmk_write("%c", character);
+      } else if (character == '/') {
+        ++totalSlashes;
+      }
+    }
+  } else {
+    /*
+     * When the HEAD file does not contain a branch, the repository is during
+     * rebase and it will contain a hash instead. In this case, it must show its
+     * first 7 digits.
+     */
+    for (int offset = 0, character;
+         offset <= 6 && (character = fgetc(file)) != EOF; ++offset) {
       tmk_write("%c", character);
-    } else if (character == '/') {
-      ++totalSlashes;
     }
   }
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
