@@ -28,6 +28,13 @@
 #include <unistd.h>
 #endif
 
+#define SOFTWARE_NAME "river-dreams"
+#define SOFTWARE_VERSION "13.0.0"
+#define SOFTWARE_AUTHOR_NAME "Sherman Rofeman"
+#define SOFTWARE_AUTHOR_EMAIL "skippyr.developer@icloud.com"
+#define SOFTWARE_REPOSITORY_URL "https://github.com/skippyr/river-dreams"
+#define SOFTWARE_LICENSE "MIT License"
+#define SOFTWARE_CREATION_YEAR "2023"
 /* Emulates a fake battery for screenshots and debugging. */
 #define USE_FAKE_BATTERY 0
 #if defined(USE_FAKE_BATTERY)

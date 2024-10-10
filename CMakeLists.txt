@@ -1,17 +1,12 @@
 cmake_minimum_required(VERSION 3.20)
 project(river-dreams)
 add_subdirectory("${CMAKE_SOURCE_DIR}/libs/libtmk" "${CMAKE_BINARY_DIR}/libtmk")
-add_library(common "${CMAKE_SOURCE_DIR}/src/common.c"
-                   "${CMAKE_SOURCE_DIR}/src/common.h")
-add_executable(left-prompt "${CMAKE_SOURCE_DIR}/src/left-prompt.c"
-                           "${CMAKE_SOURCE_DIR}/src/left-prompt.h")
-add_executable(right-prompt "${CMAKE_SOURCE_DIR}/src/right-prompt.c"
-                            "${CMAKE_SOURCE_DIR}/src/right-prompt.h")
-target_link_libraries(left-prompt tmk common)
-target_link_libraries(right-prompt tmk common)
+add_executable(river-dreams "${CMAKE_SOURCE_DIR}/src/river-dreams.c"
+                            "${CMAKE_SOURCE_DIR}/src/river-dreams.h")
+target_link_libraries(river-dreams tmk)
 if(APPLE)
-  target_link_libraries(left-prompt "-framework IOKit"
-                                    "-framework CoreFoundation")
+  target_link_libraries(river-dreams "-framework IOKit"
+                                     "-framework CoreFoundation")
 endif()
-install(TARGETS left-prompt right-prompt
+install(TARGETS river-dreams
         DESTINATION "${CMAKE_SOURCE_DIR}/build/bin")

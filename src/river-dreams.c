@@ -453,14 +453,7 @@ static void writeClock(struct tm *localTime) {
 static void throwError(const char *format, ...) {
   va_list arguments;
   va_start(arguments, format);
-  tmk_setFontANSIColor(tmk_ANSIColor_DarkRed, tmk_Layer_Foreground);
-  tmk_writeError("[ERROR] ");
-  tmk_resetFontColors();
-  tmk_writeError("river-dreams - left-prompt ");
-  tmk_setFontANSIColor(tmk_ANSIColor_LightBlack, tmk_Layer_Foreground);
-  tmk_writeError("(code 1)");
-  tmk_resetFontColors();
-  tmk_writeError(": ");
+  tmk_writeError("%s: ", SOFTWARE_NAME);
   tmk_writeErrorArgumentsLine(format, arguments);
   va_end(arguments);
   exit(1);
