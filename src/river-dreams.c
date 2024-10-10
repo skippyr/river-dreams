@@ -141,8 +141,11 @@ static void writeLastExitCode(void) {
 }
 
 static void writeZshHelp(void) {
-  tmk_writeLine("Usage: %s zsh [OPTIONS]...", SOFTWARE_NAME);
+  tmk_writeLine("Usage: %s zsh <PROMPT-SIDE> [OPTIONS]...", SOFTWARE_NAME);
   tmk_writeLine("Writes a portion of the shell theme for ZSH.");
+  tmk_writeLine("");
+  tmk_writeLine("AVAILABLE OPTIONS");
+  tmk_writeLine("    --help     Shows the shell help instructions.");
 }
 #endif
 
@@ -507,10 +510,13 @@ static void writeSoftwareVersion(void) {
 }
 
 static void writePowerShellHelp(void) {
-  tmk_writeLine("Usage: %s pwsh <CONSOLE-WIDTH> <LAST-EXIT-CODE> "
+  tmk_writeLine("Usage: %s pwsh <PROMPT-SIDE> <CONSOLE-WIDTH> <LAST-EXIT-CODE> "
                 "<IS-ADMINISTRATOR> [OPTIONS]...",
                 SOFTWARE_NAME);
   tmk_writeLine("Writes a portion of the shell theme for PowerShell.");
+  tmk_writeLine("");
+  tmk_writeLine("AVAILABLE OPTIONS");
+  tmk_writeLine("    --help     Shows the shell help instructions.");
 }
 
 static void processArguments(int totalRawCmdArguments,
@@ -578,6 +584,21 @@ static void processArguments(int totalRawCmdArguments,
     writeError(
         "invalid shell \"%s\" provided. Use --help for help instructions.",
         cmdArguments.utf8Arguments[1]);
+    closeSoftware(false);
+  }
+  if (cmdArguments.totalArguments == 2) {
+    tmk_freeCmdArguments(&cmdArguments);
+    writeError("no prompt side provided. Use --help for help instructions.");
+    closeSoftware(false);
+  }
+  if (!strcmp(cmdArguments.utf8Arguments[2], "left")) {
+    runtimeInfo->isLeftPrompt = true;
+  } else if (!strcmp(cmdArguments.utf8Arguments[2], "right")) {
+    runtimeInfo->isLeftPrompt = false;
+  } else {
+    tmk_freeCmdArguments(&cmdArguments);
+    writeError("invalid prompt side \"%s\" provided. Use --help for help "
+               "instructions.", cmdArguments.utf8Arguments[2]);
     closeSoftware(false);
   }
   tmk_freeCmdArguments(&cmdArguments);

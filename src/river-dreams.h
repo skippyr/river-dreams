@@ -68,8 +68,9 @@ struct DirectoryStat {
 struct RuntimeInfo {
 #ifdef _WIN32
   bool isUserAdministrator;
-  bool isPowerShell;
   unsigned short terminalWidth;
+#else
+  bool isPowerShell;
 #endif
   bool isLeftPrompt;
   int promptLength;
