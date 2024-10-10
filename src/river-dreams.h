@@ -36,11 +36,11 @@
 #define SOFTWARE_LICENSE "MIT License"
 #define SOFTWARE_CREATION_YEAR 2023
 #define PARSE_OPTION(option_a, action_a)                                       \
-    if (!strcmp(cmdArguments.utf8Arguments[offset], "--" option_a)) {          \
-      action_a;                                                                \
-      tmk_freeCmdArguments(&cmdArguments);                                     \
-      close(true);                                                             \
-    }
+  if (!strcmp(cmdArguments.utf8Arguments[offset], "--" option_a)) {            \
+    action_a;                                                                  \
+    tmk_freeCmdArguments(&cmdArguments);                                       \
+    closeSoftware(true);                                                       \
+  }
 /* Emulates a fake battery for screenshots and debugging. */
 #define USE_FAKE_BATTERY 0
 #if defined(USE_FAKE_BATTERY)
@@ -70,6 +70,7 @@ struct RuntimeInfo {
   bool isUserAdministrator;
 #endif
   bool isPowerShell;
+  bool isLeftPrompt;
   unsigned short terminalWidth;
   int promptLength;
 };

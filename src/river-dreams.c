@@ -474,7 +474,9 @@ static void *allocateHeapMemory(size_t size) {
 }
 
 static void writeHelp(void) {
-  tmk_writeLine("Usage: %s <SHELL> <PROMPT-SIDE> <TERMINAL-WIDTH> <IS-ADMINISTRATOR> [OPTIONS]...", SOFTWARE_NAME);
+  tmk_writeLine("Usage: %s <SHELL> <PROMPT-SIDE> <TERMINAL-WIDTH> "
+                "<IS-ADMINISTRATOR> [OPTIONS]...",
+                SOFTWARE_NAME);
   tmk_writeLine("Writes a portion of the shell theme.");
   tmk_writeLine("");
   tmk_writeLine("AVAILABLE OPTIONS");
@@ -483,10 +485,14 @@ static void writeHelp(void) {
 }
 
 static void writeVersion(void) {
-  tmk_writeLine("%s %s (running on %s %s)", SOFTWARE_NAME, SOFTWARE_VERSION, tmk_OPERATING_SYSTEM, tmk_CPU_ARCHITECTURE);
-  tmk_writeLine("%s. Copyright © %d %s <%s>", SOFTWARE_LICENSE, SOFTWARE_CREATION_YEAR, SOFTWARE_AUTHOR_NAME, SOFTWARE_AUTHOR_EMAIL);
+  tmk_writeLine("%s %s (running on %s %s)", SOFTWARE_NAME, SOFTWARE_VERSION,
+                tmk_OPERATING_SYSTEM, tmk_CPU_ARCHITECTURE);
+  tmk_writeLine("%s. Copyright © %d %s <%s>", SOFTWARE_LICENSE,
+                SOFTWARE_CREATION_YEAR, SOFTWARE_AUTHOR_NAME,
+                SOFTWARE_AUTHOR_EMAIL);
   tmk_writeLine("");
-  tmk_writeLine("Software repository available at <%s>", SOFTWARE_REPOSITORY_URL);
+  tmk_writeLine("Software repository available at <%s>",
+                SOFTWARE_REPOSITORY_URL);
 }
 
 static void processArguments(int totalRawCmdArguments,
@@ -503,6 +509,35 @@ static void processArguments(int totalRawCmdArguments,
     writeError("no shell provided. Use --help for help instructions.");
     closeSoftware(false);
   }
+  if (!strcmp(cmdArguments.utf8Arguments[1], "pwsh")) {
+    runtimeInfo->isPowerShell = true;
+  } else if (!strcmp(cmdArguments.utf8Arguments[1], "zsh")) {
+    runtimeInfo->isPowerShell = false;
+  } else {
+    tmk_freeCmdArguments(&cmdArguments);
+    writeError("the shell can only be \"pwsh\" (powershell) or \"zsh\". Use "
+               "--help for help instructions.");
+    closeSoftware(false);
+  }
+  if (cmdArguments.totalArguments == 2) {
+    tmk_freeCmdArguments(&cmdArguments);
+    writeError("no prompt side provided. Use --help for help instructions.");
+    closeSoftware(false);
+  }
+  if (!strcmp(cmdArguments.utf8Arguments[2], "left")) {
+    runtimeInfo->isLeftPrompt = true;
+  } else if (!strcmp(cmdArguments.utf8Arguments[2], "right")) {
+    runtimeInfo->isLeftPrompt = false;
+  } else {
+    tmk_freeCmdArguments(&cmdArguments);
+    writeError("the prompt side can only be \"left\" or \"right\". Use --help "
+               "for help instructions.");
+    closeSoftware(false);
+  }
+  tmk_writeLine("Is PowerShell: %s",
+                runtimeInfo->isPowerShell ? "true" : "false");
+  tmk_writeLine("Is LeftPrompt: %s",
+                runtimeInfo->isLeftPrompt ? "true" : "false");
   tmk_freeCmdArguments(&cmdArguments);
 }
 
