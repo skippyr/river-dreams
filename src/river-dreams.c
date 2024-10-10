@@ -139,6 +139,11 @@ static void writeAdministratorRole(void) {
 static void writeLastExitCode(void) {
   tmk_write("%%F{3}{%%(?..%%F{1})%%?%%F{3}}");
 }
+
+static void writeZshHelp(void) {
+  tmk_writeLine("Usage: %s zsh [OPTIONS]...");
+  tmk_writeLine("Writes a portion of the shell theme for ZSH.");
+}
 #endif
 
 static int countDigits(int number) {
@@ -473,18 +478,24 @@ static void *allocateHeapMemory(size_t size) {
   return NULL;
 }
 
-static void writeHelp(void) {
-  tmk_writeLine("Usage: %s <SHELL> <PROMPT-SIDE> <TERMINAL-WIDTH> "
-                "<IS-ADMINISTRATOR> [OPTIONS]...",
-                SOFTWARE_NAME);
-  tmk_writeLine("Writes a portion of the shell theme.");
+static void writeSoftwareHelp(void) {
+  tmk_writeLine("Usage: %s <SHELL> [ARGUMENTS]... [OPTIONS]...", SOFTWARE_NAME);
+  tmk_writeLine("Writes a portion of the shell theme for a specific shell.");
+  tmk_writeLine("");
+  tmk_writeLine("AVAILABLE SHELLS");
+  tmk_writeLine("    pwsh     Targets the PowerShell shell.");
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
+  tmk_writeLine("    zsh      Targets the ZSH shell.");
+#endif
+  tmk_writeLine("");
+  tmk_writeLine("Use --help with each shell for their help instructions.");
   tmk_writeLine("");
   tmk_writeLine("AVAILABLE OPTIONS");
-  tmk_writeLine("    --help    Shows the software help instructions.");
-  tmk_writeLine("    --version Shows the software version.");
+  tmk_writeLine("    --help        Shows the software help instructions.");
+  tmk_writeLine("    --version     Shows the software version.");
 }
 
-static void writeVersion(void) {
+static void writeSoftwareVersion(void) {
   tmk_writeLine("%s %s (running on %s %s)", SOFTWARE_NAME, SOFTWARE_VERSION,
                 tmk_OPERATING_SYSTEM, tmk_CPU_ARCHITECTURE);
   tmk_writeLine("%s. Copyright © %d %s <%s>", SOFTWARE_LICENSE,
@@ -495,49 +506,76 @@ static void writeVersion(void) {
                 SOFTWARE_REPOSITORY_URL);
 }
 
+static void writePowerShellHelp(void) {
+  tmk_writeLine("Usage: %s pwsh <CONSOLE-WIDTH> <LAST-EXIT-CODE> "
+                "<IS-ADMINISTRATOR> [OPTIONS]...");
+  tmk_writeLine("Writes a portion of the shell theme for PowerShell.");
+}
+
 static void processArguments(int totalRawCmdArguments,
                              const char **rawCmdArguments,
                              struct RuntimeInfo *runtimeInfo) {
   struct tmk_CmdArguments cmdArguments;
   tmk_getCmdArguments(totalRawCmdArguments, rawCmdArguments, &cmdArguments);
-  for (int offset = 0; offset < cmdArguments.totalArguments; ++offset) {
-    PARSE_OPTION("help", writeHelp());
-    PARSE_OPTION("version", writeVersion());
-  }
   if (cmdArguments.totalArguments == 1) {
     tmk_freeCmdArguments(&cmdArguments);
     writeError("no shell provided. Use --help for help instructions.");
     closeSoftware(false);
   }
+  bool hasShell = false;
+  bool isPowerShell;
   if (!strcmp(cmdArguments.utf8Arguments[1], "pwsh")) {
-    runtimeInfo->isPowerShell = true;
+    isPowerShell = true;
+    hasShell = true;
   } else if (!strcmp(cmdArguments.utf8Arguments[1], "zsh")) {
-    runtimeInfo->isPowerShell = false;
-  } else {
+    isPowerShell = false;
+    hasShell = true;
+  }
+  for (int offset = hasShell && cmdArguments.totalArguments > 2 ? 2 : 1;
+       offset < cmdArguments.totalArguments; ++offset) {
+    if (!strcmp(cmdArguments.utf8Arguments[offset], "--help")) {
+      tmk_freeCmdArguments(&cmdArguments);
+      if (hasShell) {
+        if (isPowerShell) {
+          writePowerShellHelp();
+        } else {
+#ifdef _WIN32
+          writeError("the \"zsh\" shell is not available for Windows. Use "
+                     "--help for help instructions.");
+          closeSoftware(false);
+#else
+          writeZshHelp();
+#endif
+        }
+      } else {
+        writeSoftwareHelp();
+      }
+      closeSoftware(true);
+    } else if (!hasShell &&
+               !strcmp(cmdArguments.utf8Arguments[offset], "--version")) {
+      tmk_freeCmdArguments(&cmdArguments);
+      writeSoftwareVersion();
+      closeSoftware(false);
+    } else if (strlen(cmdArguments.utf8Arguments[offset]) > 2 &&
+               cmdArguments.utf8Arguments[offset][0] == '-' &&
+               cmdArguments.utf8Arguments[offset][1] == '-') {
+      tmk_freeCmdArguments(&cmdArguments);
+      writeError("the option \"%s\" does not exists%s. Use --help for help "
+                 "instructions.",
+                 cmdArguments.utf8Arguments[offset],
+                 hasShell ? isPowerShell ? " for the \"pwsh\" shell"
+                                         : " for the \"zsh\" shell"
+                          : "");
+      closeSoftware(false);
+    }
+  }
+  if (!hasShell) {
     tmk_freeCmdArguments(&cmdArguments);
-    writeError("the shell can only be \"pwsh\" (powershell) or \"zsh\". Use "
-               "--help for help instructions.");
+    writeError(
+        "invalid shell \"%s\" provided. Use --help for help instructions.",
+        cmdArguments.utf8Arguments[1]);
     closeSoftware(false);
   }
-  if (cmdArguments.totalArguments == 2) {
-    tmk_freeCmdArguments(&cmdArguments);
-    writeError("no prompt side provided. Use --help for help instructions.");
-    closeSoftware(false);
-  }
-  if (!strcmp(cmdArguments.utf8Arguments[2], "left")) {
-    runtimeInfo->isLeftPrompt = true;
-  } else if (!strcmp(cmdArguments.utf8Arguments[2], "right")) {
-    runtimeInfo->isLeftPrompt = false;
-  } else {
-    tmk_freeCmdArguments(&cmdArguments);
-    writeError("the prompt side can only be \"left\" or \"right\". Use --help "
-               "for help instructions.");
-    closeSoftware(false);
-  }
-  tmk_writeLine("Is PowerShell: %s",
-                runtimeInfo->isPowerShell ? "true" : "false");
-  tmk_writeLine("Is LeftPrompt: %s",
-                runtimeInfo->isLeftPrompt ? "true" : "false");
   tmk_freeCmdArguments(&cmdArguments);
 }
 

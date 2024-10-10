@@ -68,10 +68,10 @@ struct DirectoryStat {
 struct RuntimeInfo {
 #ifdef _WIN32
   bool isUserAdministrator;
-#endif
   bool isPowerShell;
-  bool isLeftPrompt;
   unsigned short terminalWidth;
+#endif
+  bool isLeftPrompt;
   int promptLength;
 };
 
@@ -92,6 +92,7 @@ static void findGitRoot(const char *pwd, size_t pwdLength, char **gitRoot,
                         size_t *gitRootLastSeparatorOffset);
 static void writeAdministratorRole(void);
 static void writeLastExitCode(void);
+static void writeZshHelp(void);
 #endif
 static int countDigits(int number);
 static bool isUnassignedIp(const char *ip);
@@ -114,8 +115,9 @@ static void writeModulesSeparator(uint16_t totalColumns);
 static void writeError(const char *format, ...);
 static void closeSoftware(bool hasExecutionSucceded);
 static void *allocateHeapMemory(size_t size);
-static void writeHelp(void);
-static void writeVersion(void);
+static void writeSoftwareHelp(void);
+static void writeSoftwareVersion(void);
+static void writePowerShellHelp(void);
 static void processArguments(int totalRawCmdArguments,
                              const char **rawCmdArguments,
                              struct RuntimeInfo *runtimeInfo);
