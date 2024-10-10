@@ -141,7 +141,7 @@ static void writeLastExitCode(void) {
 }
 
 static void writeZshHelp(void) {
-  tmk_writeLine("Usage: %s zsh [OPTIONS]...");
+  tmk_writeLine("Usage: %s zsh [OPTIONS]...", SOFTWARE_NAME);
   tmk_writeLine("Writes a portion of the shell theme for ZSH.");
 }
 #endif
@@ -508,7 +508,8 @@ static void writeSoftwareVersion(void) {
 
 static void writePowerShellHelp(void) {
   tmk_writeLine("Usage: %s pwsh <CONSOLE-WIDTH> <LAST-EXIT-CODE> "
-                "<IS-ADMINISTRATOR> [OPTIONS]...");
+                "<IS-ADMINISTRATOR> [OPTIONS]...",
+                SOFTWARE_NAME);
   tmk_writeLine("Writes a portion of the shell theme for PowerShell.");
 }
 
@@ -524,11 +525,17 @@ static void processArguments(int totalRawCmdArguments,
   }
   bool hasShell = false;
   bool isPowerShell;
-  if (!strcmp(cmdArguments.utf8Arguments[1], "pwsh")) {
-    isPowerShell = true;
-    hasShell = true;
-  } else if (!strcmp(cmdArguments.utf8Arguments[1], "zsh")) {
+  if (!strcmp(cmdArguments.utf8Arguments[1], "zsh")) {
+#ifdef _WIN32
+    tmk_freeCmdArguments(&cmdArguments);
+    writeError("the \"zsh\" shell is not available for Windows. Use "
+               "--help for help instructions.");
+    closeSoftware(false);
+#endif
     isPowerShell = false;
+    hasShell = true;
+  } else if (!strcmp(cmdArguments.utf8Arguments[1], "pwsh")) {
+    isPowerShell = true;
     hasShell = true;
   }
   for (int offset = hasShell && cmdArguments.totalArguments > 2 ? 2 : 1;
@@ -538,15 +545,12 @@ static void processArguments(int totalRawCmdArguments,
       if (hasShell) {
         if (isPowerShell) {
           writePowerShellHelp();
-        } else {
-#ifdef _WIN32
-          writeError("the \"zsh\" shell is not available for Windows. Use "
-                     "--help for help instructions.");
-          closeSoftware(false);
-#else
-          writeZshHelp();
-#endif
         }
+#ifndef _WIN32
+        else {
+          writeZshHelp();
+        }
+#endif
       } else {
         writeSoftwareHelp();
       }
