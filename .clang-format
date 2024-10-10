@@ -1,1 +1,8 @@
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AlwaysBreakTemplateDeclarations: true
 BasedOnStyle: LLVM
+BreakAfterJavaFieldAnnotations: true
+FixNamespaceComments: false
+JavaScriptQuotes: Single
+SpacesInContainerLiterals: false
