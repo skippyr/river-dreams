@@ -1,1 +1,0 @@
-int countDigits(int number);

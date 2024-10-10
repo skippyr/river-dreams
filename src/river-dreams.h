@@ -1,4 +1,3 @@
-#include "common.h"
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -21,8 +20,10 @@
 #include <fcntl.h>
 #endif
 #include <arpa/inet.h>
+#include <dirent.h>
 #include <ifaddrs.h>
 #include <net/if.h>
+#include <sys/stat.h>
 #include <sys/statvfs.h>
 #include <unistd.h>
 #endif
@@ -36,6 +37,20 @@
 #if tmk_IS_OPERATING_SYSTEM_LINUX
 #define BATTERY "/sys/class/power_supply/BAT0"
 #endif
+
+struct DirectoryStat {
+  int totalDirectories;
+  int totalFiles;
+  int totalHiddenEntries;
+  int totalTemporaryEntries;
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
+  int totalBlocks;
+  int totalCharacters;
+  int totalFifos;
+  int totalSockets;
+  int totalSymlinks;
+#endif
+};
 
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
 static void getPWDPath(char **utf8PWD, wchar_t **utf16PWD, size_t *length);
@@ -55,8 +70,12 @@ static void findGitRoot(const char *pwd, size_t pwdLength, char **gitRoot,
 static void writeAdministratorRole(void);
 static void writeLastExitCode(void);
 #endif
+static int countDigits(int number);
 static bool isUnassignedIp(const char *ip);
 static bool isBridgeIp(const char *ip);
+static void getDirectoryStat(struct DirectoryStat *stat);
+static void writeEntryStat(int isFirst, const char *symbol, int color, int total);
+static void writeDirectoryStat(void);
 static void writeVirtualEnv(void);
 static void writePath(const char *pwd, const char *gitRoot,
                       size_t gitRootLastSeparatorOffset);

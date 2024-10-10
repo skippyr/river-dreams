@@ -1,4 +1,4 @@
-#include "left-prompt.h"
+#include "river-dreams.h"
 
 int modulesLength_g = 41;
 
@@ -141,7 +141,17 @@ static void writeLastExitCode(void) {
 }
 #endif
 
-static bool isUnassignedIp(const char *ip) { return ip[0] == '0'; }
+static int countDigits(int number) {
+  int totalDigits;
+  for (totalDigits = !number; number; number /= 10) {
+    ++totalDigits;
+  }
+  return totalDigits;
+}
+
+static bool isUnassignedIp(const char *ip) {
+  return ip[0] == '0';
+}
 
 static bool isBridgeIp(const char *ip) {
   size_t length = strlen(ip);
@@ -495,82 +505,6 @@ static void writeModulesSeparator(uint16_t totalColumns) {
   }
 }
 
-#if tmk_IS_OPERATING_SYSTEM_WINDOWS
-int main(int totalRawCMDArguments, const char **rawCMDArguments) {
-  struct tmk_CMDArguments cmdArguments;
-  tmk_getCMDArguments(totalRawCMDArguments, rawCMDArguments, &cmdArguments);
-  if (totalRawCMDArguments < 4) {
-    tmk_freeCMDArguments(&cmdArguments);
-    throwError("not enough arguments. Use it with an appropriate connector for "
-               "your shell.");
-  }
-  int totalColumns = atoi(cmdArguments.utf8Arguments[1]);
-  int lastExitCode = atoi(cmdArguments.utf8Arguments[2]);
-  int isAdministrator = atoi(cmdArguments.utf8Arguments[3]);
-  tmk_freeCMDArguments(&cmdArguments);
-  if (!totalColumns) {
-    throwError("the terminal window dimensions are invalid.");
-  }
-  writeCommandLineSeparator(totalColumns);
-#else
-int main(void) {
-  struct tmk_Dimensions windowDimensions;
-  if (tmk_getWindowDimensions(&windowDimensions)) {
-    throwError("could not get the terminal window dimensions.");
-  }
-  writeCommandLineSeparator(windowDimensions.totalColumns);
-#endif
-  time_t epochTime = time(NULL);
-  struct tm *localTime = localtime(&epochTime);
-  writeIPV4Address();
-  writeBatteryStatus();
-  writeDiskUse();
-  writeCalendar(localTime);
-  writeClock(localTime);
-  size_t pwdLength;
-  size_t gitRootLength;
-  size_t gitRootLastSeparatorOffset;
-  char *gitRoot;
-#if tmk_IS_OPERATING_SYSTEM_WINDOWS
-  writeModulesSeparator(totalColumns);
-  char *utf8PWD;
-  wchar_t *utf16PWD;
-  getPWDPath(&utf8PWD, &utf16PWD, &pwdLength);
-  findGitRoot(utf16PWD, pwdLength, &gitRoot, &gitRootLength,
-              &gitRootLastSeparatorOffset);
-  writeAdministratorRole(isAdministrator);
-  writeLastExitCode(lastExitCode);
-  tmk_write("\033[33m⤐ ");
-#else
-  writeModulesSeparator(windowDimensions.totalColumns);
-  char *pwd;
-  getPWDPath(&pwd, &pwdLength);
-  findGitRoot(pwd, pwdLength, &gitRoot, &gitRootLength,
-              &gitRootLastSeparatorOffset);
-  writeAdministratorRole();
-  writeLastExitCode();
-  tmk_write("%%F{3}⤐ ");
-#endif
-  writeVirtualEnv();
-#if tmk_IS_OPERATING_SYSTEM_WINDOWS
-  writePath(utf8PWD, gitRoot, gitRootLastSeparatorOffset);
-#else
-  writePath(pwd, gitRoot, gitRootLastSeparatorOffset);
-#endif
-  writeGitBranch(gitRoot, gitRootLength);
-#if tmk_IS_OPERATING_SYSTEM_WINDOWS
-  tmk_writeLine("\033[39m");
-#else
-  tmk_writeLine("%%f ");
-#endif
-  if (gitRoot) {
-    free(gitRoot);
-  }
-#if tmk_IS_OPERATING_SYSTEM_WINDOWS
-  free(utf8PWD);
-  free(utf16PWD);
-#else
-  free(pwd);
-#endif
+int main(int totalCmdArguments, const char **rawCmdArguments) {
   return 0;
 }
