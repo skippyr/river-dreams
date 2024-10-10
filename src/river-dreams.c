@@ -450,7 +450,7 @@ static void writeClock(struct tm *localTime) {
   tmk_write("%02dh%02dm", localTime->tm_hour, localTime->tm_min);
 }
 
-static void throwError(const char *format, ...) {
+static void writeError(const char *format, ...) {
   va_list arguments;
   va_start(arguments, format);
   tmk_writeError("%s: ", SOFTWARE_NAME);
@@ -459,13 +459,51 @@ static void throwError(const char *format, ...) {
   exit(1);
 }
 
+static void closeSoftware(bool hasExecutionSucceded) {
+  exit(!hasExecutionSucceded);
+}
+
 static void *allocateHeapMemory(size_t size) {
   void *allocation = malloc(size);
   if (allocation) {
     return allocation;
   }
-  throwError("can not allocate %zuB of memory on the heap.");
+  writeError("can not allocate %zuB of memory on the heap.");
+  closeSoftware(false);
   return NULL;
+}
+
+static void writeHelp(void) {
+  tmk_writeLine("Usage: %s <SHELL> <PROMPT-SIDE> <TERMINAL-WIDTH> <IS-ADMINISTRATOR> [OPTIONS]...", SOFTWARE_NAME);
+  tmk_writeLine("Writes a portion of the shell theme.");
+  tmk_writeLine("");
+  tmk_writeLine("AVAILABLE OPTIONS");
+  tmk_writeLine("    --help    Shows the software help instructions.");
+  tmk_writeLine("    --version Shows the software version.");
+}
+
+static void writeVersion(void) {
+  tmk_writeLine("%s %s (running on %s %s)", SOFTWARE_NAME, SOFTWARE_VERSION, tmk_OPERATING_SYSTEM, tmk_CPU_ARCHITECTURE);
+  tmk_writeLine("%s. Copyright © %d %s <%s>", SOFTWARE_LICENSE, SOFTWARE_CREATION_YEAR, SOFTWARE_AUTHOR_NAME, SOFTWARE_AUTHOR_EMAIL);
+  tmk_writeLine("");
+  tmk_writeLine("Software repository available at <%s>", SOFTWARE_REPOSITORY_URL);
+}
+
+static void processArguments(int totalRawCmdArguments,
+                             const char **rawCmdArguments,
+                             struct RuntimeInfo *runtimeInfo) {
+  struct tmk_CmdArguments cmdArguments;
+  tmk_getCmdArguments(totalRawCmdArguments, rawCmdArguments, &cmdArguments);
+  for (int offset = 0; offset < cmdArguments.totalArguments; ++offset) {
+    PARSE_OPTION("help", writeHelp());
+    PARSE_OPTION("version", writeVersion());
+  }
+  if (cmdArguments.totalArguments == 1) {
+    tmk_freeCmdArguments(&cmdArguments);
+    writeError("no shell provided. Use --help for help instructions.");
+    closeSoftware(false);
+  }
+  tmk_freeCmdArguments(&cmdArguments);
 }
 
 static void writeCommandLineSeparator(uint16_t totalColumns) {
@@ -499,5 +537,7 @@ static void writeModulesSeparator(uint16_t totalColumns) {
 }
 
 int main(int totalCmdArguments, const char **rawCmdArguments) {
+  struct RuntimeInfo runtimeInfo;
+  processArguments(totalCmdArguments, rawCmdArguments, &runtimeInfo);
   return 0;
 }
