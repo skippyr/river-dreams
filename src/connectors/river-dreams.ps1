@@ -1,8 +1,8 @@
 ${_riverDreams_root_g} = Split-Path $(Split-Path $PSScriptRoot);
-${_riverDreams_isWinNt} = [System.Environment]::OsVersion.Platform -match "Win32NT";
+${_riverDreams_isWinNt_g} = [System.Environment]::OsVersion.Platform -match "Win32NT";
 
-if (-not(Test-Path ("${_riverDreams_root_g}\build\bin\river-dreams" + $(if (${_riverDreams_isWinNt}) { ".exe" })))) {
-  if (${_riverDreams_isWinNt}) {
+if (-not(Test-Path ("${_riverDreams_root_g}\build\bin\river-dreams" + $(if (${_riverDreams_isWinNt_g}) { ".exe" })))) {
+  if (${_riverDreams_isWinNt_g}) {
     ${originalPath} = ${env:PATH};
     foreach (${year} in $(Get-ChildItem "C:\Program Files\Microsoft Visual Studio")) {
       foreach (${edition} in $(Get-ChildItem "C:\Program Files\Microsoft Visual Studio\${year}")) {
@@ -19,7 +19,7 @@ if (-not(Test-Path ("${_riverDreams_root_g}\build\bin\river-dreams" + $(if (${_r
     Write-Host -NoNewline "river-dreams ";
     Write-Host -ForegroundColor DarkGray -NoNewline "(code 1)"
     Write-Host ": some dependecies are missing. Install the ones defined in the README.md file.";
-    if (${_riverDreams_isWinNt}) {
+    if (${_riverDreams_isWinNt_g}) {
       [System.Environment]::SetEnvironmentVariable("PATH", ${originalPath});
       ${originalPath} = ${null};
     }
@@ -37,7 +37,7 @@ if (-not(Test-Path ("${_riverDreams_root_g}\build\bin\river-dreams" + $(if (${_r
   cmake --build "${_riverDreams_root_g}\build\cmake" --config release > ${null};
   cmake --install "${_riverDreams_root_g}\build\cmake" > ${null};
   cls;
-  if (${_riverDreams_isWinNt}) {
+  if (${_riverDreams_isWinNt_g}) {
     [System.Environment]::SetEnvironmentVariable("PATH", ${originalPath});
     ${originalPath} = ${null};
   }
@@ -45,7 +45,7 @@ if (-not(Test-Path ("${_riverDreams_root_g}\build\bin\river-dreams" + $(if (${_r
 
 [System.Environment]::SetEnvironmentVariable("PATH",
   [System.Environment]::GetEnvironmentVariable("PATH") +
-  $(if (${_riverDreams_isWinNt}) { ";" } else { ":" }) +
+  $(if (${_riverDreams_isWinNt_g}) { ";" } else { ":" }) +
   (Join-Path (Join-Path ${_riverDreams_root_g} "build") "bin"));
 
 function Prompt {

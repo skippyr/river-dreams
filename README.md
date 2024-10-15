@@ -58,7 +58,7 @@ The following dependencies must be installed before it:
 - **A font patched by the [Nerd Fonts project](https://www.nerdfonts.com/font-downloads):** it provides the pretty symbols used by the software.
 
 > [!WARNING]
-> It is highly recommended that you use a terminal with great Unicode and wide-character support for the symbols used in the theme to appear correctly. Recommendation for Windows is **Windows Terminal**. It comes pre-installed on Windows 11, while on Windows 10 you can download it from the Microsoft Store.
+> It is highly recommended that you use a terminal with great Unicode/wide-character support and avoid installing multiple Nerd Fonts for the symbols used in the theme to appear correctly. Terminal recommendation for Windows is **Windows Terminal** which comes pre-installed on Windows 11, while on Windows 10 you can download it from the Microsoft Store.
 
 #### Dependencies For Linux
 
@@ -70,7 +70,7 @@ The following dependencies must be installed before it:
 > Use your distro package manager to install these packages.
 
 > [!WARNING]
-> It is highly recommended that you use a terminal with great Unicode and wide-character support for the symbols used in the theme to appear correctly. Recommendation for Linux is **Kitty**. You can download it by following the previous tip.
+> IIt is highly recommended that you use a terminal with great Unicode/wide-character support and avoid installing multiple Nerd Fonts for the symbols used in the theme to appear correctly. Terminal recommendation for Linux is **Kitty**. You can download it by following the previous tip.
 
 #### Dependencies For MacOS
 
@@ -82,7 +82,7 @@ The following dependencies must be installed before it:
 > Use `xcode-select --install` to install the Apple command line tools. For the rest, use [HomeBrew](https://brew.sh/).
 
 > [!WARNING]
-> It is highly recommended that you use a terminal with great Unicode and wide-character support for the symbols used in the theme to appear correctly. Recommendation for MacOS is **Kitty**. You can download it by following the previous tip.
+> It is highly recommended that you use a terminal with great Unicode/wide-character support and avoid installing multiple Nerd Fonts for the symbols used in the theme to appear correctly. Recommendation for MacOS is **Kitty**. You can download it by following the previous tip.
 
 ### Procedures
 #### Procedures For PowerShell
