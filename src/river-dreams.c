@@ -820,9 +820,9 @@ static void writeBatteryPromptSection(struct ExecutionArguments * executionArgum
                                  : Color_DarkGreen);
     tmk_write("%d");
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-    tmk_write("%");
+    tmk_write("%%");
 #else
-    tmk_write(executionArguments->isPowerShell ? "%" : "%%");
+    tmk_write(executionArguments->isPowerShell ? "%%" : "%%%%");
 #endif
 }
 
@@ -834,9 +834,9 @@ static void writeDiskPromptSection(struct ExecutionArguments * executionArgument
     writeSymbol(executionArguments, "󰋊 ", usage < 70 ? Color_DarkGreen : usage < 90 ? Color_DarkYellow : Color_DarkRed);
     tmk_write("%d", usage);
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-    tmk_write("%");
+    tmk_write("%%");
 #else
-    tmk_write(executionArguments->isPowerShell ? "%" : "%%");
+    tmk_write(executionArguments->isPowerShell ? "%%" : "%%%%");
 #endif
 }
 
