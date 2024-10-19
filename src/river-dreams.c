@@ -1,21 +1,37 @@
+#include <tmk.h>
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include <tmk.h>
+
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-/* On Windows, the order of the headers may cause compilation errors and some external libraries need to be linked. */
+/*
+ * On Windows, the order of the headers may cause compilation errors, always ensure to maintain:
+ *     - ws2tcpip.h
+ *     - iphlpapi.h
+ *     - Windows.h
+ */
 #include <ws2tcpip.h>
 
 #include <iphlpapi.h>
 
 #include <Windows.h>
 
+/*
+ * Some libraries also need to be included using #pragma comment:
+ *     - ws2_32.lib for ws2tcpip.h
+ *     - iphlpapi.lib for iphlpapi.h
+ */
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "iphlpapi.lib")
 #else
 #if tmk_IS_OPERATING_SYSTEM_MACOS
-/* On MacOS, the software needs to be linked with the IOKit and CoreFoundation frameworks. */
+/*
+ * On MacOS, the software needs to be linked the following frameworks:
+ *     - IOKit
+ *     - CoreFoundation
+ */
 #include <IOKit/ps/IOPSKeys.h>
 #include <IOKit/ps/IOPowerSources.h>
 #else
@@ -256,7 +272,7 @@ static void writeLeftPrompt(struct ExecutionArguments * executionArguments);
 static void writeRightPrompt(struct ExecutionArguments * executionArguments);
 /**
  * Formats and write an error message to the standard error stream.
- * @param format The format to be used. It accept the same format specifiers as the print function family.
+ * @param format The format to be used. It accept the same format specifiers as the printf function family.
  * @param ... The arguments to be formatted.
  */
 static void writeError(const char * format, ...);
