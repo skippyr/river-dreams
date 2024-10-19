@@ -70,6 +70,85 @@ static void terminate(int hadSuccess);
 static void
 processCommandLineArguments(int totalMainArguments, const char **mainArguments,
                             struct ExecutionArguments *executionArguments) {
+  struct tmk_CommandLineArguments commandLineArguments;
+  tmk_getCommandLineArguments(totalMainArguments, mainArguments,
+                              &commandLineArguments);
+  if (commandLineArguments.totalArguments == 1) {
+    writeError("no shell provided. Use --help for help instructions.");
+    tmk_freeCommandLineArguments(&commandLineArguments);
+    terminate(0);
+  }
+  int hasShell = 0;
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
+  int isPowerShell;
+#endif
+  if (!strcmp(commandLineArguments.utf8Arguments[1], "powershell")) {
+    hasShell = 1;
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
+    isPowerShell = 1;
+#endif
+  } else if (!strcmp(commandLineArguments.utf8Arguments[1], "zsh")) {
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    writeError("the \"zsh\" shell is not available on Windows. Use --help for "
+               "help instructions.");
+    tmk_freeCommandLineArguments(&commandLineArguments);
+    terminate(0);
+#else
+    hasShell = 1;
+    isPowerShell = 0;
+#endif
+  }
+  for (int offset = hasShell && commandLineArguments.totalArguments > 2 ? 2 : 1;
+       offset < commandLineArguments.totalArguments; ++offset) {
+    if (!strcmp(commandLineArguments.utf8Arguments[offset], "--help")) {
+      if (hasShell) {
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
+        if (isPowerShell) {
+#endif
+          writePowerShellHelpPage();
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
+        } else {
+          writeZshHelpPage();
+        }
+#endif
+      } else {
+        writeHelpPage();
+      }
+      tmk_freeCommandLineArguments(&commandLineArguments);
+      terminate(1);
+    } else if (!hasShell && !strcmp(commandLineArguments.utf8Arguments[offset],
+                                    "--version")) {
+      writeVersionPage();
+      tmk_freeCommandLineArguments(&commandLineArguments);
+      terminate(1);
+    } else if (strlen(commandLineArguments.utf8Arguments[offset]) > 2 &&
+               commandLineArguments.utf8Arguments[offset][0] == '-' &&
+               commandLineArguments.utf8Arguments[offset][1] == '-') {
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+      writeError("the option \"%s\" does not exists%s. Use --help for help "
+                 "instructions.",
+                 commandLineArguments.utf8Arguments[offset],
+                 hasShell ? " for the \"powershell\" shell" : "");
+#else
+      writeError("the option \"%s\" does not exists%s. Use --help for help "
+                 "instructions.",
+                 commandLineArguments.utf8Arguments[offset],
+                 hasShell ? isPowerShell ? " for the \"powershell\" shell"
+                                         : " for the \"zsh\" shell"
+                          : "");
+#endif
+      tmk_freeCommandLineArguments(&commandLineArguments);
+      terminate(0);
+    }
+  }
+  if (!hasShell) {
+    writeError(
+        "invalid shell \"%s\" provided. Use --help for help instructions.",
+        commandLineArguments.utf8Arguments[1]);
+    tmk_freeCommandLineArguments(&commandLineArguments);
+    terminate(0);
+  }
+  tmk_freeCommandLineArguments(&commandLineArguments);
 }
 
 static void writeHelpPage(void) {
@@ -193,6 +272,7 @@ static void writeVersionPage(void) {
   tmk_write("Software repository available at <");
   tmk_setFontEffects(tmk_FontEffect_Underline);
   tmk_write(SOFTWARE_REPOSITORY_URL);
+  tmk_resetFontEffects();
   tmk_writeLine(">.");
 }
 
@@ -212,19 +292,12 @@ static void writeError(const char *format, ...) {
 }
 
 static void terminate(int hadSuccess) {
-  close(!hadSuccess);
+  exit(!hadSuccess);
 }
 
 int main(int totalMainArguments, const char **mainArguments) {
   struct ExecutionArguments executionArguments;
   processCommandLineArguments(totalMainArguments, mainArguments,
                               &executionArguments);
-  writeHelpPage();
-  tmk_writeLine("");
-  writePowerShellHelpPage();
-  tmk_writeLine("");
-  writeZshHelpPage();
-  tmk_writeLine("");
-  writeVersionPage();
   return 0;
 }
