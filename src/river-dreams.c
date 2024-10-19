@@ -98,6 +98,9 @@ static int countDigits(int number);
 static int getIpAddress(char * buffer);
 static int getDiskUsage(void);
 static int getBatteryInfo(struct BatteryInfo * info);
+static void getWeekDayName(struct tm * localTime, char * buffer);
+static void getMonthName(struct tm * localTime, char * buffer);
+static void getDayOrdinal(struct tm * localTime, char * buffer);
 static void writeHelpPage(void);
 static void writePowerShellHelpPage(void);
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
@@ -111,6 +114,8 @@ static void writeSpacerPromptSection(void);
 static void writeNetworkPromptSection(struct ExecutionArguments * executionArguments);
 static void writeBatteryPromptSection(struct ExecutionArguments * executionArguments);
 static void writeDiskPromptSection(struct ExecutionArguments * executionArguments);
+static void writeCalendarPromptSection(struct ExecutionArguments * executionArguments, struct tm * localTime);
+static void writeClockPromptSection(struct ExecutionArguments * executionArguments, struct tm * localTime);
 static void writeLeftPrompt(struct ExecutionArguments * executionArguments);
 static void writeRightPrompt(struct ExecutionArguments * executionArguments);
 static void writeError(const char * format, ...);
@@ -419,6 +424,42 @@ static int getBatteryInfo(struct BatteryInfo * info)
     return 0;
 }
 
+static void getWeekDayName(struct tm * localTime, char * buffer)
+{
+    memcpy(buffer,
+           !localTime->tm_wday       ? "Sun"
+           : localTime->tm_wday == 1 ? "Mon"
+           : localTime->tm_wday == 2 ? "Tue"
+           : localTime->tm_wday == 3 ? "Wed"
+           : localTime->tm_wday == 4 ? "Thu"
+           : localTime->tm_wday == 5 ? "Fri"
+                                     : "Sat",
+           4);
+}
+
+static void getMonthName(struct tm * localTime, char * buffer)
+{
+    memcpy(buffer,
+           !localTime->tm_mon        ? "Jan"
+           : localTime->tm_mon == 1  ? "Feb"
+           : localTime->tm_mon == 2  ? "Mar"
+           : localTime->tm_mon == 3  ? "Apr"
+           : localTime->tm_mon == 4  ? "May"
+           : localTime->tm_mon == 5  ? "Jun"
+           : localTime->tm_mon == 6  ? "Jul"
+           : localTime->tm_mon == 7  ? "Aug"
+           : localTime->tm_mon == 8  ? "Sep"
+           : localTime->tm_mon == 9  ? "Oct"
+           : localTime->tm_mon == 10 ? "Nov"
+                                     : "Dec",
+           4);
+}
+
+static void getDayOrdinal(struct tm * localTime, char * buffer)
+{
+    memcpy(buffer, !((localTime->tm_mday - 1) % 10) ? "st" : !((localTime->tm_mday - 2) % 10) ? "nd" : !((localTime->tm_mday - 3) % 10) ? "rd" : "th", 3);
+}
+
 static void writeHelpPage(void)
 {
     tmk_setFontWeight(tmk_FontWeight_Bold);
@@ -567,8 +608,8 @@ static void writeCommandLineDecoratorPromptSectionI(struct ExecutionArguments * 
 
 static void writeNetworkPromptSection(struct ExecutionArguments * executionArguments)
 {
-    writeSymbol(executionArguments, " ", SymbolColor_DarkBlue);
     char ip[16];
+    writeSymbol(executionArguments, " ", SymbolColor_DarkBlue);
     if (getIpAddress(ip))
     {
         const char * noIpMessage = "No Address";
@@ -578,20 +619,6 @@ static void writeNetworkPromptSection(struct ExecutionArguments * executionArgum
     }
     tmk_write(ip);
     executionArguments->referenceLength += strlen(ip);
-}
-
-static void writeDiskPromptSection(struct ExecutionArguments * executionArguments)
-{
-    tmk_write("  ");
-    int usage = getDiskUsage();
-    executionArguments->referenceLength += countDigits(usage);
-    writeSymbol(executionArguments, "󰋊 ", usage < 70 ? SymbolColor_DarkGreen : usage < 90 ? SymbolColor_DarkYellow : SymbolColor_DarkRed);
-    tmk_write("%d", usage);
-#if tmk_IS_OPERATING_SYSTEM_WINDOWS
-    tmk_write("%");
-#else
-    tmk_write(executionArguments->isPowerShell ? "%" : "%%");
-#endif
 }
 
 static void writeBatteryPromptSection(struct ExecutionArguments * executionArguments)
@@ -605,7 +632,13 @@ static void writeBatteryPromptSection(struct ExecutionArguments * executionArgum
     int isLowCharge = info.charge < 15;
     int isMediumCharge = info.charge < 50;
     tmk_write("  ");
-    writeSymbol(executionArguments, isLowCharge ? "󱊡" : isMediumCharge ? "󱊢" : "󱊣", isLowCharge ? SymbolColor_DarkRed : isMediumCharge ? SymbolColor_DarkYellow : SymbolColor_DarkGreen);
+    writeSymbol(executionArguments,
+                isLowCharge      ? "󱊡"
+                : isMediumCharge ? "󱊢"
+                                 : "󱊣",
+                isLowCharge      ? SymbolColor_DarkRed
+                : isMediumCharge ? SymbolColor_DarkYellow
+                                 : SymbolColor_DarkGreen);
     tmk_write("%d");
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write("%");
@@ -614,12 +647,58 @@ static void writeBatteryPromptSection(struct ExecutionArguments * executionArgum
 #endif
 }
 
+static void writeDiskPromptSection(struct ExecutionArguments * executionArguments)
+{
+    int usage = getDiskUsage();
+    executionArguments->referenceLength += countDigits(usage);
+    tmk_write("  ");
+    writeSymbol(executionArguments, "󰋊 ", usage < 70 ? SymbolColor_DarkGreen : usage < 90 ? SymbolColor_DarkYellow : SymbolColor_DarkRed);
+    tmk_write("%d", usage);
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    tmk_write("%");
+#else
+    tmk_write(executionArguments->isPowerShell ? "%" : "%%");
+#endif
+}
+
+static void writeCalendarPromptSection(struct ExecutionArguments * executionArguments, struct tm * localTime)
+{
+    char weekDay[4];
+    char month[4];
+    char dayOrdinal[3];
+    getWeekDayName(localTime, weekDay);
+    getMonthName(localTime, month);
+    getDayOrdinal(localTime, dayOrdinal);
+    int isDawn = localTime->tm_hour < 6;
+    int isMorning = localTime->tm_hour < 12;
+    int isAfternoon = localTime->tm_hour < 18;
+    tmk_write("  ");
+    writeSymbol(executionArguments,
+                isDawn        ? "󰭎 "
+                : isMorning   ? "󰖨 "
+                : isAfternoon ? " "
+                              : "󰽥 ",
+                isDawn        ? SymbolColor_DarkMagenta
+                : isMorning   ? SymbolColor_DarkRed
+                : isAfternoon ? SymbolColor_DarkBlue
+                              : SymbolColor_DarkYellow);
+    tmk_write("(%s) %s %02d%s", weekDay, month, localTime->tm_mday, dayOrdinal);
+}
+
+static void writeClockPromptSection(struct ExecutionArguments * executionArguments, struct tm * localTime)
+{
+}
+
 static void writeLeftPrompt(struct ExecutionArguments * executionArguments)
 {
+    time_t epochTime = time(NULL);
+    struct tm * localTime = localtime(&epochTime);
     writeCommandLineDecoratorPromptSectionI(executionArguments);
     writeNetworkPromptSection(executionArguments);
     writeBatteryPromptSection(executionArguments);
     writeDiskPromptSection(executionArguments);
+    writeCalendarPromptSection(executionArguments, localTime);
+    writeClockPromptSection(executionArguments, localTime);
 }
 
 static void writeRightPrompt(struct ExecutionArguments * executionArguments)
