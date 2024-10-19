@@ -45,22 +45,6 @@
 #define BATTERY "/sys/class/power_supply/BAT0"
 #endif
 
-struct ExecutionArguments
-{
-#if tmk_IS_OPERATING_SYSTEM_WINDOWS
-    bool isAdministrator;
-#else
-    bool isPowerShell;
-#endif
-    bool isLeftPrompt;
-    unsigned short consoleWidth;
-    unsigned short referenceLength;
-    int exitCode;
-#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
-    struct passwd * userInfo;
-#endif
-};
-
 enum SymbolColor
 {
     SymbolColor_NoColor = -1,
@@ -82,6 +66,28 @@ enum SymbolColor
     SymbolColor_LightWhite
 };
 
+struct ExecutionArguments
+{
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    bool isAdministrator;
+#else
+    bool isPowerShell;
+#endif
+    bool isLeftPrompt;
+    unsigned short consoleWidth;
+    unsigned short referenceLength;
+    int exitCode;
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
+    struct passwd * userInfo;
+#endif
+};
+
+struct BatteryInfo
+{
+    int charge;
+    int isCharging;
+};
+
 static void processCommandLineArguments(int totalMainArguments, const char ** mainArguments, struct ExecutionArguments * executionArguments);
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
 int isAdministrator(void);
@@ -91,6 +97,7 @@ static int isBridgeIp(char * ip);
 static int countDigits(int number);
 static int getIpAddress(char * buffer);
 static int getDiskUsage(void);
+static int getBatteryInfo(struct BatteryInfo * info);
 static void writeHelpPage(void);
 static void writePowerShellHelpPage(void);
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
@@ -98,9 +105,12 @@ static void writeZshHelpPage(void);
 #endif
 static void writeVersionPage(void);
 static void writeSymbol(struct ExecutionArguments * arguments, const char * symbol, enum SymbolColor color);
-static void writeCommandLineSeparatorModuleI(struct ExecutionArguments * executionArguments);
-static void writeNetworkModule(struct ExecutionArguments * executionArguments);
-static void writeDiskModule(struct ExecutionArguments * executionArguments);
+static void writeCommandLineDecoratorPromptSectiontI(struct ExecutionArguments * executionArguments);
+static void writeCommandLineDecoratorPromptSectionII(struct ExecutionArguments * executionArguments);
+static void writeSpacerPromptSection(void);
+static void writeNetworkPromptSection(struct ExecutionArguments * executionArguments);
+static void writeBatteryPromptSection(struct ExecutionArguments * executionArguments);
+static void writeDiskPromptSection(struct ExecutionArguments * executionArguments);
 static void writeLeftPrompt(struct ExecutionArguments * executionArguments);
 static void writeRightPrompt(struct ExecutionArguments * executionArguments);
 static void writeError(const char * format, ...);
@@ -350,6 +360,65 @@ static int getDiskUsage(void)
 #endif
 }
 
+static int getBatteryInfo(struct BatteryInfo * info)
+{
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    SYSTEM_POWER_STATUS battery;
+    if (!GetSystemPowerStatus(&battery) || battery.BatteryFlag == 128 || battery.BatteryFlag == 255)
+    {
+        return -1;
+    }
+    info->isCharging = battery.BatteryFlag == 8;
+    info->charge = battery.BatteryLifePercent == 255 ? 0 : battery.BatteryLifePercent;
+#elif tmk_IS_OPERATING_SYSTEM_MACOS
+    CFTypeRef powerSourcesInfo = IOPSCopyPowerSourcesInfo();
+    if (!powerSourcesInfo)
+    {
+        return -1;
+    }
+    CFTypeRef powerSourcesList = IOPSCopyPowerSourcesList(powerSourcesInfo);
+    CFIndex totalPowerSources = CFArrayGetCount(powerSourcesList);
+    if (!totalPowerSources)
+    {
+        CFRelease(powerSourcesList);
+        CFRelease(powerSourcesInfo);
+        return -1;
+    }
+    CFDictionaryRef battery = CFArrayGetValueAtIndex(powerSourcesList, 0);
+    CFNumberRef chargeRef = CFDictionaryGetValue(battery, CFSTR(kIOPSCurrentCapacityKey));
+    CFStringRef chargeStateRef = CFDictionaryGetValue(battery, CFSTR(kIOPSPowerSourceStateKey));
+    CFNumberGetValue(chargeRef, kCFNumberIntType, &info->charge);
+    info->isCharging = CFStringCompare(chargeStateRef, CFSTR(kIOPSACPowerValue), 0) == kCFCompareEqualTo;
+    CFRelease(powerSourcesList);
+    CFRelease(powerSourcesInfo);
+#else
+    int statusFile = open(BATTERY "/status", O_RDONLY);
+    if (statusFile < 0)
+    {
+        return -1;
+    }
+    char status;
+    read(statusFile, &status, sizeof(status));
+    close(statusFile);
+    info->isCharging = status == 'C';
+    int capacityFile = open(BATTERY "/capacity", O_RDONLY);
+    info->charge = 0;
+    if (capacityFile > 0)
+    {
+        char buffer[4];
+        read(capacityFile, buffer, sizeof(buffer));
+        close(capacityFile);
+        char * conversionStopAddress;
+        long charge = strtol(buffer, &conversionStopAddress, 10);
+        if (conversionStopAddress != buffer)
+        {
+            info->charge = charge;
+        }
+    }
+#endif
+    return 0;
+}
+
 static void writeHelpPage(void)
 {
     tmk_setFontWeight(tmk_FontWeight_Bold);
@@ -486,7 +555,7 @@ static void writeSymbol(struct ExecutionArguments * executionArguments, const ch
 #endif
 }
 
-static void writeCommandLineSeparatorModuleI(struct ExecutionArguments * executionArguments)
+static void writeCommandLineDecoratorPromptSectionI(struct ExecutionArguments * executionArguments)
 {
     for (int column = 0; column < executionArguments->consoleWidth; ++column)
     {
@@ -496,7 +565,7 @@ static void writeCommandLineSeparatorModuleI(struct ExecutionArguments * executi
     writeSymbol(executionArguments, ":«(", SymbolColor_DarkYellow);
 }
 
-static void writeNetworkModule(struct ExecutionArguments * executionArguments)
+static void writeNetworkPromptSection(struct ExecutionArguments * executionArguments)
 {
     writeSymbol(executionArguments, " ", SymbolColor_DarkBlue);
     char ip[16];
@@ -511,8 +580,9 @@ static void writeNetworkModule(struct ExecutionArguments * executionArguments)
     executionArguments->referenceLength += strlen(ip);
 }
 
-static void writeDiskModule(struct ExecutionArguments * executionArguments)
+static void writeDiskPromptSection(struct ExecutionArguments * executionArguments)
 {
+    tmk_write("  ");
     int usage = getDiskUsage();
     executionArguments->referenceLength += countDigits(usage);
     writeSymbol(executionArguments, "󰋊 ", usage < 70 ? SymbolColor_DarkGreen : usage < 90 ? SymbolColor_DarkYellow : SymbolColor_DarkRed);
@@ -524,11 +594,32 @@ static void writeDiskModule(struct ExecutionArguments * executionArguments)
 #endif
 }
 
+static void writeBatteryPromptSection(struct ExecutionArguments * executionArguments)
+{
+    struct BatteryInfo info;
+    if (getBatteryInfo(&info))
+    {
+        return;
+    }
+    executionArguments->referenceLength += countDigits(info.charge);
+    int isLowCharge = info.charge < 15;
+    int isMediumCharge = info.charge < 50;
+    tmk_write("  ");
+    writeSymbol(executionArguments, isLowCharge ? "󱊡" : isMediumCharge ? "󱊢" : "󱊣", isLowCharge ? SymbolColor_DarkRed : isMediumCharge ? SymbolColor_DarkYellow : SymbolColor_DarkGreen);
+    tmk_write("%d");
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    tmk_write("%");
+#else
+    tmk_write(executionArguments->isPowerShell ? "%" : "%%");
+#endif
+}
+
 static void writeLeftPrompt(struct ExecutionArguments * executionArguments)
 {
-    writeCommandLineSeparatorModuleI(executionArguments);
-    writeNetworkModule(executionArguments);
-    writeDiskModule(executionArguments);
+    writeCommandLineDecoratorPromptSectionI(executionArguments);
+    writeNetworkPromptSection(executionArguments);
+    writeBatteryPromptSection(executionArguments);
+    writeDiskPromptSection(executionArguments);
 }
 
 static void writeRightPrompt(struct ExecutionArguments * executionArguments)
