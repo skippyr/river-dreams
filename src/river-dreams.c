@@ -36,19 +36,24 @@
 #define SOFTWARE_REPOSITORY_URL "https://github.com/skippyr/river-dreams"
 #define SOFTWARE_LICENSE "MIT License"
 #define SOFTWARE_CREATION_YEAR 2023
-#define INITIAL_LEFT_PROMPT_REFERENCE_LENGTH 41
-#define INITIAL_RIGHT_PROMPT_REFERENCE_LENGTH 0
-#define IP_BUFFER_SIZE 16
-#define NO_IP_MESSAGE "No Address"
 #define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I "v"
 #define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I_COLOR
 #define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II "≥"
 #define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II_COLOR SymbolColor_DarkYellow
 #define COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL ":«("
-#define COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL_COLOR                 \
-  SymbolColor_DarkYellow
+#define COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL_COLOR SymbolColor_DarkYellow
+#define IP_BUFFER_SIZE 16
+#define NO_IP_MESSAGE "No Address"
 #define IP_MODULE_SYMBOL " "
+#define IP_MODULE_SYMBOL_LENGTH 2
 #define IP_MODULE_SYMBOL_COLOR SymbolColor_DarkBlue
+#define DISK_MODULE_SYMBOL "󰋊 "
+#define DISK_MODULE_SYMBOL_LENGTH 2
+#define DISK_MODULE_LEVEL_LOW_USAGE_SYMBOL_COLOR SymbolColor_DarkGreen
+#define DISK_MODULE_LEVEL_MEDIUM_USAGE_SYMBOL_COLOR SymbolColor_DarkYellow
+#define DISK_MODULE_LEVEL_HIGH_USAGE_SYMBOL_COLOR SymbolColor_DarkRed
+#define DISK_MODULE_LOW_USAGE_LIMIT 70
+#define DISK_MODULE_MEDIUM_USAGE_LIMIT 90
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
 #define KILOBYTE(value_a) (value_a * 1024)
 #endif
@@ -56,490 +61,558 @@
 #define BATTERY "/sys/class/power_supply/BAT0"
 #endif
 
-struct ExecutionArguments {
+struct ExecutionArguments
+{
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-  bool isAdministrator;
+    bool isAdministrator;
 #else
-  bool isPowerShell;
+    bool isPowerShell;
 #endif
-  bool isLeftPrompt;
-  unsigned short consoleWidth;
-  unsigned short referenceLength;
-  int exitCode;
+    bool isLeftPrompt;
+    unsigned short consoleWidth;
+    unsigned short referenceLength;
+    int exitCode;
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
-  struct passwd *userInfo;
+    struct passwd* userInfo;
 #endif
 };
 
-enum SymbolColor {
-  SymbolColor_NoColor = -1,
-  SymbolColor_DarkBlack,
-  SymbolColor_DarkRed,
-  SymbolColor_DarkGreen,
-  SymbolColor_DarkYellow,
-  SymbolColor_DarkBlue,
-  SymbolColor_DarkMagenta,
-  SymbolColor_DarkCyan,
-  SymbolColor_DarkWhite,
-  SymbolColor_LightBlack,
-  SymbolColor_LightRed,
-  SymbolColor_LightGreen,
-  SymbolColor_LightYellow,
-  SymbolColor_LightBlue,
-  SymbolColor_LightMagenta,
-  SymbolColor_LightCyan,
-  SymbolColor_LightWhite
+enum SymbolColor
+{
+    SymbolColor_NoColor = -1,
+    SymbolColor_DarkBlack,
+    SymbolColor_DarkRed,
+    SymbolColor_DarkGreen,
+    SymbolColor_DarkYellow,
+    SymbolColor_DarkBlue,
+    SymbolColor_DarkMagenta,
+    SymbolColor_DarkCyan,
+    SymbolColor_DarkWhite,
+    SymbolColor_LightBlack,
+    SymbolColor_LightRed,
+    SymbolColor_LightGreen,
+    SymbolColor_LightYellow,
+    SymbolColor_LightBlue,
+    SymbolColor_LightMagenta,
+    SymbolColor_LightCyan,
+    SymbolColor_LightWhite
 };
 
-static void
-processCommandLineArguments(int totalMainArguments, const char **mainArguments,
-                            struct ExecutionArguments *executionArguments);
+static void processCommandLineArguments(int totalMainArguments, const char** mainArguments,
+                                        struct ExecutionArguments* executionArguments);
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
 int isAdministrator(void);
 #endif
-static int isUnassignedIp(char *ip);
-static int isBridgeIp(char *ip);
-static int getIpAddress(char *buffer);
-
+static int isUnassignedIp(char* ip);
+static int isBridgeIp(char* ip);
+static int countDigits(int number);
+static int getIpAddress(char* buffer);
+static int getDiskUsage(void);
 static void writeHelpPage(void);
 static void writePowerShellHelpPage(void);
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
 static void writeZshHelpPage(void);
 #endif
 static void writeVersionPage(void);
-static void writeSymbol(struct ExecutionArguments *arguments,
-                        const char *symbol, enum SymbolColor color);
-static void
-writeCommandLineSeparatorModuleI(struct ExecutionArguments *executionArguments);
-static void writeNetworkModule(struct ExecutionArguments *executionArguments);
-static void writeLeftPrompt(struct ExecutionArguments *executionArguments);
-static void writeRightPrompt(struct ExecutionArguments *executionArguments);
-static void writeError(const char *format, ...);
-static void *allocateHeapMemory(size_t size);
+static void writeSymbol(struct ExecutionArguments* arguments, const char* symbol, enum SymbolColor color);
+static void writeCommandLineSeparatorModuleI(struct ExecutionArguments* executionArguments);
+static void writeNetworkModule(struct ExecutionArguments* executionArguments);
+static void writeDiskModule(struct ExecutionArguments* executionArguments);
+static void writeLeftPrompt(struct ExecutionArguments* executionArguments);
+static void writeRightPrompt(struct ExecutionArguments* executionArguments);
+static void writeError(const char* format, ...);
+static void* allocateHeapMemory(size_t size);
 static void terminate(int hadSuccess);
 
-static void
-processCommandLineArguments(int totalMainArguments, const char **mainArguments,
-                            struct ExecutionArguments *executionArguments) {
-  struct tmk_CommandLineArguments commandLineArguments;
-  tmk_getCommandLineArguments(totalMainArguments, mainArguments,
-                              &commandLineArguments);
-  if (commandLineArguments.totalArguments == 1) {
-    writeError("no shell provided. Use --help for help instructions.");
-    tmk_freeCommandLineArguments(&commandLineArguments);
-    terminate(0);
-  }
-  int hasShell = 0;
+static void processCommandLineArguments(int totalMainArguments, const char** mainArguments,
+                                        struct ExecutionArguments* executionArguments)
+{
+    struct tmk_CommandLineArguments commandLineArguments;
+    tmk_getCommandLineArguments(totalMainArguments, mainArguments, &commandLineArguments);
+    if (commandLineArguments.totalArguments == 1)
+    {
+        writeError("no shell provided. Use --help for help instructions.");
+        tmk_freeCommandLineArguments(&commandLineArguments);
+        terminate(0);
+    }
+    int hasShell = 0;
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
-  int isPowerShell;
+    int isPowerShell;
 #endif
-  if (!strcmp(commandLineArguments.utf8Arguments[1], "powershell")) {
-    hasShell = 1;
+    if (!strcmp(commandLineArguments.utf8Arguments[1], "powershell"))
+    {
+        hasShell = 1;
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
-    isPowerShell = 1;
+        isPowerShell = 1;
 #endif
-  } else if (!strcmp(commandLineArguments.utf8Arguments[1], "zsh")) {
+    }
+    else if (!strcmp(commandLineArguments.utf8Arguments[1], "zsh"))
+    {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-    writeError("the \"zsh\" shell is not available on Windows. Use --help for "
-               "help instructions.");
-    tmk_freeCommandLineArguments(&commandLineArguments);
-    terminate(0);
+        writeError("the \"zsh\" shell is not available on Windows. Use --help for help instructions.");
+        tmk_freeCommandLineArguments(&commandLineArguments);
+        terminate(0);
 #else
-    hasShell = 1;
-    isPowerShell = 0;
+        hasShell = 1;
+        isPowerShell = 0;
 #endif
-  }
-  for (int offset = hasShell && commandLineArguments.totalArguments > 2 ? 2 : 1;
-       offset < commandLineArguments.totalArguments; ++offset) {
-    if (!strcmp(commandLineArguments.utf8Arguments[offset], "--help")) {
-      if (hasShell) {
+    }
+    for (int offset = hasShell && commandLineArguments.totalArguments > 2 ? 2 : 1;
+         offset < commandLineArguments.totalArguments; ++offset)
+    {
+        if (!strcmp(commandLineArguments.utf8Arguments[offset], "--help"))
+        {
+            if (hasShell)
+            {
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
-        if (isPowerShell) {
+                if (isPowerShell)
+                {
 #endif
-          writePowerShellHelpPage();
+                    writePowerShellHelpPage();
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
-        } else {
-          writeZshHelpPage();
+                }
+                else
+                {
+                    writeZshHelpPage();
+                }
+#endif
+            }
+            else
+            {
+                writeHelpPage();
+            }
+            tmk_freeCommandLineArguments(&commandLineArguments);
+            terminate(1);
         }
-#endif
-      } else {
-        writeHelpPage();
-      }
-      tmk_freeCommandLineArguments(&commandLineArguments);
-      terminate(1);
-    } else if (!hasShell && !strcmp(commandLineArguments.utf8Arguments[offset],
-                                    "--version")) {
-      writeVersionPage();
-      tmk_freeCommandLineArguments(&commandLineArguments);
-      terminate(1);
-    } else if (strlen(commandLineArguments.utf8Arguments[offset]) > 2 &&
-               commandLineArguments.utf8Arguments[offset][0] == '-' &&
-               commandLineArguments.utf8Arguments[offset][1] == '-') {
+        else if (!hasShell && !strcmp(commandLineArguments.utf8Arguments[offset], "--version"))
+        {
+            writeVersionPage();
+            tmk_freeCommandLineArguments(&commandLineArguments);
+            terminate(1);
+        }
+        else if (strlen(commandLineArguments.utf8Arguments[offset]) > 2 &&
+                 commandLineArguments.utf8Arguments[offset][0] == '-' &&
+                 commandLineArguments.utf8Arguments[offset][1] == '-')
+        {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-      writeError("the option \"%s\" does not exists%s. Use --help for help "
-                 "instructions.",
-                 commandLineArguments.utf8Arguments[offset],
-                 hasShell ? " for the \"powershell\" shell" : "");
+            writeError("the option \"%s\" does not exists%s. Use --help for help instructions.",
+                       commandLineArguments.utf8Arguments[offset], hasShell ? " for the \"powershell\" shell" : "");
 #else
-      writeError("the option \"%s\" does not exists%s. Use --help for help "
-                 "instructions.",
-                 commandLineArguments.utf8Arguments[offset],
-                 hasShell ? isPowerShell ? " for the \"powershell\" shell"
-                                         : " for the \"zsh\" shell"
-                          : "");
+            writeError("the option \"%s\" does not exists%s. Use --help for help instructions.",
+                       commandLineArguments.utf8Arguments[offset],
+                       hasShell ? isPowerShell ? " for the \"powershell\" shell" : " for the \"zsh\" shell" : "");
 #endif
-      tmk_freeCommandLineArguments(&commandLineArguments);
-      terminate(0);
+            tmk_freeCommandLineArguments(&commandLineArguments);
+            terminate(0);
+        }
     }
-  }
-  if (!hasShell) {
-    writeError(
-        "invalid shell \"%s\" provided. Use --help for help instructions.",
-        commandLineArguments.utf8Arguments[1]);
-    tmk_freeCommandLineArguments(&commandLineArguments);
-    terminate(0);
-  }
-  if (commandLineArguments.totalArguments == 2) {
-    writeError("no prompt side provided. Use --help for help instructions.");
-    tmk_freeCommandLineArguments(&commandLineArguments);
-    terminate(0);
-  }
-  if (!strcmp(commandLineArguments.utf8Arguments[2], "left")) {
-    executionArguments->isLeftPrompt = 1;
-    executionArguments->referenceLength = INITIAL_LEFT_PROMPT_REFERENCE_LENGTH;
-  } else if (!strcmp(commandLineArguments.utf8Arguments[2], "right")) {
-    executionArguments->isLeftPrompt = 0;
-    executionArguments->referenceLength = INITIAL_RIGHT_PROMPT_REFERENCE_LENGTH;
-  } else {
-    writeError("invalid prompt side \"%s\" provided. Use --help for help "
-               "instructions.",
-               commandLineArguments.utf8Arguments[2]);
-    tmk_freeCommandLineArguments(&commandLineArguments);
-    terminate(0);
-  }
+    if (!hasShell)
+    {
+        writeError("invalid shell \"%s\" provided. Use --help for help instructions.",
+                   commandLineArguments.utf8Arguments[1]);
+        tmk_freeCommandLineArguments(&commandLineArguments);
+        terminate(0);
+    }
+    if (commandLineArguments.totalArguments == 2)
+    {
+        writeError("no prompt side provided. Use --help for help instructions.");
+        tmk_freeCommandLineArguments(&commandLineArguments);
+        terminate(0);
+    }
+    executionArguments->referenceLength = 0;
+    if (!strcmp(commandLineArguments.utf8Arguments[2], "left"))
+    {
+        executionArguments->isLeftPrompt = 1;
+    }
+    else if (!strcmp(commandLineArguments.utf8Arguments[2], "right"))
+    {
+        executionArguments->isLeftPrompt = 0;
+    }
+    else
+    {
+        writeError("invalid prompt side \"%s\" provided. Use --help for help instructions.",
+                   commandLineArguments.utf8Arguments[2]);
+        tmk_freeCommandLineArguments(&commandLineArguments);
+        terminate(0);
+    }
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
-  if (!((executionArguments->isPowerShell = isPowerShell))) {
-    struct tmk_WindowDimensions windowDimensions;
-    tmk_getWindowDimensions(&windowDimensions);
-    executionArguments->consoleWidth = windowDimensions.totalColumns;
-    tmk_freeCommandLineArguments(&commandLineArguments);
-    return;
-  }
+    if (!((executionArguments->isPowerShell = isPowerShell)))
+    {
+        struct tmk_WindowDimensions windowDimensions;
+        tmk_getWindowDimensions(&windowDimensions);
+        executionArguments->consoleWidth = windowDimensions.totalColumns;
+        tmk_freeCommandLineArguments(&commandLineArguments);
+        return;
+    }
 #endif
-  if (commandLineArguments.totalArguments == 3) {
-    writeError("no last exit code provided. Use --help for help instructions.");
-    tmk_freeCommandLineArguments(&commandLineArguments);
-    terminate(0);
-  }
-  char *conversionStopAddress;
-  long exitCode =
-      strtol(commandLineArguments.utf8Arguments[3], &conversionStopAddress, 10);
-  if (conversionStopAddress == commandLineArguments.utf8Arguments[3] ||
-      exitCode < tmk_MINIMUM_EXIT_CODE || exitCode > tmk_MAXIMUM_EXIT_CODE) {
-    writeError(
-        "invalid exit code \"%d\" provided. Use --help for help instructions.",
-        exitCode);
-    tmk_freeCommandLineArguments(&commandLineArguments);
-    terminate(0);
-  }
-  executionArguments->exitCode = exitCode;
-  if (commandLineArguments.totalArguments == 4) {
-    writeError("no console width provided. Use --help for help instructions.");
-    tmk_freeCommandLineArguments(&commandLineArguments);
-    terminate(0);
-  }
-  long consoleWidth =
-      strtol(commandLineArguments.utf8Arguments[4], &conversionStopAddress, 10);
-  if (conversionStopAddress == commandLineArguments.utf8Arguments[4] ||
-      consoleWidth <= 0 || consoleWidth > 634) {
-    writeError("invalid console width \"%d\" provided. Use --help for help "
-               "instructions.",
-               consoleWidth);
-    tmk_freeCommandLineArguments(&commandLineArguments);
-    terminate(0);
-  }
-  executionArguments->consoleWidth = consoleWidth;
+    if (commandLineArguments.totalArguments == 3)
+    {
+        writeError("no last exit code provided. Use --help for help instructions.");
+        tmk_freeCommandLineArguments(&commandLineArguments);
+        terminate(0);
+    }
+    char* conversionStopAddress;
+    long exitCode = strtol(commandLineArguments.utf8Arguments[3], &conversionStopAddress, 10);
+    if (conversionStopAddress == commandLineArguments.utf8Arguments[3] || exitCode < tmk_MINIMUM_EXIT_CODE ||
+        exitCode > tmk_MAXIMUM_EXIT_CODE)
+    {
+        writeError("invalid exit code \"%d\" provided. Use --help for help instructions.", exitCode);
+        tmk_freeCommandLineArguments(&commandLineArguments);
+        terminate(0);
+    }
+    executionArguments->exitCode = exitCode;
+    if (commandLineArguments.totalArguments == 4)
+    {
+        writeError("no console width provided. Use --help for help instructions.");
+        tmk_freeCommandLineArguments(&commandLineArguments);
+        terminate(0);
+    }
+    long consoleWidth = strtol(commandLineArguments.utf8Arguments[4], &conversionStopAddress, 10);
+    if (conversionStopAddress == commandLineArguments.utf8Arguments[4] || consoleWidth <= 0 || consoleWidth > 634)
+    {
+        writeError("invalid console width \"%d\" provided. Use --help for help instructions.",
+                   consoleWidth);
+        tmk_freeCommandLineArguments(&commandLineArguments);
+        terminate(0);
+    }
+    executionArguments->consoleWidth = consoleWidth;
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-  executionArguments->isAdministrator = isAdministrator();
+    executionArguments->isAdministrator = isAdministrator();
 #else
-  executionArguments->userInfo = getpwuid(getuid());
+    executionArguments->userInfo = getpwuid(getuid());
 #endif
-  tmk_freeCommandLineArguments(&commandLineArguments);
+    tmk_freeCommandLineArguments(&commandLineArguments);
 }
 
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-int isAdministrator(void) {
-  SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
-  PSID administratorsGroup;
-  AllocateAndInitializeSid(&ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
-                           DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0,
-                           &administratorsGroup);
-  BOOL isAdministrator;
-  CheckTokenMembership(NULL, administratorsGroup, &isAdministrator);
-  FreeSid(administratorsGroup);
-  return isAdministrator;
+int isAdministrator(void)
+{
+    SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
+    PSID administratorsGroup;
+    AllocateAndInitializeSid(&ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0,
+                             &administratorsGroup);
+    BOOL isAdministrator;
+    CheckTokenMembership(NULL, administratorsGroup, &isAdministrator);
+    FreeSid(administratorsGroup);
+    return isAdministrator;
 }
 #endif
 
-static int isUnassignedIp(char *ip) {
-  return ip[0] == '0';
+static int isUnassignedIp(char* ip)
+{
+    return ip[0] == '0';
 }
 
-static int isBridgeIp(char *ip) {
-  size_t length = strlen(ip);
-  return ip[length - 2] == '.' && ip[length - 1] == '1';
+static int isBridgeIp(char* ip)
+{
+    size_t length = strlen(ip);
+    return ip[length - 2] == '.' && ip[length - 1] == '1';
 }
 
-static int getIpAddress(char *buffer) {
-  int hasIp = 0;
+static int countDigits(int number)
+{
+    int totalDigits;
+    for (totalDigits = !number; number; number /= 10)
+    {
+        ++totalDigits;
+    }
+    return totalDigits;
+}
+
+static int getIpAddress(char* buffer)
+{
+    int hasIp = 0;
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-  ULONG adaptersListSize = KILOBYTE(15);
-  PIP_ADAPTER_ADDRESSES adaptersList = allocateHeapMemory(adaptersListSize);
-  if (GetAdaptersAddresses(AF_INET, 0, NULL, adaptersList, &adaptersListSize) !=
-      NO_ERROR) {
+    ULONG adaptersListSize = KILOBYTE(15);
+    PIP_ADAPTER_ADDRESSES adaptersList = allocateHeapMemory(adaptersListSize);
+    if (GetAdaptersAddresses(AF_INET, 0, NULL, adaptersList, &adaptersListSize) != NO_ERROR)
+    {
+        free(adaptersList);
+        return -!hasIp;
+    }
+    for (PIP_ADAPTER_ADDRESSES adapter = adaptersList; !hasIp && adapter; adapter = adapter->Next)
+    {
+        if (adapter->IfType == IF_TYPE_SOFTWARE_LOOPBACK)
+        {
+            continue;
+        }
+        inet_ntop(AF_INET, &((SOCKADDR_IN*)adapter->FirstUnicastAddress->Address.lpSockaddr)->sin_addr, buffer,
+                  sizeof(buffer));
+        hasIp = !isUnassignedIp(buffer) && !isBridgeIp(buffer);
+    }
     free(adaptersList);
-    return -!hasIp;
-  }
-  for (PIP_ADAPTER_ADDRESSES adapter = adaptersList; !hasIp && adapter;
-       adapter = adapter->Next) {
-    if (adapter->IfType == IF_TYPE_SOFTWARE_LOOPBACK) {
-      continue;
-    }
-    inet_ntop(AF_INET,
-              &((SOCKADDR_IN *)adapter->FirstUnicastAddress->Address.lpSockaddr)
-                   ->sin_addr,
-              buffer, sizeof(buffer));
-    hasIp = !isUnassignedIp(buffer) && !isBridgeIp(buffer);
-  }
-  free(adaptersList);
 #else
-  struct ifaddrs *interfacesList;
-  if (getifaddrs(&interfacesList)) {
-    return -!hasIp;
-  }
-  for (struct ifaddrs *interface = interfacesList; !hasIp && interface;
-       interface = interface->ifa_next) {
-    if (interface->ifa_addr && interface->ifa_addr->sa_family == AF_INET &&
-        !(interface->ifa_flags & IFF_LOOPBACK)) {
-      inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr,
-                buffer, IP_BUFFER_SIZE);
-      hasIp = !isUnassignedIp(buffer) && !isBridgeIp(buffer);
+    struct ifaddrs* interfacesList;
+    if (getifaddrs(&interfacesList))
+    {
+        return -!hasIp;
     }
-  }
-  freeifaddrs(interfacesList);
+    for (struct ifaddrs* interface = interfacesList; !hasIp && interface; interface = interface->ifa_next)
+    {
+        if (interface->ifa_addr && interface->ifa_addr->sa_family == AF_INET && !(interface->ifa_flags & IFF_LOOPBACK))
+        {
+            inet_ntop(AF_INET, &((struct sockaddr_in*)interface->ifa_addr)->sin_addr, buffer, IP_BUFFER_SIZE);
+            hasIp = !isUnassignedIp(buffer) && !isBridgeIp(buffer);
+        }
+    }
+    freeifaddrs(interfacesList);
 #endif
-  return -!hasIp;
+    return -!hasIp;
 }
 
-static void writeHelpPage(void) {
-  tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_write("Usage:");
-  tmk_resetFontWeight();
-  tmk_write(" %s <", SOFTWARE_NAME);
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write("SHELL");
-  tmk_resetFontEffects();
-  tmk_write("> [");
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write("ARGUMENTS");
-  tmk_resetFontEffects();
-  tmk_write("] [");
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write("OPTIONS");
-  tmk_resetFontEffects();
-  tmk_writeLine("]...");
-  tmk_writeLine("Writes a portion of the shell theme for a specific shell.");
-  tmk_writeLine("");
-  tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_writeLine("AVAILABLE SHELLS");
-  tmk_resetFontWeight();
-  tmk_writeLine("    powershell     Targets PowerShell.");
-  tmk_writeLine("    zsh            Targets ZSH.");
-  tmk_writeLine("");
-  tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_writeLine("AVAILABLE OPTIONS");
-  tmk_resetFontWeight();
-  tmk_writeLine("     --help        Shows the software help instructions.");
-  tmk_writeLine("     --version     Shows the software version.");
+static int getDiskUsage(void)
+{
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    ULARGE_INTEGER totalBytes;
+    ULARGE_INTEGER freeBytes;
+    GetDiskFreeSpaceExW(L"C:\\", NULL, &totalBytes, &freeBytes);
+    return (totalBytes.QuadPart - freeBytes.QuadPart) / (float)totalBytes.QuadPart * 100;
+#else
+    struct statvfs status;
+    statvfs("/", &status);
+    unsigned long totalBytes = status.f_frsize * status.f_blocks;
+    unsigned long freeBytes = status.f_frsize * status.f_bfree;
+    return (totalBytes - freeBytes) / (float)totalBytes * 100;
+#endif
 }
 
-static void writePowerShellHelpPage(void) {
-  tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_write("Usage:");
-  tmk_resetFontWeight();
-  tmk_write(" %s powershell <", SOFTWARE_NAME);
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write("PROMPT-SIDE");
-  tmk_resetFontEffects();
-  tmk_write("> <");
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write("EXIT-CODE");
-  tmk_resetFontEffects();
-  tmk_write("> <");
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write("CONSOLE-WIDTH");
-  tmk_resetFontEffects();
-  tmk_writeLine(">");
-  tmk_write("       [");
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write("OPTIONS");
-  tmk_resetFontEffects();
-  tmk_writeLine("]...");
-  tmk_writeLine("Writes a portion of the shell theme for PowerShell.");
-  tmk_writeLine("");
-  tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_writeLine("AVAILABLE SIDES");
-  tmk_resetFontWeight();
-  tmk_writeLine("    left      Writes the left prompt.");
-  tmk_writeLine("    right     Writes the right prompt.");
-  tmk_writeLine("");
-  tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_writeLine("AVAILABLE OPTIONS");
-  tmk_resetFontWeight();
-  tmk_writeLine("    --help     Shows the shell help instructions.");
+static void writeHelpPage(void)
+{
+    tmk_setFontWeight(tmk_FontWeight_Bold);
+    tmk_write("Usage:");
+    tmk_resetFontWeight();
+    tmk_write(" %s <", SOFTWARE_NAME);
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write("SHELL");
+    tmk_resetFontEffects();
+    tmk_write("> [");
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write("ARGUMENTS");
+    tmk_resetFontEffects();
+    tmk_write("] [");
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write("OPTIONS");
+    tmk_resetFontEffects();
+    tmk_writeLine("]...");
+    tmk_writeLine("Writes a portion of the shell theme for a specific shell.");
+    tmk_writeLine("");
+    tmk_setFontWeight(tmk_FontWeight_Bold);
+    tmk_writeLine("AVAILABLE SHELLS");
+    tmk_resetFontWeight();
+    tmk_writeLine("    powershell     Targets PowerShell.");
+    tmk_writeLine("    zsh            Targets ZSH.");
+    tmk_writeLine("");
+    tmk_setFontWeight(tmk_FontWeight_Bold);
+    tmk_writeLine("AVAILABLE OPTIONS");
+    tmk_resetFontWeight();
+    tmk_writeLine("     --help        Shows the software help instructions.");
+    tmk_writeLine("     --version     Shows the software version.");
+}
+
+static void writePowerShellHelpPage(void)
+{
+    tmk_setFontWeight(tmk_FontWeight_Bold);
+    tmk_write("Usage:");
+    tmk_resetFontWeight();
+    tmk_write(" %s powershell <", SOFTWARE_NAME);
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write("PROMPT-SIDE");
+    tmk_resetFontEffects();
+    tmk_write("> <");
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write("EXIT-CODE");
+    tmk_resetFontEffects();
+    tmk_write("> <");
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write("CONSOLE-WIDTH");
+    tmk_resetFontEffects();
+    tmk_writeLine(">");
+    tmk_write("       [");
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write("OPTIONS");
+    tmk_resetFontEffects();
+    tmk_writeLine("]...");
+    tmk_writeLine("Writes a portion of the shell theme for PowerShell.");
+    tmk_writeLine("");
+    tmk_setFontWeight(tmk_FontWeight_Bold);
+    tmk_writeLine("AVAILABLE SIDES");
+    tmk_resetFontWeight();
+    tmk_writeLine("    left      Writes the left prompt.");
+    tmk_writeLine("    right     Writes the right prompt.");
+    tmk_writeLine("");
+    tmk_setFontWeight(tmk_FontWeight_Bold);
+    tmk_writeLine("AVAILABLE OPTIONS");
+    tmk_resetFontWeight();
+    tmk_writeLine("    --help     Shows the shell help instructions.");
 }
 
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
-static void writeZshHelpPage(void) {
-  tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_write("Usage:");
-  tmk_resetFontWeight();
-  tmk_write(" %s zsh <", SOFTWARE_NAME);
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write("PROMPT-SIDE");
-  tmk_resetFontEffects();
-  tmk_write("> <");
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write("EXIT-CODE");
-  tmk_resetFontEffects();
-  tmk_write("> <");
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write("CONSOLE-WIDTH");
-  tmk_resetFontEffects();
-  tmk_write("> [");
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write("OPTIONS");
-  tmk_resetFontEffects();
-  tmk_writeLine("]...");
-  tmk_writeLine("Writes a portion of the shell theme for ZSH.");
-  tmk_writeLine("");
-  tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_writeLine("AVAILABLE SIDES");
-  tmk_resetFontWeight();
-  tmk_writeLine("    left      Writes the left prompt.");
-  tmk_writeLine("    right     Writes the right prompt.");
-  tmk_writeLine("");
-  tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_writeLine("AVAILABLE OPTIONS");
-  tmk_resetFontWeight();
-  tmk_writeLine("    --help     Shows the shell help instructions.");
+static void writeZshHelpPage(void)
+{
+    tmk_setFontWeight(tmk_FontWeight_Bold);
+    tmk_write("Usage:");
+    tmk_resetFontWeight();
+    tmk_write(" %s zsh <", SOFTWARE_NAME);
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write("PROMPT-SIDE");
+    tmk_resetFontEffects();
+    tmk_write("> <");
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write("EXIT-CODE");
+    tmk_resetFontEffects();
+    tmk_write("> <");
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write("CONSOLE-WIDTH");
+    tmk_resetFontEffects();
+    tmk_write("> [");
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write("OPTIONS");
+    tmk_resetFontEffects();
+    tmk_writeLine("]...");
+    tmk_writeLine("Writes a portion of the shell theme for ZSH.");
+    tmk_writeLine("");
+    tmk_setFontWeight(tmk_FontWeight_Bold);
+    tmk_writeLine("AVAILABLE SIDES");
+    tmk_resetFontWeight();
+    tmk_writeLine("    left      Writes the left prompt.");
+    tmk_writeLine("    right     Writes the right prompt.");
+    tmk_writeLine("");
+    tmk_setFontWeight(tmk_FontWeight_Bold);
+    tmk_writeLine("AVAILABLE OPTIONS");
+    tmk_resetFontWeight();
+    tmk_writeLine("    --help     Shows the shell help instructions.");
 }
 #endif
 
-static void writeVersionPage(void) {
-  tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_write(SOFTWARE_NAME);
-  tmk_resetFontWeight();
-  tmk_writeLine(" %s (running on %s %s)", SOFTWARE_VERSION,
-                tmk_OPERATING_SYSTEM, tmk_CPU_ARCHITECTURE);
-  tmk_write("%s. Copyright © %d %s <", SOFTWARE_LICENSE, SOFTWARE_CREATION_YEAR,
-            SOFTWARE_AUTHOR_NAME);
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write(SOFTWARE_AUTHOR_EMAIL);
-  tmk_resetFontEffects();
-  tmk_writeLine(">.");
-  tmk_writeLine("");
-  tmk_write("Software repository available at <");
-  tmk_setFontEffects(tmk_FontEffect_Underline);
-  tmk_write(SOFTWARE_REPOSITORY_URL);
-  tmk_resetFontEffects();
-  tmk_writeLine(">.");
+static void writeVersionPage(void)
+{
+    tmk_setFontWeight(tmk_FontWeight_Bold);
+    tmk_write(SOFTWARE_NAME);
+    tmk_resetFontWeight();
+    tmk_writeLine(" %s (running on %s %s)", SOFTWARE_VERSION, tmk_OPERATING_SYSTEM, tmk_CPU_ARCHITECTURE);
+    tmk_write("%s. Copyright © %d %s <", SOFTWARE_LICENSE, SOFTWARE_CREATION_YEAR, SOFTWARE_AUTHOR_NAME);
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write(SOFTWARE_AUTHOR_EMAIL);
+    tmk_resetFontEffects();
+    tmk_writeLine(">.");
+    tmk_writeLine("");
+    tmk_write("Software repository available at <");
+    tmk_setFontEffects(tmk_FontEffect_Underline);
+    tmk_write(SOFTWARE_REPOSITORY_URL);
+    tmk_resetFontEffects();
+    tmk_writeLine(">.");
 }
 
-static void writeSymbol(struct ExecutionArguments *executionArguments,
-                        const char *symbol, enum SymbolColor color) {
+static void writeSymbol(struct ExecutionArguments* executionArguments, const char* symbol, enum SymbolColor color)
+{
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-  tmk_write("\x1b[3%dm%s\x1b[39m", color, symbol);
+    tmk_write("\x1b[3%dm%s\x1b[39m", color, symbol);
 #else
-  tmk_write(executionArguments->isPowerShell ? "\x1b[3%dm%s\x1b[39m"
-                                             : "%%F{%d}%s%%f",
-            color, symbol);
+    tmk_write(executionArguments->isPowerShell ? "\x1b[3%dm%s\x1b[39m" : "%%F{%d}%s%%f", color, symbol);
 #endif
 }
 
-static void writeCommandLineSeparatorModuleI(
-    struct ExecutionArguments *executionArguments) {
-  for (int column = 0; column < executionArguments->consoleWidth; ++column) {
-    int isOdd = column % 2;
-    writeSymbol(executionArguments,
-                isOdd ? COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I
-                      : COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II,
-                isOdd ? COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I_COLOR
-                      : COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II_COLOR);
-  }
-  writeSymbol(executionArguments,
-              COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL,
-              COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL_COLOR);
+static void writeCommandLineSeparatorModuleI(struct ExecutionArguments* executionArguments)
+{
+    for (int column = 0; column < executionArguments->consoleWidth; ++column)
+    {
+        int isOdd = column % 2;
+        writeSymbol(executionArguments,
+                    isOdd ? COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I : COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II,
+                    isOdd ? COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I_COLOR
+                          : COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II_COLOR);
+    }
+    writeSymbol(executionArguments, COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL,
+                COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL_COLOR);
 }
 
-static void writeNetworkModule(struct ExecutionArguments *executionArguments) {
-  writeSymbol(executionArguments, IP_MODULE_SYMBOL, IP_MODULE_SYMBOL_COLOR);
-  char ip[IP_BUFFER_SIZE];
-  if (getIpAddress(ip)) {
-    tmk_write(NO_IP_MESSAGE);
-    executionArguments->referenceLength += sizeof(NO_IP_MESSAGE) - 1;
-    return;
-  }
-  tmk_write(ip);
-  executionArguments->referenceLength += strlen(ip);
+static void writeNetworkModule(struct ExecutionArguments* executionArguments)
+{
+    executionArguments->referenceLength += IP_MODULE_SYMBOL_LENGTH;
+    writeSymbol(executionArguments, IP_MODULE_SYMBOL, IP_MODULE_SYMBOL_COLOR);
+    char ip[IP_BUFFER_SIZE];
+    if (getIpAddress(ip))
+    {
+        tmk_write(NO_IP_MESSAGE);
+        executionArguments->referenceLength += sizeof(NO_IP_MESSAGE) - 1;
+        return;
+    }
+    tmk_write(ip);
+    executionArguments->referenceLength += strlen(ip);
 }
 
-static void writeLeftPrompt(struct ExecutionArguments *executionArguments) {
-  writeCommandLineSeparatorModuleI(executionArguments);
-  writeNetworkModule(executionArguments);
+static void writeDiskModule(struct ExecutionArguments* executionArguments)
+{
+    executionArguments->referenceLength += DISK_MODULE_SYMBOL_LENGTH + 1;
+    int usage = getDiskUsage();
+    writeSymbol(executionArguments, DISK_MODULE_SYMBOL,
+                usage < DISK_MODULE_LOW_USAGE_LIMIT      ? DISK_MODULE_LEVEL_LOW_USAGE_SYMBOL_COLOR
+                : usage < DISK_MODULE_MEDIUM_USAGE_LIMIT ? DISK_MODULE_LEVEL_MEDIUM_USAGE_SYMBOL_COLOR
+                                                         : DISK_MODULE_LEVEL_HIGH_USAGE_SYMBOL_COLOR);
+    tmk_write("%d", usage);
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    tmk_write("%");
+#else
+    tmk_write(executionArguments->isPowerShell ? "%" : "%%");
+#endif
 }
 
-static void writeRightPrompt(struct ExecutionArguments *executionArguments) {
-  tmk_writeLine("Writing right prompt...");
+static void writeLeftPrompt(struct ExecutionArguments* executionArguments)
+{
+    writeCommandLineSeparatorModuleI(executionArguments);
+    writeNetworkModule(executionArguments);
+    writeDiskModule(executionArguments);
 }
 
-static void writeError(const char *format, ...) {
-  va_list arguments;
-  va_start(arguments, format);
-  tmk_setFontAnsiColor(tmk_AnsiColor_DarkRed, tmk_Layer_Foreground);
-  tmk_writeError("[ERROR]");
-  tmk_resetFontColors();
-  tmk_writeError(" ");
-  tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_writeError("%s:", SOFTWARE_NAME);
-  tmk_resetFontWeight();
-  tmk_writeError(" ");
-  tmk_writeErrorArgumentsLine(format, arguments);
-  va_end(arguments);
+static void writeRightPrompt(struct ExecutionArguments* executionArguments)
+{
+    tmk_writeLine("Writing right prompt...");
 }
 
-static void *allocateHeapMemory(size_t size) {
-  void *buffer = malloc(size);
-  if (buffer) {
-    return buffer;
-  }
-  writeError("could not allocate %zuB of memory on the heap.", size);
-  terminate(0);
-  return NULL;
+static void writeError(const char* format, ...)
+{
+    va_list arguments;
+    va_start(arguments, format);
+    tmk_setFontAnsiColor(tmk_AnsiColor_DarkRed, tmk_Layer_Foreground);
+    tmk_writeError("[ERROR]");
+    tmk_resetFontColors();
+    tmk_writeError(" ");
+    tmk_setFontWeight(tmk_FontWeight_Bold);
+    tmk_writeError("%s:", SOFTWARE_NAME);
+    tmk_resetFontWeight();
+    tmk_writeError(" ");
+    tmk_writeErrorArgumentsLine(format, arguments);
+    va_end(arguments);
 }
 
-static void terminate(int hadSuccess) {
-  exit(!hadSuccess);
+static void* allocateHeapMemory(size_t size)
+{
+    void* buffer = malloc(size);
+    if (buffer)
+    {
+        return buffer;
+    }
+    writeError("could not allocate %zuB of memory on the heap.", size);
+    terminate(0);
+    return NULL;
 }
 
-int main(int totalMainArguments, const char **mainArguments) {
-  struct ExecutionArguments executionArguments;
-  processCommandLineArguments(totalMainArguments, mainArguments,
-                              &executionArguments);
-  if (executionArguments.isLeftPrompt) {
-    writeLeftPrompt(&executionArguments);
-  } else {
-    writeRightPrompt(&executionArguments);
-  }
-  return 0;
+static void terminate(int hadSuccess)
+{
+    exit(!hadSuccess);
+}
+
+int main(int totalMainArguments, const char** mainArguments)
+{
+    struct ExecutionArguments executionArguments;
+    processCommandLineArguments(totalMainArguments, mainArguments, &executionArguments);
+    if (executionArguments.isLeftPrompt)
+    {
+        writeLeftPrompt(&executionArguments);
+    }
+    else
+    {
+        writeRightPrompt(&executionArguments);
+    }
+    return 0;
 }
