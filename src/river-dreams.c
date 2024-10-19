@@ -29,52 +29,87 @@
 #include <unistd.h>
 #endif
 
+/** The name of the software. */
 #define SOFTWARE_NAME "river-dreams"
+/** The version of the software. */
 #define SOFTWARE_VERSION "12.1.0"
+/** The name of the software author. */
 #define SOFTWARE_AUTHOR_NAME "Sherman Rofeman"
+/** The e-mail of the software author. */
 #define SOFTWARE_AUTHOR_EMAIL "skippyr.developer@icloud.com"
+/** The URL of the software repository. */
 #define SOFTWARE_REPOSITORY_URL "https://github.com/skippyr/river-dreams"
+/** The license of the software. */
 #define SOFTWARE_LICENSE "MIT License"
+/** The year the software was created. */
 #define SOFTWARE_CREATION_YEAR 2023
+/** The initial value of the reference length for the left prompt. */
 #define INITIAL_LEFT_PROMPT_REFERENCE_LENGTH 41
+/** The initial value of the reference length for the right prompt. */
 #define INITIAL_RIGHT_PROMPT_REFERENCE_LENGTH 0
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
+/** Converts a kilobyte value to bytes. */
 #define KILOBYTE(value_a) (value_a * 1024)
 #endif
 #if tmk_IS_OPERATING_SYSTEM_LINUX
+/** The path to the Linux file where the battery info is stored. */
 #define BATTERY "/sys/class/power_supply/BAT0"
 #endif
 
+/** Contains the available colors. */
 enum Color
 {
+    /** No color. */
     Color_None = -1,
+    /** The dark variant of the black color. */
     Color_DarkBlack,
+    /** The dark variant of the red color. */
     Color_DarkRed,
+    /** The dark variant of the green color. */
     Color_DarkGreen,
+    /** The dark variant of the yellow color. */
     Color_DarkYellow,
+    /** The dark variant of the blue color. */
     Color_DarkBlue,
+    /** The dark variant of the magenta color. */
     Color_DarkMagenta,
+    /** The dark variant of the cyan color. */
     Color_DarkCyan,
+    /** The dark variant of the white color. */
     Color_DarkWhite,
+    /** The light variant of the black color. */
     Color_LightBlack,
+    /** The light variant of the red color. */
     Color_LightRed,
+    /** The light variant of the green color. */
     Color_LightGreen,
+    /** The light variant of the yellow color. */
     Color_LightYellow,
+    /** The light variant of the blue color. */
     Color_LightBlue,
+    /** The light variant of the magenta color. */
     Color_LightMagenta,
+    /** The light variant of the cyan color. */
     Color_LightCyan,
+    /** The light variant of the white color. */
     Color_LightWhite
 };
 
+/** Contains the arguments that dictates the software execution. */
 struct ExecutionArguments
 {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    /** A boolean that states the current user is member of the Administrators group. */
     bool isAdministrator;
 #else
+    /** A boolean that states the PowerShell is being targeted. */
     bool isPowerShell;
 #endif
+    /** A boolean that states the left prompt must be written. */
     bool isLeftPrompt;
+    /** The console width. */
     unsigned short consoleWidth;
+    /** A reference length to be used for writing by both prompt sides. */
     unsigned short referenceLength;
     int exitCode;
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
@@ -82,20 +117,53 @@ struct ExecutionArguments
 #endif
 };
 
+/** Contains info about a battery. */
 struct BatteryInfo
 {
+    /** The current charge of the battery. */
     int charge;
+    /** A boolean that states the battery is charging. */
     int isCharging;
 };
 
+/**
+ * Process the command line arguments and gets the execution arguments.
+ * @param totalMainArguments The total number of arguments received as the first argument by the main function.
+ * @param mainArguments The arguments received as the second argument by the main function.
+ * @param executionArguments The address where the execution arguments will be put into.
+ */
 static void processCommandLineArguments(int totalMainArguments, const char ** mainArguments, struct ExecutionArguments * executionArguments);
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
+/**
+ * Checks if the current user is member of the Administrators group.
+ * @return A boolean that states the current user is member of the Administrators group.
+ */
 int isAdministrator(void);
 #endif
-static int isUnassignedIp(char * ip);
-static int isBridgeIp(char * ip);
+/**
+ * Checks if an IP address is the unassigned one: "0.0.0.0".
+ * @param ip The IP to be checked.
+ * @return A boolean that states the IP address is unassigned.
+ */
+static int isUnassignedIP(char * ip);
+/**
+ * Checks if an IP address is a bridge one: which ends with ".1".
+ * @param ip The IP to be checked.
+ * @return A boolean that states the IP is bridge.
+ */
+static int isBridgeIP(char * ip);
+/**
+ * Counts the digits in a number.
+ * @param number The number to be checked.
+ * @return The total digits in the number.
+ */
 static int countDigits(int number);
-static int getIpAddress(char * buffer);
+/**
+ * Gets the IP address of the machine.
+ * @param buffer A buffer where the IP will be stored. It must have 16 bytes.
+ * @return 0 if successful or -1 otherwise.
+ */
+static int getIPAddress(char * buffer);
 static int getDiskUsage(void);
 static int getBatteryInfo(struct BatteryInfo * info);
 static void getWeekDayName(struct tm * localTime, char * buffer);
@@ -288,12 +356,12 @@ int isAdministrator(void)
 }
 #endif
 
-static int isUnassignedIp(char * ip)
+static int isUnassignedIP(char * ip)
 {
     return ip[0] == '0';
 }
 
-static int isBridgeIp(char * ip)
+static int isBridgeIP(char * ip)
 {
     size_t length = strlen(ip);
     return ip[length - 2] == '.' && ip[length - 1] == '1';
@@ -309,7 +377,7 @@ static int countDigits(int number)
     return totalDigits;
 }
 
-static int getIpAddress(char * buffer)
+static int getIPAddress(char * buffer)
 {
     int hasIp = 0;
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
@@ -327,7 +395,7 @@ static int getIpAddress(char * buffer)
             continue;
         }
         inet_ntop(AF_INET, &((SOCKADDR_IN *)adapter->FirstUnicastAddress->Address.lpSockaddr)->sin_addr, buffer, 16);
-        hasIp = !isUnassignedIp(buffer) && !isBridgeIp(buffer);
+        hasIp = !isUnassignedIP(buffer) && !isBridgeIP(buffer);
     }
     free(adaptersList);
 #else
@@ -341,7 +409,7 @@ static int getIpAddress(char * buffer)
         if (interface->ifa_addr && interface->ifa_addr->sa_family == AF_INET && !(interface->ifa_flags & IFF_LOOPBACK))
         {
             inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, buffer, 16);
-            hasIp = !isUnassignedIp(buffer) && !isBridgeIp(buffer);
+            hasIp = !isUnassignedIP(buffer) && !isBridgeIP(buffer);
         }
     }
     freeifaddrs(interfacesList);
@@ -610,7 +678,7 @@ static void writeNetworkPromptSection(struct ExecutionArguments * executionArgum
 {
     char ip[16];
     writeSymbol(executionArguments, " ", Color_DarkBlue);
-    if (getIpAddress(ip))
+    if (getIPAddress(ip))
     {
         const char * noIpMessage = "No Address";
         tmk_write(noIpMessage);
