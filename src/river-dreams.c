@@ -40,6 +40,13 @@
 #define INITIAL_RIGHT_PROMPT_REFERENCE_LENGTH 0
 #define IP_BUFFER_SIZE 16
 #define NO_IP_MESSAGE "No Address"
+#define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I "v"
+#define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I_COLOR
+#define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II "≥"
+#define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II_COLOR SymbolColor_DarkYellow
+#define COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL ":«("
+#define COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL_COLOR                 \
+  SymbolColor_DarkYellow
 #define IP_MODULE_SYMBOL " "
 #define IP_MODULE_SYMBOL_COLOR SymbolColor_DarkBlue
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
@@ -102,6 +109,8 @@ static void writeZshHelpPage(void);
 static void writeVersionPage(void);
 static void writeSymbol(struct ExecutionArguments *arguments,
                         const char *symbol, enum SymbolColor color);
+static void
+writeCommandLineSeparatorModuleI(struct ExecutionArguments *executionArguments);
 static void writeNetworkModule(struct ExecutionArguments *executionArguments);
 static void writeLeftPrompt(struct ExecutionArguments *executionArguments);
 static void writeRightPrompt(struct ExecutionArguments *executionArguments);
@@ -458,6 +467,21 @@ static void writeSymbol(struct ExecutionArguments *executionArguments,
 #endif
 }
 
+static void writeCommandLineSeparatorModuleI(
+    struct ExecutionArguments *executionArguments) {
+  for (int column = 0; column < executionArguments->consoleWidth; ++column) {
+    int isOdd = column % 2;
+    writeSymbol(executionArguments,
+                isOdd ? COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I
+                      : COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II,
+                isOdd ? COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I_COLOR
+                      : COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II_COLOR);
+  }
+  writeSymbol(executionArguments,
+              COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL,
+              COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL_COLOR);
+}
+
 static void writeNetworkModule(struct ExecutionArguments *executionArguments) {
   writeSymbol(executionArguments, IP_MODULE_SYMBOL, IP_MODULE_SYMBOL_COLOR);
   char ip[IP_BUFFER_SIZE];
@@ -471,6 +495,7 @@ static void writeNetworkModule(struct ExecutionArguments *executionArguments) {
 }
 
 static void writeLeftPrompt(struct ExecutionArguments *executionArguments) {
+  writeCommandLineSeparatorModuleI(executionArguments);
   writeNetworkModule(executionArguments);
 }
 
@@ -486,9 +511,9 @@ static void writeError(const char *format, ...) {
   tmk_resetFontColors();
   tmk_writeError(" ");
   tmk_setFontWeight(tmk_FontWeight_Bold);
-  tmk_writeError(SOFTWARE_NAME);
+  tmk_writeError("%s:", SOFTWARE_NAME);
   tmk_resetFontWeight();
-  tmk_writeError(": ");
+  tmk_writeError(" ");
   tmk_writeErrorArgumentsLine(format, arguments);
   va_end(arguments);
 }
