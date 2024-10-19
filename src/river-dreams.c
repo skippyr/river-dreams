@@ -38,6 +38,13 @@
 #define SOFTWARE_CREATION_YEAR 2023
 #define INITIAL_LEFT_PROMPT_REFERENCE_LENGTH 41
 #define INITIAL_RIGHT_PROMPT_REFERENCE_LENGTH 0
+#define IP_BUFFER_SIZE 16
+#define NO_IP_MESSAGE "No Address"
+#define IP_MODULE_SYMBOL " "
+#define IP_MODULE_SYMBOL_COLOR SymbolColor_DarkBlue
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+#define KILOBYTE(value_a) (value_a * 1024)
+#endif
 #if tmk_IS_OPERATING_SYSTEM_LINUX
 #define BATTERY "/sys/class/power_supply/BAT0"
 #endif
@@ -57,18 +64,45 @@ struct ExecutionArguments {
 #endif
 };
 
+enum SymbolColor {
+  SymbolColor_NoColor = -1,
+  SymbolColor_DarkBlack,
+  SymbolColor_DarkRed,
+  SymbolColor_DarkGreen,
+  SymbolColor_DarkYellow,
+  SymbolColor_DarkBlue,
+  SymbolColor_DarkMagenta,
+  SymbolColor_DarkCyan,
+  SymbolColor_DarkWhite,
+  SymbolColor_LightBlack,
+  SymbolColor_LightRed,
+  SymbolColor_LightGreen,
+  SymbolColor_LightYellow,
+  SymbolColor_LightBlue,
+  SymbolColor_LightMagenta,
+  SymbolColor_LightCyan,
+  SymbolColor_LightWhite
+};
+
 static void
 processCommandLineArguments(int totalMainArguments, const char **mainArguments,
                             struct ExecutionArguments *executionArguments);
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
 int isAdministrator(void);
 #endif
+static int isUnassignedIp(char *ip);
+static int isBridgeIp(char *ip);
+static int getIpAddress(char *buffer);
 static void writeHelpPage(void);
 static void writePowerShellHelpPage(void);
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
 static void writeZshHelpPage(void);
 #endif
 static void writeVersionPage(void);
+static void writeSymbol(struct ExecutionArguments *arguments, const char *symbol, enum SymbolColor color);
+static void writeNetworkModule(struct ExecutionArguments *executionArguments);
+static void writeLeftPrompt(struct ExecutionArguments *executionArguments);
+static void writeRightPrompt(struct ExecutionArguments * executionArguments);
 static void writeError(const char *format, ...);
 static void terminate(int hadSuccess);
 
@@ -235,6 +269,55 @@ int isAdministrator(void) {
 }
 #endif
 
+static int isUnassignedIp(char *ip) {
+  return ip[0] == '0';
+}
+
+static int isBridgeIp(char *ip) {
+  size_t length = strlen(ip);
+  return ip[length - 2] == '.' && ip[length - 1] == '1';
+}
+
+static int getIpAddress(char *buffer) {
+  int hasIp = 0;
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+  ULONG adaptersListSize = KILOBYTE(15);
+  PIP_ADAPTER_ADDRESSES adaptersList = allocateHeapMemory(adaptersListSize);
+  if (GetAdaptersAddresses(AF_INET, 0, NULL, adaptersList, &adaptersListSize) != NO_ERROR) {
+    free(adaptersList);
+    return -!hasIp;
+  }
+  for (PIP_ADAPTER_ADDRESSES adapter = adaptersList; !hasIp && adapter;
+       adapter = adapter->Next) {
+    if (adapter->IfType == IF_TYPE_SOFTWARE_LOOPBACK) {
+      continue;
+    }
+    inet_ntop(AF_INET,
+              &((SOCKADDR_IN *)adapter->FirstUnicastAddress->Address.lpSockaddr)
+                   ->sin_addr,
+              buffer, sizeof(buffer));
+    hasIp = !isUnassignedIp(buffer) && !isBridgeIp(buffer);
+  }
+  free(adaptersList);
+#else
+  struct ifaddrs *interfacesList;
+  if (getifaddrs(&interfacesList)) {
+    return -!hasIp;
+  }
+  for (struct ifaddrs *interface = interfacesList; !hasIp && interface;
+       interface = interface->ifa_next) {
+    if (interface->ifa_addr && interface->ifa_addr->sa_family == AF_INET &&
+        !(interface->ifa_flags & IFF_LOOPBACK)) {
+      inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr,
+                buffer, IP_BUFFER_SIZE);
+      hasIp = !isUnassignedIp(buffer) && !isBridgeIp(buffer);
+    }
+  }
+  freeifaddrs(interfacesList);
+#endif
+  return -!hasIp;
+}
+
 static void writeHelpPage(void) {
   tmk_setFontWeight(tmk_FontWeight_Bold);
   tmk_write("Usage:");
@@ -360,6 +443,34 @@ static void writeVersionPage(void) {
   tmk_writeLine(">.");
 }
 
+static void writeSymbol(struct ExecutionArguments *executionArguments, const char *symbol, enum SymbolColor color) {
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+  tmk_write("\x1b[3%dm%s\x1b[39m", color, symbol);
+#else
+  tmk_write(executionArguments->isPowerShell ? "\x1b[3%dm%s\x1b[39m" : "%%F{%d}%s%%f", color, symbol);
+#endif
+}
+
+static void writeNetworkModule(struct ExecutionArguments *executionArguments) {
+  writeSymbol(executionArguments, IP_MODULE_SYMBOL, IP_MODULE_SYMBOL_COLOR);
+  char ip[IP_BUFFER_SIZE];
+  if (getIpAddress(ip)) {
+    tmk_write(NO_IP_MESSAGE);
+    executionArguments->referenceLength += sizeof(NO_IP_MESSAGE) - 1;
+    return;
+  }
+  tmk_write(ip);
+  executionArguments->referenceLength += strlen(ip);
+}
+
+static void writeLeftPrompt(struct ExecutionArguments *executionArguments) {
+  writeNetworkModule(executionArguments);
+}
+
+static void writeRightPrompt(struct ExecutionArguments * executionArguments) {
+  tmk_writeLine("Writing right prompt...");
+}
+
 static void writeError(const char *format, ...) {
   va_list arguments;
   va_start(arguments, format);
@@ -383,5 +494,10 @@ int main(int totalMainArguments, const char **mainArguments) {
   struct ExecutionArguments executionArguments;
   processCommandLineArguments(totalMainArguments, mainArguments,
                               &executionArguments);
+  if (executionArguments.isLeftPrompt) {
+    writeLeftPrompt(&executionArguments);
+  } else {
+    writeRightPrompt(&executionArguments);
+  }
   return 0;
 }
