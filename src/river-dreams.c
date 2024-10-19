@@ -45,25 +45,25 @@
 #define BATTERY "/sys/class/power_supply/BAT0"
 #endif
 
-enum SymbolColor
+enum Color
 {
-    SymbolColor_NoColor = -1,
-    SymbolColor_DarkBlack,
-    SymbolColor_DarkRed,
-    SymbolColor_DarkGreen,
-    SymbolColor_DarkYellow,
-    SymbolColor_DarkBlue,
-    SymbolColor_DarkMagenta,
-    SymbolColor_DarkCyan,
-    SymbolColor_DarkWhite,
-    SymbolColor_LightBlack,
-    SymbolColor_LightRed,
-    SymbolColor_LightGreen,
-    SymbolColor_LightYellow,
-    SymbolColor_LightBlue,
-    SymbolColor_LightMagenta,
-    SymbolColor_LightCyan,
-    SymbolColor_LightWhite
+    Color_None = -1,
+    Color_DarkBlack,
+    Color_DarkRed,
+    Color_DarkGreen,
+    Color_DarkYellow,
+    Color_DarkBlue,
+    Color_DarkMagenta,
+    Color_DarkCyan,
+    Color_DarkWhite,
+    Color_LightBlack,
+    Color_LightRed,
+    Color_LightGreen,
+    Color_LightYellow,
+    Color_LightBlue,
+    Color_LightMagenta,
+    Color_LightCyan,
+    Color_LightWhite
 };
 
 struct ExecutionArguments
@@ -107,7 +107,7 @@ static void writePowerShellHelpPage(void);
 static void writeZshHelpPage(void);
 #endif
 static void writeVersionPage(void);
-static void writeSymbol(struct ExecutionArguments * arguments, const char * symbol, enum SymbolColor color);
+static void writeSymbol(struct ExecutionArguments * arguments, const char * symbol, enum Color color);
 static void writeCommandLineDecoratorPromptSectiontI(struct ExecutionArguments * executionArguments);
 static void writeCommandLineDecoratorPromptSectionII(struct ExecutionArguments * executionArguments);
 static void writeSpacerPromptSection(void);
@@ -587,7 +587,7 @@ static void writeVersionPage(void)
     tmk_writeLine(">.");
 }
 
-static void writeSymbol(struct ExecutionArguments * executionArguments, const char * symbol, enum SymbolColor color)
+static void writeSymbol(struct ExecutionArguments * executionArguments, const char * symbol, enum Color color)
 {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write("\x1b[3%dm%s\x1b[39m", color, symbol);
@@ -601,15 +601,15 @@ static void writeCommandLineDecoratorPromptSectionI(struct ExecutionArguments * 
     for (int column = 0; column < executionArguments->consoleWidth; ++column)
     {
         int isOdd = column % 2;
-        writeSymbol(executionArguments, isOdd ? "v" : "≥", isOdd ? SymbolColor_DarkRed : SymbolColor_DarkYellow);
+        writeSymbol(executionArguments, isOdd ? "v" : "≥", isOdd ? Color_DarkRed : Color_DarkYellow);
     }
-    writeSymbol(executionArguments, ":«(", SymbolColor_DarkYellow);
+    writeSymbol(executionArguments, ":«(", Color_DarkYellow);
 }
 
 static void writeNetworkPromptSection(struct ExecutionArguments * executionArguments)
 {
     char ip[16];
-    writeSymbol(executionArguments, " ", SymbolColor_DarkBlue);
+    writeSymbol(executionArguments, " ", Color_DarkBlue);
     if (getIpAddress(ip))
     {
         const char * noIpMessage = "No Address";
@@ -636,9 +636,9 @@ static void writeBatteryPromptSection(struct ExecutionArguments * executionArgum
                 isLowCharge      ? "󱊡"
                 : isMediumCharge ? "󱊢"
                                  : "󱊣",
-                isLowCharge      ? SymbolColor_DarkRed
-                : isMediumCharge ? SymbolColor_DarkYellow
-                                 : SymbolColor_DarkGreen);
+                isLowCharge      ? Color_DarkRed
+                : isMediumCharge ? Color_DarkYellow
+                                 : Color_DarkGreen);
     tmk_write("%d");
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write("%");
@@ -652,7 +652,7 @@ static void writeDiskPromptSection(struct ExecutionArguments * executionArgument
     int usage = getDiskUsage();
     executionArguments->referenceLength += countDigits(usage);
     tmk_write("  ");
-    writeSymbol(executionArguments, "󰋊 ", usage < 70 ? SymbolColor_DarkGreen : usage < 90 ? SymbolColor_DarkYellow : SymbolColor_DarkRed);
+    writeSymbol(executionArguments, "󰋊 ", usage < 70 ? Color_DarkGreen : usage < 90 ? Color_DarkYellow : Color_DarkRed);
     tmk_write("%d", usage);
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write("%");
@@ -669,24 +669,27 @@ static void writeCalendarPromptSection(struct ExecutionArguments * executionArgu
     getWeekDayName(localTime, weekDay);
     getMonthName(localTime, month);
     getDayOrdinal(localTime, dayOrdinal);
-    int isDawn = localTime->tm_hour < 6;
-    int isMorning = localTime->tm_hour < 12;
-    int isAfternoon = localTime->tm_hour < 18;
     tmk_write("  ");
-    writeSymbol(executionArguments,
-                isDawn        ? "󰭎 "
-                : isMorning   ? "󰖨 "
-                : isAfternoon ? " "
-                              : "󰽥 ",
-                isDawn        ? SymbolColor_DarkMagenta
-                : isMorning   ? SymbolColor_DarkRed
-                : isAfternoon ? SymbolColor_DarkBlue
-                              : SymbolColor_DarkYellow);
+    writeSymbol(executionArguments, "󰃭 ", Color_DarkRed);
     tmk_write("(%s) %s %02d%s", weekDay, month, localTime->tm_mday, dayOrdinal);
 }
 
 static void writeClockPromptSection(struct ExecutionArguments * executionArguments, struct tm * localTime)
 {
+    tmk_write("  ");
+    int isDawn = localTime->tm_hour < 6;
+    int isMorning = localTime->tm_hour < 12;
+    int isAfternoon = localTime->tm_hour < 18;
+    writeSymbol(executionArguments,
+                isDawn        ? "󰭎 "
+                : isMorning   ? "󰖨 "
+                : isAfternoon ? " "
+                              : "󰽥 ",
+                isDawn        ? Color_DarkMagenta
+                : isMorning   ? Color_DarkRed
+                : isAfternoon ? Color_DarkBlue
+                              : Color_DarkYellow);
+    tmk_write("%02dh%02dm", localTime->tm_hour, localTime->tm_min);
 }
 
 static void writeLeftPrompt(struct ExecutionArguments * executionArguments)
