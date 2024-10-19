@@ -36,24 +36,8 @@
 #define SOFTWARE_REPOSITORY_URL "https://github.com/skippyr/river-dreams"
 #define SOFTWARE_LICENSE "MIT License"
 #define SOFTWARE_CREATION_YEAR 2023
-#define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I "v"
-#define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I_COLOR
-#define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II "≥"
-#define COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II_COLOR SymbolColor_DarkYellow
-#define COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL ":«("
-#define COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL_COLOR SymbolColor_DarkYellow
-#define IP_BUFFER_SIZE 16
-#define NO_IP_MESSAGE "No Address"
-#define IP_MODULE_SYMBOL " "
-#define IP_MODULE_SYMBOL_LENGTH 2
-#define IP_MODULE_SYMBOL_COLOR SymbolColor_DarkBlue
-#define DISK_MODULE_SYMBOL "󰋊 "
-#define DISK_MODULE_SYMBOL_LENGTH 2
-#define DISK_MODULE_LEVEL_LOW_USAGE_SYMBOL_COLOR SymbolColor_DarkGreen
-#define DISK_MODULE_LEVEL_MEDIUM_USAGE_SYMBOL_COLOR SymbolColor_DarkYellow
-#define DISK_MODULE_LEVEL_HIGH_USAGE_SYMBOL_COLOR SymbolColor_DarkRed
-#define DISK_MODULE_LOW_USAGE_LIMIT 70
-#define DISK_MODULE_MEDIUM_USAGE_LIMIT 90
+#define INITIAL_LEFT_PROMPT_REFERENCE_LENGTH 41
+#define INITIAL_RIGHT_PROMPT_REFERENCE_LENGTH 0
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
 #define KILOBYTE(value_a) (value_a * 1024)
 #endif
@@ -73,7 +57,7 @@ struct ExecutionArguments
     unsigned short referenceLength;
     int exitCode;
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
-    struct passwd* userInfo;
+    struct passwd * userInfo;
 #endif
 };
 
@@ -98,15 +82,14 @@ enum SymbolColor
     SymbolColor_LightWhite
 };
 
-static void processCommandLineArguments(int totalMainArguments, const char** mainArguments,
-                                        struct ExecutionArguments* executionArguments);
+static void processCommandLineArguments(int totalMainArguments, const char ** mainArguments, struct ExecutionArguments * executionArguments);
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
 int isAdministrator(void);
 #endif
-static int isUnassignedIp(char* ip);
-static int isBridgeIp(char* ip);
+static int isUnassignedIp(char * ip);
+static int isBridgeIp(char * ip);
 static int countDigits(int number);
-static int getIpAddress(char* buffer);
+static int getIpAddress(char * buffer);
 static int getDiskUsage(void);
 static void writeHelpPage(void);
 static void writePowerShellHelpPage(void);
@@ -114,18 +97,17 @@ static void writePowerShellHelpPage(void);
 static void writeZshHelpPage(void);
 #endif
 static void writeVersionPage(void);
-static void writeSymbol(struct ExecutionArguments* arguments, const char* symbol, enum SymbolColor color);
-static void writeCommandLineSeparatorModuleI(struct ExecutionArguments* executionArguments);
-static void writeNetworkModule(struct ExecutionArguments* executionArguments);
-static void writeDiskModule(struct ExecutionArguments* executionArguments);
-static void writeLeftPrompt(struct ExecutionArguments* executionArguments);
-static void writeRightPrompt(struct ExecutionArguments* executionArguments);
-static void writeError(const char* format, ...);
-static void* allocateHeapMemory(size_t size);
+static void writeSymbol(struct ExecutionArguments * arguments, const char * symbol, enum SymbolColor color);
+static void writeCommandLineSeparatorModuleI(struct ExecutionArguments * executionArguments);
+static void writeNetworkModule(struct ExecutionArguments * executionArguments);
+static void writeDiskModule(struct ExecutionArguments * executionArguments);
+static void writeLeftPrompt(struct ExecutionArguments * executionArguments);
+static void writeRightPrompt(struct ExecutionArguments * executionArguments);
+static void writeError(const char * format, ...);
+static void * allocateHeapMemory(size_t size);
 static void terminate(int hadSuccess);
 
-static void processCommandLineArguments(int totalMainArguments, const char** mainArguments,
-                                        struct ExecutionArguments* executionArguments)
+static void processCommandLineArguments(int totalMainArguments, const char ** mainArguments, struct ExecutionArguments * executionArguments)
 {
     struct tmk_CommandLineArguments commandLineArguments;
     tmk_getCommandLineArguments(totalMainArguments, mainArguments, &commandLineArguments);
@@ -157,8 +139,7 @@ static void processCommandLineArguments(int totalMainArguments, const char** mai
         isPowerShell = 0;
 #endif
     }
-    for (int offset = hasShell && commandLineArguments.totalArguments > 2 ? 2 : 1;
-         offset < commandLineArguments.totalArguments; ++offset)
+    for (int offset = hasShell && commandLineArguments.totalArguments > 2 ? 2 : 1; offset < commandLineArguments.totalArguments; ++offset)
     {
         if (!strcmp(commandLineArguments.utf8Arguments[offset], "--help"))
         {
@@ -190,16 +171,14 @@ static void processCommandLineArguments(int totalMainArguments, const char** mai
             tmk_freeCommandLineArguments(&commandLineArguments);
             terminate(1);
         }
-        else if (strlen(commandLineArguments.utf8Arguments[offset]) > 2 &&
-                 commandLineArguments.utf8Arguments[offset][0] == '-' &&
+        else if (strlen(commandLineArguments.utf8Arguments[offset]) > 2 && commandLineArguments.utf8Arguments[offset][0] == '-' &&
                  commandLineArguments.utf8Arguments[offset][1] == '-')
         {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-            writeError("the option \"%s\" does not exists%s. Use --help for help instructions.",
-                       commandLineArguments.utf8Arguments[offset], hasShell ? " for the \"powershell\" shell" : "");
+            writeError("the option \"%s\" does not exists%s. Use --help for help instructions.", commandLineArguments.utf8Arguments[offset],
+                       hasShell ? " for the \"powershell\" shell" : "");
 #else
-            writeError("the option \"%s\" does not exists%s. Use --help for help instructions.",
-                       commandLineArguments.utf8Arguments[offset],
+            writeError("the option \"%s\" does not exists%s. Use --help for help instructions.", commandLineArguments.utf8Arguments[offset],
                        hasShell ? isPowerShell ? " for the \"powershell\" shell" : " for the \"zsh\" shell" : "");
 #endif
             tmk_freeCommandLineArguments(&commandLineArguments);
@@ -208,8 +187,7 @@ static void processCommandLineArguments(int totalMainArguments, const char** mai
     }
     if (!hasShell)
     {
-        writeError("invalid shell \"%s\" provided. Use --help for help instructions.",
-                   commandLineArguments.utf8Arguments[1]);
+        writeError("invalid shell \"%s\" provided. Use --help for help instructions.", commandLineArguments.utf8Arguments[1]);
         tmk_freeCommandLineArguments(&commandLineArguments);
         terminate(0);
     }
@@ -219,19 +197,19 @@ static void processCommandLineArguments(int totalMainArguments, const char** mai
         tmk_freeCommandLineArguments(&commandLineArguments);
         terminate(0);
     }
-    executionArguments->referenceLength = 0;
     if (!strcmp(commandLineArguments.utf8Arguments[2], "left"))
     {
         executionArguments->isLeftPrompt = 1;
+        executionArguments->referenceLength = INITIAL_LEFT_PROMPT_REFERENCE_LENGTH;
     }
     else if (!strcmp(commandLineArguments.utf8Arguments[2], "right"))
     {
         executionArguments->isLeftPrompt = 0;
+        executionArguments->referenceLength = INITIAL_RIGHT_PROMPT_REFERENCE_LENGTH;
     }
     else
     {
-        writeError("invalid prompt side \"%s\" provided. Use --help for help instructions.",
-                   commandLineArguments.utf8Arguments[2]);
+        writeError("invalid prompt side \"%s\" provided. Use --help for help instructions.", commandLineArguments.utf8Arguments[2]);
         tmk_freeCommandLineArguments(&commandLineArguments);
         terminate(0);
     }
@@ -251,10 +229,9 @@ static void processCommandLineArguments(int totalMainArguments, const char** mai
         tmk_freeCommandLineArguments(&commandLineArguments);
         terminate(0);
     }
-    char* conversionStopAddress;
+    char * conversionStopAddress;
     long exitCode = strtol(commandLineArguments.utf8Arguments[3], &conversionStopAddress, 10);
-    if (conversionStopAddress == commandLineArguments.utf8Arguments[3] || exitCode < tmk_MINIMUM_EXIT_CODE ||
-        exitCode > tmk_MAXIMUM_EXIT_CODE)
+    if (conversionStopAddress == commandLineArguments.utf8Arguments[3] || exitCode < tmk_MINIMUM_EXIT_CODE || exitCode > tmk_MAXIMUM_EXIT_CODE)
     {
         writeError("invalid exit code \"%d\" provided. Use --help for help instructions.", exitCode);
         tmk_freeCommandLineArguments(&commandLineArguments);
@@ -270,8 +247,7 @@ static void processCommandLineArguments(int totalMainArguments, const char** mai
     long consoleWidth = strtol(commandLineArguments.utf8Arguments[4], &conversionStopAddress, 10);
     if (conversionStopAddress == commandLineArguments.utf8Arguments[4] || consoleWidth <= 0 || consoleWidth > 634)
     {
-        writeError("invalid console width \"%d\" provided. Use --help for help instructions.",
-                   consoleWidth);
+        writeError("invalid console width \"%d\" provided. Use --help for help instructions.", consoleWidth);
         tmk_freeCommandLineArguments(&commandLineArguments);
         terminate(0);
     }
@@ -289,8 +265,7 @@ int isAdministrator(void)
 {
     SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
     PSID administratorsGroup;
-    AllocateAndInitializeSid(&ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0,
-                             &administratorsGroup);
+    AllocateAndInitializeSid(&ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &administratorsGroup);
     BOOL isAdministrator;
     CheckTokenMembership(NULL, administratorsGroup, &isAdministrator);
     FreeSid(administratorsGroup);
@@ -298,12 +273,12 @@ int isAdministrator(void)
 }
 #endif
 
-static int isUnassignedIp(char* ip)
+static int isUnassignedIp(char * ip)
 {
     return ip[0] == '0';
 }
 
-static int isBridgeIp(char* ip)
+static int isBridgeIp(char * ip)
 {
     size_t length = strlen(ip);
     return ip[length - 2] == '.' && ip[length - 1] == '1';
@@ -319,7 +294,7 @@ static int countDigits(int number)
     return totalDigits;
 }
 
-static int getIpAddress(char* buffer)
+static int getIpAddress(char * buffer)
 {
     int hasIp = 0;
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
@@ -336,22 +311,21 @@ static int getIpAddress(char* buffer)
         {
             continue;
         }
-        inet_ntop(AF_INET, &((SOCKADDR_IN*)adapter->FirstUnicastAddress->Address.lpSockaddr)->sin_addr, buffer,
-                  sizeof(buffer));
+        inet_ntop(AF_INET, &((SOCKADDR_IN *)adapter->FirstUnicastAddress->Address.lpSockaddr)->sin_addr, buffer, 16);
         hasIp = !isUnassignedIp(buffer) && !isBridgeIp(buffer);
     }
     free(adaptersList);
 #else
-    struct ifaddrs* interfacesList;
+    struct ifaddrs * interfacesList;
     if (getifaddrs(&interfacesList))
     {
         return -!hasIp;
     }
-    for (struct ifaddrs* interface = interfacesList; !hasIp && interface; interface = interface->ifa_next)
+    for (struct ifaddrs * interface = interfacesList; !hasIp && interface; interface = interface->ifa_next)
     {
         if (interface->ifa_addr && interface->ifa_addr->sa_family == AF_INET && !(interface->ifa_flags & IFF_LOOPBACK))
         {
-            inet_ntop(AF_INET, &((struct sockaddr_in*)interface->ifa_addr)->sin_addr, buffer, IP_BUFFER_SIZE);
+            inet_ntop(AF_INET, &((struct sockaddr_in *)interface->ifa_addr)->sin_addr, buffer, 16);
             hasIp = !isUnassignedIp(buffer) && !isBridgeIp(buffer);
         }
     }
@@ -503,7 +477,7 @@ static void writeVersionPage(void)
     tmk_writeLine(">.");
 }
 
-static void writeSymbol(struct ExecutionArguments* executionArguments, const char* symbol, enum SymbolColor color)
+static void writeSymbol(struct ExecutionArguments * executionArguments, const char * symbol, enum SymbolColor color)
 {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write("\x1b[3%dm%s\x1b[39m", color, symbol);
@@ -512,43 +486,36 @@ static void writeSymbol(struct ExecutionArguments* executionArguments, const cha
 #endif
 }
 
-static void writeCommandLineSeparatorModuleI(struct ExecutionArguments* executionArguments)
+static void writeCommandLineSeparatorModuleI(struct ExecutionArguments * executionArguments)
 {
     for (int column = 0; column < executionArguments->consoleWidth; ++column)
     {
         int isOdd = column % 2;
-        writeSymbol(executionArguments,
-                    isOdd ? COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I : COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II,
-                    isOdd ? COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_I_COLOR
-                          : COMMAND_LINE_SEPARATOR_MODULE_I_SYMBOL_II_COLOR);
+        writeSymbol(executionArguments, isOdd ? "v" : "≥", isOdd ? SymbolColor_DarkRed : SymbolColor_DarkYellow);
     }
-    writeSymbol(executionArguments, COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL,
-                COMMAND_LINE_SEPARATOR_MODULE_I_CONNECTOR_SYMBOL_COLOR);
+    writeSymbol(executionArguments, ":«(", SymbolColor_DarkYellow);
 }
 
-static void writeNetworkModule(struct ExecutionArguments* executionArguments)
+static void writeNetworkModule(struct ExecutionArguments * executionArguments)
 {
-    executionArguments->referenceLength += IP_MODULE_SYMBOL_LENGTH;
-    writeSymbol(executionArguments, IP_MODULE_SYMBOL, IP_MODULE_SYMBOL_COLOR);
-    char ip[IP_BUFFER_SIZE];
+    writeSymbol(executionArguments, " ", SymbolColor_DarkBlue);
+    char ip[16];
     if (getIpAddress(ip))
     {
-        tmk_write(NO_IP_MESSAGE);
-        executionArguments->referenceLength += sizeof(NO_IP_MESSAGE) - 1;
+        const char * noIpMessage = "No Address";
+        tmk_write(noIpMessage);
+        executionArguments->referenceLength += strlen(noIpMessage);
         return;
     }
     tmk_write(ip);
     executionArguments->referenceLength += strlen(ip);
 }
 
-static void writeDiskModule(struct ExecutionArguments* executionArguments)
+static void writeDiskModule(struct ExecutionArguments * executionArguments)
 {
-    executionArguments->referenceLength += DISK_MODULE_SYMBOL_LENGTH + 1;
     int usage = getDiskUsage();
-    writeSymbol(executionArguments, DISK_MODULE_SYMBOL,
-                usage < DISK_MODULE_LOW_USAGE_LIMIT      ? DISK_MODULE_LEVEL_LOW_USAGE_SYMBOL_COLOR
-                : usage < DISK_MODULE_MEDIUM_USAGE_LIMIT ? DISK_MODULE_LEVEL_MEDIUM_USAGE_SYMBOL_COLOR
-                                                         : DISK_MODULE_LEVEL_HIGH_USAGE_SYMBOL_COLOR);
+    executionArguments->referenceLength += countDigits(usage);
+    writeSymbol(executionArguments, "󰋊 ", usage < 70 ? SymbolColor_DarkGreen : usage < 90 ? SymbolColor_DarkYellow : SymbolColor_DarkRed);
     tmk_write("%d", usage);
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write("%");
@@ -557,19 +524,19 @@ static void writeDiskModule(struct ExecutionArguments* executionArguments)
 #endif
 }
 
-static void writeLeftPrompt(struct ExecutionArguments* executionArguments)
+static void writeLeftPrompt(struct ExecutionArguments * executionArguments)
 {
     writeCommandLineSeparatorModuleI(executionArguments);
     writeNetworkModule(executionArguments);
     writeDiskModule(executionArguments);
 }
 
-static void writeRightPrompt(struct ExecutionArguments* executionArguments)
+static void writeRightPrompt(struct ExecutionArguments * executionArguments)
 {
     tmk_writeLine("Writing right prompt...");
 }
 
-static void writeError(const char* format, ...)
+static void writeError(const char * format, ...)
 {
     va_list arguments;
     va_start(arguments, format);
@@ -585,9 +552,9 @@ static void writeError(const char* format, ...)
     va_end(arguments);
 }
 
-static void* allocateHeapMemory(size_t size)
+static void * allocateHeapMemory(size_t size)
 {
-    void* buffer = malloc(size);
+    void * buffer = malloc(size);
     if (buffer)
     {
         return buffer;
@@ -602,7 +569,7 @@ static void terminate(int hadSuccess)
     exit(!hadSuccess);
 }
 
-int main(int totalMainArguments, const char** mainArguments)
+int main(int totalMainArguments, const char ** mainArguments)
 {
     struct ExecutionArguments executionArguments;
     processCommandLineArguments(totalMainArguments, mainArguments, &executionArguments);
