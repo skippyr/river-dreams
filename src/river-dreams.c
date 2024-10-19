@@ -36,6 +36,8 @@
 #define SOFTWARE_REPOSITORY_URL "https://github.com/skippyr/river-dreams"
 #define SOFTWARE_LICENSE "MIT License"
 #define SOFTWARE_CREATION_YEAR 2023
+#define INITIAL_LEFT_PROMPT_REFERENCE_LENGTH 41
+#define INITIAL_RIGHT_PROMPT_REFERENCE_LENGTH 0
 #if tmk_IS_OPERATING_SYSTEM_LINUX
 #define BATTERY "/sys/class/power_supply/BAT0"
 #endif
@@ -47,7 +49,7 @@ struct ExecutionArguments {
   bool isPowerShell;
 #endif
   bool isLeftPrompt;
-  unsigned short totalColumns;
+  unsigned short consoleWidth;
   unsigned short referenceLength;
   int exitCode;
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
@@ -58,6 +60,9 @@ struct ExecutionArguments {
 static void
 processCommandLineArguments(int totalMainArguments, const char **mainArguments,
                             struct ExecutionArguments *executionArguments);
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+int isAdministrator(void);
+#endif
 static void writeHelpPage(void);
 static void writePowerShellHelpPage(void);
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
@@ -148,8 +153,87 @@ processCommandLineArguments(int totalMainArguments, const char **mainArguments,
     tmk_freeCommandLineArguments(&commandLineArguments);
     terminate(0);
   }
+  if (commandLineArguments.totalArguments == 2) {
+    writeError("no prompt side provided. Use --help for help instructions.");
+    tmk_freeCommandLineArguments(&commandLineArguments);
+    terminate(0);
+  }
+  if (!strcmp(commandLineArguments.utf8Arguments[2], "left")) {
+    executionArguments->isLeftPrompt = 1;
+    executionArguments->referenceLength = INITIAL_LEFT_PROMPT_REFERENCE_LENGTH;
+  } else if (!strcmp(commandLineArguments.utf8Arguments[2], "right")) {
+    executionArguments->isLeftPrompt = 0;
+    executionArguments->referenceLength = INITIAL_RIGHT_PROMPT_REFERENCE_LENGTH;
+  } else {
+    writeError("invalid prompt side \"%s\" provided. Use --help for help "
+               "instructions.",
+               commandLineArguments.utf8Arguments[2]);
+    tmk_freeCommandLineArguments(&commandLineArguments);
+    terminate(0);
+  }
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
+  if (!((executionArguments->isPowerShell = isPowerShell))) {
+    struct tmk_WindowDimensions windowDimensions;
+    tmk_getWindowDimensions(&windowDimensions);
+    executionArguments->consoleWidth = windowDimensions.totalColumns;
+    tmk_freeCommandLineArguments(&commandLineArguments);
+    return;
+  }
+#endif
+  if (commandLineArguments.totalArguments == 3) {
+    writeError("no last exit code provided. Use --help for help instructions.");
+    tmk_freeCommandLineArguments(&commandLineArguments);
+    terminate(0);
+  }
+  char *conversionStopAddress;
+  long exitCode =
+      strtol(commandLineArguments.utf8Arguments[3], &conversionStopAddress, 10);
+  if (conversionStopAddress == commandLineArguments.utf8Arguments[3] ||
+      exitCode < tmk_MINIMUM_EXIT_CODE || exitCode > tmk_MAXIMUM_EXIT_CODE) {
+    writeError(
+        "invalid exit code \"%d\" provided. Use --help for help instructions.",
+        exitCode);
+    tmk_freeCommandLineArguments(&commandLineArguments);
+    terminate(0);
+  }
+  executionArguments->exitCode = exitCode;
+  if (commandLineArguments.totalArguments == 4) {
+    writeError("no console width provided. Use --help for help instructions.");
+    tmk_freeCommandLineArguments(&commandLineArguments);
+    terminate(0);
+  }
+  long consoleWidth =
+      strtol(commandLineArguments.utf8Arguments[4], &conversionStopAddress, 10);
+  if (conversionStopAddress == commandLineArguments.utf8Arguments[4] ||
+      consoleWidth <= 0 || consoleWidth > 634) {
+    writeError("invalid console width \"%d\" provided. Use --help for help "
+               "instructions.",
+               consoleWidth);
+    tmk_freeCommandLineArguments(&commandLineArguments);
+    terminate(0);
+  }
+  executionArguments->consoleWidth = consoleWidth;
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+  executionArguments->isAdministrator = isAdministrator();
+#else
+  executionArguments->userInfo = getpwuid(getuid());
+#endif
   tmk_freeCommandLineArguments(&commandLineArguments);
 }
+
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+int isAdministrator(void) {
+  SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
+  PSID administratorsGroup;
+  AllocateAndInitializeSid(&ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID,
+                           DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0,
+                           &administratorsGroup);
+  BOOL isAdministrator;
+  CheckTokenMembership(NULL, administratorsGroup, &isAdministrator);
+  FreeSid(administratorsGroup);
+  return isAdministrator;
+}
+#endif
 
 static void writeHelpPage(void) {
   tmk_setFontWeight(tmk_FontWeight_Bold);
