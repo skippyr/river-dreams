@@ -93,17 +93,20 @@ int isAdministrator(void);
 static int isUnassignedIp(char *ip);
 static int isBridgeIp(char *ip);
 static int getIpAddress(char *buffer);
+
 static void writeHelpPage(void);
 static void writePowerShellHelpPage(void);
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
 static void writeZshHelpPage(void);
 #endif
 static void writeVersionPage(void);
-static void writeSymbol(struct ExecutionArguments *arguments, const char *symbol, enum SymbolColor color);
+static void writeSymbol(struct ExecutionArguments *arguments,
+                        const char *symbol, enum SymbolColor color);
 static void writeNetworkModule(struct ExecutionArguments *executionArguments);
 static void writeLeftPrompt(struct ExecutionArguments *executionArguments);
-static void writeRightPrompt(struct ExecutionArguments * executionArguments);
+static void writeRightPrompt(struct ExecutionArguments *executionArguments);
 static void writeError(const char *format, ...);
+static void *allocateHeapMemory(size_t size);
 static void terminate(int hadSuccess);
 
 static void
@@ -283,7 +286,8 @@ static int getIpAddress(char *buffer) {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
   ULONG adaptersListSize = KILOBYTE(15);
   PIP_ADAPTER_ADDRESSES adaptersList = allocateHeapMemory(adaptersListSize);
-  if (GetAdaptersAddresses(AF_INET, 0, NULL, adaptersList, &adaptersListSize) != NO_ERROR) {
+  if (GetAdaptersAddresses(AF_INET, 0, NULL, adaptersList, &adaptersListSize) !=
+      NO_ERROR) {
     free(adaptersList);
     return -!hasIp;
   }
@@ -443,11 +447,14 @@ static void writeVersionPage(void) {
   tmk_writeLine(">.");
 }
 
-static void writeSymbol(struct ExecutionArguments *executionArguments, const char *symbol, enum SymbolColor color) {
+static void writeSymbol(struct ExecutionArguments *executionArguments,
+                        const char *symbol, enum SymbolColor color) {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
   tmk_write("\x1b[3%dm%s\x1b[39m", color, symbol);
 #else
-  tmk_write(executionArguments->isPowerShell ? "\x1b[3%dm%s\x1b[39m" : "%%F{%d}%s%%f", color, symbol);
+  tmk_write(executionArguments->isPowerShell ? "\x1b[3%dm%s\x1b[39m"
+                                             : "%%F{%d}%s%%f",
+            color, symbol);
 #endif
 }
 
@@ -467,7 +474,7 @@ static void writeLeftPrompt(struct ExecutionArguments *executionArguments) {
   writeNetworkModule(executionArguments);
 }
 
-static void writeRightPrompt(struct ExecutionArguments * executionArguments) {
+static void writeRightPrompt(struct ExecutionArguments *executionArguments) {
   tmk_writeLine("Writing right prompt...");
 }
 
@@ -484,6 +491,16 @@ static void writeError(const char *format, ...) {
   tmk_writeError(": ");
   tmk_writeErrorArgumentsLine(format, arguments);
   va_end(arguments);
+}
+
+static void *allocateHeapMemory(size_t size) {
+  void *buffer = malloc(size);
+  if (buffer) {
+    return buffer;
+  }
+  writeError("could not allocate %zuB of memory on the heap.", size);
+  terminate(0);
+  return NULL;
 }
 
 static void terminate(int hadSuccess) {
