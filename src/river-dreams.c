@@ -4,6 +4,7 @@
 #include <time.h>
 #include <tmk.h>
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
+/* On Windows, the order of the headers may cause compilation errors and some external libraries need to be linked. */
 #include <ws2tcpip.h>
 
 #include <iphlpapi.h>
@@ -14,6 +15,7 @@
 #pragma comment(lib, "iphlpapi.lib")
 #else
 #if tmk_IS_OPERATING_SYSTEM_MACOS
+/* On MacOS, the software needs to be linked with the IOKit and CoreFoundation frameworks. */
 #include <IOKit/ps/IOPSKeys.h>
 #include <IOKit/ps/IOPowerSources.h>
 #else
@@ -164,30 +166,110 @@ static int countDigits(int number);
  * @return 0 if successful or -1 otherwise.
  */
 static int getIPAddress(char * buffer);
+/**
+ * Gets the disk usage.
+ * @return The disk usage.
+ */
 static int getDiskUsage(void);
+/**
+ * Gets the battery info if possible.
+ * @return 0 if successful or -1 otherwise (in case there is an error or no battery).
+ */
 static int getBatteryInfo(struct BatteryInfo * info);
+/**
+ * Gets the week day name in an abbreviated matter.
+ * @param localTime The time in the local timezone.
+ * @param buffer The buffer where the name will be stored. It must have 4 bytes.
+ */
 static void getWeekDayName(struct tm * localTime, char * buffer);
+/**
+ * Gets the month name in an abbreviated matter.
+ * @param localTime The time in the local timezone.
+ * @param buffer The buffer where the name will be stored. It must have 4 bytes.
+ */
 static void getMonthName(struct tm * localTime, char * buffer);
+/**
+ * Gets the day ordinal.
+ * @param localTime The time in the local timezone.
+ * @param buffer The buffer where the name will be stored. It must have 3 bytes.
+ */
 static void getDayOrdinal(struct tm * localTime, char * buffer);
+/** Writes the software help page. */
 static void writeHelpPage(void);
+/** Writes the PowerShell help page. */
 static void writePowerShellHelpPage(void);
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
+/** Writes the ZSH help page. */
 static void writeZshHelpPage(void);
 #endif
+/** Writes the software version page. */
 static void writeVersionPage(void);
-static void writeSymbol(struct ExecutionArguments * arguments, const char * symbol, enum Color color);
+/**
+ * Writes a symbol of the prompt.
+ * @param executionArguments The execution arguments.
+ * @param symbol The symbol to be written.
+ * @param color The color of the symbol.
+ */
+static void writeSymbol(struct ExecutionArguments * executionArguments, const char * symbol, enum Color color);
+/**
+ * Writes the first command line decorator prompt section.
+ * @param executionArguments The execution arguments.
+ */
 static void writeCommandLineDecoratorPromptSectiontI(struct ExecutionArguments * executionArguments);
+/**
+ * Writes the second command line decorator prompt section.
+ * @param executionArguments The execution arguments.
+ */
 static void writeCommandLineDecoratorPromptSectionII(struct ExecutionArguments * executionArguments);
-static void writeSpacerPromptSection(void);
 static void writeNetworkPromptSection(struct ExecutionArguments * executionArguments);
+/**
+ * Writes the network prompt section.
+ * @param executionArguments The execution arguments.
+ */
 static void writeBatteryPromptSection(struct ExecutionArguments * executionArguments);
+/**
+ * Writes the disk prompt section.
+ * @param executionArguments The execution arguments.
+ */
 static void writeDiskPromptSection(struct ExecutionArguments * executionArguments);
+/**
+ * Writes the calendar prompt section.
+ * @param executionArguments The execution arguments.
+ * @param localTime The time in the local timezone.
+ */
 static void writeCalendarPromptSection(struct ExecutionArguments * executionArguments, struct tm * localTime);
+/**
+ * Writes the clock prompt section.
+ * @param executionArguments The execution arguments.
+ * @param localTime The time in the local timezone.
+ */
 static void writeClockPromptSection(struct ExecutionArguments * executionArguments, struct tm * localTime);
+/**
+ * Writes the left prompt.
+ * @param executionArguments The execution arguments.
+ */
 static void writeLeftPrompt(struct ExecutionArguments * executionArguments);
+/**
+ * Writes the right prompt.
+ * @param executionArguments The execution arguments.
+ */
 static void writeRightPrompt(struct ExecutionArguments * executionArguments);
+/**
+ * Formats and write an error message to the standard error stream.
+ * @param format The format to be used. It accept the same format specifiers as the print function family.
+ * @param ... The arguments to be formatted.
+ */
 static void writeError(const char * format, ...);
+/**
+ * Allocates a block of memory on the heap.
+ * @param size The size of the block.
+ * @return The address of the block allocated or NULL otherwise.
+ */
 static void * allocateHeapMemory(size_t size);
+/**
+ * Terminates the software execution.
+ * @param hadSuccess A boolean that states the execution was successful.
+ */
 static void terminate(int hadSuccess);
 
 static void processCommandLineArguments(int totalMainArguments, const char ** mainArguments, struct ExecutionArguments * executionArguments)
