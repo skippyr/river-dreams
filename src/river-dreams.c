@@ -8,9 +8,9 @@
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
 /*
  * On Windows, the order of the headers may cause compilation errors, always ensure to maintain:
- *     - ws2tcpip.h
- *     - iphlpapi.h
- *     - Windows.h
+ *     - ws2tcpip.h.
+ *     - iphlpapi.h.
+ *     - Windows.h.
  */
 #include <ws2tcpip.h>
 
@@ -20,17 +20,17 @@
 
 /*
  * Some libraries also need to be included using #pragma comment:
- *     - ws2_32.lib for ws2tcpip.h
- *     - iphlpapi.lib for iphlpapi.h
+ *     - ws2_32.lib for ws2tcpip.h.
+ *     - iphlpapi.lib for iphlpapi.h.
  */
 #pragma comment(lib, "ws2_32.lib")
 #pragma comment(lib, "iphlpapi.lib")
 #else
 #if tmk_IS_OPERATING_SYSTEM_MACOS
 /*
- * On MacOS, the software needs to be linked the following frameworks:
- *     - IOKit
- *     - CoreFoundation
+ * On MacOS, the software needs to be linked to the following frameworks:
+ *     - IOKit.
+ *     - CoreFoundation.
  */
 #include <IOKit/ps/IOPSKeys.h>
 #include <IOKit/ps/IOPowerSources.h>
@@ -61,13 +61,13 @@
 #define SOFTWARE_LICENSE "MIT License"
 /** The year the software was created. */
 #define SOFTWARE_CREATION_YEAR 2023
-/** The initial value of the reference length for the left prompt. */
+/** The initial value of the reference length for the left prompt: it must equal the total length of the fixed parts of each prompt section. */
 #define INITIAL_LEFT_PROMPT_REFERENCE_LENGTH 41
 /** The initial value of the reference length for the right prompt. */
 #define INITIAL_RIGHT_PROMPT_REFERENCE_LENGTH 0
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
 /** Converts a kilobyte value to bytes. */
-#define KILOBYTE(value_a) (value_a * 1024)
+#define KILOBYTE(a_value) (a_value * 1024)
 #endif
 #if tmk_IS_OPERATING_SYSTEM_LINUX
 /** The path to the Linux file where the battery info is stored. */
@@ -231,15 +231,19 @@ static void writeSymbol(struct ExecutionArguments * executionArguments, const ch
  * Writes the first command line decorator prompt section.
  * @param executionArguments The execution arguments.
  */
-static void writeCommandLineDecoratorPromptSectiontI(struct ExecutionArguments * executionArguments);
+static void writeCommandLineDecoratorPromptSectionI(struct ExecutionArguments * executionArguments);
 /**
  * Writes the second command line decorator prompt section.
  * @param executionArguments The execution arguments.
  */
 static void writeCommandLineDecoratorPromptSectionII(struct ExecutionArguments * executionArguments);
-static void writeNetworkPromptSection(struct ExecutionArguments * executionArguments);
 /**
  * Writes the network prompt section.
+ * @param executionArguments The execution arguments.
+ */
+static void writeNetworkPromptSection(struct ExecutionArguments * executionArguments);
+/**
+ * Writes the battery prompt section.
  * @param executionArguments The execution arguments.
  */
 static void writeBatteryPromptSection(struct ExecutionArguments * executionArguments);
@@ -302,7 +306,7 @@ static void processCommandLineArguments(int totalMainArguments, const char ** ma
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
     int isPowerShell;
 #endif
-    if (!strcmp(commandLineArguments.utf8Arguments[1], "powershell"))
+    if (!strcmp(commandLineArguments.utf8Arguments[1], "pwsh"))
     {
         hasShell = 1;
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
@@ -357,10 +361,10 @@ static void processCommandLineArguments(int totalMainArguments, const char ** ma
         {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
             writeError("the option \"%s\" does not exists%s. Use --help for help instructions.", commandLineArguments.utf8Arguments[offset],
-                       hasShell ? " for the \"powershell\" shell" : "");
+                       hasShell ? " for the \"pwsh\" shell" : "");
 #else
             writeError("the option \"%s\" does not exists%s. Use --help for help instructions.", commandLineArguments.utf8Arguments[offset],
-                       hasShell ? isPowerShell ? " for the \"powershell\" shell" : " for the \"zsh\" shell" : "");
+                       hasShell ? isPowerShell ? " for the \"pwsh\" shell" : " for the \"zsh\" shell" : "");
 #endif
             tmk_freeCommandLineArguments(&commandLineArguments);
             terminate(0);
@@ -649,8 +653,8 @@ static void writeHelpPage(void)
     tmk_setFontWeight(tmk_FontWeight_Bold);
     tmk_writeLine("AVAILABLE SHELLS");
     tmk_resetFontWeight();
-    tmk_writeLine("    powershell     Targets PowerShell.");
-    tmk_writeLine("    zsh            Targets ZSH.");
+    tmk_writeLine("    pwsh     Targets PowerShell.");
+    tmk_writeLine("    zsh      Targets ZSH.");
     tmk_writeLine("");
     tmk_setFontWeight(tmk_FontWeight_Bold);
     tmk_writeLine("AVAILABLE OPTIONS");
@@ -664,7 +668,7 @@ static void writePowerShellHelpPage(void)
     tmk_setFontWeight(tmk_FontWeight_Bold);
     tmk_write("Usage:");
     tmk_resetFontWeight();
-    tmk_write(" %s powershell <", SOFTWARE_NAME);
+    tmk_write(" %s pwsh <", SOFTWARE_NAME);
     tmk_setFontEffects(tmk_FontEffect_Underline);
     tmk_write("PROMPT-SIDE");
     tmk_resetFontEffects();
@@ -676,8 +680,7 @@ static void writePowerShellHelpPage(void)
     tmk_setFontEffects(tmk_FontEffect_Underline);
     tmk_write("CONSOLE-WIDTH");
     tmk_resetFontEffects();
-    tmk_writeLine(">");
-    tmk_write("       [");
+    tmk_write("> [");
     tmk_setFontEffects(tmk_FontEffect_Underline);
     tmk_write("OPTIONS");
     tmk_resetFontEffects();
@@ -770,6 +773,16 @@ static void writeCommandLineDecoratorPromptSectionI(struct ExecutionArguments * 
         writeSymbol(executionArguments, isOdd ? "v" : "≥", isOdd ? Color_DarkRed : Color_DarkYellow);
     }
     writeSymbol(executionArguments, ":«(", Color_DarkYellow);
+}
+
+static void writeCommandLineDecoratorPromptSectionII(struct ExecutionArguments * executionArguments)
+{
+    writeSymbol(executionArguments, ")»:", Color_DarkYellow);
+    for (int column = 0; column < executionArguments->consoleWidth - executionArguments->referenceLength; ++column)
+    {
+        int isOdd = column % 2;
+        writeSymbol(executionArguments, isOdd ? "-" : "=", isOdd ? Color_DarkRed : Color_DarkYellow);
+    }
 }
 
 static void writeNetworkPromptSection(struct ExecutionArguments * executionArguments)
@@ -868,11 +881,23 @@ static void writeLeftPrompt(struct ExecutionArguments * executionArguments)
     writeDiskPromptSection(executionArguments);
     writeCalendarPromptSection(executionArguments, localTime);
     writeClockPromptSection(executionArguments, localTime);
+    writeCommandLineDecoratorPromptSectionII(executionArguments);
+    tmk_writeLine("");
 }
 
 static void writeRightPrompt(struct ExecutionArguments * executionArguments)
 {
     tmk_writeLine("Writing right prompt...");
+    tmk_writeLine("");
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
+    if (executionArguments->isPowerShell)
+    {
+#endif
+        /** In order to positionate the right prompt on PowerShell, it must write the length of its prompt sections to be handled by its connector. */
+        tmk_writeLine("%d", executionArguments->referenceLength);
+#if !tmk_IS_OPERATING_SYSTEM_WINDOWS
+    }
+#endif
 }
 
 static void writeError(const char * format, ...)
