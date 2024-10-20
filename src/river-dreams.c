@@ -116,7 +116,7 @@ enum Color
     Color_LightWhite
 };
 
-/** Contains the arguments that dictates the software execution. */
+/** Represents the arguments that dictates the software execution. */
 struct ExecutionArguments
 {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
@@ -138,7 +138,7 @@ struct ExecutionArguments
 #endif
 };
 
-/** Contains info about a battery. */
+/** Represents the info about a battery. */
 struct BatteryInfo
 {
     /** The current charge of the battery. */
@@ -158,6 +158,27 @@ struct MultiEncodedString
     /** A buffer that holds the string contents in UTF-16 encoding. */
     wchar_t * utf16Buffer;
 #endif
+};
+
+/** Represents the branch of a Git repository. */
+struct GitBranch
+{
+    /** A boolean that states branch is during rebase. */
+    int isRebasing;
+    /**
+     * An identifier for the branch, it will the name of the branch in normal conditions and the 7 initial digits of
+     * a commit reference hash if the branch is during rebase.
+     */
+    char * id;
+};
+
+/** Represents a Git repository. */
+struct GitRepository
+{
+    /** The active branch in the repository. */
+    struct GitBranch branch;
+    /** The path of the repository. */
+    struct MultiEncodedString * path;
 };
 
 /**
@@ -204,6 +225,11 @@ static int getIPAddress(char * buffer);
  * @return The disk usage.
  */
 static int getDiskUsage(void);
+/**
+ * Initiates a recursive search to get the a possible active Git repository.
+ * @return The repository if successful or NULL otherwise.
+ */
+static struct GitRepository * getGitRepository(struct MultiEncodedString * currentDirectoryPath);
 /**
  * Gets the path of the current directory.
  * @return The path of the current directory.
@@ -313,6 +339,11 @@ static void * allocateHeapMemory(size_t size);
  * @param string The string to be freed.
  */
 static void freeMultiEncodedString(struct MultiEncodedString * string);
+/**
+ * Frees the memory allocated for a Git repository.
+ * @param repository The repository to be freed.
+ */
+static void freeGitRepository(struct GitRepository * repository);
 /**
  * Terminates the software execution.
  * @param hadSuccess A boolean that states the execution was successful.
@@ -456,7 +487,7 @@ static void processCommandLineArguments(int totalMainArguments, const char ** ma
         tmk_freeCommandLineArguments(&commandLineArguments);
         terminate(0);
     }
-    executionArguments->exitCode = exitCode;
+    executionArguments->exitCode = (int)exitCode;
     if (commandLineArguments.totalArguments == 4)
     {
         writeError("no console width provided. Use --help for help instructions.");
@@ -592,9 +623,6 @@ static struct MultiEncodedString * getCurrentDirectoryPath(void)
     path->utf8Buffer = tmk_convertUtf16ToUtf8(path->utf16Buffer, NULL);
 #else
     path->utf8Buffer = realpath(".", NULL);
-    printf("\n");
-    printf("Path Address: %p\n", path);
-    printf("%s\n", path->utf8Buffer);
     path->length = strlen(path->utf8Buffer);
 #endif
 return path;
