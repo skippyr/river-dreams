@@ -61,7 +61,10 @@
 #define SOFTWARE_LICENSE "MIT License"
 /** The year the software was created. */
 #define SOFTWARE_CREATION_YEAR 2023
-/** The initial value of the reference length for the left prompt: it must equal the total length of the fixed parts of each prompt section. */
+/**
+ * The initial value of the reference length for the left prompt: it must equal the total length of the fixed parts of
+ * each prompt section.
+ */
 #define INITIAL_LEFT_PROMPT_REFERENCE_LENGTH 41
 /** The initial value of the reference length for the right prompt. */
 #define INITIAL_RIGHT_PROMPT_REFERENCE_LENGTH 0
@@ -144,13 +147,27 @@ struct BatteryInfo
     int isCharging;
 };
 
+/** Represents a string encoded in UTF-8 and possibly in UTF-16. */
+struct MultiEncodedString
+{
+    /** The length of the string: equivalent the total of single-byte or multi-byte characters it has. */
+    size_t length;
+    /** A buffer that holds the string contents in UTF-8 encoding. */
+    char * utf8Buffer;
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    /** A buffer that holds the string contents in UTF-16 encoding. */
+    wchar_t * utf16Buffer;
+#endif
+};
+
 /**
  * Process the command line arguments and gets the execution arguments.
  * @param totalMainArguments The total number of arguments received as the first argument by the main function.
  * @param mainArguments The arguments received as the second argument by the main function.
  * @param executionArguments The address where the execution arguments will be put into.
  */
-static void processCommandLineArguments(int totalMainArguments, const char ** mainArguments, struct ExecutionArguments * executionArguments);
+static void processCommandLineArguments(int totalMainArguments, const char ** mainArguments,
+                                        struct ExecutionArguments * executionArguments);
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
 /**
  * Checks if the current user is member of the Administrators group.
@@ -187,6 +204,11 @@ static int getIPAddress(char * buffer);
  * @return The disk usage.
  */
 static int getDiskUsage(void);
+/**
+ * Gets the path of the current directory.
+ * @return The path of the current directory.
+ */
+static struct MultiEncodedString * getCurrentDirectoryPath(void);
 /**
  * Gets the battery info if possible.
  * @return 0 if successful or -1 otherwise (in case there is an error or no battery).
@@ -287,12 +309,18 @@ static void writeError(const char * format, ...);
  */
 static void * allocateHeapMemory(size_t size);
 /**
+ * Frees the memory allocated for a multiencoded string.
+ * @param string The string to be freed.
+ */
+static void freeMultiEncodedString(struct MultiEncodedString * string);
+/**
  * Terminates the software execution.
  * @param hadSuccess A boolean that states the execution was successful.
  */
 static void terminate(int hadSuccess);
 
-static void processCommandLineArguments(int totalMainArguments, const char ** mainArguments, struct ExecutionArguments * executionArguments)
+static void processCommandLineArguments(int totalMainArguments, const char ** mainArguments,
+                                        struct ExecutionArguments * executionArguments)
 {
     struct tmk_CommandLineArguments commandLineArguments;
     tmk_getCommandLineArguments(totalMainArguments, mainArguments, &commandLineArguments);
@@ -324,7 +352,8 @@ static void processCommandLineArguments(int totalMainArguments, const char ** ma
         isPowerShell = 0;
 #endif
     }
-    for (int offset = hasShell && commandLineArguments.totalArguments > 2 ? 2 : 1; offset < commandLineArguments.totalArguments; ++offset)
+    for (int offset = hasShell && commandLineArguments.totalArguments > 2 ? 2 : 1;
+         offset < commandLineArguments.totalArguments; ++offset)
     {
         if (!strcmp(commandLineArguments.utf8Arguments[offset], "--help"))
         {
@@ -356,14 +385,16 @@ static void processCommandLineArguments(int totalMainArguments, const char ** ma
             tmk_freeCommandLineArguments(&commandLineArguments);
             terminate(1);
         }
-        else if (strlen(commandLineArguments.utf8Arguments[offset]) > 2 && commandLineArguments.utf8Arguments[offset][0] == '-' &&
+        else if (strlen(commandLineArguments.utf8Arguments[offset]) > 2 &&
+                 commandLineArguments.utf8Arguments[offset][0] == '-' &&
                  commandLineArguments.utf8Arguments[offset][1] == '-')
         {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
-            writeError("the option \"%s\" does not exists%s. Use --help for help instructions.", commandLineArguments.utf8Arguments[offset],
-                       hasShell ? " for the \"pwsh\" shell" : "");
+            writeError("the option \"%s\" does not exists%s. Use --help for help instructions.",
+                       commandLineArguments.utf8Arguments[offset], hasShell ? " for the \"pwsh\" shell" : "");
 #else
-            writeError("the option \"%s\" does not exists%s. Use --help for help instructions.", commandLineArguments.utf8Arguments[offset],
+            writeError("the option \"%s\" does not exists%s. Use --help for help instructions.",
+                       commandLineArguments.utf8Arguments[offset],
                        hasShell ? isPowerShell ? " for the \"pwsh\" shell" : " for the \"zsh\" shell" : "");
 #endif
             tmk_freeCommandLineArguments(&commandLineArguments);
@@ -372,7 +403,8 @@ static void processCommandLineArguments(int totalMainArguments, const char ** ma
     }
     if (!hasShell)
     {
-        writeError("invalid shell \"%s\" provided. Use --help for help instructions.", commandLineArguments.utf8Arguments[1]);
+        writeError("invalid shell \"%s\" provided. Use --help for help instructions.",
+                   commandLineArguments.utf8Arguments[1]);
         tmk_freeCommandLineArguments(&commandLineArguments);
         terminate(0);
     }
@@ -394,7 +426,8 @@ static void processCommandLineArguments(int totalMainArguments, const char ** ma
     }
     else
     {
-        writeError("invalid prompt side \"%s\" provided. Use --help for help instructions.", commandLineArguments.utf8Arguments[2]);
+        writeError("invalid prompt side \"%s\" provided. Use --help for help instructions.",
+                   commandLineArguments.utf8Arguments[2]);
         tmk_freeCommandLineArguments(&commandLineArguments);
         terminate(0);
     }
@@ -416,7 +449,8 @@ static void processCommandLineArguments(int totalMainArguments, const char ** ma
     }
     char * conversionStopAddress;
     long exitCode = strtol(commandLineArguments.utf8Arguments[3], &conversionStopAddress, 10);
-    if (conversionStopAddress == commandLineArguments.utf8Arguments[3] || exitCode < tmk_MINIMUM_EXIT_CODE || exitCode > tmk_MAXIMUM_EXIT_CODE)
+    if (conversionStopAddress == commandLineArguments.utf8Arguments[3] || exitCode < tmk_MINIMUM_EXIT_CODE ||
+        exitCode > tmk_MAXIMUM_EXIT_CODE)
     {
         writeError("invalid exit code \"%d\" provided. Use --help for help instructions.", exitCode);
         tmk_freeCommandLineArguments(&commandLineArguments);
@@ -450,7 +484,8 @@ int isAdministrator(void)
 {
     SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
     PSID administratorsGroup;
-    AllocateAndInitializeSid(&ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &administratorsGroup);
+    AllocateAndInitializeSid(&ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0,
+                             &administratorsGroup);
     BOOL isAdministrator;
     CheckTokenMembership(NULL, administratorsGroup, &isAdministrator);
     FreeSid(administratorsGroup);
@@ -533,6 +568,37 @@ static int getDiskUsage(void)
     unsigned long freeBytes = status.f_frsize * status.f_bfree;
     return (totalBytes - freeBytes) / (float)totalBytes * 100;
 #endif
+}
+
+static struct MultiEncodedString * getCurrentDirectoryPath(void)
+{
+    struct MultiEncodedString * path = allocateHeapMemory(sizeof(struct MultiEncodedString));
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    path->length = GetFullPathNameW(L".", 0, NULL, NULL) - 1;
+    path->utf16Buffer = allocateHeapMemory((path->length + 1) * sizeof(wchar_t));
+    GetFullPathNameW(L".", path->length + 1, path->utf16Buffer, NULL);
+    if (path->length == 2)
+    {
+        /*
+         * When at the root directory of the file system, GetFullPathNameW does not add a trailing backslash to the path
+         * (eg.: C: instead of C:\). This issue must be addressed for the algorithm that finds the Git root to work.
+         */
+        wchar_t * temporaryBuffer = allocateHeapMemory(4 * sizeof(wchar_t));
+        buffer[0] = (path->utf16Buffer)[0];
+        memcpy(buffer + 1, L":\\", 3 * sizeof(wchar_t));
+        free(path->utf16Buffer);
+        path->utf16Buffer = temporaryBuffer;
+    }
+    path->utf8Buffer = tmk_convertUtf16ToUtf8(path->utf16Buffer, NULL);
+}
+#else
+    path->utf8Buffer = realpath(".", NULL);
+    printf("\n");
+    printf("Path Address: %p\n", path);
+    printf("%s\n", path->utf8Buffer);
+    path->length = strlen(path->utf8Buffer);
+#endif
+return path;
 }
 
 static int getBatteryInfo(struct BatteryInfo * info)
@@ -627,7 +693,12 @@ static void getMonthName(struct tm * localTime, char * buffer)
 
 static void getDayOrdinal(struct tm * localTime, char * buffer)
 {
-    memcpy(buffer, !((localTime->tm_mday - 1) % 10) ? "st" : !((localTime->tm_mday - 2) % 10) ? "nd" : !((localTime->tm_mday - 3) % 10) ? "rd" : "th", 3);
+    memcpy(buffer,
+           !((localTime->tm_mday - 1) % 10)   ? "st"
+           : !((localTime->tm_mday - 2) % 10) ? "nd"
+           : !((localTime->tm_mday - 3) % 10) ? "rd"
+                                              : "th",
+           3);
 }
 
 static void writeHelpPage(void)
@@ -831,7 +902,10 @@ static void writeDiskPromptSection(struct ExecutionArguments * executionArgument
     int usage = getDiskUsage();
     executionArguments->referenceLength += countDigits(usage);
     tmk_write("  ");
-    writeSymbol(executionArguments, "󰋊 ", usage < 70 ? Color_DarkGreen : usage < 90 ? Color_DarkYellow : Color_DarkRed);
+    writeSymbol(executionArguments, "󰋊 ",
+                usage < 70   ? Color_DarkGreen
+                : usage < 90 ? Color_DarkYellow
+                             : Color_DarkRed);
     tmk_write("%d", usage);
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
     tmk_write("%%");
@@ -875,6 +949,7 @@ static void writeLeftPrompt(struct ExecutionArguments * executionArguments)
 {
     time_t epochTime = time(NULL);
     struct tm * localTime = localtime(&epochTime);
+    struct MultiEncodedString * currentDirectoryPath = getCurrentDirectoryPath();
     writeCommandLineDecoratorPromptSectionI(executionArguments);
     writeNetworkPromptSection(executionArguments);
     writeBatteryPromptSection(executionArguments);
@@ -882,7 +957,9 @@ static void writeLeftPrompt(struct ExecutionArguments * executionArguments)
     writeCalendarPromptSection(executionArguments, localTime);
     writeClockPromptSection(executionArguments, localTime);
     writeCommandLineDecoratorPromptSectionII(executionArguments);
+    tmk_write(" %s", currentDirectoryPath->utf8Buffer);
     tmk_writeLine("");
+    freeMultiEncodedString(currentDirectoryPath);
 }
 
 static void writeRightPrompt(struct ExecutionArguments * executionArguments)
@@ -893,7 +970,10 @@ static void writeRightPrompt(struct ExecutionArguments * executionArguments)
     if (executionArguments->isPowerShell)
     {
 #endif
-        /** In order to positionate the right prompt on PowerShell, it must write the length of its prompt sections to be handled by its connector. */
+        /**
+         * In order to positionate the right prompt on PowerShell, it must write the length of its prompt sections to
+         * be handled by its connector.
+         */
         tmk_writeLine("%d", executionArguments->referenceLength);
 #if !tmk_IS_OPERATING_SYSTEM_WINDOWS
     }
@@ -926,6 +1006,15 @@ static void * allocateHeapMemory(size_t size)
     writeError("could not allocate %zuB of memory on the heap.", size);
     terminate(0);
     return NULL;
+}
+
+static void freeMultiEncodedString(struct MultiEncodedString * string)
+{
+    free(string->utf8Buffer);
+#if tmk_IS_OPERATING_SYSTEM_WINDOWS
+    free(string->utf16Buffer);
+#endif
+    free(string);
 }
 
 static void terminate(int hadSuccess)

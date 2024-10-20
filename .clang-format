@@ -1,7 +1,6 @@
 AlwaysBreakTemplateDeclarations: true
 BasedOnStyle: Microsoft
 BreakAfterJavaFieldAnnotations: true
-ColumnLimit: 180
 FixNamespaceComments: false
 JavaScriptQuotes: Double
 PointerAlignment: Middle
