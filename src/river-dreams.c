@@ -581,16 +581,15 @@ static struct MultiEncodedString * getCurrentDirectoryPath(void)
     {
         /*
          * When at the root directory of the file system, GetFullPathNameW does not add a trailing backslash to the path
-         * (eg.: C: instead of C:\). This issue must be addressed for the algorithm that finds the Git root to work.
+         * (eg.: "C:" instead of "C:\"). This issue must be addressed for the algorithm that finds the Git root to work.
          */
         wchar_t * temporaryBuffer = allocateHeapMemory(4 * sizeof(wchar_t));
-        buffer[0] = (path->utf16Buffer)[0];
-        memcpy(buffer + 1, L":\\", 3 * sizeof(wchar_t));
+        temporaryBuffer[0] = (path->utf16Buffer)[0];
+        memcpy(temporaryBuffer + 1, L":\\", 3 * sizeof(wchar_t));
         free(path->utf16Buffer);
         path->utf16Buffer = temporaryBuffer;
     }
     path->utf8Buffer = tmk_convertUtf16ToUtf8(path->utf16Buffer, NULL);
-}
 #else
     path->utf8Buffer = realpath(".", NULL);
     printf("\n");
