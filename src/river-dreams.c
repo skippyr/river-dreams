@@ -226,15 +226,21 @@ static int getIPAddress(char * buffer);
  */
 static int getDiskUsage(void);
 /**
+ * Gets the path of the current directory.
+ * @return The path of the current directory.
+ */
+static struct MultiEncodedString * getCurrentDirectoryPath(void);
+/**
  * Initiates a recursive search to get the a possible active Git repository.
  * @return The repository if successful or NULL otherwise.
  */
 static struct GitRepository * getGitRepository(struct MultiEncodedString * currentDirectoryPath);
 /**
- * Gets the path of the current directory.
- * @return The path of the current directory.
+ * Looks into the .git/HEAD file in order to fill the branch of a repository.
+ * @param repository The repository being targeted.
+ * @return 0 if successful or -1 otherwise.
  */
-static struct MultiEncodedString * getCurrentDirectoryPath(void);
+static int getGitBranch(struct GitRepository * repository);
 /**
  * Gets the battery info if possible.
  * @return 0 if successful or -1 otherwise (in case there is an error or no battery).
@@ -628,6 +634,76 @@ static struct MultiEncodedString * getCurrentDirectoryPath(void)
 return path;
 }
 
+static struct GitRepository * getGitRepository(struct MultiEncodedString * currentDirectoryPath)
+{
+    tmk_writeLine("Current Directory Path: %s", currentDirectoryPath->utf8Buffer);
+    struct GitRepository * repository = allocateHeapMemory(sizeof(struct GitRepository));
+    repository->path = allocateHeapMemory(sizeof(struct MultiEncodedString));
+    repository->path->length = currentDirectoryPath->length;
+    repository->path->utf8Buffer = allocateHeapMemory(repository->path->length + 6);
+    memcpy(repository->path->utf8Buffer, currentDirectoryPath->utf8Buffer, currentDirectoryPath->length + 1);
+    while (true)
+    {
+        memcpy(repository->path->utf8Buffer + repository->path->length, "/.git", 6);
+        repository->path->length += 5;
+        tmk_writeLine("Initial Search Path (%zu characters): %s", repository->path->length, repository->path->utf8Buffer);
+        if (!access(repository->path->utf8Buffer, F_OK))
+        {
+            repository->path->utf8Buffer[(repository->path->length -= 5)] = 0;
+            getGitBranch(repository);
+        }
+        break;
+    }
+    return NULL;
+}
+
+static int getGitBranch(struct GitRepository * repository)
+{
+    char * headFilePath = allocateHeapMemory(repository->path->length + 11);
+    sprintf(headFilePath, "%s/.git/HEAD", repository->path->utf8Buffer);
+    FILE * headFile = fopen(headFilePath, "r");
+    free(headFilePath);
+    if (!headFile)
+    {
+        return -1;
+    }
+    repository->branch.isRebasing = 1;
+    for (int offset = 0, character; offset <= 3 && (character = fgetc(headFile)) != EOF; ++offset)
+    {
+        if (offset == 3 && character == ':')
+        {
+            repository->branch.isRebasing = 0;
+        }
+    }
+    repository->branch.id = allocateHeapMemory(repository->branch.isRebasing ? 8 : 255);
+    memset(repository->branch.id, 0, repository->branch.isRebasing ? 8 : 255);
+    rewind(headFile);
+    if (repository->branch.isRebasing)
+    {
+        for (int offset = 0, character; offset < 7 && (character = fgetc(headFile)) != EOF; ++offset)
+        {
+            repository->branch.id[offset] = character;
+        }
+    }
+    else
+    {
+        for (int totalSlashes = 0, offset = 0, character; offset < 255 && (character = fgetc(headFile)) != EOF &&
+             character != '\n';)
+        {
+            if (totalSlashes == 2)
+            {
+                repository->branch.id[offset++] = character;
+            }
+            else if (character == '/')
+            {
+                ++totalSlashes;
+            }
+        }
+    }
+    fclose(headFile);
+    return 0;
+}
+
 static int getBatteryInfo(struct BatteryInfo * info)
 {
 #if tmk_IS_OPERATING_SYSTEM_WINDOWS
@@ -977,6 +1053,8 @@ static void writeLeftPrompt(struct ExecutionArguments * executionArguments)
     time_t epochTime = time(NULL);
     struct tm * localTime = localtime(&epochTime);
     struct MultiEncodedString * currentDirectoryPath = getCurrentDirectoryPath();
+    struct GitRepository * repository = getGitRepository(currentDirectoryPath);
+    /*
     writeCommandLineDecoratorPromptSectionI(executionArguments);
     writeNetworkPromptSection(executionArguments);
     writeBatteryPromptSection(executionArguments);
@@ -987,6 +1065,7 @@ static void writeLeftPrompt(struct ExecutionArguments * executionArguments)
     tmk_write(" %s", currentDirectoryPath->utf8Buffer);
     tmk_writeLine("");
     freeMultiEncodedString(currentDirectoryPath);
+    */
 }
 
 static void writeRightPrompt(struct ExecutionArguments * executionArguments)
@@ -1042,6 +1121,13 @@ static void freeMultiEncodedString(struct MultiEncodedString * string)
     free(string->utf16Buffer);
 #endif
     free(string);
+}
+
+static void freeGitRepository(struct GitRepository * repository)
+{
+    free(repository->branch.id);
+    freeMultiEncodedString(repository->path);
+    free(repository);
 }
 
 static void terminate(int hadSuccess)
