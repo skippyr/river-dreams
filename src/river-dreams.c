@@ -631,7 +631,7 @@ static struct MultiEncodedString * getCurrentDirectoryPath(void)
     path->utf8Buffer = realpath(".", NULL);
     path->length = strlen(path->utf8Buffer);
 #endif
-return path;
+    return path;
 }
 
 static struct GitRepository * getGitRepository(struct MultiEncodedString * currentDirectoryPath)
@@ -646,7 +646,8 @@ static struct GitRepository * getGitRepository(struct MultiEncodedString * curre
     {
         memcpy(repository->path->utf8Buffer + repository->path->length, "/.git", 6);
         repository->path->length += 5;
-        tmk_writeLine("Initial Search Path (%zu characters): %s", repository->path->length, repository->path->utf8Buffer);
+        tmk_writeLine("Initial Search Path (%zu characters): %s", repository->path->length,
+                      repository->path->utf8Buffer);
         if (!access(repository->path->utf8Buffer, F_OK))
         {
             repository->path->utf8Buffer[(repository->path->length -= 5)] = 0;
@@ -675,8 +676,9 @@ static int getGitBranch(struct GitRepository * repository)
             repository->branch.isRebasing = 0;
         }
     }
-    repository->branch.id = allocateHeapMemory(repository->branch.isRebasing ? 8 : 255);
-    memset(repository->branch.id, 0, repository->branch.isRebasing ? 8 : 255);
+    size_t idSize = repository->branch.isRebasing ? 8 : 255;
+    repository->branch.id = allocateHeapMemory(idSize);
+    memset(repository->branch.id, 0, idSize);
     rewind(headFile);
     if (repository->branch.isRebasing)
     {
@@ -687,8 +689,8 @@ static int getGitBranch(struct GitRepository * repository)
     }
     else
     {
-        for (int totalSlashes = 0, offset = 0, character; offset < 255 && (character = fgetc(headFile)) != EOF &&
-             character != '\n';)
+        for (int totalSlashes = 0, offset = 0, character;
+             offset < 255 && (character = fgetc(headFile)) != EOF && character != '\n';)
         {
             if (totalSlashes == 2)
             {
