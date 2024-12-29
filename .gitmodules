@@ -1,3 +1,0 @@
-[submodule "libs/libtmk"]
-	path = libs/libtmk
-	url = https://github.com/skippyr/libtmk
