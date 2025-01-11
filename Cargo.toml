@@ -7,16 +7,11 @@ edition = "2021"
 authors = ["Sherman Rofeman <skippyr.developer@icloud.com>"]
 homepage = "https://github.com/skippyr/river_dreams"
 keywords = [
-  "macos",
-  "linux",
   "shell",
   "zsh",
   "cli",
-  "productivity",
-  "design",
-  "terminal",
-  "zsh-theme",
   "shell-theme",
+  "terminal",
 ]
 categories = ["command-line-utilities", "development-tools"]
 
