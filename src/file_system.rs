@@ -230,9 +230,10 @@ fn is_hidden_entry(entry: &dirent) -> Result<bool, ()> {
     }
     #[cfg(target_os = "macos")]
     match entry_lstat(entry) {
-        Ok(stat) => stat.st_flags & UF_HIDDEN != 0,
+        Ok(stat) => Ok(stat.st_flags & UF_HIDDEN != 0),
         Err(_) => return Err(()),
-    };
+    }
+    #[cfg(target_os = "linux")]
     Ok(false)
 }
 
