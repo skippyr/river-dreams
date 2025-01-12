@@ -1,7 +1,7 @@
 [package]
 name = "river_dreams"
 description = "River Dreams is a tribal looking theme for the ZSH shell made to help you craft your most ambitious software projects. It is available for macOS and Linux."
-version = "13.0.2"
+version = "13.0.3"
 license = "BSD-3-Clause"
 edition = "2021"
 authors = ["Sherman Rofeman <skippyr.developer@icloud.com>"]

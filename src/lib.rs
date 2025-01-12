@@ -1,9 +1,14 @@
 //! # About
 //! River Dreams is a tribal looking theme for the ZSH shell made to help you craft your most ambitious software projects. It is available for macOS and Linux.
 //!
-//! This library crate contains all of its components and functionalities, intended for people who want to develop it.
+//! <p align="center">
+//!   <img alt="" src="https://raw.githubusercontent.com/skippyr/river_dreams/refs/heads/master/assets/preview.png" width=1020 />
+//! </p>
+//! <p align="center"><strong>Caption:</strong> a preview of the River Dreams theme.</p>
 //!
-//! If you want to install it, instead, follow the instructions in its [repository](https://github.com/skippyr/river_dreams).
+//! This library crate contains all of its components and functionalities, intended for people who want to fork it or contribute to its development.
+//!
+//! If you want to install it, instead, follow the instructions in its [repository](https://github.com/skippyr/river_dreams) or [crates.io](https://crates.io/crates/river_dreams).
 //!
 //! ## Prompts & Modules
 //! The theme is composed of two prompts, one in the left and other in the right. Each prompt has modules that provides its features. From left to right, top to bottom, those are:
@@ -29,15 +34,14 @@
 //! - **Directory Summary Module:** which displays the total number of each entry type in the current directory.
 //! - **Jobs Module:** which displays the total number of background jobs running in the shell.
 //!
-//! ### Note for Developers
-//!
-//! In Rust, each prompt receives its own implementation within the `prompt` module. All of their functionalities and shell integrations and implemented separately thoughout the remaining modules.
+//! # Development
+//! Each prompt of the theme receives its own implementation within the `prompt` module. All of its remaining functionalities, including shell integration, are implemented thoughout the other modules.
 //!
 //! # Help
-//! If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/river-dreams/issues) or send me an [e-mail](mailto:skippyr.developer@icloud.com) describing what is going on.
+//! If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/river_dreams/issues) or send me an [e-mail](mailto:skippyr.developer@icloud.com) describing what is going on.
 //!
 //! # Contributing
-//! This project is open to review and possibly accept contributions in the form of bug reports and suggestions. If you are interested, send your contribution to its [pull requests page](https://github.com/skippyr/river-dreams/pulls) or to my [e-mail](mailto:skippyr.developer@icloud.com).
+//! This project is open to review and possibly accept contributions in the form of bug reports and suggestions. If you are interested, send your contribution to its [pull requests page](https://github.com/skippyr/river_dreams/pulls) or to my [e-mail](mailto:skippyr.developer@icloud.com).
 //!
 //! # License
 //! This is free software licensed under the BSD-3-Clause License that comes WITH NO WARRANTY. Refer to the `LICENSE` file that comes in its source code for license and copyright details.
