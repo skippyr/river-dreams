@@ -47,7 +47,10 @@ pub fn write_help() {
     println!("For integrating it with your shell, write its connector to your ZSH");
     println!("configuration file.");
     println!();
-    println!("    {} --connector >> ~/.zshrc;", ThemeMetadata::name().dark_yellow());
+    println!(
+        "    {} --connector >> ~/.zshrc;",
+        ThemeMetadata::name().dark_yellow()
+    );
     println!();
     println!("Then, reopen your shell.");
     println!();
