@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="" src="assets/ornament.png" width=1020 />
+  <img alt="" src="https://raw.githubusercontent.com/skippyr/river_dreams/refs/heads/master/assets/ornament.png" width=1020 />
 </p>
 <h1 align="center">≥v≥v&ensp;River Dreams&ensp;≥v≥v</h1>
 <p align="center">
@@ -16,7 +16,7 @@
 River Dreams is a tribal looking theme for the ZSH shell made to help you craft your most ambitious software projects. It is available for macOS and Linux.
 
 <p align="center">
-  <img alt="" src="assets/preview.png" width=1020 />
+  <img alt="" src="https://raw.githubusercontent.com/skippyr/river_dreams/refs/heads/master/assets/preview.png" width=1020 />
 </p>
 <p align="center"><strong>Caption:</strong> a preview of the River Dreams theme.</p>
 
@@ -51,22 +51,18 @@ The following dependencies must be installed before it:
 - [**Rust Toolchain**](https://www.rust-lang.org): it will be used to build the project.
 - **A font patched by the [Nerd Fonts project](https://www.nerdfonts.com/font-downloads):** it provides the pretty symbols used by the software.
 
-> [!TIP]
-> Use your OS package manager or [HomeBrew](https://brew.sh) to install these packages.
+Use your OS package manager or [HomeBrew](https://brew.sh) to install these packages.
 
-> [!WARNING]
-> It is recommended to use a terminal with great Unicode support avoid installing multiple Nerd Fonts for the symbols used in the theme to appear correctly. The terminal recommended is **Kitty**. You can download it by following the previous tip.
+It is also recommended to use a terminal with great Unicode support avoid installing multiple Nerd Fonts for the symbols used in the theme to appear correctly. The terminal recommended is [**Kitty**](https://github.com/kovidgoyal/kitty). You can download it by following the previous tip.
 
 
 ### Procedures
-- Install it using `cargo`:
+- Apply the Nerd Font installed in your terminal and reopen it.
+- Install the theme using `cargo`. In case of an error, check `cargo`'s output for troubleshooting. Reopen your shell to retry compilation:
 
 ```zsh
 cargo install river_dreams;
 ```
-
-> [!NOTE]
-> In case of an error, check `cargo`'s output for troubleshooting. Reopen your shell to retry compilation.
 
 - Add its connector to your zsh configuration file.
 
