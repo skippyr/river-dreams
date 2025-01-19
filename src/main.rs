@@ -1,33 +1,49 @@
-use river_dreams::{
-    arguments::{ArgumentType, Arguments, Flag},
-    metadata::{write_connector, write_help, write_version},
-    prompt::{left_prompt::LeftPrompt, right_prompt::RightPrompt, Prompt, PromptSide},
-};
-use std::process::ExitCode;
+use std::fmt::{Display, Formatter, Error as FmtError};
 
-fn main() -> ExitCode {
-    match Arguments::parse(std::env::args()) {
-        Ok(argument_type) => match argument_type {
-            ArgumentType::Attributes { prompt_side } => {
-                if let Err(error) = if prompt_side == PromptSide::Left {
-                    LeftPrompt::write()
-                } else {
-                    RightPrompt::write()
-                } {
-                    error.write();
-                    return ExitCode::FAILURE;
-                }
-            }
-            ArgumentType::Flag(flag) => match flag {
-                Flag::Help => write_help(),
-                Flag::Version => write_version(),
-                Flag::Connector => write_connector(),
-            },
-        },
-        Err(error) => {
-            error.write();
-            return ExitCode::FAILURE;
-        }
+enum Opt {
+    Help,
+    InitCmdHelp,
+    WriteCmdHelp,
+    Version,
+    Repo,
+}
+
+enum Cmd {
+    Init,
+    Write(PromptSide),
+}
+
+enum ArgParseResult {
+    Opt(Opt),
+    Cmd(Cmd),
+}
+
+#[derive(Default)]
+enum PromptSide {
+    #[default]
+    Left,
+    Right,
+}
+
+#[derive(Debug)]
+struct Error(String);
+
+impl Error {
+    fn new<T: ToString>(msg: T) -> Self {
+        Self(msg.to_string())
     }
-    return ExitCode::SUCCESS;
+}
+
+impl Display for Error {
+    fn fmt(&self, fmt: &mut Formatter) -> Result<(), FmtError> {
+        write!(fmt, "{}", self.0)
+    }
+}
+
+fn parse_args() -> Result<ArgParseResult, Error> {
+    Err(Error::new("test"))
+}
+
+fn main() {
+    
 }
