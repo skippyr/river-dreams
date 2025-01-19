@@ -1,7 +1,14 @@
+use crossterm::style::Stylize;
+use open::that as open_in_browser;
 use std::{
     env::args,
     fmt::{Display, Error as FmtError, Formatter},
+    process::ExitCode,
 };
+
+const NAME: &str = env!("CARGO_PKG_NAME");
+const VERSION: &str = env!("CARGO_PKG_VERSION");
+const REPO: &str = env!("CARGO_PKG_HOMEPAGE");
 
 enum ValOpt<T> {
     Some(T),
@@ -60,13 +67,15 @@ fn is_ill_opt(arg: &str) -> bool {
 }
 
 fn parse_args() -> Result<ArgParseResult, Error> {
-    let args = args().collect::<Vec<_>>();
+    let args = args().skip(1).collect::<Vec<_>>();
     let mut cmd = ValOpt::None;
     if let Some(arg) = args.first() {
         if arg == "init" {
             cmd = ValOpt::Some(Cmd::Init);
-        } else {
+        } else if arg == "prompt" {
             cmd = ValOpt::Some(Cmd::Prompt(PromptSide::default()));
+        } else {
+            cmd = ValOpt::Invalid;
         }
     }
     for arg in &args {
@@ -82,7 +91,7 @@ fn parse_args() -> Result<ArgParseResult, Error> {
             return Ok(ArgParseResult::Opt(Opt::Repo));
         } else if is_opt(arg) {
             return Err(Error::new(format_args!(
-                r#"unrecognized option "{arg}" provided."#
+                r#"invalid option "{arg}" provided."#
             )));
         } else if is_ill_opt(arg) {
             return Err(Error::new(format_args!(
@@ -101,7 +110,99 @@ fn parse_args() -> Result<ArgParseResult, Error> {
         }
         _ => {}
     }
-    Err(Error::new("test"))
+    let mut side = PromptSide::Left;
+    if let Some(arg) = args.get(1) {
+        if arg == "right" {
+            side = PromptSide::Right;
+        } else if arg != "left" {
+            return Err(Error::new(r#"invalid prompt side "{arg}" provided."#));
+        }
+    } else {
+        return Err(Error::new("no prompt side provided."));
+    }
+    Ok(ArgParseResult::Cmd(Cmd::Prompt(side)))
 }
 
-fn main() {}
+fn open_repo() -> Result<(), Error> {
+    open_in_browser(REPO).map_err(|_| Error::new("can not open the software repository."))
+}
+
+fn write_err(err: &Error) {
+    eprintln!(
+        "{}{}{} {} {}{} {err}",
+        ":".dark_yellow().bold(),
+        "<>".dark_red().bold(),
+        "::".dark_yellow().bold(),
+        NAME.dark_magenta().bold(),
+        "(code 1)".dark_yellow().bold(),
+        ":".dark_magenta().bold()
+    );
+    eprintln!(
+        "{} use {} or {} for help instructions.",
+        "  info:".dark_cyan().bold(),
+        "-h".dark_cyan(),
+        "--help".dark_cyan()
+    );
+}
+
+fn write_help() {
+    todo!("write_help");
+}
+
+fn write_init_cmd_help() {
+    todo!("write_init_cmd_help");
+}
+
+fn write_prompt_cmd_help() {
+    todo!("write_prompt_cmd_help");
+}
+
+fn write_version() {
+    todo!("write_version");
+}
+
+fn init_prompt() {
+    todo!("init_prompt");
+}
+
+fn write_lprompt() -> Result<(), Error> {
+    todo!("write_lprompt");
+    Ok(())
+}
+
+fn write_rprompt() -> Result<(), Error> {
+    todo!("write_rprompt");
+    Ok(())
+}
+
+fn main() -> ExitCode {
+    match parse_args() {
+        Ok(res) => match res {
+            ArgParseResult::Opt(Opt::Help) => write_help(),
+            ArgParseResult::Opt(Opt::InitCmdHelp) => write_init_cmd_help(),
+            ArgParseResult::Opt(Opt::PromptCmdHelp) => write_prompt_cmd_help(),
+            ArgParseResult::Opt(Opt::Version) => write_version(),
+            ArgParseResult::Opt(Opt::Repo) => {
+                if let Err(err) = open_repo() {
+                    write_err(&err);
+                    return ExitCode::FAILURE;
+                }
+            }
+            ArgParseResult::Cmd(Cmd::Init) => init_prompt(),
+            ArgParseResult::Cmd(Cmd::Prompt(side)) => {
+                if let Err(err) = match side {
+                    PromptSide::Left => write_lprompt(),
+                    PromptSide::Right => write_rprompt(),
+                } {
+                    write_err(&err);
+                    return ExitCode::FAILURE;
+                }
+            }
+        },
+        Err(err) => {
+            write_err(&err);
+            return ExitCode::FAILURE;
+        }
+    }
+    ExitCode::SUCCESS
+}
