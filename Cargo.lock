@@ -679,7 +679,7 @@ dependencies = [
 
 [[package]]
 name = "river_dreams"
-version = "13.0.4"
+version = "13.0.5"
 dependencies = [
  "battery",
  "chrono",
