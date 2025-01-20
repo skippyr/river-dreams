@@ -32,20 +32,20 @@ It is also recommended to use a terminal with great Unicode support avoid instal
 
 
 ### Procedures
-- Apply the Nerd Font installed in your terminal and reopen it.
-- Install the theme using `cargo`. In case of an error, check `cargo`'s output for troubleshooting. Reopen your shell to retry compilation:
+- Apply the Nerd Font installed in your terminal.
+- Install the theme using `cargo`. In case of an error, check `cargo`'s output for troubleshooting.
 
 ```zsh
 cargo install river_dreams;
 ```
 
-- Initiate it in `~/.zshrc`:
+- Initiate the theme in `~/.zshrc`:
 
 ```zsh
 echo 'eval $(river_dreams init);' >> ~/.zshrc;
 ```
 
-- Reopen your shell.
+- Reopen the shell.
 
 ## ❡ Help
 If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/flamerial/issues) or send an [e-mail](mailto:skippyr.developer@icloud.com) describing what is going on.
