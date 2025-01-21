@@ -30,16 +30,14 @@ const LICENSE: &str = env!("CARGO_PKG_LICENSE");
 const AUTHOR_NAME: &str = "Sherman Rofeman";
 const AUTHOR_EMAIL: &str = "skippyr.developer@icloud.com";
 const YEAR: u16 = 2023;
-const OS_NAME: &str = if cfg!(target_os = "macos") {
-    "macOS"
-} else {
-    "Linux"
-};
-const CPU_ARCH: &str = if cfg!(target_arch = "aarch64") {
-    "aarch64"
-} else {
-    "x86_64"
-};
+#[cfg(target_os = "macos")]
+const OS_NAME: &str = "macOS";
+#[cfg(target_os = "linux")]
+const OS_NAME: &str = "Linux";
+#[cfg(target_arch = "aarch64")]
+const CPU_ARCH: &str = "aarch64";
+#[cfg(target_arch = "x86_64")]
+const CPU_ARCH: &str = "x86_64";
 const SEC_CONST_LEN: u16 = 42;
 const DFT_BRANCH: &str = "master";
 const PERC_SYM: &str = "%%";
@@ -472,7 +470,7 @@ fn num_len(mut num: u16) -> u16 {
 
 fn disk_use() -> Result<Use, Error> {
     let mut info: statvfs = unsafe { std::mem::zeroed() };
-    if unsafe { statvfs(['/' as c_char, 0].as_ptr(), &mut info) } < 0 {
+    if unsafe { statvfs([b'/' as c_char, 0].as_ptr(), &mut info) } < 0 {
         return Err(Error::new(
             "can not retrieve info about the main disk of the computer.",
         ));
@@ -548,25 +546,30 @@ fn pwd() -> Result<PathBuf, Error> {
 }
 
 fn can_acc_pwd() -> bool {
-    unsafe { access(['.' as c_char, 0].as_ptr(), W_OK) == 0 }
+    unsafe { access([b'.' as c_char, 0].as_ptr(), W_OK) == 0 }
 }
 
 fn is_dft_ent(ent: &dirent) -> bool {
-    (ent.d_name[0] == '.' as c_char && ent.d_name[1] == 0)
-        || (ent.d_name[0] == '.' as c_char && ent.d_name[1] == '.' as c_char && ent.d_name[2] == 0)
+    (ent.d_name[0] == b'.' as c_char && ent.d_name[1] == 0)
+        || (ent.d_name[0] == b'.' as c_char
+            && ent.d_name[1] == b'.' as c_char
+            && ent.d_name[2] == 0)
 }
 
 fn is_tmp_ent(ent: &dirent) -> bool {
-    ent.d_name[unsafe { strlen(ent.d_name.as_ptr()) } - 1] == '~' as c_char
+    ent.d_name[unsafe { strlen(ent.d_name.as_ptr()) } - 1] == b'~' as c_char
 }
 
 fn is_hidden_ent(ent: &dirent) -> Result<bool, ()> {
-    if ent.d_name[0] == '.' as c_char {
+    if ent.d_name[0] == b'.' as c_char {
         return Ok(true);
     }
-    if cfg!(target_os = "macos") {
+    #[cfg(target_os = "macos")]
+    {
         ent_lstat(ent).map(|stat| stat.st_flags & UF_HIDDEN != 0)
-    } else {
+    }
+    #[cfg(target_os = "linux")]
+    {
         Ok(false)
     }
 }
@@ -594,7 +597,7 @@ fn ent_type(ent: &dirent) -> EntType {
 }
 
 fn dir_ents() -> Result<DirEnts, Error> {
-    let dir = unsafe { opendir(['.' as c_char, 0].as_ptr()) };
+    let dir = unsafe { opendir([b'.' as c_char, 0].as_ptr()) };
     let mut dir_ents = DirEnts::default();
     if dir.is_null() {
         return Err(Error::new("can not access the current directory."));
