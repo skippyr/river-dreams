@@ -1,5 +1,5 @@
 use battery::{units::ratio::ratio, Manager as BatteryManager, State as BatteryState};
-use chrono::{DateTime, Datelike, Local, Timelike};
+use chrono::{DateTime, Datelike, Local as LocalTime, Timelike};
 use crossterm::{style::Stylize, terminal::size as terminal_size};
 use git2::{
     Repository as Git2Repository, RepositoryState as Git2RepositoryState, Status as Git2Status,
@@ -32,14 +32,7 @@ const SOFTWARE_LICENSE: &str = concat!(env!("CARGO_PKG_LICENSE"), " License");
 const SOFTWARE_AUTHOR_NAME: &str = "Sherman Rofeman";
 const SOFTWARE_AUTHOR_EMAIL: &str = "skippyr.developer@icloud.com";
 const SOFTWARE_CREATION_YEAR: u16 = 2023;
-#[cfg(target_os = "macos")]
-const OS_NAME: &str = "macOS";
-#[cfg(target_os = "linux")]
-const OS_NAME: &str = "Linux";
-#[cfg(target_arch = "aarch64")]
-const CPU_ARCHITECTURE: &str = "aarch64";
-#[cfg(target_arch = "x86_64")]
-const CPU_ARCHITECTURE: &str = "x86_64";
+const SOFTWARE_LICENSE_TEXT: &str = include_str!("../LICENSE");
 const LEFT_PROMPT_SECTIONS_CONSTANT_LENGTH: u16 = 42;
 const DEFAULT_BRANCH_NAME: &str = "master";
 const ZSH_PERCENTAGE_SYMBOL: &str = "%%";
@@ -59,6 +52,8 @@ enum Flag {
     PromptCommandHelp,
     Version,
     Repository,
+    Email,
+    License,
 }
 
 enum Command {
@@ -145,8 +140,8 @@ enum DayFraction {
     Night,
 }
 
-impl From<&DateTime<Local>> for DayFraction {
-    fn from(time: &DateTime<Local>) -> Self {
+impl From<&DateTime<LocalTime>> for DayFraction {
+    fn from(time: &DateTime<LocalTime>) -> Self {
         match time.hour() {
             0..6 => Self::Dawn,
             6..12 => Self::Morning,
@@ -255,8 +250,12 @@ fn parse_arguments() -> Result<ArgumentParseType, Error> {
             }
         } else if argument == "-v" || argument == "--version" {
             return Ok(ArgumentParseType::Flag(Flag::Version));
-        } else if argument == "-g" || argument == "--repo" {
+        } else if argument == "-g" || argument == "--repository" {
             return Ok(ArgumentParseType::Flag(Flag::Repository));
+        } else if argument == "-m" || argument == "--email" {
+            return Ok(ArgumentParseType::Flag(Flag::Email));
+        } else if argument == "-l" || argument == "--license" {
+            return Ok(ArgumentParseType::Flag(Flag::License));
         } else if is_flag(argument) {
             return Err(Error::new(format_args!(
                 r#"invalid flag "{argument}" provided."#
@@ -300,6 +299,11 @@ fn open_repository() -> Result<(), Error> {
         .map_err(|_| Error::new("can not open the software repository."))
 }
 
+fn draft_email() -> Result<(), Error> {
+    open_in_workspace(format!("mailto:{SOFTWARE_AUTHOR_EMAIL}"))
+        .map_err(|_| Error::new("can not draft e-mail to software developer."))
+}
+
 fn write_error(error: &Error) {
     eprintln!(
         "{}{}{} {} {}{} {error}",
@@ -340,7 +344,7 @@ fn write_usage(command: Option<&str>, arguments: Option<&[&str]>, description: &
             print!(" <{}>", argument.dark_yellow().underlined());
         }
     }
-    println!(" [{}]...", "OPTIONS".dark_yellow().underlined());
+    println!(" [{}]...", "FLAGS".dark_magenta().underlined());
     println!("{description}");
 }
 
@@ -367,7 +371,7 @@ fn write_items(title: &str, items: &[[&str; 2]]) {
 }
 
 fn write_flags(flags: &[[&str; 3]]) {
-    write_title("Available Options");
+    write_title("Available Flags");
     let padding = calculate_strs_padding(&flags.iter().map(|opt| opt[1]).collect::<Vec<_>>());
     for flag in flags {
         println!(
@@ -421,7 +425,9 @@ fn write_help() {
     write_flags(&[
         ["h", "help", "shows the software help instructions."],
         ["v", "version", "shows the software version."],
-        ["g", "repo", "opens the software repository."],
+        ["g", "repository", "opens the software repository."],
+        ["m", "email", "drafts an e-mail to the software developer."],
+        ["l", "license", "shows the software license."]
     ]);
 }
 
@@ -449,19 +455,36 @@ fn write_prompt_command_help() {
 }
 
 fn write_version() {
+    let info = os_info::get();
+    let name = info.os_type().to_string();
     println!(
-        "{} v{SOFTWARE_VERSION} {}",
+        "{} v{SOFTWARE_VERSION} · {}",
         SOFTWARE_NAME.dark_magenta().bold(),
-        format!("({OS_NAME} {CPU_ARCHITECTURE})").dark_grey()
+        format!(
+            "({}{} {})",
+            if info.os_type() == os_info::Type::Macos {
+                " "
+            } else {
+                " "
+            },
+            if info.os_type() == os_info::Type::Macos {
+                "macOS"
+            } else {
+                &name
+            },
+            info.version()
+        )
+        .dark_grey(),
     );
     println!(
         "Repository at: {}.",
         SOFTWARE_REPOSITORY_URL.dark_cyan().underlined()
     );
     println!();
-    println!("{SOFTWARE_LICENSE}");
+    println!("Licensed under the {SOFTWARE_LICENSE}.",);
     println!(
-        "Copyright (c) {SOFTWARE_CREATION_YEAR} {SOFTWARE_AUTHOR_NAME} <{}>",
+        "Copyright (c) {SOFTWARE_CREATION_YEAR}–{} {SOFTWARE_AUTHOR_NAME} <{}>",
+        LocalTime::now().year(),
         SOFTWARE_AUTHOR_EMAIL.dark_cyan().underlined()
     );
 }
@@ -533,11 +556,11 @@ fn color_symbol(symbol: &str, color: Option<Color>) -> String {
     }
 }
 
-fn is_ordinal(time: &DateTime<Local>, ordinal: u32) -> bool {
+fn is_ordinal(time: &DateTime<LocalTime>, ordinal: u32) -> bool {
     (time.day() - ordinal) % 10 == 0
 }
 
-fn day_ordinal(time: &DateTime<Local>) -> &'static str {
+fn day_ordinal(time: &DateTime<LocalTime>) -> &'static str {
     if is_ordinal(time, 1) {
         "st"
     } else if is_ordinal(time, 2) {
@@ -808,7 +831,7 @@ fn write_battery_section(charge: Option<&Charge>, sections: &mut u16) {
     *sections += calculate_number_length(charge.percentage as u16) + 5;
 }
 
-fn write_calendar_section(time: &DateTime<Local>) {
+fn write_calendar_section(time: &DateTime<LocalTime>) {
     print!(
         "  {}{}{}",
         color_symbol("󰃭 ", Some(Color::Red)),
@@ -817,7 +840,7 @@ fn write_calendar_section(time: &DateTime<Local>) {
     );
 }
 
-fn write_clock_section(time: &DateTime<Local>) {
+fn write_clock_section(time: &DateTime<LocalTime>) {
     print!(
         "  {}{}",
         match DayFraction::from(time) {
@@ -919,7 +942,7 @@ fn write_left_prompt() -> Result<(), Error> {
     let ip = local_ip().ok();
     let disk_usage = disk_usage()?;
     let battery_charge = battery_charge()?;
-    let time = Local::now();
+    let time = LocalTime::now();
     let current_directory = current_directory()?;
     let venv = environment_variable("VIRTUAL_ENV").ok();
     let repository = git_repository();
@@ -1006,7 +1029,14 @@ fn main() -> ExitCode {
                     write_error(&error);
                     return ExitCode::FAILURE;
                 }
-            }
+            },
+            ArgumentParseType::Flag(Flag::Email) => {
+                if let Err(error) = draft_email() {
+                    write_error(&error);
+                    return ExitCode::FAILURE;
+                }
+            },
+            ArgumentParseType::Flag(Flag::License) => println!("{SOFTWARE_LICENSE_TEXT}"),
             ArgumentParseType::Command(Command::Init) => init_prompt(),
             ArgumentParseType::Command(Command::Prompt(side)) => {
                 if let Err(error) = match side {

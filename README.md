@@ -48,10 +48,10 @@ echo 'eval $(river_dreams init);' >> ~/.zshrc;
 - Reopen the shell.
 
 ## ❡ Help
-If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/flamerial/issues) or send an [e-mail](mailto:skippyr.developer@icloud.com) describing what is going on.
+If you need help related to this project, open a new issue in its [issues pages](https://github.com/skippyr/river_dreams/issues) or send an [e-mail](mailto:skippyr.developer@icloud.com) describing what is going on.
 
 ## ❡ Contributing
-This project is open to review and possibly accept contributions in the form of bug reports and suggestions. If you are interested, send your contribution to its [pull requests page](https://github.com/skippyr/flamerial/pulls) or via [e-mail](mailto:skippyr.developer@icloud.com).
+This project is open to review and possibly accept contributions in the form of bug reports and suggestions. If you are interested, send your contribution to its [pull requests page](https://github.com/skippyr/river_dreams/pulls) or via [e-mail](mailto:skippyr.developer@icloud.com).
 
 ## ❡ License
 This is free software licensed under the BSD-3-Clause License that comes WITH NO WARRANTY. Refer to the `LICENSE` file that comes in its source code for license and copyright details.

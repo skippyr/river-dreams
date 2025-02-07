@@ -1,18 +1,12 @@
 [package]
 name = "river_dreams"
 description = "A tribal ZSH shell theme to help you craft your ambitious software projects. It is available for macOS and Linux."
-version = "13.0.7"
+version = "13.0.8"
 license = "BSD-3-Clause"
 edition = "2021"
 authors = ["Sherman Rofeman <skippyr.developer@icloud.com>"]
 homepage = "https://github.com/skippyr/river_dreams"
-keywords = [
-  "shell",
-  "zsh",
-  "cli",
-  "shell-theme",
-  "terminal",
-]
+keywords = ["shell", "zsh", "cli", "shell-theme", "terminal"]
 categories = ["command-line-utilities", "development-tools"]
 
 [dependencies]
@@ -24,3 +18,4 @@ libc = "0.2.169"
 local-ip-address = "0.6.3"
 num-format = "0.4.4"
 open = "5.3.2"
+os_info = "3.9.2"
