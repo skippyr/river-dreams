@@ -1,22 +1,22 @@
 <p align="center">
-  <img alt="" src="https://raw.githubusercontent.com/skippyr/river_dreams/refs/heads/master/assets/images/ornament.png" width=1020 />
+    <img alt="" src="https://raw.githubusercontent.com/skippyr/river_dreams/refs/heads/master/assets/images/ornament.png" width=1020 />
 </p>
 <h1 align="center">≥v≥v&ensp;River Dreams&ensp;≥v≥v</h1>
 <p align="center">
-  <img alt="" src="https://img.shields.io/github/license/skippyr/river_dreams?style=plastic&label=%E2%89%A5%20license&labelColor=%2324130e&color=%23b8150d" />
-  &nbsp;
-  <img alt="" src="https://img.shields.io/github/v/tag/skippyr/river_dreams?style=plastic&label=%E2%89%A5%20tag&labelColor=%2324130e&color=%23b8150d" />
-  &nbsp;
-  <img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/river_dreams?style=plastic&label=%E2%89%A5%20commits&labelColor=%2324130e&color=%23b8150d" />
-  &nbsp;
-  <img alt="" src="https://img.shields.io/github/stars/skippyr/river_dreams?style=plastic&label=%E2%89%A5%20stars&labelColor=%2324130e&color=%23b8150d" />
+    <img alt="" src="https://img.shields.io/github/license/skippyr/river_dreams?style=plastic&label=%E2%89%A5%20license&labelColor=%2324130e&color=%23b8150d" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/v/tag/skippyr/river_dreams?style=plastic&label=%E2%89%A5%20tag&labelColor=%2324130e&color=%23b8150d" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/commit-activity/t/skippyr/river_dreams?style=plastic&label=%E2%89%A5%20commits&labelColor=%2324130e&color=%23b8150d" />
+    &nbsp;
+    <img alt="" src="https://img.shields.io/github/stars/skippyr/river_dreams?style=plastic&label=%E2%89%A5%20stars&labelColor=%2324130e&color=%23b8150d" />
 </p>
 
 ## ❡ About
 A tribal ZSH shell theme to help you craft your ambitious software projects. It is available for macOS and Linux.
 
 <p align="center">
-  <img alt="" src="https://raw.githubusercontent.com/skippyr/river_dreams/refs/heads/master/assets/images/preview.png" width=1020 />
+    <img alt="" src="https://raw.githubusercontent.com/skippyr/river_dreams/refs/heads/master/assets/images/preview.png" width=1020 />
 </p>
 <p align="center"><strong>Caption:</strong> a preview of the River Dreams theme with the <a href="https://github.com/skippyr/flamerial">Flamerial</a> palette.</p>
 
