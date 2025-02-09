@@ -10,70 +10,54 @@ use libc::{
 };
 #[cfg(target_os = "macos")]
 use libc::{lstat, stat, UF_HIDDEN};
-use local_ip_address::local_ip;
+use local_ip_address::local_ip as ip_address;
 use num_format::{Locale, ToFormattedString};
-use open::that as open_in_workspace;
+use open::that as open_at_workspace;
+use os_info::get as os_info;
 #[cfg(target_os = "macos")]
 use std::mem::zeroed;
 use std::{
-    env::{args, current_dir as std_current_directory, var as environment_variable},
+    env::{args as arguments, current_dir as std_current_directory, var as environment_variable},
     ffi::c_char,
-    fmt::{Display, Error as FormatError, Formatter},
-    fs::read_to_string,
+    fs::read_to_string as read_file,
     net::IpAddr,
     path::{Path, PathBuf},
-    process::ExitCode,
+    process::exit as exit_process,
 };
 
-const SOFTWARE_NAME: &str = env!("CARGO_PKG_NAME");
-const SOFTWARE_VERSION: &str = env!("CARGO_PKG_VERSION");
-const SOFTWARE_REPOSITORY_URL: &str = env!("CARGO_PKG_HOMEPAGE");
-const SOFTWARE_LICENSE: &str = concat!(env!("CARGO_PKG_LICENSE"), " License");
-const SOFTWARE_AUTHOR_NAME: &str = "Sherman Rofeman";
-const SOFTWARE_AUTHOR_EMAIL: &str = "skippyr.developer@icloud.com";
-const SOFTWARE_CREATION_YEAR: u16 = 2023;
-const SOFTWARE_LICENSE_TEXT: &str = include_str!("../LICENSE");
+const NAME: &str = env!("CARGO_PKG_NAME");
+const VERSION: &str = concat!("v", env!("CARGO_PKG_VERSION"));
+const REPOSITORY: &str = env!("CARGO_PKG_HOMEPAGE");
+const CREATION_YEAR: i32 = 2023;
+const LICENSE_NAME: &str = concat!(env!("CARGO_PKG_LICENSE"), " License");
+const LICENSE_TEXT: &str = include_str!("../LICENSE");
+const AUTHOR_NAME: &str = "Sherman Rofeman";
+const AUTHOR_EMAIL: &str = "skippyr.developer@icloud.com";
 const LEFT_PROMPT_SECTIONS_CONSTANT_LENGTH: u16 = 42;
-const DEFAULT_BRANCH_NAME: &str = "master";
 const ZSH_PERCENTAGE_SYMBOL: &str = "%%";
 const ZSH_EXIT_CODE: &str = "%?";
 const ZSH_TOTAL_JOBS: &str = "%j";
-
-enum ValidationOption<T> {
-    Some(T),
-    None,
-    Invalid,
-}
-
-#[derive(Clone, Copy)]
-enum Flag {
-    MainHelp,
-    InitCommandHelp,
-    PromptCommandHelp,
-    Version,
-    Repository,
-    Email,
-    License,
-}
+const GIT_DEFAULT_BRANCH_NAME: &str = "master";
 
 enum Command {
     Init,
-    Prompt(PromptSide),
+    Prompt,
 }
 
-enum ArgumentParseType {
-    Flag(Flag),
-    Command(Command),
+impl Command {
+    fn name(&self) -> &'static str {
+        match self {
+            Self::Init => "init",
+            Self::Prompt => "prompt",
+        }
+    }
 }
 
-#[derive(Default, Clone, Copy)]
 enum PromptSide {
-    #[default]
     Left,
     Right,
 }
 
-#[derive(Clone, Copy)]
 enum Color {
     Red,
     Green,
@@ -96,7 +80,6 @@ impl Color {
     }
 }
 
-#[derive(Clone, Copy)]
 enum DiskUsageStatus {
     Low,
     Moderate,
@@ -113,7 +96,6 @@ impl From<u8> for DiskUsageStatus {
     }
 }
 
-#[derive(Clone, Copy)]
 enum BatteryChargeStatus {
     Critical,
     Low,
@@ -132,7 +114,6 @@ impl BatteryChargeStatus {
     }
 }
 
-#[derive(Clone, Copy)]
 enum DayFraction {
     Dawn,
     Morning,
@@ -156,14 +137,13 @@ enum GitReference {
     RebaseHash(String),
 }
 
-#[derive(Clone, Copy)]
-enum DirectoryEntryType {
-    Directory,
+enum EntryType {
     File,
+    Directory,
     Socket,
     Fifo,
-    BlockDevice,
-    CharacterDevice,
+    Block,
+    Character,
     Symlink,
 }
 
@@ -172,321 +152,193 @@ struct DiskUsage {
     status: DiskUsageStatus,
 }
 
-struct Charge {
+struct BatteryCharge {
     percentage: u8,
     status: BatteryChargeStatus,
     is_charging: bool,
 }
 
-struct Repository {
+struct GitRepository {
     path: PathBuf,
     reference: GitReference,
     is_dirty: bool,
 }
 
 #[derive(Default)]
-struct DirectoryEntriesCount {
-    total_directories: usize,
+struct DirectoryReport {
     total_files: usize,
+    total_directories: usize,
     total_sockets: usize,
     total_fifos: usize,
-    total_block_devices: usize,
-    total_character_devices: usize,
+    total_blocks: usize,
+    total_characters: usize,
     total_symlinks: usize,
-    total_hidden_entries: usize,
-    total_temporary_entries: usize,
+    total_hiddens: usize,
+    total_temporaries: usize,
 }
 
-#[derive(Debug)]
-struct Error(String);
-
-impl Error {
-    fn new<T: ToString>(message: T) -> Self {
-        Self(message.to_string())
-    }
-}
-
-impl Display for Error {
-    fn fmt(&self, formatter: &mut Formatter) -> Result<(), FormatError> {
-        write!(formatter, "{}", self.0)
-    }
-}
-
-fn is_flag(argument: &str) -> bool {
-    let graphemes = argument.chars().collect::<Vec<_>>();
-    (graphemes.len() == 2 && graphemes[0] == '-' && graphemes[1].is_ascii_lowercase())
-        || (graphemes.len() > 2
-            && graphemes[0] == '-'
-            && graphemes[1] == '-'
-            && graphemes[2].is_ascii_lowercase())
-}
-
-fn is_malformed_flag(argument: &str) -> bool {
-    argument == "-" || argument == "--"
-}
-
-fn parse_arguments() -> Result<ArgumentParseType, Error> {
-    let arguments = args().skip(1).collect::<Vec<_>>();
-    let mut command = ValidationOption::None;
-    if let Some(argument) = arguments.first() {
-        if argument == "init" {
-            command = ValidationOption::Some(Command::Init);
-        } else if argument == "prompt" {
-            command = ValidationOption::Some(Command::Prompt(PromptSide::default()));
-        } else {
-            command = ValidationOption::Invalid;
-        }
-    }
-    for argument in &arguments {
-        if argument == "-h" || argument == "--help" {
-            match command {
-                ValidationOption::Some(Command::Init) => {
-                    return Ok(ArgumentParseType::Flag(Flag::InitCommandHelp))
-                }
-                ValidationOption::Some(Command::Prompt(_)) => {
-                    return Ok(ArgumentParseType::Flag(Flag::PromptCommandHelp))
-                }
-                _ => return Ok(ArgumentParseType::Flag(Flag::MainHelp)),
-            }
-        } else if argument == "-v" || argument == "--version" {
-            return Ok(ArgumentParseType::Flag(Flag::Version));
-        } else if argument == "-g" || argument == "--repository" {
-            return Ok(ArgumentParseType::Flag(Flag::Repository));
-        } else if argument == "-m" || argument == "--email" {
-            return Ok(ArgumentParseType::Flag(Flag::Email));
-        } else if argument == "-l" || argument == "--license" {
-            return Ok(ArgumentParseType::Flag(Flag::License));
-        } else if is_flag(argument) {
-            return Err(Error::new(format_args!(
-                r#"invalid flag "{argument}" provided."#
-            )));
-        } else if is_malformed_flag(argument) {
-            return Err(Error::new(format_args!(
-                r#"malformed flag "{argument}" provided."#
-            )));
-        }
-    }
-    match command {
-        ValidationOption::Some(Command::Init) => {
-            return Ok(ArgumentParseType::Command(Command::Init))
-        }
-        ValidationOption::None => return Err(Error::new("no command provided.")),
-        ValidationOption::Invalid => {
-            return Err(Error::new(format_args!(
-                r#"invalid command "{}" provided."#,
-                arguments[0]
-            )))
-        }
-        _ => {}
-    }
-    let mut prompt_side = PromptSide::Left;
-    if let Some(argument) = arguments.get(1) {
-        if argument == "right" {
-            prompt_side = PromptSide::Right;
-        } else if argument != "left" {
-            return Err(Error::new(format_args!(
-                r#"invalid prompt side "{argument}" provided."#
-            )));
-        }
-    } else {
-        return Err(Error::new("no prompt side provided."));
-    }
-    Ok(ArgumentParseType::Command(Command::Prompt(prompt_side)))
-}
-
-fn open_repository() -> Result<(), Error> {
-    open_in_workspace(SOFTWARE_REPOSITORY_URL)
-        .map_err(|_| Error::new("can not open the software repository."))
-}
-
-fn draft_email() -> Result<(), Error> {
-    open_in_workspace(format!("mailto:{SOFTWARE_AUTHOR_EMAIL}"))
-        .map_err(|_| Error::new("can not draft e-mail to software developer."))
-}
-
-fn write_error(error: &Error) {
+fn throw_error<T>(message: T) -> !
+where
+    T: Into<String>,
+{
     eprintln!(
-        "{}{}{} {} {}{} {error}",
+        "{}{}{} {} {}{} {}",
         ":".dark_yellow().bold(),
         "<>".dark_red().bold(),
         "::".dark_yellow().bold(),
-        SOFTWARE_NAME.dark_magenta().bold(),
-        "(code 1)".dark_yellow().bold(),
-        ":".dark_magenta().bold()
+        NAME.dark_magenta().bold(),
+        "(exit 1)".dark_yellow().bold(),
+        ":".dark_magenta().bold(),
+        message.into()
     );
-    write_info(
-        &format!(
-            "use {} or {} for help instructions.",
-            "-h".dark_cyan(),
-            "--help".dark_cyan()
-        ),
-        false,
+    eprintln!(
+        "{} use {} or {} for help instructions.",
+        " INFO:".dark_cyan().bold(),
+        "-h".dark_cyan(),
+        "--help".dark_cyan()
     );
+    exit_process(1);
 }
 
-fn write_title(title: &str) {
-    println!("{} {}", "❡".dark_cyan().bold(), title.dark_magenta().bold());
-}
-
-fn write_usage(command: Option<&str>, arguments: Option<&[&str]>, description: &str) {
-    print!(
-        "{}{}{} {} {SOFTWARE_NAME}",
+fn write_help() {
+    println!(
+        "{}{}{} {} {NAME} <{}> [{}]...",
         ":".dark_yellow().bold(),
         "<>".dark_red().bold(),
         "::".dark_yellow().bold(),
         "Usage:".dark_magenta().bold(),
+        "COMMAND".dark_yellow().underlined(),
+        "FLAGS".dark_cyan().underlined()
     );
-    if let Some(command) = command {
-        print!(" {command}");
-    }
-    if let Some(arguments) = arguments {
-        for argument in arguments {
-            print!(" <{}>", argument.dark_yellow().underlined());
-        }
-    }
-    println!(" [{}]...", "FLAGS".dark_magenta().underlined());
-    println!("{description}");
-}
-
-fn calculate_strs_padding<'a, T: AsRef<[&'a str]>>(items: &T) -> usize {
-    let mut padding = 0;
-    for item in items.as_ref() {
-        if item.len() > padding {
-            padding = item.len();
-        }
-    }
-    padding
-}
-
-fn write_items(title: &str, items: &[[&str; 2]]) {
-    write_title(title);
-    let padding = calculate_strs_padding(&items.iter().map(|item| item[0]).collect::<Vec<_>>());
-    for item in items {
-        println!(
-            "    {}  {}",
-            format!("{:padding$}", item[0]).dark_yellow(),
-            item[1]
-        );
-    }
-}
-
-fn write_flags(flags: &[[&str; 3]]) {
-    write_title("Available Flags");
-    let padding = calculate_strs_padding(&flags.iter().map(|opt| opt[1]).collect::<Vec<_>>());
-    for flag in flags {
-        println!(
-            "    {}, {}  {}",
-            format!("-{}", flag[0]).dark_cyan(),
-            format!("--{:padding$}", flag[1]).dark_cyan(),
-            flag[2]
-        );
-    }
-}
-
-fn write_code(code: &str, language: &str) {
-    println!("    {}{}", "```".dark_grey(), language.dark_cyan());
-    println!("    {code}");
-    println!("    {}", "```".dark_grey());
-}
-
-fn write_info(message: &str, is_to_use_stdout: bool) {
-    let message = format!("{} {message}", "  info:".dark_cyan().bold());
-    if is_to_use_stdout {
-        println!("{message}");
-    } else {
-        eprintln!("{message}");
-    }
-}
-
-fn write_help() {
-    write_usage(
-        None,
-        Some(&["COMMAND"]),
-        "Performs tasks related to the River Dreams theme.",
+    println!("Performs tasks related to the River Dreams theme.");
+    println!();
+    println!("{}", "❡ Available Commands".dark_magenta().bold());
+    println!("    {}    initiates the prompt.", "init".dark_yellow());
+    println!("    {}  writes a prompt side.", "prompt".dark_yellow());
+    println!();
+    println!(
+        "{} use {} or {} with each for help instructions.",
+        " INFO:".dark_cyan().bold(),
+        "-h".dark_cyan(),
+        "--help".dark_cyan()
     );
     println!();
-    write_items(
-        "Available Commands",
-        &[
-            ["init", "initiates the prompt."],
-            ["prompt", "writes a prompt side."],
-        ],
+    println!("{}", "❡ Available Flags".dark_magenta().bold());
+    println!(
+        "    {}, {}        shows the software help instructions.",
+        "-h".dark_cyan(),
+        "--help".dark_cyan()
     );
-    println!();
-    write_info(
-        &format!(
-            "use {} or {} with each for help instructions.",
-            "-h".dark_cyan(),
-            "--help".dark_cyan()
-        ),
-        true,
+    println!(
+        "    {}, {}     shows the software version.",
+        "-v".dark_cyan(),
+        "--version".dark_cyan()
     );
-    println!();
-    write_flags(&[
-        ["h", "help", "shows the software help instructions."],
-        ["v", "version", "shows the software version."],
-        ["g", "repository", "opens the software repository."],
-        ["m", "email", "drafts an e-mail to the software developer."],
-        ["l", "license", "shows the software license."]
-    ]);
+    println!(
+        "    {}, {}     shows the software license text.",
+        "-l".dark_cyan(),
+        "--license".dark_cyan()
+    );
+    println!(
+        "    {}, {}  opens the software repository.",
+        "-g".dark_cyan(),
+        "--repository".dark_cyan()
+    );
+    println!(
+        "    {}, {}       drafts an e-mail to the software developer.",
+        "-m".dark_cyan(),
+        "--email".dark_cyan()
+    );
 }
 
-fn write_init_command_help() {
-    write_usage(Some("init"), None, "Initiates the prompt.");
+fn write_init_help() {
+    println!(
+        "{}{}{} {} {NAME} init [{}]...",
+        ":".dark_yellow().bold(),
+        "<>".dark_red().bold(),
+        "::".dark_yellow().bold(),
+        "Usage:".dark_magenta().bold(),
+        "FLAGS".dark_cyan().underlined()
+    );
+    println!("Initiates the prompt.");
     println!();
-    println!("Use it within an eval call in ~/.zshrc:");
-    write_code("eval $(river_dreams init);", "zsh");
+    println!("It should be evaluated within ~/.zshrc:");
+    println!("    echo 'eval $(river_dreams init)' >> ~/.zshrc;");
     println!();
-    write_flags(&[["h", "help", "shows the command help instructions."]]);
+    println!("{}", "❡ Available Flags".dark_magenta().bold());
+    println!(
+        "    {}, {}  shows the command help instructions.",
+        "-h".dark_cyan(),
+        "--help".dark_cyan()
+    );
 }
 
-fn write_prompt_command_help() {
-    write_usage(Some("prompt"), Some(&["SIDE"]), "Writes a prompt side.");
-    println!();
-    write_items(
-        "Available Sides",
-        &[
-            ["left", "refers to the left prompt."],
-            ["right", "refers to the right prompt."],
-        ],
+fn write_prompt_help() {
+    println!(
+        "{}{}{} {} {NAME} prompt <{}> [{}]...",
+        ":".dark_yellow().bold(),
+        "<>".dark_red().bold(),
+        "::".dark_yellow().bold(),
+        "Usage:".dark_magenta().bold(),
+        "SIDE".dark_yellow().underlined(),
+        "FLAGS".dark_cyan().underlined()
     );
+    println!("Writes a prompt side.");
     println!();
-    write_flags(&[["h", "help", "shows the command instructions."]]);
+    println!("{}", "❡ Available Sides".dark_magenta().bold());
+    println!("    {}   refers to the left prompt.", "left".dark_yellow());
+    println!("    {}  refers to the right prompt.", "right".dark_yellow());
+    println!();
+    println!("{}", "❡ Available Flags".dark_magenta().bold());
+    println!(
+        "    {}, {}  shows the command help instructions.",
+        "-h".dark_cyan(),
+        "--help".dark_cyan()
+    );
 }
 
 fn write_version() {
-    let info = os_info::get();
-    let name = info.os_type().to_string();
+    let os_info = os_info();
     println!(
-        "{} v{SOFTWARE_VERSION} · {}",
-        SOFTWARE_NAME.dark_magenta().bold(),
-        format!(
-            "({}{} {})",
-            if info.os_type() == os_info::Type::Macos {
-                " "
-            } else {
-                " "
-            },
-            if info.os_type() == os_info::Type::Macos {
-                "macOS"
-            } else {
-                &name
-            },
-            info.version()
-        )
-        .dark_grey(),
+        "{} {VERSION} · (for {}{} {})",
+        NAME.dark_magenta().bold(),
+        if os_info.os_type() == os_info::Type::Macos {
+            " "
+        } else {
+            " "
+        },
+        if os_info.os_type() == os_info::Type::Macos {
+            String::from("macOS")
+        } else {
+            os_info.os_type().to_string()
+        },
+        os_info.version()
     );
-    println!(
-        "Repository at: {}.",
-        SOFTWARE_REPOSITORY_URL.dark_cyan().underlined()
-    );
+    println!("Available at: {}.", REPOSITORY.dark_cyan().underlined());
     println!();
-    println!("Licensed under the {SOFTWARE_LICENSE}.",);
+    println!("Licensed under the {LICENSE_NAME}.");
     println!(
-        "Copyright (c) {SOFTWARE_CREATION_YEAR}–{} {SOFTWARE_AUTHOR_NAME} <{}>",
-        LocalTime::now().year(),
-        SOFTWARE_AUTHOR_EMAIL.dark_cyan().underlined()
+        "Copyright © {CREATION_YEAR} {AUTHOR_NAME} <{}>",
+        AUTHOR_EMAIL.dark_cyan().underlined()
     );
+}
+
+fn open_repository() {
+    if let Err(_) = open_at_workspace(REPOSITORY) {
+        throw_error("can not open the default web browser.");
+    }
+    println!("Opening the repository in the default web browser.");
+}
+
+fn draft_email() {
+    if let Err(_) = open_at_workspace(format!("mailto:{AUTHOR_EMAIL}")) {
+        throw_error("can not open the default mail client.");
+    }
+    println!("Drafting an e-mail in the default e-mail client.");
+}
+
+fn is_flag(argument: &str) -> bool {
+    return argument.starts_with("-") || argument.starts_with("--");
 }
 
 fn init_prompt() {
@@ -494,6 +346,40 @@ fn init_prompt() {
     println!("export VIRTUAL_ENV_DISABLE_PROMPT=1;");
     println!("PROMPT='$(river_dreams prompt left)';");
     println!("RPROMPT='$(river_dreams prompt right)';");
+}
+
+fn color_symbol(symbol: &str, color: Color) -> String {
+    format!("%F{{{}}}{symbol}%f", color.ansi())
+}
+
+fn total_columns() -> u16 {
+    match terminal_size().map(|(total_columns, _)| total_columns) {
+        Ok(total_columns) => total_columns,
+        Err(_) => throw_error("can not retrieve the terminal dimensions."),
+    }
+}
+
+fn write_top_separator(total_columns: u16) {
+    for column in 0..total_columns {
+        print!(
+            "{}",
+            if column % 2 == 0 {
+                color_symbol("≥", Color::Yellow)
+            } else {
+                color_symbol("v", Color::Red)
+            }
+        );
+    }
+    print!("{}", color_symbol(":«(", Color::Yellow));
+}
+
+fn write_ip_section(ip: Option<&IpAddr>, sections_length: &mut u16) {
+    let ip = match ip {
+        Some(ip) => ip.to_string(),
+        None => String::from("No Address Found"),
+    };
+    print!("{} {}", color_symbol(" ", Color::Blue), ip);
+    *sections_length += ip.len() as u16;
 }
 
 fn calculate_number_length(mut number: u16) -> u16 {
@@ -508,52 +394,86 @@ fn calculate_number_length(mut number: u16) -> u16 {
     length
 }
 
-fn disk_usage() -> Result<DiskUsage, Error> {
+fn disk_usage() -> DiskUsage {
     let mut info = unsafe { std::mem::zeroed() };
     if unsafe { statvfs([b'/' as c_char, 0].as_ptr(), &mut info) } < 0 {
-        return Err(Error::new(
-            "can not retrieve info about the main disk of the computer.",
-        ));
+        throw_error("can not retrieve the disk information.");
     }
     let total_bytes = info.f_frsize * info.f_blocks as u64;
     let available_bytes = info.f_frsize * info.f_bavail as u64;
     let free_bytes = total_bytes - available_bytes;
     let percentage = (free_bytes as f64 / total_bytes as f64 * 100.0) as u8;
-    Ok(DiskUsage {
+    DiskUsage {
         percentage,
         status: DiskUsageStatus::from(percentage),
-    })
+    }
 }
 
-fn battery_charge() -> Result<Option<Charge>, Error> {
+fn write_disk_section(usage: &DiskUsage, sections_length: &mut u16) {
+    print!(
+        "  {}{}{}",
+        color_symbol(
+            "󰋊 ",
+            match usage.status {
+                DiskUsageStatus::Low => Color::Green,
+                DiskUsageStatus::Moderate => Color::Yellow,
+                DiskUsageStatus::High => Color::Red,
+            }
+        ),
+        usage.percentage,
+        ZSH_PERCENTAGE_SYMBOL
+    );
+    *sections_length += calculate_number_length(usage.percentage as u16);
+}
+
+fn battery_charge() -> Option<BatteryCharge> {
     const SUPPLY_ERROR: &str = "can not retrieve info about the energy supply of the computer.";
-    for battery in BatteryManager::new()
-        .map_err(|_| Error::new(SUPPLY_ERROR))?
-        .batteries()
-        .map_err(|_| Error::new(SUPPLY_ERROR))?
-    {
+    let manager = match BatteryManager::new() {
+        Ok(manager) => manager,
+        Err(_) => throw_error(SUPPLY_ERROR),
+    };
+    for battery in match manager.batteries() {
+        Ok(batteries) => batteries,
+        Err(_) => throw_error(SUPPLY_ERROR),
+    } {
         let battery = match battery {
-            Ok(bat) => bat,
+            Ok(battery) => battery,
             Err(_) => continue,
         };
         let percentage = (battery.state_of_charge().get::<ratio>() * 100.0).round() as u8;
-        return Ok(Some(Charge {
+        return Some(BatteryCharge {
             percentage,
             status: BatteryChargeStatus::from(percentage),
             is_charging: matches!(
                 battery.state(),
                 BatteryState::Charging | BatteryState::Full | BatteryState::Unknown
             ),
-        }));
+        });
     }
-    Ok(None)
+    None
 }
 
-fn color_symbol(symbol: &str, color: Option<Color>) -> String {
-    match color {
-        Some(color) => format!("%F{{{}}}{symbol}%f", color.ansi()),
-        None => symbol.to_owned(),
+fn write_battery_section(charge: Option<&BatteryCharge>, sections_length: &mut u16) {
+    if charge.is_none() {
+        return;
     }
+    let charge = charge.unwrap();
+    print!(
+        "  {} {}{}",
+        match charge.status {
+            BatteryChargeStatus::Critical =>
+                color_symbol(if charge.is_charging { "󰢟" } else { "󰂎" }, Color::Red),
+            BatteryChargeStatus::Low =>
+                color_symbol(if charge.is_charging { "󱊤" } else { "󱊡" }, Color::Red),
+            BatteryChargeStatus::Moderate =>
+                color_symbol(if charge.is_charging { "󱊥" } else { "󱊢" }, Color::Yellow),
+            BatteryChargeStatus::High =>
+                color_symbol(if charge.is_charging { "󱊦" } else { "󱊣" }, Color::Green),
+        },
+        charge.percentage,
+        ZSH_PERCENTAGE_SYMBOL
+    );
+    *sections_length += calculate_number_length(charge.percentage as u16) + 5;
 }
 
 fn is_ordinal(time: &DateTime<LocalTime>, ordinal: u32) -> bool {
@@ -572,112 +492,96 @@ fn day_ordinal(time: &DateTime<LocalTime>) -> &'static str {
     }
 }
 
-fn is_fs_root(path: &Path) -> bool {
-    path.ancestors().count() == 1
+fn write_calendar_section(time: &DateTime<LocalTime>) {
+    print!(
+        "  {}{}{}",
+        color_symbol("󰃭 ", Color::Red),
+        time.format("(%a) %b %d"),
+        day_ordinal(time)
+    );
 }
 
-fn current_directory() -> Result<PathBuf, Error> {
-    if let Ok(pwd) = std_current_directory() {
-        return Ok(pwd);
-    } else if let Ok(pwd) = environment_variable("PWD") {
-        return Ok(PathBuf::from(pwd));
-    }
-    Err(Error::new("can not resolve the current directory."))
+fn write_clock_section(time: &DateTime<LocalTime>) {
+    print!(
+        "  {}{}",
+        match DayFraction::from(time) {
+            DayFraction::Dawn => color_symbol("󰭎 ", Color::Cyan),
+            DayFraction::Morning => color_symbol("󰖨 ", Color::Red),
+            DayFraction::Afternoon => color_symbol(" ", Color::Blue),
+            DayFraction::Night => color_symbol("󰽥 ", Color::Yellow),
+        },
+        time.format("%Hh%Mm")
+    );
 }
 
-fn can_access_current_directory() -> bool {
-    unsafe { access([b'.' as c_char, 0].as_ptr(), W_OK) == 0 }
-}
-
-fn is_dot_entry(entry: &dirent) -> bool {
-    (entry.d_name[0] == b'.' as c_char && entry.d_name[1] == 0)
-        || (entry.d_name[0] == b'.' as c_char
-            && entry.d_name[1] == b'.' as c_char
-            && entry.d_name[2] == 0)
-}
-
-fn is_temporary_entry(entry: &dirent) -> bool {
-    entry.d_name[unsafe { strlen(entry.d_name.as_ptr()) } - 1] == b'~' as c_char
-}
-
-fn is_hidden_entry(entry: &dirent) -> Result<bool, ()> {
-    if entry.d_name[0] == b'.' as c_char {
-        return Ok(true);
-    }
-    #[cfg(target_os = "macos")]
-    {
-        entry_lstat(entry).map(|stat| stat.st_flags & UF_HIDDEN != 0)
-    }
-    #[cfg(target_os = "linux")]
-    {
-        Ok(false)
-    }
-}
-
-#[cfg(target_os = "macos")]
-fn entry_lstat(entry: &dirent) -> Result<stat, ()> {
-    let mut entry_stat = unsafe { zeroed() };
-    if unsafe { lstat(entry.d_name.as_ptr(), &mut entry_stat) } < 0 {
-        Err(())
-    } else {
-        Ok(entry_stat)
-    }
-}
-
-fn entry_type(entry: &dirent) -> DirectoryEntryType {
-    match entry.d_type {
-        DT_DIR => DirectoryEntryType::Directory,
-        DT_SOCK => DirectoryEntryType::Socket,
-        DT_FIFO => DirectoryEntryType::Fifo,
-        DT_BLK => DirectoryEntryType::BlockDevice,
-        DT_CHR => DirectoryEntryType::CharacterDevice,
-        DT_LNK => DirectoryEntryType::Symlink,
-        _ => DirectoryEntryType::File,
-    }
-}
-
-fn directory_entries_count() -> Result<DirectoryEntriesCount, Error> {
-    let stream = unsafe { opendir([b'.' as c_char, 0].as_ptr()) };
-    let mut entries_count = DirectoryEntriesCount::default();
-    if stream.is_null() {
-        return Err(Error::new("can not access the current directory."));
-    }
-    loop {
-        let entry = unsafe { readdir(stream) };
-        if entry.is_null() {
-            break;
-        }
-        let entry = unsafe { *entry };
-        if is_dot_entry(&entry) {
-            continue;
-        } else if is_temporary_entry(&entry) {
-            entries_count.total_temporary_entries += 1;
-        }
-        match is_hidden_entry(&entry) {
-            Ok(is_hidden) => {
-                if is_hidden {
-                    entries_count.total_hidden_entries += 1;
-                }
+fn write_middle_separator(total_columns: u16, sections_length: u16) {
+    print!("{}", color_symbol(")»:", Color::Yellow));
+    for column in 0..total_columns.saturating_sub(sections_length) {
+        print!(
+            "{}",
+            if column % 2 == 0 {
+                color_symbol("-", Color::Red)
+            } else {
+                color_symbol("=", Color::Yellow)
             }
-            Err(_) => continue,
-        }
-        match entry_type(&entry) {
-            DirectoryEntryType::Directory => entries_count.total_directories += 1,
-            DirectoryEntryType::Socket => entries_count.total_sockets += 1,
-            DirectoryEntryType::Fifo => entries_count.total_fifos += 1,
-            DirectoryEntryType::BlockDevice => entries_count.total_block_devices += 1,
-            DirectoryEntryType::CharacterDevice => entries_count.total_character_devices += 1,
-            DirectoryEntryType::Symlink => entries_count.total_symlinks += 1,
-            DirectoryEntryType::File => entries_count.total_files += 1,
-        }
+        );
     }
-    unsafe {
-        closedir(stream);
-    }
-    Ok(entries_count)
 }
 
-fn git_repository() -> Option<Repository> {
+fn show_when_root(symbol: &str) -> String {
+    format!("%(#.{symbol}.)")
+}
+
+fn write_root_section() {
+    print!(
+        "{}",
+        show_when_root(&format!(
+            "{}{}{}",
+            color_symbol("{", Color::Yellow),
+            color_symbol("#", Color::Red),
+            color_symbol("}", Color::Yellow)
+        ))
+    );
+}
+
+fn show_in_exit_codes(success_symbol: &str, error_symbol: &str) -> String {
+    format!("%(?.{success_symbol}.{error_symbol})")
+}
+
+fn write_exit_code_section() {
+    print!(
+        "{}{}{}",
+        color_symbol("{", Color::Yellow),
+        show_in_exit_codes(
+            &color_symbol(ZSH_EXIT_CODE, Color::Yellow),
+            &color_symbol(ZSH_EXIT_CODE, Color::Red)
+        ),
+        color_symbol("}⤐ ", Color::Yellow)
+    );
+}
+
+fn write_virtual_env_section() {
+    if let Some(virtual_env) = environment_variable("VIRTUAL_ENV").ok() {
+        print!(
+            " ({})",
+            Path::new(&virtual_env)
+                .file_name()
+                .unwrap()
+                .to_string_lossy()
+        );
+    }
+}
+
+fn current_directory() -> PathBuf {
+    if let Ok(pwd) = std_current_directory() {
+        return pwd;
+    } else if let Ok(pwd) = environment_variable("PWD") {
+        return PathBuf::from(pwd);
+    }
+    throw_error("can not resolve the current directory.");
+}
+
+fn git_repository() -> Option<GitRepository> {
     let repository = match Git2Repository::discover(".") {
         Ok(repository) => repository,
         Err(_) => return None,
@@ -693,7 +597,7 @@ fn git_repository() -> Option<Repository> {
         } else if let Some(branch) = head.shorthand() {
             reference = Some(GitReference::Branch(String::from(branch)));
         }
-    } else if let Ok(head_data) = read_to_string(repository.path().join("HEAD")) {
+    } else if let Ok(head_data) = read_file(repository.path().join("HEAD")) {
         if let Some(branch) = head_data.trim().strip_prefix("ref: refs/heads/") {
             reference = Some(GitReference::Branch(branch.to_string()));
         }
@@ -724,7 +628,7 @@ fn git_repository() -> Option<Repository> {
             }
         }
     }
-    Some(Repository {
+    Some(GitRepository {
         path: if repository.is_bare() {
             repository.path().to_path_buf()
         } else {
@@ -732,163 +636,19 @@ fn git_repository() -> Option<Repository> {
         },
         reference: match reference {
             Some(reference) => reference,
-            None => GitReference::Branch(String::from(DEFAULT_BRANCH_NAME)),
+            None => GitReference::Branch(String::from(GIT_DEFAULT_BRANCH_NAME)),
         },
         is_dirty,
     })
 }
 
-fn show_when_root(symbol: &str) -> String {
-    format!("%(#.{symbol}.)")
+fn is_file_system_root(path: &Path) -> bool {
+    path.ancestors().count() == 1
 }
 
-fn show_for_exit_codes(success_symbol: &str, error_symbol: &str) -> String {
-    format!("%(?.{success_symbol}.{error_symbol})")
-}
-
-fn show_when_job(symbol: &str) -> String {
-    format!("%(1j.{symbol}.)")
-}
-
-fn write_top_separator(total_columns: u16) {
-    for column in 0..total_columns {
-        print!(
-            "{}",
-            if column % 2 == 0 {
-                color_symbol("≥", Some(Color::Yellow))
-            } else {
-                color_symbol("v", Some(Color::Red))
-            }
-        );
-    }
-    print!("{}", color_symbol(":«(", Some(Color::Yellow)));
-}
-
-fn write_middle_separator(total_columns: u16, sections_length: u16) {
-    print!("{}", color_symbol(")»:", Some(Color::Yellow)));
-    for column in 0..total_columns.saturating_sub(sections_length) {
-        print!(
-            "{}",
-            if column % 2 == 0 {
-                color_symbol("-", Some(Color::Red))
-            } else {
-                color_symbol("=", Some(Color::Yellow))
-            }
-        );
-    }
-}
-
-fn write_ip_section(ip: Option<&IpAddr>, sections_length: &mut u16) {
-    let ip = match ip {
-        Some(ip) => ip.to_string(),
-        None => String::from("No Address Found"),
-    };
-    print!("{} {}", color_symbol(" ", Some(Color::Blue)), ip);
-    *sections_length += ip.len() as u16;
-}
-
-fn write_disk_section(usage: &DiskUsage, sections_length: &mut u16) {
-    print!(
-        "  {}{}{}",
-        color_symbol(
-            "󰋊 ",
-            match usage.status {
-                DiskUsageStatus::Low => Some(Color::Green),
-                DiskUsageStatus::Moderate => Some(Color::Yellow),
-                DiskUsageStatus::High => Some(Color::Red),
-            }
-        ),
-        usage.percentage,
-        ZSH_PERCENTAGE_SYMBOL
-    );
-    *sections_length += calculate_number_length(usage.percentage as u16);
-}
-
-fn write_battery_section(charge: Option<&Charge>, sections: &mut u16) {
-    if charge.is_none() {
-        return;
-    }
-    let charge = charge.unwrap();
-    print!(
-        "  {} {}{}",
-        match charge.status {
-            BatteryChargeStatus::Critical =>
-                color_symbol(if charge.is_charging { "󰢟" } else { "󰂎" }, Some(Color::Red)),
-            BatteryChargeStatus::Low =>
-                color_symbol(if charge.is_charging { "󱊤" } else { "󱊡" }, Some(Color::Red)),
-            BatteryChargeStatus::Moderate => color_symbol(
-                if charge.is_charging { "󱊥" } else { "󱊢" },
-                Some(Color::Yellow)
-            ),
-            BatteryChargeStatus::High => color_symbol(
-                if charge.is_charging { "󱊦" } else { "󱊣" },
-                Some(Color::Green)
-            ),
-        },
-        charge.percentage,
-        ZSH_PERCENTAGE_SYMBOL
-    );
-    *sections += calculate_number_length(charge.percentage as u16) + 5;
-}
-
-fn write_calendar_section(time: &DateTime<LocalTime>) {
-    print!(
-        "  {}{}{}",
-        color_symbol("󰃭 ", Some(Color::Red)),
-        time.format("(%a) %b %d"),
-        day_ordinal(time)
-    );
-}
-
-fn write_clock_section(time: &DateTime<LocalTime>) {
-    print!(
-        "  {}{}",
-        match DayFraction::from(time) {
-            DayFraction::Dawn => color_symbol("󰭎 ", Some(Color::Cyan)),
-            DayFraction::Morning => color_symbol("󰖨 ", Some(Color::Red)),
-            DayFraction::Afternoon => color_symbol(" ", Some(Color::Blue)),
-            DayFraction::Night => color_symbol("󰽥 ", Some(Color::Yellow)),
-        },
-        time.format("%Hh%Mm")
-    );
-}
-
-fn write_root_section() {
-    print!(
-        "{}",
-        show_when_root(&format!(
-            "{}{}{}",
-            color_symbol("{", Some(Color::Yellow)),
-            color_symbol("#", Some(Color::Red)),
-            color_symbol("}", Some(Color::Yellow))
-        ))
-    );
-}
-
-fn write_exit_code_section() {
-    print!(
-        "{}{}{}",
-        color_symbol("{", Some(Color::Yellow)),
-        show_for_exit_codes(
-            &color_symbol(ZSH_EXIT_CODE, Some(Color::Yellow)),
-            &color_symbol(ZSH_EXIT_CODE, Some(Color::Red))
-        ),
-        color_symbol("}⤐ ", Some(Color::Yellow))
-    );
-}
-
-fn write_venv_section(venv: Option<&String>) {
-    if let Some(venv) = venv {
-        print!(
-            " ({})",
-            Path::new(venv).file_name().unwrap().to_string_lossy()
-        );
-    }
-}
-
-fn write_path_section(current_directory: &Path, repository: Option<&Repository>) {
+fn write_path_section(current_directory: &Path, repository: Option<&GitRepository>) {
     print!(" ");
-    if repository.is_some() && !is_fs_root(&repository.unwrap().path) {
+    if repository.is_some() && !is_file_system_root(&repository.unwrap().path) {
         print!(
             "{}",
             color_symbol(
@@ -899,22 +659,22 @@ fn write_path_section(current_directory: &Path, repository: Option<&Repository>)
                         .unwrap()
                         .display()
                 ),
-                Some(Color::Red)
+                Color::Red
             )
         );
     } else {
-        print!("{}", color_symbol("%~", Some(Color::Red)));
+        print!("{}", color_symbol("%~", Color::Red));
     }
 }
 
-fn write_git_section(repository: Option<&Repository>) {
+fn write_git_section(repository: Option<&GitRepository>) {
     if repository.is_none() {
         return;
     }
     let repository = repository.unwrap();
-    print!("{}", color_symbol(":«(", Some(Color::Yellow)));
+    print!("{}", color_symbol(":«(", Color::Yellow));
     if let GitReference::RebaseHash(_) = repository.reference {
-        print!("{}:", color_symbol("@rebase", Some(Color::Magenta)));
+        print!("{}:", color_symbol("@rebase", Color::Magenta));
     }
     print!(
         "{}{}",
@@ -922,80 +682,163 @@ fn write_git_section(repository: Option<&Repository>) {
             GitReference::Branch(branch) => branch,
             GitReference::RebaseHash(hash) => hash,
         },
-        color_symbol(")»", Some(Color::Yellow))
+        color_symbol(")»", Color::Yellow)
     );
     if repository.is_dirty {
-        print!(" {}", color_symbol("✗ ", Some(Color::Cyan)));
+        print!(" {}", color_symbol("✗", Color::Cyan));
     }
+}
+
+fn can_access_current_directory() -> bool {
+    unsafe { access([b'.' as c_char, 0].as_ptr(), W_OK) == 0 }
 }
 
 fn write_directory_access_section() {
     if !can_access_current_directory() {
-        print!(" {}", color_symbol("", Some(Color::Cyan)));
+        print!(" {}", color_symbol("", Color::Cyan));
     }
 }
 
-fn write_left_prompt() -> Result<(), Error> {
-    let total_columns = terminal_size()
-        .map(|(total_columns, _)| total_columns)
-        .map_err(|_| Error::new("can not retrieve the terminal dimensions."))?;
-    let ip = local_ip().ok();
-    let disk_usage = disk_usage()?;
-    let battery_charge = battery_charge()?;
-    let time = LocalTime::now();
-    let current_directory = current_directory()?;
-    let venv = environment_variable("VIRTUAL_ENV").ok();
+fn write_left_prompt() {
+    let total_columns = total_columns();
+    let mut sections_length: u16 = LEFT_PROMPT_SECTIONS_CONSTANT_LENGTH;
+    let disk_usage = disk_usage();
+    let battery_charge = battery_charge();
+    let local_time = LocalTime::now();
+    let current_directory = current_directory();
     let repository = git_repository();
-    let mut sections_length = LEFT_PROMPT_SECTIONS_CONSTANT_LENGTH;
     write_top_separator(total_columns);
-    write_ip_section(ip.as_ref(), &mut sections_length);
+    write_ip_section(ip_address().ok().as_ref(), &mut sections_length);
     write_disk_section(&disk_usage, &mut sections_length);
     write_battery_section(battery_charge.as_ref(), &mut sections_length);
-    write_calendar_section(&time);
-    write_clock_section(&time);
+    write_calendar_section(&local_time);
+    write_clock_section(&local_time);
     write_middle_separator(total_columns, sections_length);
     write_root_section();
     write_exit_code_section();
-    write_venv_section(venv.as_ref());
+    write_virtual_env_section();
     write_path_section(&current_directory, repository.as_ref());
     write_git_section(repository.as_ref());
     write_directory_access_section();
     println!(" ");
-    Ok(())
 }
 
-fn write_directory_entry_total(total: usize, symbol: &str, color: Option<Color>) {
+fn is_dot_entry(entry: &dirent) -> bool {
+    (entry.d_name[0] == b'.' as c_char && entry.d_name[1] == 0)
+        || (entry.d_name[0] == b'.' as c_char
+            && entry.d_name[1] == b'.' as c_char
+            && entry.d_name[2] == 0)
+}
+
+fn is_temporary_entry(entry: &dirent) -> bool {
+    entry.d_name[unsafe { strlen(entry.d_name.as_ptr()) } - 1] == b'~' as c_char
+}
+
+#[cfg(target_os = "macos")]
+fn entry_lstat(entry: &dirent) -> Result<stat, ()> {
+    let mut entry_stat = unsafe { zeroed() };
+    if unsafe { lstat(entry.d_name.as_ptr(), &mut entry_stat) } < 0 {
+        Err(())
+    } else {
+        Ok(entry_stat)
+    }
+}
+
+fn is_hidden_entry(entry: &dirent) -> Result<bool, ()> {
+    if entry.d_name[0] == b'.' as c_char {
+        return Ok(true);
+    }
+    #[cfg(target_os = "macos")]
+    {
+        entry_lstat(entry).map(|stat| stat.st_flags & UF_HIDDEN != 0)
+    }
+    #[cfg(target_os = "linux")]
+    {
+        Ok(false)
+    }
+}
+
+fn entry_type(entry: &dirent) -> EntryType {
+    match entry.d_type {
+        DT_DIR => EntryType::Directory,
+        DT_SOCK => EntryType::Socket,
+        DT_FIFO => EntryType::Fifo,
+        DT_BLK => EntryType::Block,
+        DT_CHR => EntryType::Character,
+        DT_LNK => EntryType::Symlink,
+        _ => EntryType::File,
+    }
+}
+
+fn directory_report() -> DirectoryReport {
+    let stream = unsafe { opendir([b'.' as c_char, 0].as_ptr()) };
+    let mut report = DirectoryReport::default();
+    if stream.is_null() {
+        return report;
+    }
+    loop {
+        let entry = unsafe { readdir(stream) };
+        if entry.is_null() {
+            break;
+        }
+        let entry = unsafe { *entry };
+        if is_dot_entry(&entry) {
+            continue;
+        } else if is_temporary_entry(&entry) {
+            report.total_temporaries += 1;
+        }
+        match is_hidden_entry(&entry) {
+            Ok(is_hidden) => {
+                if is_hidden {
+                    report.total_hiddens += 1;
+                }
+            }
+            Err(_) => continue,
+        }
+        match entry_type(&entry) {
+            EntryType::Directory => report.total_directories += 1,
+            EntryType::Socket => report.total_sockets += 1,
+            EntryType::Fifo => report.total_fifos += 1,
+            EntryType::Block => report.total_blocks += 1,
+            EntryType::Character => report.total_characters += 1,
+            EntryType::Symlink => report.total_symlinks += 1,
+            EntryType::File => report.total_files += 1,
+        }
+    }
+    unsafe {
+        closedir(stream);
+    }
+    report
+}
+
+fn write_directory_report_field(total: usize, symbol: &str, color: Option<Color>) {
     if total > 0 {
         print!(
             " {}{}",
-            color_symbol(symbol, color),
+            if color.is_none() {
+                String::from(symbol)
+            } else {
+                color_symbol(symbol, color.unwrap())
+            },
             total.to_formatted_string(&Locale::en)
         );
     }
 }
 
-fn write_directory_entries_section(entries_count: &DirectoryEntriesCount) {
-    write_directory_entry_total(entries_count.total_directories, " ", Some(Color::Yellow));
-    write_directory_entry_total(entries_count.total_files, " ", None);
-    write_directory_entry_total(entries_count.total_sockets, "󱄙 ", Some(Color::Cyan));
-    write_directory_entry_total(entries_count.total_fifos, "󰟦 ", Some(Color::Blue));
-    write_directory_entry_total(
-        entries_count.total_block_devices,
-        "󰇖 ",
-        Some(Color::Magenta),
-    );
-    write_directory_entry_total(
-        entries_count.total_character_devices,
-        "󱣴 ",
-        Some(Color::Green),
-    );
-    write_directory_entry_total(entries_count.total_symlinks, "󰌷 ", Some(Color::Blue));
-    write_directory_entry_total(entries_count.total_hidden_entries, "󰈉 ", Some(Color::Red));
-    write_directory_entry_total(
-        entries_count.total_temporary_entries,
-        "󱣹 ",
-        Some(Color::Magenta),
-    );
+fn write_directory_entries_section(report: &DirectoryReport) {
+    write_directory_report_field(report.total_directories, " ", Some(Color::Yellow));
+    write_directory_report_field(report.total_files, " ", None);
+    write_directory_report_field(report.total_sockets, "󱄙 ", Some(Color::Cyan));
+    write_directory_report_field(report.total_fifos, "󰟦 ", Some(Color::Blue));
+    write_directory_report_field(report.total_blocks, "󰇖 ", Some(Color::Magenta));
+    write_directory_report_field(report.total_characters, "󱣴 ", Some(Color::Green));
+    write_directory_report_field(report.total_symlinks, "󰌷 ", Some(Color::Blue));
+    write_directory_report_field(report.total_hiddens, "󰈉 ", Some(Color::Red));
+    write_directory_report_field(report.total_temporaries, "󱣹 ", Some(Color::Magenta));
+}
+
+fn show_when_job(symbol: &str) -> String {
+    format!("%(1j.{symbol}.)")
 }
 
 fn write_jobs_section() {
@@ -1003,55 +846,89 @@ fn write_jobs_section() {
         "{}",
         show_when_job(&format!(
             " {} {}",
-            color_symbol("", Some(Color::Magenta)),
+            color_symbol("", Color::Magenta),
             ZSH_TOTAL_JOBS
         ))
     );
 }
 
-fn write_right_prompt() -> Result<(), Error> {
-    let entries_count = directory_entries_count()?;
-    write_directory_entries_section(&entries_count);
+fn write_right_prompt() {
+    let directory_report = directory_report();
+    write_directory_entries_section(&directory_report);
     write_jobs_section();
     println!();
-    Ok(())
 }
 
-fn main() -> ExitCode {
-    match parse_arguments() {
-        Ok(parse_type) => match parse_type {
-            ArgumentParseType::Flag(Flag::MainHelp) => write_help(),
-            ArgumentParseType::Flag(Flag::InitCommandHelp) => write_init_command_help(),
-            ArgumentParseType::Flag(Flag::PromptCommandHelp) => write_prompt_command_help(),
-            ArgumentParseType::Flag(Flag::Version) => write_version(),
-            ArgumentParseType::Flag(Flag::Repository) => {
-                if let Err(error) = open_repository() {
-                    write_error(&error);
-                    return ExitCode::FAILURE;
-                }
-            },
-            ArgumentParseType::Flag(Flag::Email) => {
-                if let Err(error) = draft_email() {
-                    write_error(&error);
-                    return ExitCode::FAILURE;
-                }
-            },
-            ArgumentParseType::Flag(Flag::License) => println!("{SOFTWARE_LICENSE_TEXT}"),
-            ArgumentParseType::Command(Command::Init) => init_prompt(),
-            ArgumentParseType::Command(Command::Prompt(side)) => {
-                if let Err(error) = match side {
-                    PromptSide::Left => write_left_prompt(),
-                    PromptSide::Right => write_right_prompt(),
-                } {
-                    write_error(&error);
-                    return ExitCode::FAILURE;
-                }
-            }
-        },
-        Err(error) => {
-            write_error(&error);
-            return ExitCode::FAILURE;
+fn main() {
+    let arguments = arguments().skip(1).collect::<Vec<_>>();
+    let mut active_command: Option<Command> = None;
+    if let Some(command_argument) = arguments.first() {
+        if command_argument == "init" {
+            active_command = Some(Command::Init);
+        } else if command_argument == "prompt" {
+            active_command = Some(Command::Prompt)
+        } else if !is_flag(command_argument) {
+            throw_error(format!(
+                "invalid command \"{}\" provided.",
+                command_argument
+            ));
         }
     }
-    ExitCode::SUCCESS
+    for argument in &arguments {
+        if argument == "-h" || argument == "--help" {
+            match active_command {
+                None => write_help(),
+                Some(Command::Prompt) => write_prompt_help(),
+                Some(Command::Init) => write_init_help(),
+            }
+            return;
+        }
+        if active_command.is_none() {
+            if argument == "-v" || argument == "--version" {
+                write_version();
+                return;
+            } else if argument == "-g" || argument == "--repository" {
+                open_repository();
+                return;
+            } else if argument == "-m" || argument == "--email" {
+                draft_email();
+                return;
+            } else if argument == "-l" || argument == "--license" {
+                println!("{LICENSE_TEXT}");
+                return;
+            }
+        }
+        if is_flag(argument) {
+            if let Some(active_command) = active_command {
+                throw_error(format!(
+                    "invalid flag \"{}\" provided for \"{}\" command.",
+                    argument,
+                    active_command.name()
+                ));
+            } else {
+                throw_error(format!("invalid flag \"{}\" provided.", argument));
+            }
+        }
+    }
+    match active_command {
+        None => throw_error("no command provided."),
+        Some(Command::Init) => init_prompt(),
+        Some(Command::Prompt) => {
+            let mut prompt_side = PromptSide::Left;
+            if arguments.len() == 1 {
+                throw_error("no prompt side provided.");
+            } else if arguments[1] == "right" {
+                prompt_side = PromptSide::Right;
+            } else if arguments[1] != "left" {
+                throw_error(format!(
+                    "invalid prompt side \"{}\" provided.",
+                    arguments[1]
+                ));
+            }
+            match prompt_side {
+                PromptSide::Left => write_left_prompt(),
+                PromptSide::Right => write_right_prompt(),
+            }
+        }
+    }
 }
