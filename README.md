@@ -35,7 +35,7 @@ macOS and Linux.
 <p align="center">
     <img
         alt=""
-        src="https://raw.githubusercontent.com/skippyr/river_dreams/refs/heads/master/assets/ornament.png"
+        src="https://raw.githubusercontent.com/skippyr/river_dreams/refs/heads/master/assets/preview.png"
         width=1020
     />
 </p>
