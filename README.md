@@ -90,4 +90,9 @@ This is free software licensed under the BSD-3-Clause License that comes WITH NO
 the `LICENSE` file that comes in its source code for license and copyright details.
 
 &ensp;
-<p align="center"><sup><strong>≥v≥v&ensp;Here Trot Ponies!&ensp;≥v≥</strong><br />Made with love by skippyr <3</sup></p>
+<p align="center">
+    <sup>
+        <strong>≥v≥v&ensp;Here Trot Ponies!&ensp;≥v≥</strong><br />
+        Made with love by skippyr <3
+    </sup>
+</p>
