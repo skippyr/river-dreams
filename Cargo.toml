@@ -1,6 +1,6 @@
 [package]
 name = "river_dreams"
-description = "A tribal ZSH shell theme to help you craft your ambitious software projects. It is available for macOS and Linux."
+description = "A tribal looking ZSH shell theme to help you craft your most ambitious software projects. It is available for macOS and Linux."
 version = "13.0.9"
 license = "BSD-3-Clause"
 edition = "2021"
