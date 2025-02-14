@@ -13,7 +13,6 @@ use libc::{lstat, stat, UF_HIDDEN};
 use local_ip_address::local_ip as ip_address;
 use num_format::{Locale, ToFormattedString};
 use open::that as open_at_workspace;
-use os_info::get as os_info;
 #[cfg(target_os = "macos")]
 use std::mem::zeroed;
 use std::{
@@ -298,22 +297,7 @@ fn write_prompt_help() {
 }
 
 fn write_version() {
-    let os_info = os_info();
-    println!(
-        "{} {VERSION} · (for {}{} {})",
-        NAME.dark_magenta().bold(),
-        if os_info.os_type() == os_info::Type::Macos {
-            " "
-        } else {
-            " "
-        },
-        if os_info.os_type() == os_info::Type::Macos {
-            String::from("macOS")
-        } else {
-            os_info.os_type().to_string()
-        },
-        os_info.version()
-    );
+    println!( "{} {VERSION}", NAME.dark_magenta().bold());
     println!("Available at: {}.", REPOSITORY.dark_cyan().underlined());
     println!();
     println!("Licensed under the {LICENSE_NAME}.");
